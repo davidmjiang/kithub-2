@@ -6,6 +6,12 @@ source 'https://rubygems.org'
 gem 'angularjs-rails'
 # Deal with CORS issues
 gem 'angular_rails_csrf'
+# Devise for authentication
+gem 'devise'
+# Adding to devise module for angular
+source "https://rails-assets.org" do
+  gem "rails-assets-angular-devise"
+end
 
 ######################
 
