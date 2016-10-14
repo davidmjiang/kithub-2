@@ -44,7 +44,7 @@ t = Teacher.create(email: person,
 end
 
 puts 'creating students'
-40.times do |i|
+200.times do |i|
   s = Student.create(first_name: Faker::Name.first_name,
                      last_name: Faker::Name.last_name,
                      email: Faker::Internet.safe_email)

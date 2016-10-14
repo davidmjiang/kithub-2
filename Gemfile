@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 ##### ADDED GEMS #####
 
+# help
+gem 'spring-commands-rspec', group: :development
 # Add Angular to Rails Asset Pipeline
 gem 'angularjs-rails'
 # Deal with CORS issues
@@ -26,7 +28,8 @@ source 'https://rails-assets.org' do
 end
 # JQuery UI for angular-modal
 gem 'jquery-ui-rails'
-
+# to be able to user assert_template in controller testing 
+gem 'rails-controller-testing'
 ######################
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
