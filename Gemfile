@@ -16,7 +16,10 @@ end
 gem 'faker'
 #Paperclip for handeling file upload
 gem "paperclip", "~> 5.0.0"
-
+#AWS for hosting files
+gem 'aws-sdk', '~> 2'
+#Testing framework
+gem 'rspec-rails', '~> 3.5'
 
 ######################
 
