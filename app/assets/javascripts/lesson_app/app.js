@@ -24,10 +24,17 @@ angular.module('Lesson').config([
   }
 ]);
 
+angular.module('Lesson').
+    config(['AuthProvider', function(AuthProvider) {
+        AuthProvider.loginPath('teachers/sign_in.json');
+        AuthProvider.loginMethod('POST');
+        AuthProvider.resourceName('teacher');
+    }]);
+
 //routes
 angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 
-	$urlRouterProvider.otherwise('/lessons');
+	$urlRouterProvider.otherwise('/');
 
 	$stateProvider
 	 .state('main',{
@@ -35,20 +42,27 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
     abstract: true,
     template: "<div ui-view></div>",
 		resolve: {
-			currentUser: ['Auth', function(Auth){
+			currentUser: ['Auth', '$state', function(Auth, $state){
             return Auth.currentUser()
             .then(function(user){
+            	$state.go('main.teachers.show', {id: user.id});
+            	console.log(user);
               return user;
             });
           }]
-		}
+       	}
+		})
 		.state('main.teachers', {
 			abstract: true,
-			url:'/teachers'
+			url:'/teachers',
+			template: "<div ui-view></div>"
 		})
 		.state('main.lessons', {
 			abstract: true
 		})
+		// .state('main.lessons.show')
+		// .state('main.lessons.new')
+		// .state('main.lessons.pullrequests')
 		.state('main.teachers.show', {
 			url: '/:id',
 			templateUrl: "lesson_templates/teacher/teacher_show.html",
@@ -58,8 +72,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 	        	return TeacherService.getTeacher($stateParams.id);
 	      }]
 			}
-		})  
-  });
+		});
 
 }]);
 
