@@ -8,14 +8,14 @@ Gradebook.controller('SpreadsheetCtrl', ['$scope', 'ModalService', function($sco
         console.log(location)
         $scope.message = location
       }]
-      inputs: {
-        student: student
-      }
+      // inputs: {
+      //   student: student
+      // }
     }).then(function(modal) {
       modal.element.modal();
-      modal.close.then(function(result) {
+      //modal.close.then(function(result) {
       // something with result
-    })
+    //})
     })
   }
 
@@ -28,14 +28,14 @@ Gradebook.controller('SpreadsheetCtrl', ['$scope', 'ModalService', function($sco
         console.log(location)
         $scope.message = location
       }]
-      inputs: {
-        assignment: assignment
-      }
+      // inputs: {
+      //   assignment: assignment
+      // }
     }).then(function(modal) {
       modal.element.modal();
-      modal.close.then(function(result) {
+      //modal.close.then(function(result) {
         // something with result
-      })
+      //})
     })
   }
 
@@ -50,9 +50,9 @@ Gradebook.controller('SpreadsheetCtrl', ['$scope', 'ModalService', function($sco
       }]
     }).then(function(modal) {
       modal.element.modal();
-      modal.close.then(function(result) {
-      // something with result
-      })
+      //modal.close.then(function(result) {
+      /// something with result
+      //})
     })
   }
 
