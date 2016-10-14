@@ -68,10 +68,16 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 			template: "<div ui-view></div>"
 		})
 		.state('main.lessons', {
+      url: '/lessons',
+      template: "<div ui-view></div>",
 			abstract: true
 		})
 		// .state('main.lessons.show')
-		// .state('main.lessons.new')
+		.state('main.lessons.new', {
+      url: '/new',
+      templateUrl: "lesson_templates/lessons/new.html",
+      controller: "LessonNewCtrl"
+    })
 		// .state('main.lessons.pullrequests')
 		.state('main.teachers.show', {
 			url: '/:id',
