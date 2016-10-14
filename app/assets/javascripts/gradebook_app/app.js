@@ -26,6 +26,14 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             console.log(info)
             $scope.message = info
           }]
+        },
+        "navbar": {
+          templateUrl: 'gradebook_templates/navbar.html',
+          controller: ["$scope", function($scope) {
+            var info = 'navbar controller'
+            console.log(info)
+            $scope.message = info
+          }]
         }
       },
       resolve: {

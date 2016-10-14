@@ -68,6 +68,8 @@ group :development, :test do
   gem 'rspec-rails'
   # Replacement for fixtures
   gem 'factory_girl_rails'
+  # Collection of testing matchers 
+  gem 'shoulda-matchers'
 
   ######################
 
