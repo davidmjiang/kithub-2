@@ -18,6 +18,8 @@ gem "paperclip", "~> 5.0.0"
 gem 'aws-sdk', '~> 2'
 # Convinent handeling of secret keys
 gem "figaro"
+# Styling and grid system
+gem 'bootstrap', '~> 4.0.0.alpha4'
 
 ######################
 
