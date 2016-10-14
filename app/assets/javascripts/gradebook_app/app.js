@@ -17,9 +17,9 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
   $stateProvider
 
     .state('main', {
-      url: '',
+      url: '/',
       views: {
-        "": {
+        "main": {
           templateUrl: 'gradebook_templates/main.html',
           controller: ["$scope", function($scope) {
             var info = 'SpreadsheetCtrl in state.main'
@@ -30,9 +30,9 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
       },
       resolve: {
         currentUser: ["Auth", function(Auth) {
-          return Auth.currentUser().then(function(user) {
-            return user;
-          });
+          // return Auth.currentUser().then(function(user) {
+          //   return user;
+          // });
         }],
         students: ["StudentService", "$stateParams", function(StudentService, $stateParams) {
           return StudentService.getAllStudents($stateParams.id)
