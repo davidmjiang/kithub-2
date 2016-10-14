@@ -21,11 +21,7 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
       views: {
         "main": {
           templateUrl: 'gradebook_templates/main.html',
-          controller: ["$scope", function($scope) {
-            var info = 'SpreadsheetCtrl in state.main'
-            console.log(info)
-            $scope.message = info
-          }]
+          controller: 'ClassIndexCtrl'
         },
         "navbar": {
           templateUrl: 'gradebook_templates/navbar.html',
