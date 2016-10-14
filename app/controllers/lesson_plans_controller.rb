@@ -12,6 +12,7 @@ class LessonPlansController < ApplicationController
 
   def create
     @lesson_plan = current_teacher.lesson_plans.build(lesson_plan_params)
+
     respond_to do |format|
       if @lesson_plan.save
         format.json { render json: @lesson_plan }
