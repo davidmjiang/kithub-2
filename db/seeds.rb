@@ -1,7 +1,27 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+puts 'wiping database'
+Teacher.destroy_all
+Course.destroy_all
+Assignment.destroy_all
+Student.destroy_all
+Submission.destroy_all
+
+
+
+teachers = ['mike@gmail.com', 'matt@gmail.com', 'graham@gmail.com', 'david@gmail.com', 'hannah@gmail.com', 'alex@gmail.com', 'dylan@gmail.com', 'leo@gmail.com', 'phil@gmail.com']
+assignment_type = ['test', 'quiz', 'homework', 'project']
+
+puts 'creating teachers'
+teachers.each do |person|
+
+t = Teacher.create(email: person,
+                   password: 'password123',
+                   first_name: Faker::Name.first_name,
+                   last_name: Faker::Name.last_name)
+
+c = t.courses.create(name: Faker::Educator.course)
+  5.times do
+    c.assignments.create(title: Faker::Space.star,
+                         type: assignment_type.sample,
+                         total_points: rand(10..100))
+  end
+end
