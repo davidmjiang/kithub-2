@@ -7,7 +7,10 @@ Rails.application.routes.draw do
   scope :api do
   	scope :v1 do
   		resources :teachers
-		end
+      resources :lesson_plans do
+        resources :pull_requests, only: [:index]
+	    end
+  	end
  	end
 
 
