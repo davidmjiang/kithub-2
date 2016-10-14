@@ -1,0 +1,2 @@
+class LessonPlanStar < ApplicationRecord
+end
