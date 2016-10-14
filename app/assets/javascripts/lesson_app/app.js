@@ -34,7 +34,7 @@ angular.module('Lesson').
 //routes
 angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 
-	$urlRouterProvider.otherwise('/');
+	$urlRouterProvider.otherwise('/dashboard');
 
 	$stateProvider
 	 .state('main',{
@@ -45,13 +45,25 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 			currentUser: ['Auth', '$state', function(Auth, $state){
             return Auth.currentUser()
             .then(function(user){
-            	$state.go('main.teachers.show', {id: user.id});
+            	// $state.go('main.teachers.show', {id: user.id});
             	console.log(user);
               return user;
             });
           }]
        	}
 		})
+
+   .state('main.dashboard', {
+      url: "/dashboard",
+      templateUrl: "lesson_templates/teacher/teacher_show.html",
+      controller: "TeacherShowCtrl",
+      resolve: {
+        teacher: ["currentUser", function(currentUser){
+            return currentUser;
+        }]
+      }
+    })
+
 		.state('main.teachers', {
 			abstract: true,
 			url:'/teachers',
