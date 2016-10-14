@@ -1,5 +1,13 @@
 source 'https://rubygems.org'
 
+##### ADDED GEMS #####
+
+# Add Angular to Rails Asset Pipeline
+gem 'angularjs-rails'
+# Deal with CORS issues
+gem 'angular_rails_csrf'
+
+######################
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
