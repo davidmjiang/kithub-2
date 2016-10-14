@@ -21,10 +21,11 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
       views: {
         "main": {
           templateUrl: 'gradebook_templates/main.html',
-          controller: ["$scope", function($scope) {
+          controller: ["$scope", "courseList", function($scope, courseList) {
             var info = 'SpreadsheetCtrl in state.main'
             console.log(info)
             $scope.message = info
+            $scope.courses = courseList;
           }]
         },
         "navbar": {
@@ -48,6 +49,9 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             // .then(function(allStudents) {
             //   return allStudents;
             // }
+        }],
+        'courseList': ['CourseService', function(CourseService){
+          return CourseService.getCourses();
         }]
       } 
     })
