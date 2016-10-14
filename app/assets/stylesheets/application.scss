@@ -9,13 +9,16 @@
  * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
+ *= require ng-table.min
  */
 
- @import "bootstrap"
-$primary-color: #B3C100 /*fields*/
-$secondary-color: #B7B8B6 /*granite*/
-$ternary-color: #34675C /*pine*/
-$blue-sky-color: #4CB5F5 /*blue-sky*/
+
+
+ @import "bootstrap";
+$primary-color: #B3C100 /*fields*/;
+$secondary-color: #B7B8B6 /*granite*/;
+$ternary-color: #34675C /*pine*/;
+$blue-sky-color: #4CB5F5 /*blue-sky*/;
 
 .primary-color {
   color: $primary-color;
