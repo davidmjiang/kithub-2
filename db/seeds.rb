@@ -15,6 +15,7 @@ TeacherFollowing.destroy_all
 LessonPlanContributor.destroy_all
 LessonPlanStar.destroy_all
 PullRequest.destroy_all
+LessonPlanStandard.destroy_all
 
 teachers = ['mike@gmail.com', 'matt@gmail.com', 'graham@gmail.com', 'david@gmail.com', 'hannah@gmail.com', 'alex@gmail.com', 'dylan@gmail.com', 'leo@gmail.com', 'phil@gmail.com']
 assignment_type = ['test', 'quiz', 'homework', 'project']
@@ -118,6 +119,9 @@ puts 'creating standards'
                   subject: subjects.sample)
   4.times do
     l = LessonPlan.all.sample
+    while (st.lesson_plans.include?(l))
+      l = LessonPlan.all.sample
+    end
     l.standards << st
   end
 end
