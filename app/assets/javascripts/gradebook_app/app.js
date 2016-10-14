@@ -69,7 +69,12 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
     .state ('gradebook.courseShow', {
       url: '/:id',
       templateUrl: '/gradebook_templates/courses/show.html',
-      controller: 'CourseShowCtrl'
+      controller: 'CourseShowCtrl',
+      resolve: {
+      'course': ['CourseService', '$stateParams', function(CourseService, $stateParams) {
+        return CourseService.getCourse($stateParams.id)
+        }]
+      }
     })
 }]);
 

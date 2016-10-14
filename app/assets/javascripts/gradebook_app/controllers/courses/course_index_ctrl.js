@@ -1,6 +1,6 @@
-Gradebook.controller("ClassIndexCtrl", ["$scope", "ModalService", "courseList", function($scope, ModalService) {
+Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList", function($scope, ModalService, courseList) {
 
-  $scope.courses = courseList
+  $scope.courses = courseList;
 
   $scope.showNewClassModal = function() {
     ModalService.showModal({
