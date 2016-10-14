@@ -1,5 +1,5 @@
 "use strict";
-var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise"]);
+var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise", 'ngFileUpload']);
 
 angular.module('Lesson').factory('_', ['$window', function($window) {
   return $window._;
@@ -56,8 +56,8 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
       templateUrl: "lesson_templates/teacher/teacher_show.html",
       controller: "TeacherShowCtrl",
       resolve: {
-        teacher: ["currentUser", function(currentUser){
-            return currentUser;
+        teacher: ["currentUser", "TeacherService", function(currentUser, TeacherService){
+            return TeacherService.getTeacher(currentUser.id);
         }]
       }
     })

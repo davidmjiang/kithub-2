@@ -1,1 +1,42 @@
-<h1>Hello</h1>
+
+<div class="row">
+	<div class="col-md-3">
+		<div class="card">
+			<img class="card-img-top" src="{{profile_photo}}" alt="Profile photo here">
+			<input id="file-input" type="file" ngf-select="upload($file)" ng-model="image" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" ngf-min-height="100">
+			<div class="card-block">
+				<h3 class="card-title">{{teacher.first_name}} {{teacher.last_name}}</h3>
+				<p class="card-text">Location: </p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<ul class="nav nav-tabs">
+			<li class="nav-item"><a class="nav-link active" href="#lessons" data-toggle="tab">Lesson Plans</a></li>
+			<li class="nav-item"><a class="nav-link" href="#" data-toggle="tab">Starred <span class="badge">{{teacher.starred_lesson_plans}}</span></a></li>
+			<li class="nav-item"><a class="nav-link" href="#" data-toggle="tab">Contributions <span class="badge">{{teacher.lesson_plans_contributed_to}}</a></span></li>
+			<li class="nav-item"><a class="nav-link" href="#" data-toggle="tab">Followers <span class="badge">{{teacher.followed_by}}</a></span></li>
+			<li class="nav-item"><a class="nav-link" href="#" data-toggle="tab">Following <span class="badge">{{teacher.following}}</a></span></li>
+		</ul>
+
+		<div class="tab-content">
+			<div class="tab-pane active" id="lessons" role="tabpanel">
+					<div class="list-group">
+						<div class="list-group-item active" ng-repeat="lesson in lessons">
+							<h4>{{lesson.title}}</h4>
+							<p>Author: {{lesson.first_name}} {{lesson.last_name}}</p>
+							<p>Created {{lesson.created_at | date}}</p>
+							<p>Last updated {{lesson.updated_at | date}}</p>
+							<p>There's a delete button under here</p>
+							<a href="#">Delete</a>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<button class="btn btn-primary">Create New +</button>
+	</div>
+</div>
+

@@ -1,4 +1,6 @@
-json.(@teacher, :email, :first_name, :last_name, :created_at, :state, :avatar_file_name)
+json.(@teacher, :id, :email, :first_name, :last_name, :created_at, :state, :avatar_file_name)
+
+json.image (@teacher.avatar.url(:profile))
 
 json.lesson_plans @teacher.lesson_plans do |lesson_plan|
   json.title (lesson_plan.title)
