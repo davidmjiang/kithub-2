@@ -1,3 +1,8 @@
+<% content_for :angular_app do %>
+	ng-app="Lesson"
+<% end %>
+
 <h1>We did it !!!!</h1>
+<div ui-view></div>
 
 <%= link_to "Logout", destroy_teacher_session_path, method: "delete" %>
