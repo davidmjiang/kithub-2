@@ -30,8 +30,8 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 	$urlRouterProvider.otherwise('/lessons');
 
 	$stateProvider
-	 .state('lessons',{
-    url: '/lessons',
+	 .state('main',{
+    url: '/',
     abstract: true,
     template: "<div ui-view></div>",
 		resolve: {
@@ -42,8 +42,15 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
             });
           }]
 		}
-		.state('teacher-show', {
-			url: '/teachers/:id',
+		.state('main.teachers', {
+			abstract: true,
+			url:'/teachers'
+		})
+		.state('main.lessons', {
+			abstract: true
+		})
+		.state('main.teachers.show', {
+			url: '/:id',
 			templateUrl: "lesson_templates/teacher/teacher_show.html",
 			controller: "TeacherShowCtrl",
 			resolve: {
