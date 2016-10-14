@@ -25,10 +25,12 @@ Lesson.controller('LessonNewCtrl', ['$scope', 'MarkdownService', 'LessonService'
       lesson_plans: newLesson
     }).then(function(response) {
       // returns lesson object
+      console.log(response)
 
     },
     function(response) {
       // returns error object
+      console.error(response.errors)
     });
   };
 
