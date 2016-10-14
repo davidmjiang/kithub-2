@@ -4,5 +4,9 @@ Rails.application.routes.draw do
 
   root to: 'kithub#index'
 
-  resources :teachers
+  scope :api do
+  	scope :v1 do
+  		resources :teachers
+		end
+ 	end
 end
