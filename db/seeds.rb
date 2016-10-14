@@ -17,11 +17,15 @@ t = Teacher.create(email: person,
                    password: 'password123',
                    first_name: Faker::Name.first_name,
                    last_name: Faker::Name.last_name)
-
-c = t.courses.create(name: Faker::Educator.course)
-  5.times do
-    c.assignments.create(title: Faker::Space.star,
-                         type: assignment_type.sample,
-                         total_points: rand(10..100))
+  2.times do
+    c = t.courses.create(name: Faker::Educator.course)
+    5.times do
+      c.assignments.create(title: Faker::Space.star,
+                           type: assignment_type.sample,
+                           total_points: rand(10..100))
+    end
   end
 end
+
+
+cd
