@@ -38,15 +38,13 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 
 	$stateProvider
 	 .state('main',{
-    url: '/',
+    url: '',
     abstract: true,
     template: "<div ui-view></div>",
 		resolve: {
 			currentUser: ['Auth', '$state', function(Auth, $state){
             return Auth.currentUser()
             .then(function(user){
-            	// $state.go('main.teachers.show', {id: user.id});
-            	console.log(user);
               return user;
             });
           }]
