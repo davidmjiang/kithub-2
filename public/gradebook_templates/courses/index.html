@@ -1,1 +1,12 @@
+<button ng-click="showNewCourseModal()">Add Course</button>
+
 index.html
+
+<div class='row'>
+  <h1>Your courses</h1>
+  <div class="col-xs-12">
+    <div ng-repeat='course in courses'>
+      <a ui-sref="gradebook.courseShow({id: course.id})">{{course.title}}</a>
+    </div>
+  </div>
+</div>
