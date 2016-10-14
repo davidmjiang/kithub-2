@@ -12,8 +12,8 @@ json.array! @pull_requests do |pr|
     json.updated_at (comment.updated_at)
 
     json.teacher do
-      json.first_name = comment.teacher.first_name
-      json.last_name = comment.teacher.last_name
+      json.first_name comment.teacher.first_name
+      json.last_name comment.teacher.last_name
     end
   end
 end
