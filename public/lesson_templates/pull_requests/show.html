@@ -33,9 +33,30 @@
           <h5>{{ pullRequest.description }}</h5>
           <h5>{{ pullRequest.status }}</h5>
 
+          <div>
+            <div class="card">
+              <div class="card-block">
+                <h4 class="card-title">Parent Plan: {{ pullRequest["parent_plan"]["title"] }}</h4>
+                <p class="card-text">{{ pullRequest["parent_plan"]["content"] }}</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-block">
+                <h4 class="card-title">Forked Plan: {{ pullRequest["forked_plan"]["title"] }}</h4>
+                <p class="card-text">{{ pullRequest["forked_plan"]["content"] }}</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+
+          </div>
+
+          <h2>Comments</h2>
           <div ng-repeat="comment in pullRequest.comments">
             <pr-comment comment="comment"></pr-comment>
           </div>
+          <new-pr-comment comment="comment"></new-pr-comment>
 
       </div>
 
