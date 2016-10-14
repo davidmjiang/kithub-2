@@ -15,6 +15,10 @@ FactoryGirl.define do
   factory :course do
     title "History of the Dark Arts"
     teacher
+
+    trait :without_title do
+      title nil
+    end
   end
 
 end
