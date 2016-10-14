@@ -21,6 +21,7 @@
 
 //= require angular
 //= require angular-devise
+//= require restangular.min
 //= require angular-ui-router.min
 //= require angular-modal-service.min
 
