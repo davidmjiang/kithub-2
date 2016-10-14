@@ -1,4 +1,4 @@
-var Gradebook = Angular.module( 'Gradebook', ['ui.router', 'restangular', 'ngTable', 'Devise', 'angularModalService'])
+var Gradebook = angular.module( 'Gradebook', ['ui.router', 'restangular','Devise', 'angularModalService']);
 
 Gradebook.config([
   'RestangularProvider',
@@ -12,35 +12,43 @@ Gradebook.config([
 
 Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise("/")
+  $urlRouterProvider.otherwise("/");
 
   $stateProvider
 
-  .state('main', {
-    url: '',
-    views: {
-      templateUrl: 'templates/gradebook/main.html'
-      controller: 'SpreadsheetCtrl'
-    },
-    resolve: {
-      currentUser: ["Auth", function(Auth) {
-        return Auth.currentUser().then(function(user) {
-          return user;
-        });
-      },
-      students: ["StudentService", "$stateParams", function(StudentService, $stateParams) {
-        return StudentService.getAllStudents($stateParams.id).then(function(allStudents) {
-          return allStudents;
+    .state('main', {
+      url: '',
+      views: {
+        "": {
+          templateUrl: 'gradebook_templates/main.html',
+          controller: ["$scope", function($scope) {
+            var info = 'SpreadsheetCtrl in state.main'
+            console.log(info)
+            $scope.message = info
+          }]
         }
-      }]
-    } 
-  })
+      },
+      resolve: {
+        currentUser: ["Auth", function(Auth) {
+          return Auth.currentUser().then(function(user) {
+            return user;
+          });
+        }],
+        students: ["StudentService", "$stateParams", function(StudentService, $stateParams) {
+          return StudentService.getAllStudents($stateParams.id)
+
+            // .then(function(allStudents) {
+            //   return allStudents;
+            // }
+        }]
+      } 
+    })
   
-  .state ('main.classShow', {
-    url: '/class/:id',
-    views: {
-      // stuff that is specific to a certain view
-    }
-  }
+    .state ('main.classShow', {
+      url: '/class/:id',
+      // views: {
+      //   // stuff that is specific to a certain view
+      // }
+    })
 }]);
 
