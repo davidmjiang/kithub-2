@@ -8,7 +8,8 @@
     <%= javascript_include_tag 'application' %>
   </head>
 
-  <body>
+
+  <body <%= content_for :angular_app %> >
     <%= yield %>
   </body>
 </html>
