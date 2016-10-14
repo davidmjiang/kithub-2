@@ -16,6 +16,8 @@ end
 gem "paperclip", "~> 5.0.0"
 # AWS for hosting files
 gem 'aws-sdk', '~> 2'
+# Convinent handeling of secret keys
+gem "figaro"
 
 ######################
 
