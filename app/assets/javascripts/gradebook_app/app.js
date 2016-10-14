@@ -60,15 +60,15 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
       }
     })
 
-    .state ('course.index', {
+    .state ('gradebook.courseIndex', {
       url: '',
-      templateUrl: '/course_templates/index.html',
+      templateUrl: '/gradebook_templates/courses/index.html',
       controller: 'CourseIndexCtrl'
     })
 
-    .state ('course.show', {
+    .state ('gradebook.courseShow', {
       url: '/:id',
-      templateUrl: '/gradebook_templates/show.html',
+      templateUrl: '/gradebook_templates/courses/show.html',
       controller: 'CourseShowCtrl'
     })
 }]);

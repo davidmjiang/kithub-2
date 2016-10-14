@@ -4,7 +4,7 @@ Gradebook.controller("ClassIndexCtrl", ["$scope", "ModalService", "courseList", 
 
   $scope.showNewClassModal = function() {
     ModalService.showModal({
-      templateUrl: 'gradebook_templates/classes/new.html',
+      templateUrl: 'gradebook_templates/courses/new.html',
       controller: "NewCourseCtrl"
     }).then(function(modal) {
       modal.element.modal();
