@@ -26,4 +26,9 @@ class Teacher < ApplicationRecord
 
   #one to many relationship for courses
   has_many :courses
+
+  #paperclip for photo attachment
+  has_attached_file :avatar, 
+                    :styles => {profile: "300 x300"}
+  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
 end

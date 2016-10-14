@@ -25,5 +25,6 @@
 //= require angular-ui-router.min
 //= require restangular.min
 //= require angular-modal-service.min
-
+//= require bower_components/ng-file-upload/ng-file-upload-shim.min
+//= require bower_components/ng-file-upload/ng-file-upload.min
 //= require_tree .
