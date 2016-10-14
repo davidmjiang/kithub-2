@@ -1,5 +1,8 @@
 class LessonPlan < ApplicationRecord
 
+  validates :title, presence: true
+  validates :content, presence: true
+  validates :hours, numericality: {greater_than_or_equal_to 0}
   belongs_to :teacher
   
   # self-association 
@@ -10,9 +13,12 @@ class LessonPlan < ApplicationRecord
   has_many :taggings
   has_many :tags, through: :taggings
 
-  #pull request many to many self-association
+   #pull request many to many self-association
   has_many :pull_requests_received, foreign_key: :parent_plan_id, class_name: "PullRequest"
+  has_many :received_pulls, through: :pull_requests_received, source: :forked_plan
+
   has_many :pull_requests_sent, foreign_key: :forked_plan_id, class_name: "PullRequest"
+  has_many :sent_pulls, through: :pull_requests_sent, source: :parent_plan
 
   #many to many relationship with standards
   has_many :lesson_plan_standards
