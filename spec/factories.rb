@@ -50,4 +50,25 @@ FactoryGirl.define do
     assignment
   end
 
+  factory :lesson_plan do
+    title "Tom's Plan"
+    content "This is very good"
+    hours 1.5
+    version 1.0
+    teacher
+
+    trait :without_title do
+      title nil
+    end
+
+    trait :short_title do
+      title 'l'
+    end
+
+    trait :long_title do
+      title ("a" * 300)
+    end
+
+  end
+
 end
