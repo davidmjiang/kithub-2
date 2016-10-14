@@ -113,7 +113,11 @@ end
 puts 'creating standards'
 
 4.times do
-  Standard.create(title: Faker::Hipster.word,
+  st = Standard.create(title: Faker::Hipster.word,
                   state: Faker::Address.state,
                   subject: subjects.sample)
+  4.times do
+    l = LessonPlan.all.sample
+    l.standards << st
+  end
 end
