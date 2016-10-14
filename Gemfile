@@ -12,6 +12,11 @@ gem 'devise'
 source "https://rails-assets.org" do
   gem "rails-assets-angular-devise"
 end
+#Allow creation fo fake data
+gem 'faker'
+#Paperclip for handeling file upload
+gem "paperclip", "~> 5.0.0"
+
 
 ######################
 
