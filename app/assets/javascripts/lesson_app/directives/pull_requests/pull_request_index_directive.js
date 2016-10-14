@@ -1,4 +1,4 @@
-app.directive("pullRequestIndex",  [ "pullRequestService", function(pullRequestService) {
+Lesson.directive("pullRequestIndex",  [ "pullRequestService", function(pullRequestService) {
   return {
     templateUrl:"template/lesson_templates/pull_requests/index.html",
     scope: { pullRequests: "=" },

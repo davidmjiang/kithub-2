@@ -1,4 +1,4 @@
-app.factory("pullRequestService", ["Restangular",
+Lesson.factory("pullRequestService", ["Restangular",
                                   "$stateParams",
                                   "$state",
                                   "Auth",
