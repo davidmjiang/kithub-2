@@ -16,6 +16,9 @@
 
 //= require lodash.min
 
+//= require simplemde
+//= require codemirror/tablist
+
 //= require tether
 //= require bootstrap
 
