@@ -1,3 +1,4 @@
+
 puts 'wiping database'
 Teacher.destroy_all
 Course.destroy_all
