@@ -1,0 +1,8 @@
+<div ng-repeat="pr in pullRequests">
+  <h2>{{ pr.title }}</h2>
+  <h6>{{ pr.description }}</h6>
+<!-- add parent and pr user depending on how lesson people format data
+ -->  <p>{{ pr.status }}</p>
+  <pull-request pull-request="pr"></pull-request>
+
+</div>
