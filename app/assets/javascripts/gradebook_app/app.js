@@ -59,7 +59,7 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
         // }
       }
     })
-  
+
     .state ('gradebook.courseIndex', {
       url: '',
       templateUrl: '/gradebook_templates/courses/index.html',
@@ -77,4 +77,3 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
       }
     })
 }]);
-
