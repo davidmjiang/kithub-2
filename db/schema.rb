@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161014144025) do
+ActiveRecord::Schema.define(version: 20161014150854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,16 @@ ActiveRecord::Schema.define(version: 20161014144025) do
     t.index ["teacher_id"], name: "index_comments_on_teacher_id", using: :btree
   end
 
+  create_table "lesson_plan_contributors", force: :cascade do |t|
+    t.integer  "teacher_id"
+    t.integer  "lesson_plan_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["lesson_plan_id"], name: "index_lesson_plan_contributors_on_lesson_plan_id", using: :btree
+    t.index ["teacher_id", "lesson_plan_id"], name: "index_lesson_plan_contributors_on_teacher_id_and_lesson_plan_id", unique: true, using: :btree
+    t.index ["teacher_id"], name: "index_lesson_plan_contributors_on_teacher_id", using: :btree
+  end
+
   create_table "lesson_plan_standards", force: :cascade do |t|
     t.integer  "lesson_plan_id"
     t.integer  "standard_id"
@@ -34,6 +44,16 @@ ActiveRecord::Schema.define(version: 20161014144025) do
     t.index ["lesson_plan_id", "standard_id"], name: "index_lesson_plan_standards_on_lesson_plan_id_and_standard_id", unique: true, using: :btree
     t.index ["lesson_plan_id"], name: "index_lesson_plan_standards_on_lesson_plan_id", using: :btree
     t.index ["standard_id"], name: "index_lesson_plan_standards_on_standard_id", using: :btree
+  end
+
+  create_table "lesson_plan_stars", force: :cascade do |t|
+    t.integer  "teacher_id"
+    t.integer  "lesson_plan_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["lesson_plan_id"], name: "index_lesson_plan_stars_on_lesson_plan_id", using: :btree
+    t.index ["teacher_id", "lesson_plan_id"], name: "index_lesson_plan_stars_on_teacher_id_and_lesson_plan_id", unique: true, using: :btree
+    t.index ["teacher_id"], name: "index_lesson_plan_stars_on_teacher_id", using: :btree
   end
 
   create_table "lesson_plans", force: :cascade do |t|

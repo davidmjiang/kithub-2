@@ -13,4 +13,14 @@ class Teacher < ApplicationRecord
   #when receiving teacher following
   has_many :received_follows, foreign_key: :followed_id, class_name: "TeacherFollowing"
   has_many :followed_by, through: :received_follows, source: :follower
+
+  has_many :comments
+
+  #many to many relationship for lesson plan teachers have starred
+  has_many :lesson_plan_stars
+  has_many :starred_lesson_plans, through: :lesson_plan_stars
+
+  #many to many relationship for plans teacher is contributor
+  has_many :lesson_plan_contributors
+  has_many :lesson_plans_contributed_to, through: :lesson_plan_contributors
 end
