@@ -1,5 +1,7 @@
 class Assignment < ApplicationRecord
 
+  validates :title, presence: true
+
   belongs_to :course
 
   #many to many relationship for students through submissions

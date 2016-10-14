@@ -9,4 +9,8 @@ Rails.application.routes.draw do
   		resources :teachers
 		end
  	end
+
+
+  get '/gradebook', to: "gradebooks#index"
+
 end
