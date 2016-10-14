@@ -26,8 +26,7 @@ t = Teacher.create(email: person,
     c = t.courses.create(title: Faker::Educator.course)
     5.times do
       c.assignments.create(title: Faker::Space.star,
-                           type: assignment_type.sample,
-                           total_points: rand(10..100))
+                           possible_score: rand(10..100))
     end
   end
 
@@ -39,7 +38,7 @@ t = Teacher.create(email: person,
                         state: Faker::Address.state,
                         grade: rand(1..12),
                         subject: subjects.sample,
-                        lesson_type: Faker::Comapny.buzzword
+                        lesson_type: Faker::Company.buzzword
                         )
 
 end
@@ -48,12 +47,12 @@ puts 'creating students'
 40.times do |i|
   s = Student.create(first_name: Faker::Name.first_name,
                      last_name: Faker::Name.last_name,
-                     email: Faker::Internet.safe_email( '#{i}' ))
+                     email: Faker::Internet.safe_email)
   randCourse = Course.all.sample
   s.student_courses.create(course_id: randCourse.id)
   randAssignment = Assignment.where(course_id: randCourse.id).sample
-  s.Submission.create(assignment_id: randAssignment.id,
-                      raw_score: rand(0..randAssignment.total_points ))
+  s.submissions.create(assignment_id: randAssignment.id,
+                      raw_score: rand(0..randAssignment.possible_score ))
 end
 
 
