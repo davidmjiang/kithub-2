@@ -11,8 +11,10 @@ Rails.application.routes.draw do
       resources :courses
       resources :assignments, only: [:create]
       resources :submissions, only: [:create]
-      resources :lesson_plans, only: [:index, :create]
-		end
+      resources :lesson_plans, only: [:index, :create] do
+        resources :pull_requests, only: [:index]
+      end
+    end
  	end
 
 
