@@ -1,0 +1,63 @@
+<div class="container-fluid">
+<div id="lesson-new" class="row">
+
+  <div class="col-md-12">
+    <div class="col-md-12">
+      <h1>New lesson</h1>
+    </div>
+
+    <div class="col-md-8">
+      <textarea id="editor"></textarea>
+      <div class="col-md-2">
+        <button class="btn btn-success" ng-click="create()">Save</button>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card card-block">
+        <h4 class="card-title">Details</h4>
+        <div class="form-group row">
+          <label for="example-text-input" class="col-md-6 col-form-label">Estimated Time (in hrs)</label>
+          <div class="col-md-6">
+            <input class="form-control" type="number" min="0" ng-model="newLesson.hours">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="example-search-input" class="col-md-6 col-form-label">State</label>
+          <div class="col-md-6">
+            <select ng-model="newLesson.state" class="form-control">
+              <option ng-repeat="state in states" value="{{ state }}">{{ state }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">Grade</label>
+          <div class="col-md-6">
+            <select ng-model="newLesson.grade" class="form-control">
+              <option ng-repeat="grade in grades" value="{{ grade }}">{{ grade }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">Subject</label>
+          <div class="col-md-6">
+            <input class="form-control" type="text" ng-model="newLesson.subject">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-6 col-form-label">Lesson Type</label>
+          <div class="col-md-6">
+            <input class="form-control" type="text" ng-model="newLesson.lesson_type">
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-block">
+        <h4 class="card-title">Additional Materials</h4>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+    
+  </div>
+</div>
+</div>
