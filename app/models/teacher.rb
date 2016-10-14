@@ -23,4 +23,7 @@ class Teacher < ApplicationRecord
   #many to many relationship for plans teacher is contributor
   has_many :lesson_plan_contributors
   has_many :lesson_plans_contributed_to, through: :lesson_plan_contributors
+
+  #one to many relationship for courses
+  has_many :courses
 end

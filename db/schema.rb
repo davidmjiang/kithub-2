@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161014150854) do
+ActiveRecord::Schema.define(version: 20161014154647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "assignments", force: :cascade do |t|
+    t.string   "title"
+    t.string   "type"
+    t.integer  "possible_score"
+    t.integer  "course_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
 
   create_table "comments", force: :cascade do |t|
     t.text     "body"
@@ -24,6 +33,11 @@ ActiveRecord::Schema.define(version: 20161014150854) do
     t.datetime "updated_at",       null: false
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
     t.index ["teacher_id"], name: "index_comments_on_teacher_id", using: :btree
+  end
+
+  create_table "courses", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "lesson_plan_contributors", force: :cascade do |t|
@@ -94,6 +108,34 @@ ActiveRecord::Schema.define(version: 20161014150854) do
     t.string   "subject"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "student_courses", force: :cascade do |t|
+    t.integer  "student_id"
+    t.integer  "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_student_courses_on_course_id", using: :btree
+    t.index ["student_id"], name: "index_student_courses_on_student_id", using: :btree
+  end
+
+  create_table "students", force: :cascade do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "submissions", force: :cascade do |t|
+    t.integer  "assignment_id"
+    t.integer  "student_id"
+    t.integer  "raw_score"
+    t.integer  "real_score"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["assignment_id"], name: "index_submissions_on_assignment_id", using: :btree
+    t.index ["student_id"], name: "index_submissions_on_student_id", using: :btree
   end
 
   create_table "taggings", force: :cascade do |t|
