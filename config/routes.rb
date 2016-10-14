@@ -7,6 +7,11 @@ Rails.application.routes.draw do
   scope :api do
   	scope :v1 do
   		resources :teachers
+      resources :students
+      resources :courses
+      resources :assignments, only: [:create]
+      resources :submissions, only: [:create]
+      resources :lesson_plans, only: [:index, :create]
 		end
  	end
 

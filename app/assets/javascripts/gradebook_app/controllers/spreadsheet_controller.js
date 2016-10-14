@@ -7,7 +7,7 @@ Gradebook.controller('SpreadsheetCtrl', ['$scope', 'ModalService', function($sco
         var location = "student controller, showStudent modal"
         console.log(location)
         $scope.message = location
-      }]
+      }],
       inputs: {
         student: student
       }
@@ -27,7 +27,7 @@ Gradebook.controller('SpreadsheetCtrl', ['$scope', 'ModalService', function($sco
         var location = 'AssignmentCtrl, assignmentShowModal'
         console.log(location)
         $scope.message = location
-      }]
+      }],
       inputs: {
         assignment: assignment
       }

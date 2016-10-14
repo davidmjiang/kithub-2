@@ -23,11 +23,13 @@ class Teacher < ApplicationRecord
 
   #many to many relationship for lesson plan teachers have starred
   has_many :lesson_plan_stars
-  has_many :starred_lesson_plans, through: :lesson_plan_stars, class_name: "LessonPlan", source: :lesson_plan
+  has_many :starred_lesson_plans, through: :lesson_plan_stars,
+  class_name: "LessonPlan", source: :lesson_plan
 
   #many to many relationship for plans teacher is contributor
   has_many :lesson_plan_contributors
-  has_many :lesson_plans_contributed_to, through: :lesson_plan_contributors, class_name: "LessonPlan", source: :lesson_plan
+  has_many :lesson_plans_contributed_to, through: :lesson_plan_contributors,
+  class_name: "LessonPlan", source: :lesson_plan
 
   #one to many relationship for courses
   has_many :courses
