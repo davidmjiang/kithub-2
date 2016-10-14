@@ -13,10 +13,11 @@
 
 @import "bootstrap";
 
-$primary-color: #B3C100; /*fields*/
-$secondary-color: #B7B8B6; /*granite*/
-$ternary-color: #34675C; /*pine*/
-$blue-sky-color: #4CB5F5; /*blue-sky*/
+
+$primary-color: #B3C100; /*fields*/;
+$secondary-color: #B7B8B6; /*granite*/;
+$ternary-color: #34675C; /*pine*/;
+$blue-sky-color: #4CB5F5; /*blue-sky*/;
 
 .primary-color {
   color: $primary-color;
