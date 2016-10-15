@@ -1,4 +1,4 @@
-Lesson.factory('LessonService', [function() {
+Lesson.factory('LessonService', ['Restangular', function(Restangular) {
 
   var lessonService = {};
 
@@ -13,6 +13,19 @@ Lesson.factory('LessonService', [function() {
   lessonService.getGrades = function() {
     return _grades;
   }
+
+  lessonService.create = function(newLesson) {
+    console.log("Creating...")
+    Restangular.all('lesson_plans').post(newLesson).then(function(response) {
+      // returns lesson object
+      console.log(response)
+
+    },
+    function(response) {
+      // returns error object
+      console.error(response.errors)
+    });
+  };
 
 
   return lessonService;

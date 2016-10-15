@@ -5,7 +5,8 @@ Lesson.factory('MarkdownService', ['$document', function($document) {
     element: $document.find('#editor')[0],
     spellChecker: false,
     placeholder: "Lesson plan...",
-    status: false
+    status: false,
+    forceSync: true
   });
 
   markdownService.getEditor = function() {
