@@ -25,4 +25,5 @@ describe PullRequest do
   it { should belong_to(:forked_plan) }
   it { should have_many(:comments) }
 
+
 end
