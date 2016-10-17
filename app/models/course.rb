@@ -1,5 +1,7 @@
 class Course < ApplicationRecord
 
+  validates :title, presence: true
+
   belongs_to :teacher
 
   #one to many relationship for assignments
