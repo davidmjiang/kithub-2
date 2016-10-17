@@ -16,6 +16,7 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 		$scope.profile_photo = "http://placehold.it/250x250";
 	}
 
+	// display editing pencil on hover
 	$scope.hoverIn = function(teacher){
 		teacher.hoverEdit = true;
 	};
@@ -24,6 +25,7 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 		teacher.hoverEdit = false;
 	};
 
+	// toggle between displaying name and input types to edit name
 	$scope.editTeacher = function(){
 		$scope.teacherEditing = !$scope.teacherEditing;
 		$scope.tempFirst = $scope.teacher.first_name
@@ -44,6 +46,7 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 		$scope.teacher.patch();
 	}
 
+	// toggle between showing and editing user's state
 	$scope.editState = function(){
 		if ($scope.stateEditing === false) {
 			$scope.stateEditing = true;
