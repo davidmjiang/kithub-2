@@ -19,11 +19,21 @@ class GpasController < ApplicationController
 
     @courses = current_teacher.courses
     @courses.each do |course|
-      course.assignments.each do |assignment|
-        assignment.submissions.each do |submission|
-
-        end
+      course.students.each do |student|
+        submissions = student.submissions.where("assignment_id IN (#{course_assignment_ids(course)})")
+        raw_score_sum(submissions)
       end
+    end
+  end
+
+  def course_assignment_ids(course)
+    course.assignments.map{|assignment|assignment.id}.join(", ")
+  end
+
+  def raw_score_sum(submissions)
+    total = 0
+    submissions.each do |submission|
+      total += submission.raw_score
     end
   end
 
