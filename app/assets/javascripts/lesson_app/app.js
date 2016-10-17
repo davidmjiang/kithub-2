@@ -62,11 +62,6 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
    //    }
    //  })
 
-		.state('main.teachers', {
-			abstract: true,
-			url:'/teachers',
-			template: "<div ui-view></div>"
-		})
 		.state('main.lessons', {
       url: '/lessons',
       template: "<div ui-view></div>",
@@ -95,8 +90,8 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
       }
     })
 
-		.state('main.teachers.show', {
-			url: '/:id',
+		.state('main.teachers', {
+			url: '/teachers/:id',
 			templateUrl: "lesson_templates/teacher/teacher_show.html",
 			controller: "TeacherShowCtrl",
 			resolve: {
@@ -104,7 +99,54 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 	        	return TeacherService.getTeacher($stateParams.id);
 	      }]
 			}
-		});
+		})
+    .state('main.teachers.overview',{
+      url: '/overview',
+      templateUrl: 'lesson_templates/teacher/overview.html'
+    })
+    .state('main.teachers.lessonPlans',{
+      url: '/lessonPlans',
+      templateUrl: 'lesson_templates/teacher/lesson_plans.html'
+    })
+    .state('main.teachers.starred',{
+      url: '/starred',
+      templateUrl: 'lesson_templates/teacher/starred.html'
+    })
+    .state('main.teachers.contributions',{
+      url: '/contributions',
+      templateUrl: 'lesson_templates/teacher/contributions.html'
+    })
+    .state('main.teachers.followers',{
+      url: '/followers',
+      templateUrl: 'lesson_templates/teacher/followers.html',
+      resolve: {
+        followers: ["$stateParams", 'Restangular', function($stateParams, Restangular){
+          return Restangular.all('teacher_followings').getList({
+            followed_id: $stateParams.id
+          })
+        }]
+      },
+      controller: "TeacherFollowersCtrl"
+    })
+    .state('main.teachers.following',{
+      url: '/following',
+      templateUrl: 'lesson_templates/teacher/following.html',
+      resolve: {
+        following: ["$stateParams", 'Restangular', function($stateParams, Restangular){
+          return Restangular.all('teacher_followings').getList({
+            follower_id: $stateParams.id
+          })
+        }]
+      },
+      controller: "TeacherFollowingCtrl"
+    })
+
+
+
+
+
+
+    ;
 
 }]);
 
