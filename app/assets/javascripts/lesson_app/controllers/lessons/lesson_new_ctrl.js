@@ -12,7 +12,7 @@ Lesson.controller('LessonNewCtrl', ['$scope', 'LessonService', 'currentUser', 'R
     placeholder: "Lesson plan...",
     autosave: {
       enabled: true,
-      uniqueId: "lessonEditor", 
+      uniqueId: "lessonEditor",
     },
     status: ["autosave", "lines", "words"]
   };
@@ -39,6 +39,7 @@ Lesson.controller('LessonNewCtrl', ['$scope', 'LessonService', 'currentUser', 'R
   };
 
   $scope.toggleEditing = function() {
+    console.log($scope.newLesson.content)
     $scope.editing = !$scope.editing;
   };
 

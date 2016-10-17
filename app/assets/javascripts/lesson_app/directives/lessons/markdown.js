@@ -18,10 +18,6 @@ Lesson.directive('lessonEdit', [
         options = $parse(attrs.lessonEdit)(scope) || {};
         options.element = element[0];
         var mde = new SimpleMDE(options);
-        if (attrs.preview === "true") {
-          ngModel.$render();
-          mde.togglePreview();
-        }
         mde.codemirror.on('change', function() {
           scope.$applyAsync(function() {
             ngModel.$setViewValue(mde.value());
@@ -30,6 +26,9 @@ Lesson.directive('lessonEdit', [
         ngModel.$render = function() {
           var val = ngModel.$modelValue || options["default"];
           mde.value(val);
+          if (attrs.preview === "true") {
+            mde.togglePreview();
+          }
           if (mde.isPreviewActive()) {
             rerenderPreview(val);
           }
