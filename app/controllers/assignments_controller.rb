@@ -9,10 +9,14 @@ class AssignmentsController < ApplicationController
     end
   end
 
+  
+
   private
 
   def assignment_params
     params.require(:assignment).permit(:title, :assignment_type, :possible_score, :course_id)
   end
+
+
 
 end
