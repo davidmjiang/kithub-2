@@ -1,5 +1,5 @@
 "use strict";
-var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise"]);
+var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise", "xeditable"]);
 
 angular.module('Lesson').factory('_', ['$window', function($window) {
   return $window._;
@@ -12,6 +12,11 @@ angular.module('Lesson').config([
     $httpProvider.defaults.headers.common['X-CSRF-Token'] = token;
   }
 ]);
+
+// config for x-editable
+angular.module('Lesson').run(['editableOptions', function(editableOptions) {
+  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+}]);
 
 // config for restangular
 angular.module('Lesson').config([
@@ -73,6 +78,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 			abstract: true
 		})
 
+
 		.state('main.lessons.show', {
       url: '/:id',
       template: "<div ui-view='pullrequests'></div>"
@@ -94,6 +100,14 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
         },
       }
     })
+
+		// .state('main.lessons.show')
+		.state('main.lessons.new', {
+      url: '/new',
+      templateUrl: "lesson_templates/lessons/new.html",
+      controller: "LessonNewCtrl"
+    })
+		// .state('main.lessons.pullrequests')
 
 		.state('main.teachers.show', {
 			url: '/:id',
