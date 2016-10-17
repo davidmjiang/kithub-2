@@ -12,10 +12,8 @@ class TeachersController < ApplicationController
   def update
   	@teacher = Teacher.find(params[:id])
   	@teacher.update(teacher_params)
-
-  	respond_to do |format|
-  		format.json{ render json: @teacher}
-  	end
+    @states = STATES
+    render "show.json.jbuilder"
   end
 
   private
