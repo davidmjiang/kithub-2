@@ -200,10 +200,10 @@ class Gradebook
     @all_courses.each do |course|
       course.assignments.each do |assignment|
         course.students.each do |student|
-          if rand(0..100) < 90  
+          # if rand(0..100) < 90  
             student.submissions.create(assignment_id: assignment.id,
                       raw_score: rand(0..assignment.possible_score ))
-          end
+          # end
         end
       end
     end

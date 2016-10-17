@@ -86,18 +86,30 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 		})
 
 		// .state('main.lessons.show')
-		.state('main.lessons.new', {
-      url: '/new',
-      templateUrl: "lesson_templates/lessons/new.html",
-      controller: "LessonNewCtrl"
-    })
+		// .state('main.lessons.new', {
+  //     url: '/new',
+  //     templateUrl: "lesson_templates/lessons/new.html",
+  //     controller: "LessonNewCtrl"
+  //   })
 
 		// .state('main.lessons.pullrequests')
 		.state('main.lessons.show', {
       url: '/:id',
-      template: "<div ui-view='pullrequests'></div>"
+      views: {
+        '@main.lessons': {
+          templateUrl: "lesson_templates/lessons/show.html",
+          controller: "LessonShowCtrl",
+          resolve: {
+            lesson: ['LessonService', '$stateParams', function(LessonService, $stateParams) {
+              return LessonService.getLesson($stateParams.id).then(function(response) {
+                return response;
+              });
+            }]
+          }
+        }
+      }
     })
-		// .state('main.lessons.new')
+
 		.state('main.lessons.show.pullRequests', {
       url: '/pullrequests',
       views: {
