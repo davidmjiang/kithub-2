@@ -28,23 +28,14 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   };
   
   $scope.lesson = lesson;
-  $scope.newLesson = {
-    id: lesson.id || undefined,
-    title: lesson.title || "Lesson Title",
-    content: lesson.content || "",
-    hours: lesson.hours || 1,
-    state: lesson.state || $scope.states[0],
-    grade: lesson.grade || $scope.grades[0],
-    subject: lesson.subject || "",
-    lesson_type: lesson.lesson_type || ""
-  };
+  $scope.lesson.grade = $scope.lesson.grade.toString(); // for dropdown menu values
 
-  $scope.create = function() {
-    LessonService.create($scope.newLesson);
+  $scope.create = function(newLesson) {
+    LessonService.create(newLesson);
   };
 
   $scope.save = function() {
-    LessonService.save($scope.newLesson);
+    LessonService.save($scope.lesson);
     $scope.toggleEditing();
   };
 
