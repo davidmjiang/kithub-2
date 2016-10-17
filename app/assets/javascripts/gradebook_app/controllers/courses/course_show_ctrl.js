@@ -5,6 +5,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", fu
 
   $scope.course = course;
 
+  $scope.rawGPA = GPAService
   $scope.students = $scope.course.students;
 
   $scope.assignments = $scope.course.assignments;
