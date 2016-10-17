@@ -7,6 +7,7 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 	$scope.teacherEditing = false;
 	$scope.stateEditing = false;
 	$scope.stateHover = false;
+	$scope.imageHover = false;
 
 	//show profile photo if there is one
 	if(teacher.avatar_file_name){
@@ -67,7 +68,9 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 			},
 			file: file,
 			sendFieldsAs: 'json'
-		}).then(function(){
+		}).then(function(response){
+			$scope.profile_photo = response.data.image;
+			$scope.imageHover = false;
 			console.log("success");
 		}, function(response){
 			console.log("error: ", response.status);
