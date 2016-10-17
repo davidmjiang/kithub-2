@@ -74,7 +74,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 		})
 		.state('main.lessons', {
       url: '/lessons',
-      template: "<div ui-view='lessonsNew'></div><div ui-view='newPullRequest'></div>",
+      template: "<div ui-view='lessonsNew'></div><div ui-view='newPullRequest'></div><div ui-view='lessonsShow'></div>",
 			abstract: true
 		})
 
@@ -92,8 +92,11 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 		// .state('main.lessons.pullrequests')
 		.state('main.lessons.show', {
       url: '/:id',
-      template: "<div ui-view='pullrequests'></div>",
       views: {
+        lessonsShow: {
+          template: "<div ui-view='pullrequests'></div>",
+        },
+
         newPullRequest: {
           templateUrl: "lesson_templates/pull_requests/new.html",
            controller: "PullRequestNewCtrl"
