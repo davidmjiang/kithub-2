@@ -19,4 +19,35 @@ describe Course do
   it { should have_many(:students) }
   it { should have_many(:assignments) }
 
+  describe ".points_possible" do 
+
+    let(:assignment){create(:assignment)}
+    let(:num_points){ assignment.possible_score }
+
+    before do 
+      course.assignments = [assignment]
+    end
+
+    it "returns the total number of points possible" do
+      expect(course.points_possible).to eq(num_points)
+    end
+
+  end
+
+  describe ".assignment_ids" do 
+
+    let (:assignment_1){create(:assignment)}
+    let (:assignment_2){create(:assignment)}
+    let (:ids){("#{assignment_1.id}, #{assignment_2.id}")}
+
+    before do 
+      course.assignments = [assignment_1, assignment_2]
+    end
+
+    it "returns a comma-separated string of assignment ids" do
+      expect(course.assignment_ids).to eq(ids)
+    end
+
+  end
+
 end
