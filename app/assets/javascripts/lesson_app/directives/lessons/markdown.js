@@ -1,21 +1,21 @@
-Lesson.directive('simplemde', [
-  '$parse', function($parse) {
+Lesson.directive('lessonEdit', [
+  '$parse', 'SimpleMDE', function($parse, SimpleMDE) {
     return {
       restrict: 'A',
       require: 'ngModel',
       controller: ['$scope', function($scope) {
         return {
           get: function() {
-            return $scope.simplemde.instance;
+            return $scope.lessonEdit.instance;
           },
           rerenderPreview: function(val) {
-            return $scope.simplemde.rerenderPreview(val);
+            return $scope.lessonEdit.rerenderPreview(val);
           }
         };
       }],
       link: function(scope, element, attrs, ngModel) {
         var options, rerenderPreview;
-        options = $parse(attrs.simplemde)(scope) || {};
+        options = $parse(attrs.lessonEdit)(scope) || {};
         options.element = element[0];
         var mde = new SimpleMDE(options);
         mde.codemirror.on('change', function() {
@@ -31,7 +31,7 @@ Lesson.directive('simplemde', [
           }
         };
         rerenderPreview = function(val) {};
-        scope.simplemde = {
+        scope.lessonEdit = {
           instance: mde,
           rerenderPreview: rerenderPreview
         };
