@@ -1,1 +1,61 @@
-<h1>Hello</h1>
+
+<div class="row">
+	<div class="col-md-3">
+		<div class="card">
+			<div class="image-container" ng-mouseover="imageHover = true" ng-mouseleave="imageHover = false">
+				<img class="card-img-top profile-img" src="{{profile_photo}}" alt="Profile photo here">
+				<label ng-if="imageHover" id="photo-upload" for="file-input">Upload photo</label>
+			</div>
+			<input id="file-input" type="file" ngf-select="upload($file)" ng-model="image" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" ngf-min-height="100">
+			<div class="card-block">
+				<h3 ng-mouseover="hoverIn(teacher)" ng-mouseleave="hoverOut(teacher)" ng-hide="teacherEditing" class="card-title">{{teacher.first_name}} {{teacher.last_name}} <span ng-if="teacher.hoverEdit" class="animate-show">
+                <a ng-click="editTeacher()">
+                    <img src="https://cdn2.iconfinder.com/data/icons/freecns-cumulus/16/519584-081_Pen-16.png" alt="">
+                </a>
+            </span></h3>
+        <input type="text" ng-model="teacher.first_name" ng-if="teacherEditing">
+        <input type="text" ng-model="teacher.last_name" ng-if="teacherEditing">
+        <input type="submit" ng-click="updateTeacher()" value="Update" class="btn btn-primary" ng-if="teacherEditing">
+        <input type="submit" ng-click="cancelUpdate()" value="Cancel" class="btn btn-danger" ng-if="teacherEditing">
+				<p class="card-text" ng-if="teacher.state" ng-mouseover="stateHover = true" ng-mouseleave="stateHover = false">State: {{teacher.state }} <span ng-if="stateHover" class="animate-show">
+                <a ng-click="editState()">
+                    <img src="https://cdn2.iconfinder.com/data/icons/freecns-cumulus/16/519584-081_Pen-16.png" alt="">
+                </a>
+            </span></p>
+				<select ng-if="stateEditing" ng-model="teacher.state" ng-change="editState()">
+					<option value={{state}} ng-repeat="state in states">{{state}}</option>
+				</select>
+				<input type="submit" ng-if="!teacher.state" class="btn btn-primary" value="Choose State" ng-click="editState()">
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<ul class="nav nav-tabs">
+			<li class="nav-item"><a class="nav-link active" href="#lessons" data-toggle="tab">Lesson Plans <span class="tag tag-pill tag-info">{{teacher.num_lessons}}</span></a></li>
+			<li class="nav-item"><a class="nav-link" href="#" data-toggle="tab">Starred <span class="tag tag-pill tag-info">{{teacher.starred_lesson_plans}}</span></a></li>
+			<li class="nav-item"><a class="nav-link" href="#" data-toggle="tab">Contributions <span class="tag tag-pill tag-info">{{teacher.lesson_plans_contributed_to}}</a></span></li>
+			<li class="nav-item"><a class="nav-link" href="#" data-toggle="tab">Followers <span class="tag tag-pill tag-info">{{teacher.followed_by}}</a></span></li>
+			<li class="nav-item"><a class="nav-link" href="#" data-toggle="tab">Following <span class="tag tag-pill tag-info">{{teacher.following}}</a></span></li>
+		</ul>
+
+		<div class="tab-content">
+			<div class="tab-pane active" id="lessons" role="tabpanel">
+					<div class="list-group">
+						<div class="list-group-item active" ng-repeat="lesson in lessons">
+							<h4>{{lesson.title}}</h4>
+							<p>Author: {{lesson.first_name}} {{lesson.last_name}}</p>
+							<p>Created {{lesson.created_at | date}}</p>
+							<p>Last updated {{lesson.updated_at | date}}</p>
+							<p>There's a delete button under here</p>
+							<a href="#">Delete</a>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<button class="btn btn-primary">Create New +</button>
+	</div>
+</div>
+
