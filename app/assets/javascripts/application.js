@@ -16,6 +16,7 @@
 
 //= require lodash.min
 
+
 //= require tether
 //= require bootstrap
 
@@ -25,5 +26,6 @@
 //= require angular-ui-router.min
 //= require restangular.min
 //= require angular-modal-service.min
+//= require xeditable.min
 
 //= require_tree .
