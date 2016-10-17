@@ -22,4 +22,8 @@ class Course < ApplicationRecord
     points
   end
 
+  def assignment_ids
+    self.assignments.map{|assignment|assignment.id}.join(", ")
+  end
+
 end
