@@ -74,14 +74,33 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 		})
 		.state('main.lessons', {
       url: '/lessons',
-      template: "<div ui-view></div>",
+      template: "<div ui-view='lessonsNew'></div><div ui-view='newPullRequest'></div>",
 			abstract: true
 		})
 
+		.state('main.lessons.new', {
+      url: '/new',
+      views: {
+        lessonsNew: {
+          templateUrl: "lesson_templates/lessons/new.html",
+          controller: "LessonNewCtrl"
 
+        }
+      }
+    })
+
+		// .state('main.lessons.pullrequests')
 		.state('main.lessons.show', {
       url: '/:id',
-      template: "<div ui-view='pullrequests'></div>"
+      template: "<div ui-view='pullrequests'></div>",
+      views: {
+        newPullRequest: {
+          templateUrl: "lesson_templates/pull_requests/new.html",
+           controller: "PullRequestNewCtrl"
+
+        }
+      }
+
     })
 		// .state('main.lessons.new')
 		.state('main.lessons.show.pullRequests', {
@@ -96,18 +115,10 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
                             function(pullRequestService, $stateParams) {
                 pullRequestService.all($stateParams.id);
               }]
-            }
+          }
         },
       }
     })
-
-		// .state('main.lessons.show')
-		.state('main.lessons.new', {
-      url: '/new',
-      templateUrl: "lesson_templates/lessons/new.html",
-      controller: "LessonNewCtrl"
-    })
-		// .state('main.lessons.pullrequests')
 
 		.state('main.teachers.show', {
 			url: '/:id',

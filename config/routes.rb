@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       resources :assignments, only: [:create]
       resources :submissions, only: [:create, :index]
       resources :lesson_plans, only: [:index, :create] do
-        resources :pull_requests, only: [:index]
+        resources :pull_requests, only: [:index, :create]
       end
       get "/gpas", to: "gpas_controller#index"
     end
