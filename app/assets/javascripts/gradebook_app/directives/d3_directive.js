@@ -23,8 +23,6 @@ Gradebook.directive('d3Bars', ['d3Service', '$window', function(d3Service, $wind
             {name: "Loser", score: 48}
           ]
 
-          console.log(attrs.input)
-
           scope.$watch(function() {
             return angular.element($window)[0].innerWidth;
           }, function() {
