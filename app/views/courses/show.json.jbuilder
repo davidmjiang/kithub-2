@@ -1,4 +1,4 @@
-json.(@course, :id, :title, :teacher_id)
+json.(@course, :id, :title, :teacher_id, :points_possible)
 
 json.students @course.students do |student|
   json.id student.id
