@@ -1,9 +1,11 @@
 Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "close", function($scope, course, assignment, GPAService, close) {
 
   $scope.assignment = assignment
-  $scope.rawGPA = GPAService.rawGPA(course, assignment) 
+  $scope.rawGPA = GPAService.rawGPA(course, assignment)
+  $scope.realGPA = GPAService.realGPA(course, assignment) 
 
   $scope.editingTitle = false
+  $scope.addingCurve = false
   $scope.assignmentTitle = assignment.title
 
   $scope.editTitle = function() {
@@ -24,6 +26,11 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
 
   $scope.close = function(result) {
     close(result, 200)
+  }
+
+  $scope.addCurve = function() {
+    $scope.addingCurve = true
+
   }
 
 }])
