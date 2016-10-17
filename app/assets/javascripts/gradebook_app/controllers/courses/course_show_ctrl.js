@@ -1,10 +1,11 @@
-Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", function($scope, course, StudentService){
+Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "GPAService", function($scope, course, StudentService, GPAService){
 
   var cols =[];
   var allRows= [];
 
   $scope.course = course;
 
+  $scope.rawGPA = GPAService.rawGPA(course)
   $scope.students = $scope.course.students;
 
   $scope.assignments = $scope.course.assignments.reverse();

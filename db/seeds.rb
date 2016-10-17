@@ -203,7 +203,7 @@ class Gradebook
           # if rand(0..100) < 90  
             student.submissions.create(assignment_id: assignment.id,
                       raw_score: rand(0..assignment.possible_score ))
-          end
+          # end
         end
       end
     end
