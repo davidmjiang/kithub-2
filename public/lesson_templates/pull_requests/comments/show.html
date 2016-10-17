@@ -1,4 +1,7 @@
-<div
-{{ comment.body }}
-{{ comment.teacher.name }}
-{{ comment.created_at | date }}
+<div class="card">
+Comment: {{ comment.body }}<br>
+
+Teacher: {{ comment["teacher"]["first_name"] }}
+         {{ comment["teacher"]["last_name"] }}<br>
+Date: {{ comment.created_at | date }}
+</div>

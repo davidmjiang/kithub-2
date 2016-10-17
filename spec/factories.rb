@@ -50,6 +50,7 @@ FactoryGirl.define do
     assignment
   end
 
+
   factory :lesson_plan do
     title "Tom's Plan"
     content "This is very good"
@@ -69,6 +70,29 @@ FactoryGirl.define do
       title ("a" * 300)
     end
 
+    trait :other_version do
+      version 1.1
+    end
+
+  end
+
+
+  factory :pull_request do
+    title "hashtag"
+    description "funny description"
+    association :parent_plan, factory: :lesson_plan
+    association :forked_plan, factory: [ :lesson_plan, :other_version ]
+    status "unmerged"
+    accept_reject_time nil
+
+    trait :no_parent_plan do
+      parent_plan nil
+    end
+
+    trait :no_forked_plan do
+      forked_plan nil
+    end
   end
 
 end
+

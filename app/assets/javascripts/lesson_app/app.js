@@ -77,13 +77,37 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
       template: "<div ui-view></div>",
 			abstract: true
 		})
+
 		// .state('main.lessons.show')
 		.state('main.lessons.new', {
       url: '/new',
       templateUrl: "lesson_templates/lessons/new.html",
       controller: "LessonNewCtrl"
     })
+    
 		// .state('main.lessons.pullrequests')
+		.state('main.lessons.show', {
+      url: '/:id',
+      template: "<div ui-view='pullrequests'></div>"
+    })
+		// .state('main.lessons.new')
+		.state('main.lessons.show.pullRequests', {
+      url: '/pullrequests',
+      views: {
+        "pullrequests": {
+          templateUrl:  "lesson_templates/pull_requests/index.html",
+          controller: "PullRequestIndexCtrl",
+          resolve: {
+            pullRequests: ["pullRequestService",
+                            "$stateParams",
+                            function(pullRequestService, $stateParams) {
+                pullRequestService.all($stateParams.id);
+              }]
+            }
+        },
+      }
+    })
+
 		.state('main.teachers.show', {
 			url: '/:id',
 			templateUrl: "lesson_templates/teacher/teacher_show.html",
