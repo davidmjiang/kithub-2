@@ -1,8 +1,5 @@
 "use strict";
-<<<<<<< HEAD
 
-=======
->>>>>>> 7d71d41661cfd1fd0830b1381a27aea205f6774a
 var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise", 'ngFileUpload', "xeditable"]);
 
 angular.module('Lesson').factory('_', ['$window', function($window) {
@@ -85,31 +82,10 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 		})
 		.state('main.lessons', {
       url: '/lessons',
-      template: "<div ui-view='newPullRequest'></div><div ui-view='lessonsShow'></div>",
-			abstract: true
+      templateUrl: "lesson_templates/show.html",
+      abstract: true
 		})
 
-// <<<<<<< HEAD
-// 		.state('main.lessons.new', {
-//       url: '/new',
-//       views: {
-//         lessonsNew: {
-//           templateUrl: "lesson_templates/lessons/new.html",
-//           controller: "LessonNewCtrl"
-
-//         }
-//       }
-//     })
-// =======
-// 		// .state('main.lessons.show')
-// 		// .state('main.lessons.new', {
-//   //     url: '/new',
-//   //     templateUrl: "lesson_templates/lessons/new.html",
-//   //     controller: "LessonNewCtrl"
-//   //   })
-// >>>>>>> 7d71d41661cfd1fd0830b1381a27aea205f6774a
-
-		// .state('main.lessons.pullrequests')
 		.state('main.lessons.show', {
       url: '/:id',
       views: {
@@ -123,7 +99,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 
          }]}},
 
-        '@main.lessons': {
+        'mainContainer@main.lessons': {
           templateUrl: "lesson_templates/lessons/show.html",
           controller: "LessonShowCtrl",
           resolve: {
@@ -141,7 +117,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 		.state('main.lessons.show.pullRequests', {
       url: '/pullrequests',
       views: {
-        "pullrequests": {
+        "mainContainer@main.lessons": {
           templateUrl:  "lesson_templates/pull_requests/index.html",
           controller: "PullRequestIndexCtrl",
           resolve: {
