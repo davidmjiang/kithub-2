@@ -7,6 +7,9 @@
 			<div class="card-block">
 				<h3 class="card-title">{{teacher.first_name}} {{teacher.last_name}}</h3>
 				<p class="card-text">Location: </p>
+				<select>
+					<option value={{state}} ng-repeat="state in states">{{state}}</option>
+				</select>
 			</div>
 		</div>
 	</div>

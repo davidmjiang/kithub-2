@@ -3,6 +3,9 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 
 	$scope.teacher = teacher;
 	$scope.lessons = teacher.lesson_plans;
+	$scope.states = teacher.states;
+
+	//show profile photo if there is one
 	if(teacher.avatar_file_name){
 		$scope.profile_photo = teacher.image;
 	}
@@ -10,6 +13,7 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 		$scope.profile_photo = "http://placehold.it/250x250";
 	}
 
+	//upload profile photo
 	$scope.upload = function(file){
 		Upload.upload({
 			url: 'api/v1/teachers/' + teacher.id + '.json',
