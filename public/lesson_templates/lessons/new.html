@@ -9,6 +9,11 @@
     <div class="row">
       <div class="col-md-8">
         <textarea lesson-edit='editorOptions' id="editor" ng-model="newLesson.content"></textarea>
+        <div class="row">
+          <div class="col-md-2">
+              <button class="btn btn-success" ng-click="create()">Save</button>
+            </div>
+        </div>
       </div>
 
 
@@ -57,12 +62,6 @@
         </div>
       </div>
 
-    </div>
-
-    <div class="row">
-      <div class="col-md-2">
-          <button class="btn btn-success" ng-click="create()">Save</button>
-        </div>
     </div>
     
   </div>
