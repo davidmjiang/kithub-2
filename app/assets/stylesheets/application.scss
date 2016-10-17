@@ -9,6 +9,7 @@
  * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
+
  *= require ng-table.min
  */
 
@@ -59,3 +60,7 @@ $blue-sky-color: #4CB5F5; /*blue-sky*/;
 
  @import "bootstrap";
  @import "xeditable";
+ @import "font-awesome-sprockets";
+ @import "font-awesome";
+ @import "simplemde.min";
+ @import "lesson_styles/lesson_new";
