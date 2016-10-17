@@ -1,8 +1,12 @@
 "use strict";
-var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise", 'ngFileUpload']);
+var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise", 'ngFileUpload', "xeditable"]);
 
 angular.module('Lesson').factory('_', ['$window', function($window) {
   return $window._;
+}]);
+
+angular.module('Lesson').factory('SimpleMDE', ['$window', function($window) {
+  return $window.SimpleMDE;
 }]);
 
 angular.module('Lesson').config([
@@ -12,6 +16,14 @@ angular.module('Lesson').config([
     $httpProvider.defaults.headers.common['X-CSRF-Token'] = token;
   }
 ]);
+
+// config for x-editable
+angular.module('Lesson').run(['editableOptions', 'editableThemes', function(editableOptions, editableThemes) {
+  editableOptions.theme = 'default'; // bootstrap3 theme. Can be also 'bs2', 'default'
+  editableThemes['default'].submitTpl = '<button type="submit" class="btn btn-success btn-sm"><i class="fa fa-check" aria-hidden="true"></i></button>';
+  editableThemes['default'].cancelTpl = '<button type="button" ng-click="$form.$cancel()" class="btn btn-danger btn-sm"><i class="fa fa-times" aria-hidden="true"></i></button>';
+
+}]);
 
 // config for restangular
 angular.module('Lesson').config([
@@ -73,6 +85,14 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 			abstract: true
 		})
 
+		// .state('main.lessons.show')
+		.state('main.lessons.new', {
+      url: '/new',
+      templateUrl: "lesson_templates/lessons/new.html",
+      controller: "LessonNewCtrl"
+    })
+
+		// .state('main.lessons.pullrequests')
 		.state('main.lessons.show', {
       url: '/:id',
       template: "<div ui-view='pullrequests'></div>"
