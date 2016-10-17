@@ -1,15 +1,14 @@
 Lesson.factory("pullRequestService", ["Restangular",
-                                  "$stateParams",
                                   "$state",
                                   "Auth",
-                                  function(Restangular, $stateParams, $state, Auth) {
-
+                                  function(Restangular, $state, Auth) {
+  // array of all pull requests with their
   var _pullRequests = []
 
   // all copies a json object of all the pull requests and their respective '
   // comments for the teachers page you are on and angular.copies them locally
-  var all = function() {
-    return Restangular.all("pull_requests").getList().then(function(response) {
+  var all = function(lesson_id) {
+    return Restangular.one("lesson_plans", lesson_id).all("pull_requests").getList().then(function(response) {
         return angular.copy(response, _pullRequests);
     });
   };

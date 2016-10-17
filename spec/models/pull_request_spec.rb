@@ -1,12 +1,29 @@
 require 'rails_helper'
 
+#runs two tests to check if assignment is valid with a title and invalid without title
 describe PullRequest do
 
-  it { should validate_presence_of (:parent_plan_id)}
-  it { should validate_presence_of (:forked_plan_id)}
+  let(:pull_request){ create(:pull_request) }
 
-  it { should belong_to (:parent_plan)}
-  it { should belong_to (:forked_plan)}
-  it { should have_many (:comments)}
+  it "is valid with default attributes" do
+    expect(pull_request).to be_valid
+  end
+
+  it "is invalid without parent_plan" do
+    sad_assignment = build(:pull_request, :no_parent_plan)
+    expect(sad_assignment).to_not be_valid
+  end
+
+  it "is invalid without forked_plan" do
+    sad_assignment = build(:pull_request, :no_forked_plan)
+    expect(sad_assignment).to_not be_valid
+  end
+
+  #testing associations
+  it { should belong_to(:parent_plan) }
+
+  it { should belong_to(:forked_plan) }
+  it { should have_many(:comments) }
+
 
 end
