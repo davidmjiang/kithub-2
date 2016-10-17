@@ -1,98 +1,72 @@
-# require 'rails_helper'
+require 'rails_helper'
 
-# describe TeachersController do
+describe TeachersController, type: :controller do 
+  render_views
 
-#   let(:teacher){create :teacher}
-
-
-#   describe 'GET #show' do
-
-#     before do
-#       sign_in teacher
-#       get :show, id: teacher.id, :format => :json
-#     end
-
-#     it "will return a successful response" do
-#       expect(response).to be_success
-#     end
-
-#     it 'will not return nil if teacher is in the database' do
-#       expect(response).to_not be nil
-#     end
-
-#     it 'will return correct attributes' do
-#       expect(response.teacher).to include( :id, :email, :first_name, :last_name, :created_at, :state, :avatar_file_name, :image, :lesson_plans, :followed_by, :following, :starred_lesson_plans, :lesson_plans_contributed_to, :num_lessons, :states)
-#     end
-
-#   end
-
-#   # describe "POST #create" do
+  let(:json) {JSON.parse(response.body)}
+  let(:teacher){create :teacher}
 
 
-#   #   before do
-#   #     sign_in teacher
-#   #   end
+  describe 'GET #show' do
 
-#   #   it 'will return unsucessful response with invalid attributes' do
-#   #     process :create, method: :post,
-#   #             params: {
-#   #                       :lesson_plan => attributes_for(:lesson_plan,
-#   #                                                      :without_title)
-#   #                     }, :format => :json
+    before do
+      sign_in teacher
+      get :show, params: {id: teacher.id}, :format => :json
+    end
 
-#   #     expect(response).to_not be_success
-#   #   end
+    it "will return a successful response" do
+      expect(response).to be_success
+    end
 
-#   #   it 'will not create a lesson plan with invalid attributes' do
-#   #     process :create, method: :post,
-#   #             params: {
-#   #                       :lesson_plan => attributes_for(:lesson_plan,
-#   #                                                      :without_title)
-#   #                     }, :format => :json
+    it 'will not return nil if teacher is in the database' do
+      expect(response).to_not be nil
+    end
 
-#   #     expect(LessonPlan.all).to be_empty
-#   #   end
+    it 'will return correct attributes with teacher' do
+      expect(json).to include("id")
+      expect(json).to include("email")
+      expect(json).to include("first_name")
+      expect(json).to include("last_name")
+      expect(json).to include("created_at")
+      expect(json).to include("state")
+      expect(json).to include("avatar_file_name")
+      expect(json).to include("lesson_plans")
+      expect(json).to include("followed_by")
+      expect(json).to include("following")
+      expect(json).to include("starred_lesson_plans")
+      expect(json).to include("lesson_plans_contributed_to")
+      expect(json).to include("num_lessons")
+      expect(json).to include("states")
+    end
 
-#   #   it 'will return error message on failed creation' do
-#   #     process :create, method: :post,
-#   #             params: {
-#   #                       :lesson_plan => attributes_for(:lesson_plan,
-#   #                                                      :without_title)
-#   #                     }, :format => :json
-#   #     body = JSON.parse(response.body)
 
-#   #     expect(body['errors']).to_not be_empty
-#   #   end
+  end
 
-#   #   it 'will return succesful response with valid attributes' do
-#   #     process :create, method: :post,
-#   #             params: { :lesson_plan => attributes_for(:lesson_plan) },
-#   #             :format => :json
+  describe 'PATCH #update' do
 
-#   #     expect(response).to be_success
-#   #   end
+    before do
+      sign_in teacher
+    end
 
-#   #   it 'will create lesson in database with valid attributes' do
-#   #     expect {
-#   #     process :create, method: :post,
-#   #             params: { :lesson_plan => attributes_for(:lesson_plan) },
-#   #             :format => :json
-#   #     }.to change{LessonPlan.count}.by(1)
-#   #   end
+    it 'will be a success with correct params' do
+      put :update,  params: {id: teacher.id, teacher: {id: teacher.id, first_name: "Alex", last_name: "Lach", state: "Massachusetts"}}, format: :json
+      expect(response).to be_success
+    end
 
-#   #   it 'will return same created object with valid attributes' do
-#   #     process :create, method: :post,
-#   #             params: { :lesson_plan => attributes_for(:lesson_plan,
-#   #                                                     title: "Graham Rocks!") },
-#   #             :format => :json
+    it 'will update correctly with correct params' do
+      put :update,  params: {id: teacher.id, teacher: {id: teacher.id, first_name: "Alex", last_name: "Lach", state: "Massachusetts"}}, format: :json
+      expect(json["first_name"]).to eq("Alex")
+    end
 
-#   #     new_lesson = JSON.parse(response.body)
-
-#   #     expect(new_lesson['title']).to eq "Graham Rocks!"
-#   #   end
+    it 'will not update invalid params' do
+      put :update,  params: {id: teacher.id, teacher: {first_name: "", not_allowed: "Lach"}}, format: :json
+      expect(json["status"]).to eq(422)
+    end
 
 
 
-#   # end
+  end
 
-# end
+
+
+end

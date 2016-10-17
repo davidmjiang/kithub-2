@@ -2,8 +2,11 @@
 <div id="lesson-new" class="row">
 
   <div class="col-md-12">
-    <div class="col-md-12">
+    <div class="col-md-10">
       <h2 editable-text="newLesson.title">{{ newLesson.title || 'New Lesson' }}</h2>
+    </div>
+    <div class="col-md-2">
+      <div ui-view='pullrequests'></div>
     </div>
 
     <div class="row">
