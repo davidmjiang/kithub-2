@@ -5,11 +5,24 @@
 			<img class="card-img-top" src="{{profile_photo}}" alt="Profile photo here">
 			<input id="file-input" type="file" ngf-select="upload($file)" ng-model="image" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" ngf-min-height="100">
 			<div class="card-block">
-				<h3 class="card-title">{{teacher.first_name}} {{teacher.last_name}}</h3>
-				<p class="card-text">Location: </p>
-				<select>
+				<h3 ng-mouseover="hoverIn(teacher)" ng-mouseleave="hoverOut(teacher)" ng-hide="teacherEditing" class="card-title">{{teacher.first_name}} {{teacher.last_name}} <span ng-if="teacher.hoverEdit" class="animate-show">
+                <a ng-click="editTeacher()">
+                    <img src="https://cdn2.iconfinder.com/data/icons/freecns-cumulus/16/519584-081_Pen-16.png" alt="">
+                </a>
+            </span></h3>
+        <input type="text" ng-model="teacher.first_name" ng-if="teacherEditing">
+        <input type="text" ng-model="teacher.last_name" ng-if="teacherEditing">
+        <input type="submit" ng-click="updateTeacher()" value="Update" class="btn btn-primary" ng-if="teacherEditing">
+        <input type="submit" ng-click="cancelUpdate()" value="Cancel" class="btn btn-danger" ng-if="teacherEditing">
+				<p class="card-text" ng-if="teacher.state" ng-mouseover="stateHover = true" ng-mouseleave="stateHover = false">State: {{teacher.state }} <span ng-if="stateHover" class="animate-show">
+                <a ng-click="editState()">
+                    <img src="https://cdn2.iconfinder.com/data/icons/freecns-cumulus/16/519584-081_Pen-16.png" alt="">
+                </a>
+            </span></p>
+				<select ng-if="stateEditing" ng-model="teacher.state" ng-change="editState()">
 					<option value={{state}} ng-repeat="state in states">{{state}}</option>
 				</select>
+				<input type="submit" ng-if="!teacher.state" class="btn btn-primary" value="Choose State" ng-click="editState()">
 			</div>
 		</div>
 	</div>
