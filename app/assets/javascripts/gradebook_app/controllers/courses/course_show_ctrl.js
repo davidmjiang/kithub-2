@@ -7,40 +7,43 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", fu
 
   $scope.students = $scope.course.students;
 
-  $scope.assignments = $scope.course.assignments;
+  $scope.assignments = $scope.course.assignments.reverse();
 
 
   for (var i = 0; i < $scope.assignments.length; i++){
-    // if(i === 0) {
-    //   cols.push("First Name");
-    // }
-    // else if (i === 1) {
-    //   cols.push("Last Name");
-    // }
-    // else if(i === 2) {
-    //   cols.push("Email")
-    // }
-    // else {
-      cols.push($scope.assignments[i].assignment_type + ": " + ($scope.assignments[i].title) + "(" + ($scope.assignments[i].possible_score) +")"  );
-    // }
+      cols.push($scope.assignments[i].assignment_type +
+       $scope.assignments[i].id + ": " + ($scope.assignments[i].title) 
+       + "(" + ($scope.assignments[i].possible_score) +")"  );
   }
+  cols.push("Overall")
+
   var rowData = [];
   for(var j = 0; j < $scope.students.length; j++ ) {
+    var rawTotal = 0;
+    var possibleTotal = 0;
     rowData.push($scope.students[j].first_name)
     rowData.push($scope.students[j].last_name)
     rowData.push($scope.students[j].email + $scope.students[j].id )
     for(var i = 0; i < $scope.students[j].submissions.length; i++) {
-      rowData.push($scope.students[j].submissions[i].raw_score);
+      var rawScore = $scope.students[j].submissions[i].raw_score;
+      var possibleScore = $scope.assignments[i].possible_score;
+      //Put default value here;
+      if(rawScore === -1) {
+        
+      }
+      else {
+        rawTotal += rawScore;
+        possibleTotal += possibleScore;
+      }
+      rowData.push(rawScore + " / " + possibleScore);
     }
-
+    rowData.push(Number(rawTotal / possibleTotal * 100).toFixed(2));
     allRows.push(rowData)
     rowData = []
   }
-
-  console.log(allRows.length)
   
   
-  $scope.colCount = $scope.assignments.length + 3;
+  $scope.colCount = $scope.assignments.length + 4;
   $scope.rowCount = $scope.students.length;
   
   $scope.incrementCol = function(direction){
