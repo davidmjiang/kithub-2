@@ -10,4 +10,8 @@ class Student < ApplicationRecord
   has_many :submissions, dependent: :destroy
   has_many :assignments, through: :submissions
 
+  def course_submissions(course)
+    self.submissions.where("assignment_id IN (#{course.assignment_ids})")
+  end
+
 end
