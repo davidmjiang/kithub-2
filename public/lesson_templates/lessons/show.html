@@ -3,7 +3,8 @@
 
   <div class="col-md-12">
     <div class="col-md-10">
-      <h2 editable-text="newLesson.title">{{ newLesson.title || 'New Lesson' }}</h2>
+      <h2 ng-show="editing"  editable-text="lesson.title">{{ lesson.title || 'New Lesson' }}</h2>
+      <h2 ng-hide="editing">{{ lesson.title }}</h2>
     </div>
     <div class="col-md-2">
       <div ui-view='pullrequests'></div>
@@ -11,14 +12,19 @@
 
     <div class="row">
       <div class="col-md-8">
-        <textarea lesson-edit='editorOptions' preview="false" id="editor" ng-model="newLesson.content" ng-if="editing === true"></textarea>
-        <textarea lesson-edit='previewOptions' preview="true" ng-model="newLesson.content"  ng-if="editing === false"></textarea>
+        <textarea lesson-edit='editorOptions' preview="false" id="editor" ng-model="lesson.content" ng-if="editing === true"></textarea>
+        <textarea lesson-edit='previewOptions' preview="true" ng-model="lesson.content"  ng-if="editing === false"></textarea>
 
         <div class="row">
-          <div class="col-md-2">
-              <button class="btn btn-success" ng-click="create()" ng-if="editing === true">Save</button>
+          <div class="col-md-6">
+            <div ng-if="editing === true">
+              <button class="btn btn-success" ng-click="save()">Save</button>
+              <button class="btn btn-danger" ng-click="toggleEditing()">Cancel</button>
+            </div>
+            <div ng-if="editing === false">
               <button class="btn btn-primary" ng-click="toggleEditing()">Edit</button>
             </div>
+          </div>
         </div>
       </div>
 
@@ -29,13 +35,13 @@
           <div class="form-group row">
             <label for="example-text-input" class="col-md-6 col-form-label">Estimated Time (in hrs)</label>
             <div class="col-md-6">
-              <input class="form-control" type="number" min="0" ng-model="newLesson.hours">
+              <input class="form-control" type="number" min="0" ng-model="lesson.hours">
             </div>
           </div>
           <div class="form-group row">
             <label for="example-search-input" class="col-md-6 col-form-label">State</label>
             <div class="col-md-6">
-              <select ng-model="newLesson.state" class="form-control">
+              <select ng-model="lesson.state" class="form-control">
                 <option ng-repeat="state in states" value="{{ state }}">{{ state }}</option>
               </select>
             </div>
@@ -43,7 +49,7 @@
           <div class="form-group row">
             <label class="col-md-6 col-form-label">Grade</label>
             <div class="col-md-6">
-              <select ng-model="newLesson.grade" class="form-control">
+              <select ng-model="lesson.grade" class="form-control">
                 <option ng-repeat="grade in grades" value="{{ grade }}">{{ grade }}</option>
               </select>
             </div>
@@ -51,13 +57,13 @@
           <div class="form-group row">
             <label class="col-md-6 col-form-label">Subject</label>
             <div class="col-md-6">
-              <input class="form-control" type="text" ng-model="newLesson.subject">
+              <input class="form-control" type="text" ng-model="lesson.subject">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-md-6 col-form-label">Lesson Type</label>
             <div class="col-md-6">
-              <input class="form-control" type="text" ng-model="newLesson.lesson_type">
+              <input class="form-control" type="text" ng-model="lesson.lesson_type">
             </div>
           </div>
         </div>
