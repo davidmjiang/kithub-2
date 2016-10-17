@@ -72,6 +72,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   # Collection of testing matchers 
   gem 'shoulda-matchers'
+  gem 'pry'
 
   ######################
 
