@@ -1,4 +1,4 @@
-Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "GPAService", function($scope, course, StudentService, GPAService){
+Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "GPAService", "ModalService", function($scope, course, StudentService, GPAService, ModalService){
 
   var cols =[];
   var allRows= [];
@@ -64,6 +64,22 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
         $scope.rowCount --;
       } 
     }
+  }
+
+  $scope.showAssignmentModal = function(assignment) {
+    ModalService.showModal({
+      templateUrl: "gradebook_templates/assignments/show.html",
+      controller: "AssignmentShowCtrl", 
+      inputs: {
+        assignment: assignment, 
+        course: course
+      }
+    }).then(function(modal) {
+      modal.element.modal();
+      modal.close.then(function(response) {
+        // update course show
+      })
+    })
   }
   
   $scope.cols = cols;
