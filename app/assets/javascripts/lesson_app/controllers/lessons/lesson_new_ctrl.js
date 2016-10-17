@@ -26,10 +26,6 @@ Lesson.controller('LessonNewCtrl', ['$scope', 'LessonService', 'currentUser', 'R
     lesson_type: ""
   };
 
-  $scope.editor.codemirror.on('change', function() {
-      console.log($scope.editor.value() )
-  });
-
   $scope.create = function() {
     LessonService.create($scope.newLesson);
   };
