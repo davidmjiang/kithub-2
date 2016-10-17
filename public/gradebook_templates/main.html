@@ -16,7 +16,7 @@
     <tr>
       <th ng-repeat="col in cols | limitTo: colCount">{{col}}</th>
     </tr>
-    <tr ng-repeat="row in data">
+    <tr ng-repeat="row in allRows">
       <td ng-repeat="item in row | limitTo: colCount">{{item}}</td>
     </tr>
   </table>
@@ -26,4 +26,3 @@
 
 
 
-  

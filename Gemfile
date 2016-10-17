@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-##### ADDED GEMS #####
+
 
 # help
 gem 'spring-commands-rspec', group: :development
@@ -30,7 +30,7 @@ end
 gem 'jquery-ui-rails'
 # to be able to user assert_template in controller testing 
 gem 'rails-controller-testing'
-######################
+
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
@@ -62,14 +62,15 @@ gem 'jbuilder', '~> 2.5'
 
 group :development, :test do
 
-  ##### ADDED GEMS #####
+
 
   # Testing framework
   gem 'rspec-rails'
   # Replacement for fixtures
   gem 'factory_girl_rails'
+  # Collection of testing matchers 
+  gem 'shoulda-matchers'
 
-  ######################
 
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
@@ -77,7 +78,7 @@ end
 
 group :development do
 
-  ##### ADDED GEMS #####
+
 
   # Nice display for SQL responses
   gem 'hirb'
@@ -90,7 +91,7 @@ group :development do
   # Fake email sending
   gem "letter_opener"
 
-  ######################
+
 
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console'
