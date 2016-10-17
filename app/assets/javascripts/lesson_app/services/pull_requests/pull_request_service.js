@@ -1,7 +1,8 @@
 Lesson.factory("pullRequestService", ["Restangular",
                                   "$state",
                                   "Auth",
-                                  function(Restangular, $state, Auth) {
+                                  "$stateParams",
+                                  function(Restangular, $state, Auth, $stateParams) {
   // array of all pull requests with their
   var _pullRequests = []
 
@@ -19,6 +20,21 @@ Lesson.factory("pullRequestService", ["Restangular",
     return _pullRequests;
   }
 
+  var getNewPullRequest = function() {
+    return {
+      forked_plan_id: $stateParams.id,
+      status: "pending",
+      parent_plan_id: 38
+    }
+  }
+
+  var createNewPullRequest = function(data) {
+    Restangular.one("lesson_plans", $stateParams.id).all("pull_requests").post({
+      pull_request: data
+    }).then(function(response){
+      _pullRequests << response
+    })
+  }
   // var getBoard = function(id) {
   //   return Restangular.one('boards', Number(id)).get()
   // }
@@ -62,5 +78,7 @@ Lesson.factory("pullRequestService", ["Restangular",
   return {
     all: all,
     getPullRequests: getPullRequests,
+    getNewPullRequest: getNewPullRequest,
+    createNewPullRequest: createNewPullRequest
   }
 }]);

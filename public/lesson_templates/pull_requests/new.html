@@ -1,0 +1,85 @@
+<button type="button"
+        class="btn btn-info pull-right"
+        data-toggle="modal"
+        data-target="#newPRModal{{ newPR.forked_plan_id }}">
+  New Pull Request</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade large"
+     id="newPRModal{{ newPR.forked_plan_id }}"
+     tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true" style="width: 90%; margin-left:5%;">
+
+  <div class="modal-admin" role="document" style="width: 100%;">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <!-- x button -->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+        <h4 class="modal-title" id="myModalLabel">
+          New Pull Request
+        </h4>
+      </div>
+
+      <div class="modal-body">
+          <form>
+            <h2>Pull Request Title:</h2>
+            <h2><input type="text" name="" ng-model="newPR.title"></h2>
+
+            <h2>Pull Request Description:</h2>
+            <textarea ng-model="newPR.description"></textarea>
+
+
+          </form>
+          <h5>{{ pullRequest.description }}</h5>
+          <h5>{{ pullRequest.status }}</h5>
+
+          <div>
+            <div class="card">
+              <div class="card-block">
+                <h4 class="card-title">Parent Plan: {{ pullRequest["parent_plan"]["title"] }}</h4>
+
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-block">
+                <h4 class="card-title">Forked Plan: {{ pullRequest["forked_plan"]["title"] }}</h4>
+
+              </div>
+            </div>
+
+          </div>
+
+          <a href="#" class="btn primary-color">Compare Lessons</a>
+
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal">
+
+               Cancel
+        </button>
+
+
+        <button type="button"
+                class="btn btn-secondary"
+                ng-click="createNewPullRequest()"
+                data-dismiss="modal">
+
+                Create New Pull Request
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>
