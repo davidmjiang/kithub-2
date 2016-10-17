@@ -28,8 +28,11 @@
       </div>
       <div class="modal-body">    
         <h4>{{assignment.type}}</h4>
+
+        <h5>Average score: {{rawGPA | number:2 }}%</h5>
+
         <p>
-          Max Score: {{assignment.possible_score}}
+          Points possible: {{assignment.possible_score}}
         </p>
         <p>
           Last Updated: {{assignment.updated_at | date}}
