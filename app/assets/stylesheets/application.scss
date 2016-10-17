@@ -14,10 +14,6 @@
  */
 
 
-
-
- @import "bootstrap";
-
 $primary-color: #B3C100; /*fields*/;
 $secondary-color: #B7B8B6; /*granite*/;
 $ternary-color: #34675C; /*pine*/;
@@ -64,5 +60,10 @@ $blue-sky-color: #4CB5F5; /*blue-sky*/;
  @import "font-awesome";
  @import "simplemde.min";
  @import "lesson_styles/lesson_new";
+<<<<<<< HEAD
  @import "lesson_styles/teachers"
 
+=======
+ @import "lesson_styles/teachers";
+ @import "gradebook_styles/courses";
+>>>>>>> 7d71d41661cfd1fd0830b1381a27aea205f6774a

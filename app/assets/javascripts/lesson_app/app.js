@@ -1,5 +1,8 @@
 "use strict";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7d71d41661cfd1fd0830b1381a27aea205f6774a
 var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise", 'ngFileUpload', "xeditable"]);
 
 angular.module('Lesson').factory('_', ['$window', function($window) {
@@ -82,43 +85,59 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 		})
 		.state('main.lessons', {
       url: '/lessons',
-      template: "<div ui-view='lessonsNew'></div><div ui-view='newPullRequest'></div><div ui-view='lessonsShow'></div>",
+      template: "<div ui-view='newPullRequest'></div><div ui-view='lessonsShow'></div>",
 			abstract: true
 		})
 
-		.state('main.lessons.new', {
-      url: '/new',
-      views: {
-        lessonsNew: {
-          templateUrl: "lesson_templates/lessons/new.html",
-          controller: "LessonNewCtrl"
+// <<<<<<< HEAD
+// 		.state('main.lessons.new', {
+//       url: '/new',
+//       views: {
+//         lessonsNew: {
+//           templateUrl: "lesson_templates/lessons/new.html",
+//           controller: "LessonNewCtrl"
 
-        }
-      }
-    })
+//         }
+//       }
+//     })
+// =======
+// 		// .state('main.lessons.show')
+// 		// .state('main.lessons.new', {
+//   //     url: '/new',
+//   //     templateUrl: "lesson_templates/lessons/new.html",
+//   //     controller: "LessonNewCtrl"
+//   //   })
+// >>>>>>> 7d71d41661cfd1fd0830b1381a27aea205f6774a
 
 		// .state('main.lessons.pullrequests')
 		.state('main.lessons.show', {
       url: '/:id',
       views: {
-        lessonsShow: {
-          template: "<div ui-view='pullrequests'></div>",
-        },
 
-        newPullRequest: {
-          templateUrl: "lesson_templates/pull_requests/new.html",
-           controller: "PullRequestNewCtrl",
-           resolve: {
-            forkedLesson: ["LessonService", "$stateParams", function(LessonService, $stateParams){
-            return LessonService.getLesson($stateParams.id)
+      newPullRequest: {
+        templateUrl: "lesson_templates/pull_requests/new.html",
+         controller: "PullRequestNewCtrl",
+         resolve: {
+          forkedLesson: ["LessonService", "$stateParams", function(LessonService, $stateParams){
+          return LessonService.getLesson($stateParams.id)
 
-           }]
+         }]}},
+
+        '@main.lessons': {
+          templateUrl: "lesson_templates/lessons/show.html",
+          controller: "LessonShowCtrl",
+          resolve: {
+            lesson: ['LessonService', '$stateParams', function(LessonService, $stateParams) {
+              return LessonService.getLesson($stateParams.id).then(function(response) {
+                return response;
+              });
+            }]
 
           }
         }
       }
     })
-		// .state('main.lessons.new')
+
 		.state('main.lessons.show.pullRequests', {
       url: '/pullrequests',
       views: {
