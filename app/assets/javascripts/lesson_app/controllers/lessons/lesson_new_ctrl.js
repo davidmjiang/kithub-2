@@ -6,9 +6,14 @@ Lesson.controller('LessonNewCtrl', ['$scope', 'LessonService', 'currentUser', 'R
   $scope.states = LessonService.getStates();
   $scope.grades = LessonService.getGrades();
   $scope.editorOptions = {
+    autoDownloadFontAwesome: false,
     spellChecker: false,
     placeholder: "Lesson plan...",
-    status: false
+    autosave: {
+      enabled: true,
+      uniqueId: "lessonEditor", 
+    },
+    status: ["autosave", "lines", "words"]
   };
 
   $scope.newLesson = {
