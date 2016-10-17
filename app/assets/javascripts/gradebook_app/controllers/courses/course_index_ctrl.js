@@ -1,4 +1,4 @@
-Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList", function($scope, ModalService, courseList) {
+Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList", "NgTableParams", function($scope, ModalService, courseList, NgTableParams) {
 
   $scope.courses = courseList;
 
@@ -15,4 +15,10 @@ Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList",
         // remove leftover modal DOM elements if necessary
       })
     })  }
+
+
+      $scope.kids = [{firstName: "Moroni", lastName: "Wilks", email: "foobar1@gmail.com", assignments: [{type: "homework", score: 50}]}];
+  $scope.tableParams = new NgTableParams({page: 1, count: 10}, { dataset: $scope.kids});
+
+
 }])

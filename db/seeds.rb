@@ -36,9 +36,21 @@ t = Teacher.create(email: person,
   2.times do
     c = t.courses.create(title: Faker::Educator.course)
     5.times do
-      c.assignments.create(title: Faker::Space.star,
+      assignment = c.assignments.create(title: Faker::Space.star,
                            assignment_type: assignment_type.sample,
                            possible_score: rand(10..100))
+    end
+    puts 'creating students'
+    6.times do |i|
+      s = Student.create(first_name: Faker::Name.first_name,
+                         last_name: Faker::Name.last_name,
+                         email: Faker::Internet.safe_email)
+      s.courses << c;
+      c.assignments.each do |assignment| 
+        puts "creating submissions for students"
+        s.submissions.create(assignment_id: assignment.id,
+                            raw_score: rand(0..assignment.possible_score ))
+      end
     end
   end
 
@@ -94,20 +106,6 @@ puts 'creating pull requests'
   pr = PullRequest.create(title: Faker::Hipster.word, parent_plan_id: l.id, forked_plan_id: l2.id)
   t = Teacher.all.sample
   pr.comments.create(body: Faker::Company.catch_phrase, teacher_id: t.id)
-end
-
-
-
-puts 'creating students'
-40.times do |i|
-  s = Student.create(first_name: Faker::Name.first_name,
-                     last_name: Faker::Name.last_name,
-                     email: Faker::Internet.safe_email)
-  randCourse = Course.all.sample
-  s.student_courses.create(course_id: randCourse.id)
-  randAssignment = Assignment.where(course_id: randCourse.id).sample
-  s.submissions.create(assignment_id: randAssignment.id,
-                      raw_score: rand(0..randAssignment.possible_score ))
 end
 
 
