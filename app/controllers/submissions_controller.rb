@@ -2,9 +2,14 @@ class SubmissionsController < ApplicationController
 
   def create
     @submission = Submission.new(submission_params)
-    if @submission.save
-      respond_to do |format|
+    respond_to do |format|
+      if @submission.save
         format.json {render json: @submission}
+      else
+        format.json { render json: {
+                                            errors: @submission.errors.full_messages },
+                                            :status => 422
+                                           }
       end
     end
   end

@@ -2,9 +2,14 @@ class AssignmentsController < ApplicationController
 
   def create
     @assignment = Assignment.new(assignment_params)
-    if @assignment.save
-      respond_to do |format|
+    respond_to do |format|
+      if @assignment.save
         format.json {render json: @assignment, include: :submissions}
+      else
+        format.json { render json: {
+                                            errors: @assignment.errors.full_messages },
+                                            :status => 422
+                                           }
       end
     end
   end
