@@ -5,6 +5,7 @@ Lesson.controller('LessonNewCtrl', ['$scope', 'LessonService', 'currentUser', 'R
   $scope.currentUser = currentUser;
   $scope.states = LessonService.getStates();
   $scope.grades = LessonService.getGrades();
+  $scope.editing = false;
   $scope.editorOptions = {
     autoDownloadFontAwesome: false,
     spellChecker: false,
@@ -14,6 +15,12 @@ Lesson.controller('LessonNewCtrl', ['$scope', 'LessonService', 'currentUser', 'R
       uniqueId: "lessonEditor", 
     },
     status: ["autosave", "lines", "words"]
+  };
+  $scope.previewOptions = {
+    autoDownloadFontAwesome: false,
+    spellChecker: false,
+    toolbar: false,
+    status: false
   };
 
   $scope.newLesson = {
@@ -28,6 +35,11 @@ Lesson.controller('LessonNewCtrl', ['$scope', 'LessonService', 'currentUser', 'R
 
   $scope.create = function() {
     LessonService.create($scope.newLesson);
+    $scope.toggleEditing();
+  };
+
+  $scope.toggleEditing = function() {
+    $scope.editing = !$scope.editing;
   };
 
 }]);
