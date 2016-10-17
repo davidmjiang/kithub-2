@@ -13,14 +13,23 @@ class CoursesController < ApplicationController
       respond_to do |format|
         format.json {render json: @course, include: [{students: {include: :submissions}}, {assignments: {include: :submissions}}]}
       end
+      # # use jbuilder instead - see views/courses/show.json.jbuilder
+      # respond_to do |format|
+      #   format.json {render json: @course, include: [:students, {assignments: {include: :submissions}}]}
+      # end
     end
   end
 
   def create
     @course = current_teacher.courses.build(course_params)
-    if current_teacher.save
-      respond_to do |format|
+    respond_to do |format|
+      if @course.save
         format.json {render json: @course, include: [:students, {assignments: {include: :submissions}}]}
+      else
+        format.json { render json: {
+                                            errors: @course.errors.full_messages },
+                                            :status => 422
+                                           }
       end
     end
   end

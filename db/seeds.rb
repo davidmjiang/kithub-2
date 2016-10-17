@@ -15,6 +15,7 @@ TeacherFollowing.destroy_all
 LessonPlanContributor.destroy_all
 LessonPlanStar.destroy_all
 PullRequest.destroy_all
+LessonPlanStandard.destroy_all
 
 teachers = ['mike@gmail.com', 'matt@gmail.com', 'graham@gmail.com', 'david@gmail.com', 'hannah@gmail.com', 'alex@gmail.com', 'dylan@gmail.com', 'leo@gmail.com', 'phil@gmail.com']
 assignment_type = ['test', 'quiz', 'homework', 'project']
@@ -116,6 +117,98 @@ puts 'creating standards'
                   subject: subjects.sample)
   4.times do
     l = LessonPlan.all.sample
+    while (st.lesson_plans.include?(l))
+      l = LessonPlan.all.sample
+    end
     l.standards << st
   end
 end
+
+
+
+
+
+
+puts 'creating sample gradebook'
+
+class Gradebook 
+
+  MAX_CLASS_SIZE = 28
+  NUM_STUDENTS = 40
+  @@assignment_type = ['test', 'quiz', 'homework', 'project']
+
+
+  def fake_gradebook_data 
+    create_teacher
+    create_teacher_courses
+    create_students
+    assign_students_to_courses
+    create_assignments_for_courses
+    create_submissions_for_assignments
+  end
+
+
+  private 
+
+  def create_teacher
+    @teacher = Teacher.create(email: "matthew.hinea@gmail.com",
+                          password: "password",
+                          first_name: "Matthew", 
+                          last_name: "Hinea", 
+                          state: "Washington", 
+                          )
+  end
+
+  def create_teacher_courses
+    @algebra = @teacher.courses.create(title: "Algebra")
+    @history = @teacher.courses.create(title: "American History")
+    @biology = @teacher.courses.create(title: "Biology")
+    @flight_simulator = @teacher.courses.create(title: "Flight Simulator")
+    @gym = @teacher.courses.create(title: "Gym")
+    @all_courses = [@algebra, @history, @biology, @flight_simulator, @gym]
+  end
+
+  def create_students
+    @students = []
+    NUM_STUDENTS.times do |i|
+      student = Student.create(first_name: Faker::Name.first_name,
+                     last_name: Faker::Name.last_name,
+                     email: Faker::Internet.safe_email)    
+      @students.push(student)
+    end
+  end
+
+  def assign_students_to_courses
+    @all_courses.each do |course|
+      course.students = @students.dup.shuffle[0..rand(18..MAX_CLASS_SIZE)]
+    end
+  end
+
+  def create_assignments_for_courses
+    @all_courses.each do |course|
+      num_assignments = rand(8..16)
+      num_assignments.times do |idx|
+        type = @@assignment_type.sample
+        assignment = course.assignments.create(title: "Assignment #{idx}: #{type}",
+                           assignment_type: type,
+                           possible_score: rand(10..100))
+      end
+    end
+  end
+
+  def create_submissions_for_assignments
+    @all_courses.each do |course|
+      course.assignments.each do |assignment|
+        course.students.each do |student|
+          if rand(0..100) < 90  
+            student.submissions.create(assignment_id: assignment.id,
+                      raw_score: rand(0..assignment.possible_score ))
+          end
+        end
+      end
+    end
+  end
+
+end
+
+Gradebook.new.fake_gradebook_data

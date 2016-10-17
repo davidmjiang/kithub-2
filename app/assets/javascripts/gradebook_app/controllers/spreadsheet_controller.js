@@ -7,10 +7,13 @@ Gradebook.controller('SpreadsheetCtrl', ['$scope', 'ModalService', function($sco
         var location = "student controller, showStudent modal"
         console.log(location)
         $scope.message = location
-      }]
       // inputs: {
       //   student: student
       // }
+      }],
+      inputs: {
+        student: student
+      }
     }).then(function(modal) {
       modal.element.modal();
       //modal.close.then(function(result) {
@@ -27,10 +30,14 @@ Gradebook.controller('SpreadsheetCtrl', ['$scope', 'ModalService', function($sco
         var location = 'AssignmentCtrl, assignmentShowModal'
         console.log(location)
         $scope.message = location
-      }]
       // inputs: {
       //   assignment: assignment
       // }
+      }],
+      inputs: {
+        assignment: assignment
+      }
+
     }).then(function(modal) {
       modal.element.modal();
       //modal.close.then(function(result) {
