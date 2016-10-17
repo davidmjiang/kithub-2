@@ -1,10 +1,7 @@
 #lesson-new {
-  // #editor {
-  //   height: 400px;
-  //   width: 70%;
-  // }
 
-  .CodeMirror {
-    height: 100%;
+  .CodeMirror, .CodeMirror-scroll {
+    min-height: 500px;
   }
+  
 }

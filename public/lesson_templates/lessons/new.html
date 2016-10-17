@@ -3,12 +3,12 @@
 
   <div class="col-md-12">
     <div class="col-md-12">
-      <h1 editable-text="newLesson.title">{{ newLesson.title || 'New Lesson' }}</h1>
+      <h2 editable-text="newLesson.title">{{ newLesson.title || 'New Lesson' }}</h2>
     </div>
 
     <div class="row">
       <div class="col-md-8">
-        <textarea simplemde='editorOptions' id="editor" ng-model="newLesson.content"></textarea>
+        <textarea lesson-edit='editorOptions' id="editor" ng-model="newLesson.content"></textarea>
       </div>
 
 
