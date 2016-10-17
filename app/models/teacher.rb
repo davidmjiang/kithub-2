@@ -2,7 +2,7 @@ class Teacher < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   validates :email, presence: true, uniqueness: true
-  validates :password, presence: true
+  validates :password, presence: true, on: :create
   validates :first_name, presence: true
   validates :last_name, presence: true
 
@@ -33,4 +33,9 @@ class Teacher < ApplicationRecord
 
   #one to many relationship for courses
   has_many :courses
+
+  #paperclip for photo attachment
+  has_attached_file :avatar, 
+                    :styles => {profile: "300 x300"}
+  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
 end

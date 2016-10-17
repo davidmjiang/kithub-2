@@ -1,8 +1,7 @@
 Lesson.factory("pullRequestService", ["Restangular",
                                   "$state",
                                   "Auth",
-                                  "$stateParams",
-                                  function(Restangular, $state, Auth, $stateParams) {
+                                  function(Restangular, $state, Auth) {
   // array of all pull requests with their
   var _pullRequests = []
 
@@ -20,16 +19,16 @@ Lesson.factory("pullRequestService", ["Restangular",
     return _pullRequests;
   }
 
-  var getNewPullRequest = function() {
+  var getNewPullRequest = function(lessonId) {
     return {
-      forked_plan_id: $stateParams.id,
+      forked_plan_id: lessonId,
       status: "pending",
       parent_plan_id: 38
     }
   }
 
-  var createNewPullRequest = function(data) {
-    Restangular.one("lesson_plans", $stateParams.id).all("pull_requests").post({
+  var createNewPullRequest = function(data, lessonId) {
+    Restangular.one("lesson_plans", lessonId).all("pull_requests").post({
       pull_request: data
     }).then(function(response){
       _pullRequests << response
