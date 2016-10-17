@@ -12,7 +12,7 @@ Lesson.controller('LessonNewCtrl', ['$scope', 'LessonService', 'currentUser', 'R
   };
 
   $scope.newLesson = {
-    title: "Title",
+    title: "Lesson Title",
     content: "",
     hours: 1,
     state: $scope.states[0],
