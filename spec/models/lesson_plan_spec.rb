@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-#runs two tests to check if assignment is valid with a title and invalid without title
+
 describe LessonPlan do
 
   let(:lesson_plan){ create(:lesson_plan) }
@@ -23,6 +23,12 @@ describe LessonPlan do
     sad_assignment = build(:lesson_plan, :long_title)
     expect(sad_assignment).to_not be_valid
   end
+
+  it {should validate_numericality_of(:hours)
+    .is_greater_than_or_equal_to(0)
+  }
+
+  it { should validate_presence_of(:content)}
 
   #testing associations
   it { should belong_to(:teacher) }
@@ -48,3 +54,4 @@ describe LessonPlan do
   it { should have_many(:contributors) }
 
 end
+
