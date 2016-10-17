@@ -11,4 +11,15 @@ class Course < ApplicationRecord
   has_many :student_courses, dependent: :destroy
   has_many :students, through: :student_courses
 
+
+
+
+  def points_possible
+    points = 0
+    self.assignments.each do |assignment|
+      points += assignment.possible_score
+    end
+    points
+  end
+
 end
