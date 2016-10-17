@@ -107,11 +107,16 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 
         newPullRequest: {
           templateUrl: "lesson_templates/pull_requests/new.html",
-           controller: "PullRequestNewCtrl"
+           controller: "PullRequestNewCtrl",
+           resolve: {
+            forkedLesson: ["LessonService", "$stateParams", function(LessonService, $stateParams){
+            return LessonService.getLesson($stateParams.id)
 
+           }]
+
+          }
         }
       }
-
     })
 		// .state('main.lessons.new')
 		.state('main.lessons.show.pullRequests', {

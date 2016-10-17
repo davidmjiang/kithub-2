@@ -34,6 +34,14 @@ Lesson.factory("pullRequestService", ["Restangular",
       _pullRequests << response
     })
   }
+
+  var createNewComment = function(data) {
+    Restangular.all("comments").post({
+      comment: data
+    }).then(function(response) {
+      // add comment to _pullRequests.comment
+    })
+  }
   // var getBoard = function(id) {
   //   return Restangular.one('boards', Number(id)).get()
   // }
@@ -78,6 +86,7 @@ Lesson.factory("pullRequestService", ["Restangular",
     all: all,
     getPullRequests: getPullRequests,
     getNewPullRequest: getNewPullRequest,
-    createNewPullRequest: createNewPullRequest
+    createNewPullRequest: createNewPullRequest,
+    createNewComment: createNewComment
   }
 }]);
