@@ -1,4 +1,6 @@
-var Gradebook = angular.module( 'Gradebook', ['ui.router', 'restangular','Devise', 'angularModalService',"ngTable"]);
+
+var Gradebook = angular.module( 'Gradebook', ['ui.router', 'restangular','Devise', 'angularModalService',"ngTable", "d3"]);
+
 
 Gradebook.config([
   'RestangularProvider',
@@ -12,7 +14,7 @@ Gradebook.config([
 
 Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise("/gradebook");
+  $urlRouterProvider.otherwise("/");
 
   $stateProvider
 
@@ -68,22 +70,35 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
         // }
       }
     })
-  
+
     .state ('gradebook.courseIndex', {
       url: '',
       templateUrl: '/gradebook_templates/courses/index.html',
       controller: 'CourseIndexCtrl'
     })
 
+    .state('gradebook.dataVisuals', {
+      url: 'visuals',
+      templateUrl: "/gradebook_templates/visuals/course_gpas.html",
+      controller: "DataVisualsCtrl",
+      resolve: {
+        'courseGPAs': ['VisualService', function(VisualService) {
+          return VisualService.courseGPAs()
+        }]
+      }
+    })
+
     .state ('gradebook.courseShow', {
-      url: '/:id',
+      url: ':id',
       templateUrl: '/gradebook_templates/courses/show.html',
       controller: 'CourseShowCtrl',
       resolve: {
-      'course': ['CourseService', '$stateParams', function(CourseService, $stateParams) {
-        return CourseService.getCourse($stateParams.id)
+        'course': ['CourseService', '$stateParams', function(CourseService, $stateParams) {
+          return CourseService.getCourse($stateParams.id)
         }]
       }
     })
 }]);
+
+
 
