@@ -7,10 +7,10 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(teacher)
-  	"/#/teachers/#{teacher.id}"
+  	"/#/teachers/#{teacher.id}/overview"
   end
 
   def after_sign_up_path_for(teacher)
-  	"/#/teachers/#{teacher.id}"
+  	"/#/teachers/#{teacher.id}/overview"
   end
 end
