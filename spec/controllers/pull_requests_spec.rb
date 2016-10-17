@@ -12,7 +12,7 @@ describe PullRequestsController do
     before do
       lesson_plan
       sign_in teacher
-      get :index, lesson_plan_id: lesson_plan.id, format: :json
+      process :index, method: :get, params: { lesson_plan_id: lesson_plan.id }, format: :json
     end
 
     it "will return a succesful response" do
