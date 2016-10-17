@@ -10,7 +10,6 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *= require ng-table.min
-*= require_tree .
  */
 
 
@@ -59,4 +58,5 @@ $blue-sky-color: #4CB5F5; /*blue-sky*/;
 }
 
  @import "bootstrap";
- @import "lesson_styles/teachers"
+ @import "lesson_styles/teachers";
+ @import "gradebook_styles/courses";
