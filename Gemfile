@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-##### ADDED GEMS #####
+
 
 # help
 gem 'spring-commands-rspec', group: :development
@@ -30,7 +30,7 @@ end
 gem 'jquery-ui-rails'
 # to be able to user assert_template in controller testing 
 gem 'rails-controller-testing'
-######################
+
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
@@ -62,7 +62,7 @@ gem 'jbuilder', '~> 2.5'
 
 group :development, :test do
 
-  ##### ADDED GEMS #####
+
 
   # Testing framework
   gem 'rspec-rails'
@@ -72,7 +72,6 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'pry'
 
-  ######################
 
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
@@ -80,7 +79,7 @@ end
 
 group :development do
 
-  ##### ADDED GEMS #####
+
 
   # Nice display for SQL responses
   gem 'hirb'
@@ -93,7 +92,7 @@ group :development do
   # Fake email sending
   gem "letter_opener"
 
-  ######################
+
 
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console'
@@ -107,4 +106,4 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Ruby version for deployment
-ruby "2.2.4"
+ruby "2.2.2"

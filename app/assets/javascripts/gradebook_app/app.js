@@ -1,4 +1,6 @@
-var Gradebook = angular.module( 'Gradebook', ['ui.router', 'restangular','Devise', 'angularModalService', 'd3']);
+
+var Gradebook = angular.module( 'Gradebook', ['ui.router', 'restangular','Devise', 'angularModalService',"ngTable", "d3"]);
+
 
 Gradebook.config([
   'RestangularProvider',
@@ -18,7 +20,16 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
 
     .state('gradebook', {
       abstract: true,
-      url: '/',
+      url: '',
+
+      views: {
+        "main": {
+          templateUrl: 'gradebook_templates/main.html',
+          controller: "ClassesIndexCtrl"
+        }
+      },
+
+
       resolve: {
         // currentUser: ["Auth", function(Auth) {
         //   return Auth.currentUser().then(function(user) {

@@ -1,0 +1,28 @@
+
+<h1>Gradebook index page!</h1>
+
+
+<!-- <table ng-table="tableParams" class="table" show-filter="true">
+    <tr ng-repeat="user in $data">
+        <td title="'First Name'" filter="{ firstName: 'text'}" sortable="'firstName'">
+            {{user.firstName}}</td>
+        <td title="'Last Name'" filter="{ lastName: 'text'}" sortable="'lastName'">
+            {{user.lastName}}</td>
+    </tr>
+</table> -->
+
+
+ <table class="table table-bordered">
+    <tr>
+      <th ng-repeat="col in cols | limitTo: colCount">{{col}}</th>
+    </tr>
+    <tr ng-repeat="row in allRows">
+      <td ng-repeat="item in row | limitTo: colCount">{{item}}</td>
+    </tr>
+  </table>
+
+  <button class="btn btn-success" ng-click="increment('up')">Add Column</button>
+  <button class="btn btn-danger" ng-click="increment('down')">Remove Column</button>
+
+
+
