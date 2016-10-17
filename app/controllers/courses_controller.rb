@@ -24,7 +24,7 @@ class CoursesController < ApplicationController
     @course = current_teacher.courses.build(course_params)
     respond_to do |format|
       if @course.save
-        format.json {render json: @course, include: [:students, {assignments: {include: :submissions}}]}
+        format.json {render json: @course, include: [{students: {include: :submissions}}, {assignments: {include: :submissions}}]}
       else
         format.json { render json: {
                                             errors: @course.errors.full_messages },
