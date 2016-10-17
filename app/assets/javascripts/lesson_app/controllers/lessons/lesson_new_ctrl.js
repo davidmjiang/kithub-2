@@ -26,6 +26,8 @@ Lesson.controller('LessonNewCtrl', ['$scope', 'LessonService', 'currentUser', 'R
     lesson_type: ""
   };
 
+  LessonService.getLesson(4);
+
   // $scope.editor.codemirror.on('change', function() {
   //     console.log($scope)
   //     $scope.newLesson.hours++

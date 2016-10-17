@@ -27,6 +27,14 @@ Lesson.factory('LessonService', ['Restangular', function(Restangular) {
     });
   };
 
+  lessonService.getLesson = function(lesson_id) {
+    Restangular.one('lesson_plans', Number(lesson_id) ).get().then(function(response) {
+      return response;
+    }, function() {
+      // error handling
+    });
+  };
+
 
   return lessonService;
 
