@@ -2,4 +2,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', function($scope, cou
 
   $scope.course = course;
 
+  $scope.rawGPA = GPAService
+
 }])
