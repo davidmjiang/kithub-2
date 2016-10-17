@@ -67,7 +67,7 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
     })
 
     .state('gradebook.dataVisuals', {
-      url: 'visualssss',
+      url: 'visuals',
       templateUrl: "/gradebook_templates/visuals/course_gpas.html",
       controller: "DataVisualsCtrl",
       resolve: {
