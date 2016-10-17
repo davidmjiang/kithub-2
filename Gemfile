@@ -28,7 +28,7 @@ source 'https://rails-assets.org' do
 end
 # JQuery UI for angular-modal
 gem 'jquery-ui-rails'
-# to be able to user assert_template in controller testing 
+# to be able to user assert_template in controller testing
 gem 'rails-controller-testing'
 
 
@@ -68,7 +68,7 @@ group :development, :test do
   gem 'rspec-rails'
   # Replacement for fixtures
   gem 'factory_girl_rails'
-  # Collection of testing matchers 
+  # Collection of testing matchers
   gem 'shoulda-matchers'
   gem 'pry'
 
