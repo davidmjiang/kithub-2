@@ -14,7 +14,7 @@ Gradebook.config([
 
 Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise("/");
+  $urlRouterProvider.otherwise("/foo");
 
   $stateProvider
 
@@ -89,7 +89,7 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
     })
 
     .state ('gradebook.courseShow', {
-      url: ':id',
+      url: '/:id',
       templateUrl: '/gradebook_templates/courses/show.html',
       controller: 'CourseShowCtrl',
       resolve: {

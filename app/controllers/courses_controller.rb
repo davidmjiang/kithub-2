@@ -9,15 +9,15 @@ class CoursesController < ApplicationController
 
   def show
     @course = Course.find(params[:id])
-    if @course.teacher == current_teacher
-      respond_to do |format|
-        format.json {render json: @course, include: [{students: {include: :submissions}}, {assignments: {include: :submissions}}]}
-      end
+    # if @course.teacher == current_teacher
+    #   respond_to do |format|
+    #     format.json {render json: @course, include: [{students: {include: :submissions}}, {assignments: {include: :submissions}}]}
+    #   end
       # # use jbuilder instead - see views/courses/show.json.jbuilder
       # respond_to do |format|
       #   format.json {render json: @course, include: [:students, {assignments: {include: :submissions}}]}
       # end
-    end
+    # end
   end
 
   def create
