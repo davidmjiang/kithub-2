@@ -2,7 +2,10 @@
 <div class="row">
 	<div class="col-md-3">
 		<div class="card">
-			<img class="card-img-top" src="{{profile_photo}}" alt="Profile photo here">
+			<div class="image-container" ng-mouseover="imageHover = true" ng-mouseleave="imageHover = false">
+				<img class="card-img-top profile-img" src="{{profile_photo}}" alt="Profile photo here">
+				<label ng-if="imageHover" id="photo-upload" for="file-input">Upload photo</label>
+			</div>
 			<input id="file-input" type="file" ngf-select="upload($file)" ng-model="image" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" ngf-min-height="100">
 			<div class="card-block">
 				<h3 ng-mouseover="hoverIn(teacher)" ng-mouseleave="hoverOut(teacher)" ng-hide="teacherEditing" class="card-title">{{teacher.first_name}} {{teacher.last_name}} <span ng-if="teacher.hoverEdit" class="animate-show">
