@@ -29,6 +29,7 @@
 //= require xeditable.min
 //= require bower_components/ng-file-upload/ng-file-upload-shim.min
 //= require bower_components/ng-file-upload/ng-file-upload.min
+//= require xeditable.min
 //= require ng-table.min
 
 //= require_tree .

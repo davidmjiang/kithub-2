@@ -8,17 +8,19 @@
     <h1>{{course.title}}</h1>
 
     <!-- {{course}} -->
-  </div>
+</div>
 </div>
 
-
+<p>Average GPA by raw score: <span>{{rawGPA * 100 | number}}%</span></p>
+<p>GPA with curve: <span>{{curvedGPA}}% </span></p> 
 
  <table class="table table-bordered">
     <tr>
       <th>First Name</th>
       <th>Last Name</th>
       <th>Email</th>
-      <th ng-repeat="col in cols | limitTo: colCount - 3">{{col}}</th>
+      <th ng-repeat="col in cols | limitTo: colCount - 3"
+          ng-click="showAssignmentModal(assignments[$index])">{{col}}</th>
     </tr>
     <tr ng-repeat="row in allRows | limitTo: rowCount">
       <td ng-repeat="item in row track by $index | limitTo: colCount ">{{item}}</td>

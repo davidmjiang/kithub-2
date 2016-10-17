@@ -26,6 +26,9 @@ Lesson.directive('lessonEdit', [
         ngModel.$render = function() {
           var val = ngModel.$modelValue || options["default"];
           mde.value(val);
+          if (attrs.preview === "true") {
+            mde.togglePreview();
+          }
           if (mde.isPreviewActive()) {
             rerenderPreview(val);
           }
