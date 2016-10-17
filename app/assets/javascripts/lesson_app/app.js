@@ -34,7 +34,7 @@ angular.module('Lesson').
 //routes
 angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 
-	$urlRouterProvider.otherwise('/dashboard');
+	$urlRouterProvider.otherwise('');
 
 	$stateProvider
 	 .state('main',{
@@ -42,7 +42,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
     abstract: true,
     template: "<div ui-view></div>",
 		resolve: {
-			currentUser: ['Auth', '$state', function(Auth, $state){
+			currentUser: ['Auth', function(Auth){
             return Auth.currentUser()
             .then(function(user){
               return user;
@@ -51,16 +51,16 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
        	}
 		})
 
-   .state('main.dashboard', {
-      url: "/dashboard",
-      templateUrl: "lesson_templates/teacher/teacher_show.html",
-      controller: "TeacherShowCtrl",
-      resolve: {
-        teacher: ["currentUser", "TeacherService", function(currentUser, TeacherService){
-            return TeacherService.getTeacher(currentUser.id);
-        }]
-      }
-    })
+   // .state('main.dashboard', {
+   //    url: "/dashboard",
+   //    templateUrl: "lesson_templates/teacher/teacher_show.html",
+   //    controller: "TeacherShowCtrl",
+   //    resolve: {
+   //      teacher: ["currentUser", "TeacherService", function(currentUser, TeacherService){
+   //          return TeacherService.getTeacher(currentUser.id);
+   //      }]
+   //    }
+   //  })
 
 		.state('main.teachers', {
 			abstract: true,
