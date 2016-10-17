@@ -2,6 +2,7 @@
 angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser', 'teacher', 'Upload', function($scope, currentUser, teacher, Upload){
 
 	$scope.teacher = teacher;
+	console.log(teacher)
 	$scope.lessons = teacher.lesson_plans;
 	$scope.states = teacher.states;
 	$scope.teacherEditing = false;

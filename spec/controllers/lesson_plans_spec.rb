@@ -95,7 +95,32 @@ describe LessonPlansController do
       expect(new_lesson['title']).to eq "Graham Rocks!"
     end
 
+  end
 
+  describe 'GET #index' do
+
+    let!(:lesson_plan){create :lesson_plan}
+
+    before do
+      sign_in teacher
+    end
+
+    it "will return a succesful response if lesson exists" do
+      process :show, method: :get, params: {id: lesson_plan.id}, :format => :json
+      expect(response).to be_success
+    end
+
+    it 'will return the specific lesson from the database' do
+      process :show, method: :get, params: {id: lesson_plan.id}, :format => :json
+      data = JSON.parse(response.body)
+      expect(data['id']).to eq lesson_plan.id
+    end
+
+    it 'will raise error if lesson is not in the database' do
+      expect do
+        process :show, method: :get, params: {id: 0}, :format => :json
+      end.to raise_error(ActiveRecord::RecordNotFound)
+    end
 
   end
 

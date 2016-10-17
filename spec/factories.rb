@@ -46,6 +46,8 @@ FactoryGirl.define do
   end
 
   factory :submission do
+    raw_score 100
+    real_score 100
     student
     assignment
   end
