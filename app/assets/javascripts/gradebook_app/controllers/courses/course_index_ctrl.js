@@ -14,7 +14,8 @@ Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList",
         }
         // remove leftover modal DOM elements if necessary
       })
-    })  }
+    })
+  }
 
 
       $scope.kids = [{firstName: "Moroni", lastName: "Wilks", email: "foobar1@gmail.com", assignments: [{type: "homework", score: 50}]}];
