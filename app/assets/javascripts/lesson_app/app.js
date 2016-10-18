@@ -210,6 +210,6 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 
 }]);
 
-angular.module('Lesson').run(function($rootScope){
+angular.module('Lesson').run(['$rootScope', function($rootScope){
   $rootScope.$on("$stateChangeError", console.error.bind(console));
-});
+}]);
