@@ -6,11 +6,18 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   }
 
   StudentService.addStudent = function(course) {
-	// var student = {}
- //    student.course_id = course.id
+  	var student;
     return Restangular.all("students").post({student: {course_ids: [course.id]}}).then(function(createStudent) {
-      return createStudent;
+    	return createStudent
     })
+  
+    // return Restangular.all("submissions").post({student: {course_ids: [course.id]}}).then(function(createStudent) {
+    //   return createStudent;
+    // })
+  }
+
+  StudentService.createSubmissions = function(id) {
+  	console.log(id)
   }
 
   return StudentService
