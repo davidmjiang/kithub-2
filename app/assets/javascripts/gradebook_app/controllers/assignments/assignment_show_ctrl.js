@@ -5,7 +5,14 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   $scope.gpa.raw = GPAService.rawGPA(course, assignment)
 
   var _realGPA = GPAService.realGPA(course, assignment)
-  $scope.gpa.real = _realGPA ? _realGPA : $scope.gpa.raw
+  if (_realGPA ) {
+    $scope.curveApplied = true 
+    $scope.gpa.real = _realGPA
+  } else {
+    $scope.curveApplied = false
+    $scope.gpa.raw
+  }
+  // $scope.gpa.real = _realGPA ? _realGPA : $scope.gpa.raw
 
   $scope.curve = {}
 
@@ -51,10 +58,13 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   }
 
   $scope.applyFlatCurve = function() {
-    if (!$scope.curveApplied) {
-      $scope.gpa.real = $scope.curve.flatOffset + $scope.gpa.raw
-      $scope.curveApplied = true
-    }
+    $scope.gpa.real = $scope.curve.flatOffset + $scope.gpa.raw
+    $scope.curveApplied = true
+  }
+
+  $scope.resetCurve = function() {
+    $scope.curveApplied = false
+    $scope.gpa.real = $scope.gpa.raw
   }
 
 }])

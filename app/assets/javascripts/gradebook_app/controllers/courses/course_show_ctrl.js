@@ -1,4 +1,4 @@
-Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "GPAService", "ModalService", function($scope, course, StudentService, GPAService, ModalService){
+Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "GPAService", "ModalService", "$state", "CourseService", function($scope, course, StudentService, GPAService, ModalService, $state, CourseService){
 
   var cols =[];
   var allRows= [];
@@ -79,6 +79,13 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
       modal.close.then(function(response) {
         // update course show
       })
+    })
+  }
+
+  $scope.deleteCourse = function() {
+    CourseService.deleteCourse($scope.course).then(function(response) {
+      console.log("course deleted")
+      $state.go("gradebook.courseIndex")
     })
   }
   
