@@ -133,9 +133,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 			controller: "TeacherShowCtrl",
 			resolve: {
 	      teacher: ["$stateParams", "TeacherService", function($stateParams, TeacherService){
-	        	return TeacherService.getTeacher($stateParams.id).then(function(response){
-              return response;
-            });
+	        	return TeacherService.getTeacher($stateParams.id);
 	      }]
 			}
 		})
@@ -152,7 +150,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
       templateUrl: 'lesson_templates/teacher/starred.html',
       resolve: {
         starred_lessons: ["$stateParams", "Restangular", function($stateParams, Restangular){
-          return Restangular.all('lesson_plan_stars').getList({teacher_id: $stateParams.id})
+          return Restangular.all('lesson_plan_stars').getList({teacher_id: $stateParams.id});
         }]
       },
       controller: 'StarredLessonsCtrl'
@@ -162,7 +160,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
       templateUrl: 'lesson_templates/teacher/contributions.html',
       resolve: {
         lessons_contributed_to: ["$stateParams", "Restangular", function($stateParams, Restangular){
-          return Restangular.all('lesson_plan_contributors').getList({teacher_id: $stateParams.id})
+          return Restangular.all('lesson_plan_contributors').getList({teacher_id: $stateParams.id});
         }]
       },
       controller: 'ContributionsCtrl'

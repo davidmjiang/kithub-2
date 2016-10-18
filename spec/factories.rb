@@ -112,4 +112,9 @@ FactoryGirl.define do
     association :lesson_plan, factory: :lesson_plan
   end
 
+  factory :teacher_following do
+    association :follower
+    association :followed
+  end
+
 end
