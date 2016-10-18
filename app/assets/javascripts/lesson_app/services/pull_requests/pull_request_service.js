@@ -22,8 +22,7 @@ Lesson.factory("pullRequestService", ["Restangular",
   var getNewPullRequest = function(lessonId) {
     return {
       forked_plan_id: lessonId,
-      status: "pending",
-      parent_plan_id: 38
+      status: "pending"
     }
   }
 
