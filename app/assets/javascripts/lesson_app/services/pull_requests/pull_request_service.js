@@ -35,9 +35,10 @@ Lesson.factory("pullRequestService", ["Restangular",
   }
 
   var createNewComment = function(data) {
-    Restangular.all("comments").post({
+    return Restangular.all("comments").post({
       comment: data
     }).then(function(response) {
+      return response;
       // add comment to _pullRequests.comment
     })
   }
