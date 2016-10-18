@@ -1,4 +1,6 @@
+
 Gradebook.factory('SubmissionsService', ['Restangular', function(Restangular){
+
 
 	var stub = {}
 
