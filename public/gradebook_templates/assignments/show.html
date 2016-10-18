@@ -60,6 +60,9 @@
               <input type="number" max="100" ng-model="curve.flatOffset">
               &nbsp; %
               <button ng-click="applyFlatCurve()">Apply Curve</button>
+              <button ng-show="addingCurve" ng-click="resetCurve()">
+                Remove Curve
+              </button>
             </div>
 
             <!-- linear -->
@@ -89,7 +92,12 @@
                       max="100" 
                       min="0" 
                       ng-model="curve.curvedScoreB">
-              <button ng-click="applyLinearCurve()">Apply Curve</button>
+              <button ng-click="applyLinearCurve()">
+                Apply Curve
+              </button>
+              <button ng-show="addingCurve" ng-click="resetCurve()">
+                Remove Curve
+              </button>
             </div>
           </div>
         </div>
