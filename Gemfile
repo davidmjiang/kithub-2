@@ -26,6 +26,8 @@ gem 'bootstrap', '~> 4.0.0.alpha4'
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
 end
+# icons, since Bootstrap 4 doesn't have any
+gem 'font-awesome-sass'
 # JQuery UI for angular-modal
 gem 'jquery-ui-rails'
 # to be able to user assert_template in controller testing
