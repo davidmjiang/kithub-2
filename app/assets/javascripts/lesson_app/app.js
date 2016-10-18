@@ -1,8 +1,13 @@
 "use strict";
-var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise", 'ngFileUpload']);
+
+var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise", 'ngFileUpload', "xeditable"]);
 
 angular.module('Lesson').factory('_', ['$window', function($window) {
   return $window._;
+}]);
+
+angular.module('Lesson').factory('SimpleMDE', ['$window', function($window) {
+  return $window.SimpleMDE;
 }]);
 
 angular.module('Lesson').config([
@@ -12,6 +17,14 @@ angular.module('Lesson').config([
     $httpProvider.defaults.headers.common['X-CSRF-Token'] = token;
   }
 ]);
+
+// config for x-editable
+angular.module('Lesson').run(['editableOptions', 'editableThemes', function(editableOptions, editableThemes) {
+  editableOptions.theme = 'default'; // bootstrap3 theme. Can be also 'bs2', 'default'
+  editableThemes['default'].submitTpl = '<button type="submit" class="btn btn-success btn-sm"><i class="fa fa-check" aria-hidden="true"></i></button>';
+  editableThemes['default'].cancelTpl = '<button type="button" ng-click="$form.$cancel()" class="btn btn-danger btn-sm"><i class="fa fa-times" aria-hidden="true"></i></button>';
+
+}]);
 
 // config for restangular
 angular.module('Lesson').config([
@@ -64,19 +77,42 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 
 		.state('main.lessons', {
       url: '/lessons',
-      template: "<div ui-view></div>",
-			abstract: true
+      templateUrl: "lesson_templates/show.html",
+      abstract: true
 		})
 
 		.state('main.lessons.show', {
       url: '/:id',
-      template: "<div ui-view='pullrequests'></div>"
+      views: {
+
+      newPullRequest: {
+        templateUrl: "lesson_templates/pull_requests/new.html",
+         controller: "PullRequestNewCtrl",
+         resolve: {
+          forkedLesson: ["LessonService", "$stateParams", function(LessonService, $stateParams){
+          return LessonService.getLesson($stateParams.id)
+
+         }]}},
+
+        'mainContainer@main.lessons': {
+          templateUrl: "lesson_templates/lessons/show.html",
+          controller: "LessonShowCtrl",
+          resolve: {
+            lesson: ['LessonService', '$stateParams', function(LessonService, $stateParams) {
+              return LessonService.getLesson($stateParams.id).then(function(response) {
+                return response;
+              });
+            }]
+
+          }
+        }
+      }
     })
-		// .state('main.lessons.new')
+
 		.state('main.lessons.show.pullRequests', {
       url: '/pullrequests',
       views: {
-        "pullrequests": {
+        "mainContainer@main.lessons": {
           templateUrl:  "lesson_templates/pull_requests/index.html",
           controller: "PullRequestIndexCtrl",
           resolve: {
@@ -85,7 +121,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
                             function(pullRequestService, $stateParams) {
                 pullRequestService.all($stateParams.id);
               }]
-            }
+          }
         },
       }
     })

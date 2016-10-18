@@ -1,14 +1,19 @@
 <button ng-click="showNewCourseModal()">Add Course</button>
 
-index.html
-
 <a ui-sref="gradebook.dataVisuals">Compare your students' GPAs by course</a>
 
 <div class='row'>
   <h1>Your courses</h1>
-  <div class="col-xs-12">
-    <div ng-repeat='course in courses'>
-      <a ui-sref="gradebook.courseShow({id: course.id})">{{course.title}}</a>
+  <div class="col-xs-4" ng-repeat="course in courses">
+    <a ui-sref="gradebook.courseShow({id: course.id})">
+      <div ui-sref="gradebook.courseShow({id: course.id})" class="course-box">
+      <p>{{course.title}}</p>
+      </div>
+    </a>
+  </div>
+  <div class="col-xs-4">
+    <div class="new-course" ng-click="showNewCourseModal()">
+    <p>Create new course..</p>
     </div>
   </div>
 </div>

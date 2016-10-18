@@ -35,13 +35,13 @@ t = Teacher.create(email: person,
                    last_name: Faker::Name.last_name)
   2.times do
     c = t.courses.create(title: Faker::Educator.course)
-    5.times do
+    15.times do
       assignment = c.assignments.create(title: Faker::Space.star,
                            assignment_type: assignment_type.sample,
                            possible_score: rand(10..100))
     end
     puts 'creating students'
-    6.times do |i|
+    15.times do |i|
       s = Student.create(first_name: Faker::Name.first_name,
                          last_name: Faker::Name.last_name,
                          email: Faker::Internet.safe_email)
@@ -49,7 +49,7 @@ t = Teacher.create(email: person,
       c.assignments.each do |assignment| 
         puts "creating submissions for students"
         s.submissions.create(assignment_id: assignment.id,
-                            raw_score: rand(0..assignment.possible_score ))
+                            raw_score: rand(0..assignment.possible_score))
       end
     end
   end
@@ -201,10 +201,10 @@ class Gradebook
     @all_courses.each do |course|
       course.assignments.each do |assignment|
         course.students.each do |student|
-          if rand(0..100) < 90  
+          # if rand(0..100) < 90  
             student.submissions.create(assignment_id: assignment.id,
                       raw_score: rand(0..assignment.possible_score ))
-          end
+          # end
         end
       end
     end
