@@ -133,7 +133,9 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 			controller: "TeacherShowCtrl",
 			resolve: {
 	      teacher: ["$stateParams", "TeacherService", function($stateParams, TeacherService){
-	        	return TeacherService.getTeacher($stateParams.id);
+	        	return TeacherService.getTeacher($stateParams.id).then(function(response){
+              return response;
+            });
 	      }]
 			}
 		})
@@ -170,9 +172,11 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
       templateUrl: 'lesson_templates/teacher/followers.html',
       resolve: {
         followers: ["$stateParams", 'Restangular', function($stateParams, Restangular){
-          return Restangular.all('teacher_followings').getList({
-            followed_id: $stateParams.id
-          })
+          return Restangular.all('teacher_followings').customGET(
+            "", {followed_id: $stateParams.id}
+          ).then(function(response){
+            return response;
+          });
         }]
       },
       controller: "TeacherFollowersCtrl"
@@ -182,9 +186,11 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
       templateUrl: 'lesson_templates/teacher/following.html',
       resolve: {
         following: ["$stateParams", 'Restangular', function($stateParams, Restangular){
-          return Restangular.all('teacher_followings').getList({
-            follower_id: $stateParams.id
-          })
+          return Restangular.all('teacher_followings').customGET(
+            "", {follower_id: $stateParams.id})
+          .then(function(response){
+            return response;
+          });
         }]
       },
       controller: "TeacherFollowingCtrl"

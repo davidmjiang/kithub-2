@@ -1,0 +1,17 @@
+<div class="col-md-12 user-box">
+	<div class="col-md-1">
+		<a ui-sref="main.teachers.overview({id: teacher.id})">
+			<img class="small-photo" ng-src="{{profile_photo}}">
+		</a>
+	</div>
+	<div class="col-md-9">
+		<a ui-sref="main.teachers.overview({id: teacher.id})">
+			<span>{{teacher.first_name}} {{teacher.last_name}}</span>
+		</a>
+		<p><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp{{teacher.state}}</p>
+	</div>
+	<div class="col-md-2">
+		<input ng-if="!following" class="btn btn-primary btn-sm" value="Follow">
+		<input ng-if="following" class="btn btn-primary btn-sm" value="Unfollow">
+	</div>
+</div>
