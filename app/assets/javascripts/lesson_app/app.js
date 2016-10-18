@@ -10,6 +10,10 @@ angular.module('Lesson').factory('SimpleMDE', ['$window', function($window) {
   return $window.SimpleMDE;
 }]);
 
+angular.module('Lesson').factory('JsDiff', ['$window', function($window) {
+  return $window.JsDiff;
+}]);
+
 angular.module('Lesson').config([
   "$httpProvider",
   function($httpProvider) {
