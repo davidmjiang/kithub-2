@@ -6,7 +6,6 @@ Gradebook.controller("StudentNewCtrl", ["$scope", "course", "StudentService", "_
 
 	$scope.addStudent = function(student) {
 		student.course_ids = [course.id];
-		console.log(student)
 		StudentService.addStudent(student).then(function(newStudent) {
 			$rootScope.$broadcast('student.added', newStudent);
 			return newStudent;
