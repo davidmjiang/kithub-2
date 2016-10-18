@@ -3,6 +3,7 @@ json.(@teacher, :id, :email, :first_name, :last_name, :created_at, :state, :avat
 json.image (@teacher.avatar.url(:profile))
 
 json.lesson_plans @teacher.lesson_plans do |lesson_plan|
+  json.id (lesson_plan.id)
   json.title (lesson_plan.title)
   json.first_name (lesson_plan.teacher.first_name)
   json.last_name (lesson_plan.teacher.last_name)
