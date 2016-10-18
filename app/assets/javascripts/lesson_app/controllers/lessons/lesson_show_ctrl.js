@@ -1,5 +1,5 @@
-Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson',
-  function($scope, LessonService, Restangular, lesson) {
+Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', '$stateParams',
+  function($scope, LessonService, Restangular, lesson, currentUser, $stateParams) {
 
   $scope.states = LessonService.getStates();
   $scope.grades = LessonService.getGrades();
@@ -26,7 +26,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     toolbar: false,
     status: false
   };
-  
+
   $scope.lesson = lesson;
   $scope.lesson.grade = $scope.lesson.grade.toString(); // for dropdown menu values
 
