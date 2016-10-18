@@ -16,9 +16,10 @@ Lesson.factory('LessonService', ['Restangular', function(Restangular) {
 
   lessonService.create = function(newLesson) {
     console.log("Creating...");
-    Restangular.all('lesson_plans').post(newLesson).then(function(response) {
+    return Restangular.all('lesson_plans').post(newLesson).then(function(response) {
+      console.log(response);
+        return response
       // returns lesson object
-      // console.log(response);
 
     },
     function(response) {
@@ -29,14 +30,15 @@ Lesson.factory('LessonService', ['Restangular', function(Restangular) {
 
   lessonService.save = function(lesson) {
     lesson.patch().then(function(response) {
-      console.log(response)
+
     });
   };
 
   lessonService.getLesson = function(lesson_id) {
     return Restangular.one('lesson_plans', Number(lesson_id) ).get().then(function(response) {
       return response;
-    }, function() {
+    }, function(response) {
+      return response;
       // error handling
     });
   };
