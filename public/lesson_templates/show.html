@@ -20,5 +20,9 @@
 
   </ul>
 
-<div ui-view='newPullRequest'></div>
+<!-- TODO: add check to see if current lesson belongs to current user
+ -->
+
+<fork-lesson-plan ng-if="!lessonBelongsToCurrentUser"></fork-lesson-plan>
+<div ui-view='newPullRequest' ng-if=lessonBelongsToCurrentUser()></div>
 <div ui-view='mainContainer'></div>
