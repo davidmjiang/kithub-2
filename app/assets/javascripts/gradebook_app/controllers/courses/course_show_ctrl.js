@@ -1,4 +1,4 @@
-Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "GPAService", function($scope, course, StudentService, GPAService){
+Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", function($scope, course, StudentService, AssignmentService, GPAService){
 
   var cols =[];
   var allRows= [];
@@ -8,7 +8,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
   $scope.rawGPA = GPAService.rawGPA(course)
   $scope.students = $scope.course.students;
 
-  $scope.assignments = $scope.course.assignments.reverse();
+  $scope.assignments = $scope.course.assignments;
 
 
   for (var i = 0; i < $scope.assignments.length; i++){
@@ -22,6 +22,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
   for(var j = 0; j < $scope.students.length; j++ ) {
     var rawTotal = 0;
     var possibleTotal = 0;
+    rowData.push($scope.students[j].id)
     rowData.push($scope.students[j].first_name)
     rowData.push($scope.students[j].last_name)
     rowData.push($scope.students[j].email + $scope.students[j].id )
@@ -44,18 +45,40 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
   }
   
   
-  $scope.colCount = $scope.assignments.length + 4;
+  $scope.colCount = $scope.assignments.length + 5;
   $scope.rowCount = $scope.students.length;
   
-  $scope.incrementCol = function(direction){
-    if(direction === "up") {
-      $scope.colCount ++;
+  // $scope.incrementCol = function(direction){
+  //   if(direction === "up") {
+  //     $scope.colCount ++;
+  //   }
+  //   else {
+  //     if($scope.colCount > 3) {
+  //       $scope.colCount --;
+  //     } 
+  //   }
+  // }
+
+  $scope.addAssignment = function(course){
+    $scope.colCount ++;
+    $scope.cols[$scope.cols.length - 1] = "New Assignment";
+    $scope.cols.push("Overall");
+    for(var i = 0; i < $scope.allRows.length; i++) {
+      var temp = $scope.allRows[i].slice(-1)[0]
+      $scope.allRows[i][$scope.allRows[i].length - 1] = 0;
+      $scope.allRows[i].push(temp);
     }
-    else {
-      if($scope.colCount > 3) {
-        $scope.colCount --;
-      } 
+    AssignmentService.addAssignment(course);
+  }
+
+  $scope.addStudent = function(course) {
+    $scope.rowCount ++
+    StudentService.addStudent(course);
+    var newStudent = [];
+    for(var i = 0; i < $scope.colCount; i++) {
+      newStudent.push(["New Student"])
     }
+    $scope.allRows.push(newStudent)
   }
 
   $scope.incrementRow = function(direction){

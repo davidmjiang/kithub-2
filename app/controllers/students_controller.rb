@@ -17,6 +17,7 @@ class StudentsController < ApplicationController
                                             errors: @student.errors.full_messages },
                                             :status => 422
                                            }
+                                           puts @student.errors.full_messages
       end
     end
   end
@@ -24,7 +25,7 @@ class StudentsController < ApplicationController
   private
 
   def student_params
-    params.require(:student).permit(:first_name, :last_name, :email, :course_id)
+    params.require(:student).permit(:first_name, :last_name, :email, course_ids: [])
   end
 
 end
