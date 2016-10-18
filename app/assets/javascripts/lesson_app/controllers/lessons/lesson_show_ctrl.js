@@ -1,5 +1,5 @@
-Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson',
-  function($scope, LessonService, Restangular, lesson) {
+Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'Auth',
+  function($scope, LessonService, Restangular, lesson, Auth) {
 
   $scope.states = LessonService.getStates();
   $scope.grades = LessonService.getGrades();
@@ -30,15 +30,36 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   $scope.lesson = lesson;
   $scope.lesson.grade = $scope.lesson.grade.toString(); // for dropdown menu values
 
+  Auth.currentUser()
+      .then(function(user) {
+        $scope.currentUser = user;
+        checkCurrentUser();
+      }, function(response) {
+        console.error(response);
+      });
+
+  // checks whether or not the lesson
+  // belongs to the current user, and sets
+  // currentUserLesson accordingly
+  var checkCurrentUser = function() {
+    if ($scope.currentUser.id === lesson.teacher_id) {
+      $scope.currentUserLesson = true;
+    } else {
+      $scope.currentUserLesson = false;
+    }
+  };
+
   $scope.create = function(newLesson) {
     LessonService.create(newLesson);
   };
 
+  // patches the lesson object
   $scope.save = function() {
     LessonService.save($scope.lesson);
     $scope.toggleEditing();
   };
 
+  // switch from editing to preview mode
   $scope.toggleEditing = function() {
     $scope.editing = !$scope.editing;
   };
