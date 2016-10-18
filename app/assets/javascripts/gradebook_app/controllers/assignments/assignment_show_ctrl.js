@@ -1,10 +1,37 @@
-Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "close", function($scope, course, assignment, GPAService, close) {
+Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "SubmissionService", "close", function($scope, course, assignment, GPAService, SubmissionService, close) {
 
   $scope.assignment = assignment
-  $scope.rawGPA = GPAService.rawGPA(course, assignment) 
+  $scope.gpa = {}
+  $scope.gpa.raw = GPAService.rawGPA(course, assignment)
+
+  var _realGPA = GPAService.realGPA(course, assignment)
+  if (_realGPA ) {
+    $scope.curveApplied = true 
+    $scope.gpa.real = _realGPA
+  } else {
+    $scope.curveApplied = false
+    $scope.gpa.raw
+  }
+  // $scope.gpa.real = _realGPA ? _realGPA : $scope.gpa.raw
+
+  $scope.curve = {}
 
   $scope.editingTitle = false
+  $scope.addingCurve = false
   $scope.assignmentTitle = assignment.title
+
+  $scope.numStudents = course.students.length
+  $scope.numSubmissions = function() {
+    var count = 0
+    _.each(course.students, function(student) {
+      _.each(student.submissions, function(submission) {
+        if (submission.assignment_id === assignment.id) {
+          count += 1
+        }
+      })
+    })
+    return count
+  }
 
   $scope.editTitle = function() {
     $scope.editingTitle = true
@@ -24,6 +51,20 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
 
   $scope.close = function(result) {
     close(result, 200)
+  }
+
+  $scope.addCurve = function() {
+    $scope.addingCurve = true
+  }
+
+  $scope.applyFlatCurve = function() {
+    $scope.gpa.real = $scope.curve.flatOffset + $scope.gpa.raw
+    $scope.curveApplied = true
+  }
+
+  $scope.resetCurve = function() {
+    $scope.curveApplied = false
+    $scope.gpa.real = $scope.gpa.raw
   }
 
 }])
