@@ -26,13 +26,13 @@
         </button>
 
       </div>
-      <div class="modal-body">  
+      <div class="modal-body clearfix">  
         <div class="col-sm-6">  
-          <h4>{{assignment.type}}</h4>
+          <h4>{{assignment.assignment_type | capitalize }}</h4>
 
-          <p>Average score: {{rawGPA | number:2 }}%</p>
+          <p>Average score: {{gpa.raw | number:2 }}%</p>
           
-          <p>Real score: {{realGPA | number:2 }}</p>
+          <p>Average curved score: {{gpa.real | number:2 }}%</p>
 
           <p>
             Points possible: {{assignment.possible_score}}
@@ -40,6 +40,9 @@
           <p>
             Last Updated: {{assignment.updated_at | date}}
           </p>
+
+          <p>Submissions: {{numSubmissions()}} / {{numStudents}}</p>
+
         </div>
         <div class="col-sm-6">
           <button ng-hide="addingCurve" ng-click="addCurve()" class="btn btn-outline-warning">Add/Edit Curve</button>
@@ -54,8 +57,9 @@
             <!-- flat -->
             <div ng-if="curveType==='Flat'">
               <label>By what percent would you like to increase scores?</label>
-              <input type="number" max="100" ng-model="flatCurvePercent">
-              <button ng-click="applyCurve(curveType)">Apply Curve</button>
+              <input type="number" max="100" ng-model="curve.flatOffset">
+              &nbsp; %
+              <button ng-click="applyFlatCurve()">Apply Curve</button>
             </div>
 
             <!-- linear -->
@@ -66,26 +70,26 @@
                       type="number" 
                       max="100" 
                       min="0" 
-                      ng-model="linearCurve.rawScoreA">
+                      ng-model="curve.rawScoreA">
               <label>Score A (curved):</label>
               <input class="float-right" 
                       type="number" 
                       max="100" 
                       min="0" 
-                      ng-model="linearCurve.curvedScoreA">
+                      ng-model="curve.curvedScoreA">
               <label>Score B (original):</label>
               <input class="float-right" 
                       type="number" 
                       max="100" 
                       min="0" 
-                      ng-model="linearCurve.rawScoreA">
+                      ng-model="curve.rawScoreA">
               <label>Score B (curved):</label>
               <input class="float-right" 
                       type="number" 
                       max="100" 
                       min="0" 
-                      ng-model="linearCurve.curvedScoreB">
-              <button ng-click="applyCurve(curveType)">Apply Curve</button>
+                      ng-model="curve.curvedScoreB">
+              <button ng-click="applyLinearCurve()">Apply Curve</button>
             </div>
           </div>
         </div>

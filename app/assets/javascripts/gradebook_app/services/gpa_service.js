@@ -32,6 +32,7 @@ Gradebook.factory("GPAService", function() {
       _.each(student.submissions, function(submission) {
         if (assignment) {
           if (submission.assignment_id === assignment.id) {
+            if (!submission.real_score) return undefined
             pointsEarned += (submission.real_score * assignment.possible_score)
           }
         } else {
