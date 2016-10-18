@@ -76,6 +76,12 @@ FactoryGirl.define do
       version 1.1
     end
 
+    trait :new_lesson do
+      title "Phil's Lesson"
+      content "Do or do not."
+      hours 2.0
+      version 1.2
+    end
   end
 
 
@@ -96,5 +102,14 @@ FactoryGirl.define do
     end
   end
 
-end
+  factory :lesson_plan_contributor do
+    association :teacher, factory: :teacher
+    association :lesson_plan, factory: :lesson_plan
+  end
 
+  factory :lesson_plan_star do
+    association :teacher, factory: :teacher
+    association :lesson_plan, factory: :lesson_plan
+  end
+
+end
