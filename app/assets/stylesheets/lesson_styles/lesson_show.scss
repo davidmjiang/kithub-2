@@ -4,6 +4,12 @@
     min-height: 450px;
   }
 
+  #save-btn {
+    i {
+      line-height: 1.25;
+    }
+  }
+
   .editable {
     i {
       display: none;
