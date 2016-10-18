@@ -17,17 +17,18 @@
 
  <table class="table table-bordered">
     <tr>
+      <th>Student ID</th>
       <th>First Name</th>
       <th>Last Name</th>
       <th>Email</th>
-      <th ng-repeat="col in cols | limitTo: colCount - 3">{{col}}</th>
+      <th ng-repeat="col in cols track by $index | limitTo: colCount - 4">{{col}}</th>
     </tr>
     <tr ng-repeat="row in allRows | limitTo: rowCount">
       <td ng-repeat="item in row track by $index | limitTo: colCount ">{{item}}</td>
     </tr>
   </table>
 
-  <button class="btn btn-success" ng-click="incrementCol('up')">Add Assignment</button>
+  <button class="btn btn-success" ng-click="addAssignment(course)">Add Assignment</button>
   <button class="btn btn-danger" ng-click="incrementCol('down')">Remove Column</button></br></br>
-  <button class="btn btn-success" ng-click="incrementRow('up')">Add Student</button>
+  <button class="btn btn-success" ng-click="addStudent(course)">Add Student</button>
   <button class="btn btn-danger" ng-click="incrementRow('down')">Remove Row</button>
