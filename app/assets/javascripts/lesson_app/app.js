@@ -143,7 +143,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
     })
     .state('main.teachers.lessonPlans',{
       url: '/lessonPlans',
-      templateUrl: 'lesson_templates/teacher/lesson_plans.html',
+      templateUrl: 'lesson_templates/teacher/lesson_plans.html'
     })
     .state('main.teachers.starred',{
       url: '/starred',
