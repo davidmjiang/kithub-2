@@ -23,10 +23,24 @@ describe PullRequestsController do
       expect(data).to_not be_empty
     end
 
-    # it 'will return all lessons in the database' do
-    #   data = JSON.parse(response.body)
-    #   expect(data.length).to eq 1
-    # end
+    it 'will return all lessons in the database' do
+      data = JSON.parse(response.body)
+      expect(data.length).to eq 1
+    end
+
+  end
+
+  describe "POST create" do
+
+    before do
+      sign_in teacher
+    end
+
+    it "creates a pull requests with valid attributes" do
+      expect do
+        process :index, method: :get, params: { lesson_plan_id: pull_request.parent_plan.id, pull_request: { title: "Hello World!" } }, format: :json
+      end.to change{PullRequest.count}.by(1)
+    end
 
   end
 
