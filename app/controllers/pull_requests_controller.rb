@@ -2,12 +2,26 @@ class PullRequestsController < ApplicationController
 
   def index
     @pull_requests = LessonPlan.find_by_id(params[:lesson_plan_id]).pull_requests_received
-
+    respond_to do |format|
+      format.json { render json: @pull_requests }
+    end
   end
 
   def create
-    @pull_request = LessonPlan.find_by_id(params[:lesson_plan_id]).pull_requests_sent.create(pull_request_params)
-    @pull_request.save
+    @pull_request = LessonPlan.find_by_id(params[:lesson_plan_id])
+                      .pull_requests_sent
+                      .create(pull_request_params)
+    respond_to do |format|
+      if @pull_request.save
+        format.json { render json: @pull_request }
+      else
+        format.json { render json: {
+                                    errors: @pull_request.errors.full_messages },
+                                    :status => 422
+                                   }
+      end
+    end
+
   end
 
   private

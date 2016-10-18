@@ -1,5 +1,7 @@
 
+
 Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "GPAService", "ModalService", "AssignmentService", "SubmissionsService", function($scope, course, StudentService, GPAService, ModalService, AssignmentService, SubmissionsService){
+
 
   var cols =[];
   var allRows= [];
@@ -140,7 +142,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
     }).then(function(modal) {
       modal.element.modal();
       modal.close.then(function(response) {
-        // update course show
+
       })
     })
   }
@@ -154,14 +156,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
       }
     }).then(function(modal) {
       modal.element.modal();
-      modal.close.then(function(response) {
-        $scope.rowCount ++
-        var newStudent = [];
-        for(var i = 0; i < $scope.colCount; i++) {
-          newStudent.push(["New Student"])
-        }
-        $scope.allRows.push(response)
-      })
+
     })
   }
 
@@ -169,6 +164,13 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
     $scope.rowCount ++;
     allRows.push(data);
   })
+
+  $scope.deleteCourse = function() {
+    CourseService.deleteCourse($scope.course).then(function(response) {
+      console.log("course deleted")
+      $state.go("gradebook.courseIndex")
+    })
+  }
 
   $scope.cols = cols;
   $scope.allRows = allRows;
