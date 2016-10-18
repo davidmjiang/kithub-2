@@ -28,5 +28,7 @@
 //= require bower_components/ng-file-upload/ng-file-upload-shim.min
 //= require bower_components/ng-file-upload/ng-file-upload.min
 //= require ng-table.min
+//= require Chart.min
+//= require angular-chart.min
 
 //= require_tree .
