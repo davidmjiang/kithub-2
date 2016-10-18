@@ -1,8 +1,17 @@
 <div class="tab-content" ui-view>
   <div class="tab-pane active" id="main" role="tabpanel">
-      <input type="text" ng-model="lessonPlanFilter" placeholder="Filter lesson plans..." class="lesson-plan-filter">
+      <input type="text" ng-model="titleFilter" placeholder="Filter lesson plans..." >
+      Grade: <input type="range" ng-model="gradeFilter" min="0" max="12"> {{gradeFilter}}
+      Lesson Type: <select ng-model="lessonTypeFilter">
+        <option value=""></option>
+        <option ng-repeat="type in lessonTypes" value="type">{{type}}</option>
+      </select>
+      Subject: <select ng-model="subjectFilter">
+        <option value=""></option>
+        <option ng-repeat="subject in subjects" value="type">{{subject}}</option>
+      </select>
       <div class="list-group row">
-        <div lesson-card class="col-md-6" lesson="lesson" ng-repeat="lesson in teacher.lesson_plans | orderBy: '-created_at' | filter: lessonPlanFilter">
+        <div lesson-card class="col-md-6" lesson="lesson" ng-repeat="lesson in teacher.lesson_plans | orderBy: '-created_at' | filter: {title: titleFilter} | filter: { grade: gradeFilter } | filter: {lesson_type: lessonTypeFilter} | filter: {subject: subjectFilter}">
       </div>
     </div>
   </div>
