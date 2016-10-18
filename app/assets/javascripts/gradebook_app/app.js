@@ -1,5 +1,5 @@
 
-var Gradebook = angular.module( 'Gradebook', ['ui.router', 'restangular','Devise', 'angularModalService',"ngTable", "d3", "chart.js"]);
+var Gradebook = angular.module( 'Gradebook', ['ui.router', 'restangular','Devise', 'angularModalService',"ngTable", "d3", "chart.js", "xeditable"]);
 
 
 Gradebook.config([

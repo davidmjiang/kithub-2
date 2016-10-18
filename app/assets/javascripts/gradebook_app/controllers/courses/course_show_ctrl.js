@@ -10,11 +10,31 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
   $scope.assignments = $scope.course.assignments;
 
-  $scope.studentDetailModal = function(email) {
+  $scope.studentDetailModal = function(email, overall) {
     ModalService.showModal({
       templateUrl: '/gradebook_templates/students/detail.html',
       controller: 'StudentModalCtrl',
-      inputs: {students: $scope.students, email: email, assignments: $scope.assignments}
+      inputs: {
+        students: $scope.students,
+        email: email,
+        assignments: $scope.assignments,
+        overall: overall
+      }
+    }).then(function(modal) {
+      modal.element.modal();
+      modal.close;
+    })
+  }
+
+  $scope.courseDetailModal = function(gpa) {
+    ModalService.showModal({
+      templateUrl: '/gradebook_templates/courses/detail.html',
+      controller: 'CourseModalCtrl',
+      inputs: {
+        course: $scope.course,
+        assignments: $scope.assignments,
+        gpa: gpa
+      }
     }).then(function(modal) {
       modal.element.modal();
       modal.close;
