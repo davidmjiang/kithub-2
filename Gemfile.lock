@@ -263,7 +263,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   figaro
-  font-awesome-sass
+  font-awesome-sass (~> 4.6.2)
   hirb
   jbuilder (~> 2.5)
   jquery-rails
