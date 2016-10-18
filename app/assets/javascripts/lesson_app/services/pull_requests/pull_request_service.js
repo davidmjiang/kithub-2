@@ -19,6 +19,8 @@ Lesson.factory("pullRequestService", ["Restangular",
     return _pullRequests;
   };
 
+  // returns scaffolding for a new pull request including pending status and the
+  // id of the forked lesson plan
   var getNewPullRequest = function(lessonId) {
     return {
       forked_plan_id: lessonId,
@@ -26,67 +28,36 @@ Lesson.factory("pullRequestService", ["Restangular",
     }
   }
 
+  // sends restangular post request and adds the response to the front end
+  // pull request model
   var createNewPullRequest = function(data, lessonId) {
     Restangular.one("lesson_plans", lessonId).all("pull_requests").post({
       pull_request: data
     }).then(function(response){
-      _pullRequests << response
+      _pullRequests.push(response);
     })
   }
 
+  // sends restangular post request to create a new comment and returns the
+  // response
   var createNewComment = function(data) {
     return Restangular.all("comments").post({
       comment: data
     }).then(function(response) {
       return response;
-      // add comment to _pullRequests.comment
-    })
-  }
-  // var getBoard = function(id) {
-  //   return Restangular.one('boards', Number(id)).get()
-  // }
+    });
+  };
 
-  // var _updateBoard = function(params) {
-
-  //   Restangular.one('boards', $stateParams.id).patch({
-  //     board: {
-  //       name: params.name,
-  //       user_id: Auth.currentUser()
-  //     }
-  //   }).then(function() {
-  //     $state.go("boards.show", {id: $stateParams.id});
-  //   });
-  // };
-
-  // var deleteBoard = function(id) {
-  //   for(var b in _boards) {
-  //     if(_boards[b].id === id) { _boards.splice(b, 1); break; }
-  //   }
-  // }
-
-  // var createBoard = function(params) {
-  //   return Restangular.all('boards').post({
-  //         board: {
-  //           name: params.name,
-  //           user_id: 2
-  //         }
-  //       }).then(function(response) {
-  //         _boards.push(response)
-  //       })
-
-  // }
-
-  // Restangular.extendModel('boards', function(board){
-  //   board.update = _updateBoard;
-  //   return board;
-  // });
-
+  var removeComment = function(id) {
+    return Restangular.one("comments", Number(id)).remove()
+  };
 
   return {
     all: all,
     getPullRequests: getPullRequests,
     getNewPullRequest: getNewPullRequest,
     createNewPullRequest: createNewPullRequest,
-    createNewComment: createNewComment
+    createNewComment: createNewComment,
+    removeComment: removeComment
   }
 }]);
