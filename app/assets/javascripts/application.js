@@ -16,6 +16,7 @@
 
 //= require lodash.min
 
+
 //= require tether
 //= require bootstrap
 
@@ -25,8 +26,12 @@
 //= require angular-ui-router.min
 //= require restangular.min
 //= require angular-modal-service.min
+//= require xeditable.min
 //= require bower_components/ng-file-upload/ng-file-upload-shim.min
 //= require bower_components/ng-file-upload/ng-file-upload.min
+//= require xeditable.min
 //= require ng-table.min
+//= require Chart.min
+//= require angular-chart.min
 
 //= require_tree .
