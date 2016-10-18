@@ -1,11 +1,45 @@
-<div class="">
-  <h3>{{assignment.title}}</h3>
-  <h4>{{assignment.type}}</h4>
-  <p>
-    Max Score: {{assignment.possible_score}}
-  </p>
+<div class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 ng-hide="editingTitle" ng-click="editTitle()" class="modal-title">{{assignment.title}}</h4>
 
-  <p>
-    Last Updated: {{assignment.updated_at}}
-  </p>
+        <input ng-show="editingTitle" 
+        type="text" 
+        name="edit-title" 
+        ng-model="assignmentTitle"
+        value="{{assignment.title}}" >
+
+
+        <input class="btn btn-warning" 
+        ng-show="editingTitle" 
+        type="submit" 
+        name="edit-title-submit" 
+        value="Submit" 
+        ng-click="submitTitleEdits()">
+
+        <button class="btn btn-info" 
+        ng-show="editingTitle" 
+        ng-click="cancelEditTitle()">
+        Cancel
+        </button>
+
+      </div>
+      <div class="modal-body">    
+        <h4>{{assignment.type}}</h4>
+        <p>
+          Max Score: {{assignment.possible_score}}
+        </p>
+        <p>
+          Last Updated: {{assignment.updated_at | date}}
+        </p>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
 </div>
