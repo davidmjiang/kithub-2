@@ -1,8 +1,13 @@
 <div class="card">
-Comment: {{ comment.body }}<br>
 
-Teacher: {{ comment["teacher"]["first_name"] }}
-         {{ comment["teacher"]["last_name"] }}<br>
-Date: {{ comment.created_at | date }}
+<i ng-if="commentBelongsToUser"
+    class="fa fa-times pull-right primary-color"
+    aria-hidden="true"
+    ng-click="removeComment()"></i>
+
+  Comment: {{ comment.body }}<br>
+
+  Teacher: {{ comment["teacher"]["first_name"] }}
+           {{ comment["teacher"]["last_name"] }}<br>
+  Date: {{ comment.created_at | date }}
 </div>
-{{ currentUser }}
