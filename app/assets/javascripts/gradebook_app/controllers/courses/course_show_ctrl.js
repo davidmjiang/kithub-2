@@ -79,6 +79,22 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
       } 
     }
   }
+
+  $scope.showAssignmentModal = function(assignment) {
+    ModalService.showModal({
+      templateUrl: "gradebook_templates/assignments/show.html",
+      controller: "AssignmentShowCtrl", 
+      inputs: {
+        assignment: assignment, 
+        course: course
+      }
+    }).then(function(modal) {
+      modal.element.modal();
+      modal.close.then(function(response) {
+        // update course show
+      })
+    })
+  }
   
   $scope.cols = cols;
   $scope.allRows = allRows;
