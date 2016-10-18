@@ -4,6 +4,7 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 	$scope.isCurrentUser = currentUser.id === teacher.id;
 	$scope.teacher = teacher;
 	$scope.lessons = teacher.lesson_plans;
+	console.log($scope.lessons)
 	$scope.states = teacher.states;
 	$scope.teacherEditing = false;
 	$scope.stateEditing = false;
