@@ -107,4 +107,9 @@ FactoryGirl.define do
     association :lesson_plan, factory: :lesson_plan
   end
 
+  factory :lesson_plan_star do
+    association :teacher, factory: :teacher
+    association :lesson_plan, factory: :lesson_plan
+  end
+
 end
