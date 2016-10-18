@@ -30,8 +30,8 @@
 
       <div class="modal-body">
 
-          <h5>{{ pullRequest.description }}</h5>
-          <h5>{{ pullRequest.status }}</h5>
+          <h5>Description: {{ pullRequest.description }}</h5>
+          <h5>Status: {{ pullRequest.status }}</h5>
 
           <div>
             <div class="card">
@@ -43,12 +43,13 @@
           </div>
 
           <h2>Comments</h2>
-          <div ng-repeat="comment in pullRequest.comments">
-            <pr-comment pullRequest="pullRequest" comment="comment"></pr-comment>
+          <div class="container-fluid">
+            <div ng-repeat="comment in pullRequest.comments | orderBy: 'created_at'">
+              <pr-comment pullRequest="pullRequest" comment="comment" comments="pullRequest.comments"></pr-comment>
 
+            </div>
+              <new-pr-comment pull-request="pullRequest" comments="pullRequest.comments"></new-pr-comment>
           </div>
-            <new-pr-comment pull-request="pullRequest" comments="pullRequest.comments"></new-pr-comment>
-
       </div>
 
       <div class="modal-footer">
