@@ -1,4 +1,4 @@
-Lesson.factory('MarkdownService', ['$document', function($document) {
+Lesson.factory('MarkdownService', ['$document', 'SimpleMDE', function($document, SimpleMDE) {
 
   var markdownService = {};
   var _editor = new SimpleMDE({
