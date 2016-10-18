@@ -16,7 +16,8 @@ Lesson.factory('LessonService', ['Restangular', function(Restangular) {
 
   lessonService.create = function(newLesson) {
     console.log("Creating...");
-    Restangular.all('lesson_plans').post(newLesson).then(function(response) {
+    return Restangular.all('lesson_plans').post(newLesson).then(function(response) {
+        return response
       // returns lesson object
       // console.log(response);
 
