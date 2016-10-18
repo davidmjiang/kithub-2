@@ -11,23 +11,24 @@
 </div>
 </div>
 
-<p>Average GPA by raw score: <span>{{rawGPA * 100 | number}}%</span></p>
-<p>GPA with curve: <span>{{curvedGPA}}% </span></p> 
+<p>Average GPA by raw score: <span>{{rawGPA | number:2}}%</span></p>
+<p>GPA with curve: <span>{{curvedGPA}}% </span></p>
 
  <table class="table table-bordered">
     <tr>
+      <th>Student ID</th>
       <th>First Name</th>
       <th>Last Name</th>
       <th>Email</th>
-      <th ng-repeat="col in cols | limitTo: colCount - 3"
-          ng-click="showAssignmentModal(assignments[$index])">{{col}}</th>
+      <th ng-repeat="col in cols track by $index | limitTo: colCount - 4" ng-click="showAssignmentModal(assignments[$index])">{{col}}</th>
     </tr>
     <tr ng-repeat="row in allRows | limitTo: rowCount">
       <td ng-repeat="item in row track by $index | limitTo: colCount ">{{item}}</td>
+      <td><a ng-click="studentDetailModal(row[3])">Details</a></td>
     </tr>
   </table>
 
-  <button class="btn btn-success" ng-click="incrementCol('up')">Add Column</button>
+  <button class="btn btn-success" ng-click="addAssignment(course)">Add Assignment</button>
   <button class="btn btn-danger" ng-click="incrementCol('down')">Remove Column</button></br></br>
-  <button class="btn btn-success" ng-click="incrementRow('up')">Add Row</button>
+  <button class="btn btn-success" ng-click="addStudent(course)">Add Student</button>
   <button class="btn btn-danger" ng-click="incrementRow('down')">Remove Row</button>

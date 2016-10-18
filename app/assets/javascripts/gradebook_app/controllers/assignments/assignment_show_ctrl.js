@@ -1,6 +1,7 @@
-Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "close", function($scope, course, assignment, close) {
+Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "close", function($scope, course, assignment, GPAService, close) {
 
-  $scope.assignment = assignment 
+  $scope.assignment = assignment
+  $scope.rawGPA = GPAService.rawGPA(course, assignment) 
 
   $scope.editingTitle = false
   $scope.assignmentTitle = assignment.title
