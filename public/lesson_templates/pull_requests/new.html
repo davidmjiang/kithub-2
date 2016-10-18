@@ -1,8 +1,13 @@
-<button type="button"
+<fork-lesson-plan ng-if="lessonBelongsToCurrentUser == false"></fork-lesson-plan>
+
+<button ng-if="lessonBelongsToCurrentUser"
+        type="button"
         class="btn btn-info pull-right"
         data-toggle="modal"
         data-target="#newPRModal{{ newPR.forked_plan_id }}">
   New Pull Request</button>
+
+
 </div>
 
 <!-- Modal -->
