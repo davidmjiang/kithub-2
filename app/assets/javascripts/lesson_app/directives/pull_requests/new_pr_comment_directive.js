@@ -16,6 +16,7 @@ Lesson.directive("newPrComment",  [ "pullRequestService", "$stateParams", "Auth"
       scope.createNewComment = function() {
         pullRequestService.createNewComment(scope.comment).then(function(response) {
            scope.comments.push(response)
+           scope.comment.body = ""
         })
       }
     }

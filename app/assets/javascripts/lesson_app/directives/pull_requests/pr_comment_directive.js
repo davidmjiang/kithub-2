@@ -6,7 +6,8 @@ Lesson.directive("prComment",  [ "pullRequestService", "Auth", function(pullRequ
     link: function(scope) {
 
       Auth.currentUser().then(function(response){
-
+        console.log(scope.comment.teacher)
+        // console.log(response.id, scope.comment.teacher.id)
         if (response.id === scope.comment.teacher.id) {
           scope.commentBelongsToUser = true
         } else {

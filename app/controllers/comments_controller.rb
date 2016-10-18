@@ -5,11 +5,7 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = Comment.find(params[:id])
-    if @comment && @comment.destroy
-      respond_to do |format|
-        format.json { render json: @comment, status: 200 }
-      end
-    end
+    @comment.destroy if @comment
   end
 
   private
