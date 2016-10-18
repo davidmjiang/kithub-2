@@ -90,7 +90,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
          controller: "PullRequestNewCtrl",
          resolve: {
           forkedLesson: ["LessonService", "$stateParams", function(LessonService, $stateParams){
-          return LessonService.getLesson($stateParams.id)
+          return LessonService.getLesson($stateParams.id);
 
          }]}},
 
