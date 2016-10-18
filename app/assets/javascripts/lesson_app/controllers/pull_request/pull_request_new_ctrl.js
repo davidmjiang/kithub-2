@@ -4,7 +4,7 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
   $scope.forkedLesson = forkedLesson
 
   // LessonService.getLesson(forkedLesson.parent_plan_id).then(function(response){
-  //     // $scope.parentLesson = response;
+  //     $scope.parentLesson = response;
   // });
 
 
