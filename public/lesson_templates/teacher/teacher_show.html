@@ -3,7 +3,7 @@
 	<div class="col-md-3">
 		<div class="card">
 			<div class="image-container" ng-mouseover="imageHover = true" ng-mouseleave="imageHover = false">
-				<img class="card-img-top profile-img" src="{{profile_photo}}" alt="Profile photo here">
+				<img class="card-img-top profile-img" ng-src="{{profile_photo}}" alt="Profile photo here">
 				<label ng-if="imageHover && isCurrentUser" id="photo-upload" for="file-input">Upload photo</label>
 			</div>
 			<input id="file-input" type="file" ngf-select="upload($file)" ng-model="image" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" ngf-min-height="100">
@@ -38,12 +38,12 @@
 		<div class="row">
 			<div class="col-md-12">
 				<ul class="nav nav-tabs">
-					<li class="nav-item"><a class="nav-link active" ui-sref="main.teachers.overview({id: {{teacher.id}}})" data-toggle="tab">Overview</a></li>
-					<li class="nav-item"><a class="nav-link" ui-sref="main.teachers.lessonPlans({id: {{teacher.id}}})" data-toggle="tab">Lesson Plans <span class="tag tag-pill tag-info">{{teacher.num_lessons}}</span></a></li>
-					<li class="nav-item"><a class="nav-link" ui-sref="main.teachers.starred({id: {{teacher.id}}})" data-toggle="tab">Starred <span class="tag tag-pill tag-info">{{teacher.starred_lesson_plans}}</span></a></li>
-					<li class="nav-item"><a class="nav-link" ui-sref="main.teachers.contributions({id: {{teacher.id}}})" data-toggle="tab">Contributions <span class="tag tag-pill tag-info">{{teacher.lesson_plans_contributed_to}}</a></span></li>
-					<li class="nav-item"><a class="nav-link" ui-sref="main.teachers.followers({id: {{teacher.id}}})" data-toggle="tab">Followers <span class="tag tag-pill tag-info">{{teacher.followed_by}}</a></span></li>
-					<li class="nav-item"><a class="nav-link" ui-sref="main.teachers.following({id: {{teacher.id}}})" data-toggle="tab">Following <span class="tag tag-pill tag-info">{{teacher.following}}</a></span></li>
+					<li class="nav-item"><a class="nav-link active" ui-sref="main.teachers.overview({id: teacher.id})" data-toggle="tab">Overview</a></li>
+					<li class="nav-item"><a class="nav-link" ui-sref="main.teachers.lessonPlans({id: teacher.id})" data-toggle="tab">Lesson Plans <span class="tag tag-pill tag-info">{{teacher.num_lessons}}</span></a></li>
+					<li class="nav-item"><a class="nav-link" ui-sref="main.teachers.starred({id: teacher.id})" data-toggle="tab">Starred <span class="tag tag-pill tag-info">{{teacher.starred_lesson_plans}}</span></a></li>
+					<li class="nav-item"><a class="nav-link" ui-sref="main.teachers.contributions({id: teacher.id})" data-toggle="tab">Contributions <span class="tag tag-pill tag-info">{{teacher.lesson_plans_contributed_to}}</a></span></li>
+					<li class="nav-item"><a class="nav-link" ui-sref="main.teachers.followers({id: teacher.id})" data-toggle="tab">Followers <span class="tag tag-pill tag-info">{{teacher.followed_by}}</a></span></li>
+					<li class="nav-item"><a class="nav-link" ui-sref="main.teachers.following({id: teacher.id})" data-toggle="tab">Following <span class="tag tag-pill tag-info">{{teacher.following}}</a></span></li>
 				</ul>
 					<div ui-view>
 						
