@@ -9,15 +9,6 @@ class CoursesController < ApplicationController
 
   def show
     @course = Course.find(params[:id])
-    # if @course.teacher == current_teacher
-    #   respond_to do |format|
-    #     format.json {render json: @course, include: [{students: {include: :submissions}}, {assignments: {include: :submissions}}]}
-    #   end
-      # # use jbuilder instead - see views/courses/show.json.jbuilder
-      # respond_to do |format|
-      #   format.json {render json: @course, include: [:students, {assignments: {include: :submissions}}]}
-      # end
-    # end
   end
 
   def create
@@ -26,10 +17,18 @@ class CoursesController < ApplicationController
       if @course.save
         format.json {render json: @course, include: [{students: {include: :submissions}}, {assignments: {include: :submissions}}]}
       else
-        format.json { render json: {
-                                            errors: @course.errors.full_messages },
-                                            :status => 422
-                                           }
+        format.json { render json: {errors: @course.errors.full_messages },
+                                    :status => 422}
+      end
+    end
+  end
+
+  def destroy
+    @course = current_teacher.courses.find_by_id(params[:id])
+    course = @course
+    if @course && @course.destroy
+      respond_to do |format|
+        format.json { render json: @course, status: 200 }
       end
     end
   end
