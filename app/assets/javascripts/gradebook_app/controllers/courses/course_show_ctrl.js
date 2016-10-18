@@ -1,4 +1,4 @@
-Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "GPAService", function($scope, course, StudentService, GPAService){
+Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "GPAService", "ModalService", function($scope, course, StudentService, GPAService, ModalService){
 
   var cols =[];
   var allRows= [];
@@ -8,7 +8,18 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
   $scope.rawGPA = GPAService.rawGPA(course)
   $scope.students = $scope.course.students;
 
-  $scope.assignments = $scope.course.assignments.reverse();
+  $scope.assignments = $scope.course.assignments;
+
+  $scope.studentDetailModal = function(email) {
+    ModalService.showModal({
+      templateUrl: '/gradebook_templates/students/detail.html',
+      controller: 'StudentModalCtrl',
+      inputs: {students: $scope.students, email: email, assignments: $scope.assignments}
+    }).then(function(modal) {
+      modal.element.modal();
+      modal.close;
+    })
+  }
 
 
   for (var i = 0; i < $scope.assignments.length; i++){
@@ -24,7 +35,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
     var possibleTotal = 0;
     rowData.push($scope.students[j].first_name)
     rowData.push($scope.students[j].last_name)
-    rowData.push($scope.students[j].email + $scope.students[j].id )
+    rowData.push($scope.students[j].email)
     for(var i = 0; i < $scope.students[j].submissions.length; i++) {
       var rawScore = $scope.students[j].submissions[i].raw_score;
       var possibleScore = $scope.assignments[i].possible_score;
