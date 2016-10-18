@@ -3,9 +3,14 @@
       <a ui-sref="main.lessons.show({id: {{lesson.id}}})">
         <h4>{{lesson.title}}</h4>
       </a>
-      <p>Author: {{lesson.first_name || lesson.teacher.first_name}} {{lesson.last_name || lesson.teacher.last_name}}</p>
+<!--       <p>Creator: {{lesson.first_name || lesson.teacher.first_name}} {{lesson.last_name || lesson.teacher.last_name}}</p> -->
       <p>Created: {{lesson.created_at | date}}</p>
       <p>Last updated: {{lesson.updated_at | date}}</p>
+      <p> Subject: {{lesson.subject}} <strong>|</strong> Grade: {{lesson.grade}} <strong>|</strong> Hours: {{lesson.hours}}</p>
+      <p><span class="fa fa-star" aria-hidden="true"></span> {{lesson.stars}} <span class="fa fa-code-fork" aria-hidden="true"></span> {{lesson.forks}}</p>
+      <div ng-if="lesson.parent_plan_id">
+        <p>Forked from <a ui-sref="main.lessons.show({id: {{lesson.parent_plan_id }}})">{{lesson.parent_plan_title}}</a></p>
+      </div>
       <a href="#">Delete</a>
     </div>
   
