@@ -1,1 +1,8 @@
-{{lessons_contributed_to}}
+<div class="tab-content" ui-view>
+  <div class="tab-pane active" id="main" role="tabpanel">
+      <div class="list-group row">
+        <div lesson-card class="col-md-6" lesson="lesson" ng-repeat="lesson in lessons_contributed_to | orderBy: '-created_at'">
+      </div>
+    </div>
+  </div>
+</div>

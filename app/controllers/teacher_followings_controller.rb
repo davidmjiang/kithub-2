@@ -6,8 +6,9 @@ class TeacherFollowingsController < ApplicationController
     elsif params[:followed_id]
       @teachers = TeacherFollowing.where("followed_id = ?", params[:followed_id]).map{|tf| Teacher.find(tf.follower_id)}
     end
+    @currentUser = current_teacher
     respond_to do |format|
-      format.json {render json: @teachers, status: 200}
+      format.json {render "index.json.jbuilder"}
     end
   end
 
