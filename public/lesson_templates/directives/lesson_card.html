@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-md-11 list-group-item active listed-lesson-plan">
+      <a ui-sref="main.lessons.show({id: {{lesson.id}}})">
+        <h4>{{lesson.title}}</h4>
+      </a>
+      <p>Author: {{lesson.first_name}} {{lesson.last_name}}</p>
+      <p>Created {{lesson.created_at | date}}</p>
+      <p>Last updated {{lesson.updated_at | date}}</p>
+      <p>There's a delete button under here</p>
+      <a href="#">Delete</a>
+    </div>
+  
+</div>
