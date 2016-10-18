@@ -1,1 +1,9 @@
-{{teacher.lesson_plans}}
+<div class="tab-content" ui-view>
+  <div class="tab-pane active" id="main" role="tabpanel">
+      <input type="text" ng-model="lessonPlanFilter" placeholder="Filter lesson plans..." class="lesson-plan-filter">
+      <div class="list-group row">
+        <div lesson-card class="col-md-6" lesson="lesson" ng-repeat="lesson in teacher.lesson_plans | orderBy: '-created_at' | filter: lessonPlanFilter">
+      </div>
+    </div>
+  </div>
+</div>
