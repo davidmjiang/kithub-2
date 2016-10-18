@@ -4,8 +4,6 @@ class AssignmentsController < ApplicationController
 
   def create
     @assignment = Assignment.new(assignment_params)
-    @assignment.title = "New Title"
-    @assignment.possible_score = 0
     respond_to do |format|
       if @assignment.save
         format.json {render json: @assignment, include: :submissions}
