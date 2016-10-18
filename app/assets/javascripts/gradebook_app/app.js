@@ -14,19 +14,13 @@ Gradebook.config([
 
 Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise("/foo");
+  $urlRouterProvider.otherwise("/");
 
   $stateProvider
 
     .state('gradebook', {
       abstract: true,
       url: '',
-      views: {
-        "main": {
-          templateUrl: 'gradebook_templates/main.html',
-          controller: "ClassesIndexCtrl"
-        }
-      },
       resolve: {
         'courseList': ['CourseService', function(CourseService){
           return CourseService.getCourses();
@@ -40,13 +34,13 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
     })
 
     .state ('gradebook.courseIndex', {
-      url: '',
+      url: '/',
       templateUrl: '/gradebook_templates/courses/index.html',
       controller: 'CourseIndexCtrl'
     })
 
     .state('gradebook.dataVisuals', {
-      url: 'visuals',
+      url: '/visuals',
       templateUrl: "/gradebook_templates/visuals/course_gpas.html",
       controller: "DataVisualsCtrl",
       resolve: {

@@ -30,3 +30,35 @@
 	position: absolute;
 	z-index: -1;
 }
+
+.listed-lesson-plan{
+	border-radius: .25rem;
+		margin-top: 25px;
+	a {
+		color: white;
+	}
+}
+
+.small-photo{
+	width: 50px;
+	height: 50px;
+}
+
+.user-box{
+	border-bottom: 1px solid #e5e5e5;
+	padding-top: 24px;
+	padding-bottom: 24px;
+}
+
+.page-container{
+	margin-top: 20px;
+}
+
+.lesson-plan-filter {
+	display: block;
+	margin: 0 auto;
+	margin-top: 30px;
+	width: 400px;
+	font-size: 16px;
+}
+
