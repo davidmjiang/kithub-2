@@ -3,5 +3,19 @@
   .CodeMirror, .CodeMirror-scroll {
     min-height: 450px;
   }
+
+  .editable {
+    i {
+      display: none;
+      font-size: 50%;
+      vertical-align: middle;
+    }
+
+    &:hover {
+      i {
+        display: inline;
+      }
+    }
+  }
   
 }
