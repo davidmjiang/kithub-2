@@ -2,6 +2,14 @@ Gradebook.factory('CourseService', ['Restangular', function(Restangular){
 
   var _courses = [];
 
+  var _removeCourse = function(response) {
+    _.each(_courses, function(course, index) {
+        if (course.id === response.id) {
+          return _courses.splice(index, 1)
+        }
+      })
+  }
+
   var stub = {}
 
   var populateCourses = function() {
@@ -28,6 +36,12 @@ Gradebook.factory('CourseService', ['Restangular', function(Restangular){
       return response
     })
   };
+
+  stub.deleteCourse = function(course) {
+    return course.remove().then(function(response) {
+      _removeCourse(response)
+    })
+  }
 
   return stub;
 

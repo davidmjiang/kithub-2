@@ -32,7 +32,6 @@ describe CoursesController do
 
   describe "POST #create" do
 
-
     before do
       sign_in teacher
     end
@@ -72,6 +71,34 @@ describe CoursesController do
               params: { :course => attributes_for(:course) },
               :format => :json
       }.to change{Course.count}.by(1)
+    end
+
+  end
+
+  describe "DELETE #destroy" do 
+
+    let!(:course){create(:course)}
+    let!(:teacher){create(:teacher)}
+    let!(:other_teacher){create(:teacher)}
+
+    it "destroys a course given a signed-in teacher's course has that course's ID" do 
+      sign_in teacher
+      teacher.courses << course
+      expect {
+        process :destroy, method: :delete, 
+                :params => { :id => course.id },
+                :format => :json
+      }.to change{Course.count}.by(-1)
+    end
+
+    it "doesn't destroy courses belonging to other teachers" do 
+      sign_in other_teacher
+      teacher.courses << course 
+      expect {
+        process :destroy, method: :delete, 
+                :params => { :id => course.id },
+                :format => :json
+      }.to change{Course.count}.by(0)
     end
 
   end
