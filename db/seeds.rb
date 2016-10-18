@@ -192,7 +192,7 @@ class Gradebook
         type = @@assignment_type.sample
         assignment = course.assignments.create(title: "Assignment #{idx}: #{type}",
                            assignment_type: type,
-                           possible_score: rand(10..100))
+                           possible_score: rand(40..100))
       end
     end
   end
