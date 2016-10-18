@@ -60,9 +60,12 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
             .then(function(user){
               return user;
             });
-          }]
-       	}
-		})
+          }],
+      diff: ['DiffService', function(DiffService) {
+        console.log(DiffService('Hello', 'Hello World'));
+      }]
+    }
+	})
 
    // .state('main.dashboard', {
    //    url: "/dashboard",
