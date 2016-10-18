@@ -24,7 +24,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     autoDownloadFontAwesome: false,
     spellChecker: false,
     toolbar: false,
-    status: false
+    status: ["lines", "words"]
   };
   
   $scope.lesson = lesson;
