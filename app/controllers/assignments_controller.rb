@@ -1,5 +1,7 @@
 class AssignmentsController < ApplicationController
 
+# Assignment's don't come with title or possible score
+
   def create
     @assignment = Assignment.new(assignment_params)
     respond_to do |format|
@@ -7,14 +9,14 @@ class AssignmentsController < ApplicationController
         format.json {render json: @assignment, include: :submissions}
       else
         format.json { render json: {
-                                            errors: @assignment.errors.full_messages },
-                                            :status => 422
-                                           }
+                                    errors: @assignment.errors.full_messages },
+                                    :status => 422
+                                   }
       end
     end
   end
 
-  
+
 
   private
 
