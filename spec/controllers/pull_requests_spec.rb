@@ -3,17 +3,15 @@ require 'rails_helper'
 describe PullRequestsController do
 
   let(:pull_request) { create :pull_request }
-  let(:lesson_plan) { create :lesson_plan }
   let(:teacher) { create :teacher }
 
 
   describe 'GET #index' do
 
     before do
-      lesson_plan
       pull_request
       sign_in teacher
-      process :index, method: :get, params: { lesson_plan_id: lesson_plan.id }, format: :json
+      process :index, method: :get, params: { lesson_plan_id: pull_request.parent_plan.id }, format: :json
     end
 
     it "will return a succesful response" do
