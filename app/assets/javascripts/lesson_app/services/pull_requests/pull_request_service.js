@@ -3,7 +3,7 @@ Lesson.factory("pullRequestService", ["Restangular",
                                   "Auth",
                                   function(Restangular, $state, Auth) {
   // array of all pull requests with their
-  var _pullRequests = []
+  var _pullRequests = [];
 
   // all copies a json object of all the pull requests and their respective '
   // comments for the teachers page you are on and angular.copies them locally
@@ -17,7 +17,7 @@ Lesson.factory("pullRequestService", ["Restangular",
   // Restangularized pullRequest objects and their comments for a given teacher
   var getPullRequests = function() {
     return _pullRequests;
-  }
+  };
 
   var getNewPullRequest = function(lessonId) {
     return {

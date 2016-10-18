@@ -8,13 +8,13 @@
 </button>
 
 <!-- Modal -->
-<div class="modal fade"
+<div class="modal fade pull-request-modal"
      id="pullRequestModal{{ pullRequest.id }}"
      tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel"
      aria-hidden="true">
 
-  <div class="modal-dialog" role="document">
+  <div class="modal-admin" role="document">
     <div class="modal-content">
       <div class="modal-header">
 
@@ -36,20 +36,10 @@
           <div>
             <div class="card">
               <div class="card-block">
-                <h4 class="card-title">Parent Plan: {{ pullRequest["parent_plan"]["title"] }}</h4>
-                <p class="card-text">{{ pullRequest["parent_plan"]["content"] }}</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <h4 class="card-title">Changes</h4>
+                <pre><span ng-repeat="diff in diffs" ng-class="{ added: diff.added, removed: diff.removed }">{{ diff.value }}</span></pre>
               </div>
             </div>
-
-            <div class="card">
-              <div class="card-block">
-                <h4 class="card-title">Forked Plan: {{ pullRequest["forked_plan"]["title"] }}</h4>
-                <p class="card-text">{{ pullRequest["forked_plan"]["content"] }}</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-
           </div>
 
           <h2>Comments</h2>
