@@ -30,9 +30,9 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService",
   };
 
   lessonService.save = function(lesson) {
-    lesson.patch().then(function(response) {
+    return lesson.patch().then(function(response) {
       // MAYBE just do one
-      pullRequestService.all();
+      // pullRequestService.all();
     });
   };
 
