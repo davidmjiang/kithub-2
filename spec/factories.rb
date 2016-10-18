@@ -76,6 +76,12 @@ FactoryGirl.define do
       version 1.1
     end
 
+    trait :new_lesson do
+      title "Phil's Lesson"
+      content "Do or do not."
+      hours 2.0
+      version 1.2
+    end
   end
 
 

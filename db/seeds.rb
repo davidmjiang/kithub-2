@@ -54,17 +54,18 @@ t = Teacher.create(email: person,
     end
   end
 
-
-  l = t.lesson_plans.create(title: Faker::Space.nasa_space_craft,
-                        content: Faker::Lorem.sentence,
-                        hours: rand(1..10),
-                        version: 1,
-                        state: Faker::Address.state,
-                        grade: rand(1..12),
-                        subject: subjects.sample,
-                        lesson_type: Faker::Company.buzzword
-                        )
-  l.taggings(tag_id: Tag.all.sample.id )
+  15.times do
+    l = t.lesson_plans.create(title: Faker::Space.nasa_space_craft,
+                          content: Faker::Lorem.sentence,
+                          hours: rand(1..10),
+                          version: 1,
+                          state: Faker::Address.state,
+                          grade: rand(1..12),
+                          subject: subjects.sample,
+                          lesson_type: Faker::Company.buzzword
+                          )
+    l.taggings(tag_id: Tag.all.sample.id )
+  end
 end
 
 puts 'creating follows'
