@@ -24,7 +24,7 @@
     </tr>
     <tr ng-repeat="row in allRows | limitTo: rowCount">
       <td ng-repeat="item in row track by $index | limitTo: colCount ">{{item}}</td>
-      <td><a ng-click="studentDetailModal(row[2])">Details</a></td>
+      <td><a ng-click="studentDetailModal(row[3])">Details</a></td>
     </tr>
   </table>
 
