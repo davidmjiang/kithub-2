@@ -128,6 +128,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 
 		.state('main.teachers', {
 			url: '/teachers/:id',
+      abstract: true,
 			templateUrl: "lesson_templates/teacher/teacher_show.html",
 			controller: "TeacherShowCtrl",
 			resolve: {
@@ -148,11 +149,23 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
     })
     .state('main.teachers.starred',{
       url: '/starred',
-      templateUrl: 'lesson_templates/teacher/starred.html'
+      templateUrl: 'lesson_templates/teacher/starred.html',
+      resolve: {
+        starred_lessons: ["$stateParams", "Restangular", function($stateParams, Restangular){
+          return Restangular.all('lesson_plan_stars').getList({teacher_id: $stateParams.id})
+        }]
+      },
+      controller: 'StarredLessonsCtrl'
     })
     .state('main.teachers.contributions',{
       url: '/contributions',
-      templateUrl: 'lesson_templates/teacher/contributions.html'
+      templateUrl: 'lesson_templates/teacher/contributions.html',
+      resolve: {
+        lessons_contributed_to: ["$stateParams", "Restangular", function($stateParams, Restangular){
+          return Restangular.all('lesson_plan_contributors').getList({teacher_id: $stateParams.id})
+        }]
+      },
+      controller: 'ContributionsCtrl'
     })
     .state('main.teachers.followers',{
       url: '/followers',
