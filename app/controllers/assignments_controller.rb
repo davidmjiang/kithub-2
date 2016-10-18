@@ -2,7 +2,7 @@ class AssignmentsController < ApplicationController
 
   def create
     @assignment = Assignment.new(assignment_params)
-    @assignment.course = Course.find_by_id(params["course_id"])
+    #@assignment.course = Course.find_by_id(params["course_id"])
     @assignment.title = "New Title"
     @assignment.possible_score = 1
     respond_to do |format|
@@ -33,7 +33,7 @@ class AssignmentsController < ApplicationController
     students = Course.find(course_id).students
     students.each do |student| 
       submission = Submission.create()
-      submission.raw_score = 0
+      submission.raw_score = 1
       submission.assignment = assignment
       student.submissions << submission
     end

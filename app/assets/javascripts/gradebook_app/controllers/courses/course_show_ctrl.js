@@ -1,5 +1,5 @@
 
-Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "GPAService", "ModalService", "AssignmentService", function($scope, course, StudentService, GPAService, ModalService, AssignmentService){
+Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "GPAService", "ModalService", "AssignmentService", "SubmissionsService", function($scope, course, StudentService, GPAService, ModalService, AssignmentService, SubmissionsService){
 
   var cols =[];
   var allRows= [];
@@ -25,7 +25,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
 
   for (var i = 0; i < $scope.assignments.length; i++){
       cols.push($scope.assignments[i].assignment_type +
-       $scope.assignments[i].id + ": " + ($scope.assignments[i].title)
+       ($scope.assignments[i].title)
        + "(" + ($scope.assignments[i].possible_score) +")"  );
   }
   cols.push("Overall")
@@ -49,7 +49,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
         rawTotal += rawScore;
         possibleTotal += possibleScore;
       }
-      rowData.push(rawScore + " / " + possibleScore);
+      rowData.push(rawScore);
     }
     rowData.push(Number(rawTotal / possibleTotal * 100).toFixed(2));
     allRows.push(rowData)
@@ -73,7 +73,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
 
   $scope.addAssignment = function(course){
     $scope.colCount ++;
-    $scope.cols[$scope.cols.length - 1] = "New Assignment";
+    $scope.cols[$scope.cols.length - 1] = "New Title";
     $scope.cols.push("Overall");
     for(var i = 0; i < $scope.allRows.length; i++) {
       var temp = $scope.allRows[i].slice(-1)[0]
@@ -83,15 +83,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
     AssignmentService.addAssignment(course);
   }
 
-  $scope.addStudent = function(course) {
-    $scope.rowCount ++
-    StudentService.addStudent(course);
-    var newStudent = [];
-    for(var i = 0; i < $scope.colCount; i++) {
-      newStudent.push(["New Student"])
-    }
-    $scope.allRows.push(newStudent)
-  }
 
   $scope.incrementRow = function(direction){
     if(direction === "up") {
@@ -101,6 +92,40 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
       if($scope.rowCount > 0) {
         $scope.rowCount --;
       }
+    }
+  }
+
+  $scope.submitEdit = function(row, item, index) {
+    var rowIndex = $scope.allRows.indexOf(row)
+    if(index > 0 && index < 4) {
+      var student = $scope.students[rowIndex]
+      StudentService.editStudent(student, index, item)
+
+    }
+    else if (index > 3 && index < row.length - 1) {
+      var submission = $scope.students[rowIndex].submissions[index - 4]
+      submission.raw_score = parseInt(item)
+      SubmissionsService.editSubmission(submission)
+    }
+  }
+
+
+  $scope.checkItem = function(index, item) {
+    console.log(!parseInt(item))
+    if (index === 0) {
+      return "You cannot update the student's id";
+    }
+    if(index === 3 && !item.includes("@")) {
+      return "Please enter a valid student email";
+    }
+    else if(index === $scope.colCount - 1) {
+      return "You cannot update the overall score. Update specific scores.";
+    }
+    else if(index > 4 && !(parseInt(item))) {
+      return "The score needs to be a positive number greater than 0";
+    }
+    else if(index < $scope.colCount - 1) {
+      return true;
     }
   }
 
@@ -119,6 +144,31 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
       })
     })
   }
+
+  $scope.addStudentModal = function(course) {
+    ModalService.showModal({
+      templateUrl: "gradebook_templates/students/new.html",
+      controller: "StudentNewCtrl",
+      inputs: {
+        course: course
+      }
+    }).then(function(modal) {
+      modal.element.modal();
+      modal.close.then(function(response) {
+        $scope.rowCount ++
+        var newStudent = [];
+        for(var i = 0; i < $scope.colCount; i++) {
+          newStudent.push(["New Student"])
+        }
+        $scope.allRows.push(response)
+      })
+    })
+  }
+
+  $scope.$on("student.added", function(event, data) {
+    $scope.rowCount ++;
+    allRows.push(data);
+  })
 
   $scope.cols = cols;
   $scope.allRows = allRows;

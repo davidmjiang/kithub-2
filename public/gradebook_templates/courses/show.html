@@ -25,12 +25,16 @@
 
     </tr>
     <tr ng-repeat="row in allRows | limitTo: rowCount">
-      <td ng-repeat="item in row track by $index | limitTo: colCount ">{{item}}</td>
+        <td ng-submit="submitEdit(row, item, $index)" ng-repeat="item in row track by $index | limitTo: colCount ">
+          <a href="#" onbeforesave="checkItem($index, $data)" editable-text="item"> {{item}}</a>
+      </td>
+      <!-- Ask mike about row[3] -->
       <td><a ng-click="studentDetailModal(row[3])">Details</a></td>
     </tr>
   </table>
 
+
   <button class="btn btn-success" ng-click="addAssignment(course)">Add Assignment</button>
   <button class="btn btn-danger" ng-click="incrementCol('down')">Remove Column</button></br></br>
-  <button class="btn btn-success" ng-click="addStudent(course)">Add Student</button>
+  <button class="btn btn-success" ng-click="addStudentModal(course)">Add Student</button>
   <button class="btn btn-danger" ng-click="incrementRow('down')">Remove Row</button>

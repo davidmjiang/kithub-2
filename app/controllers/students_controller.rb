@@ -12,13 +12,28 @@ class StudentsController < ApplicationController
     respond_to do |format|
       if @student.save
         create_submissions(params["student"]["course_ids"], @student.id)
-        format.json {render json: @student}
+        format.json {render json: @student, include: [:submissions]}
       else
         format.json { render json: {
                                             errors: @student.errors.full_messages },
                                             :status => 422
                                            }
                                            puts @student.errors.full_messages
+      end
+    end
+  end
+
+
+  def update
+    @student = Student.find_by_id(params[:id])
+    respond_to do |format|
+      if @student.update(student_params)
+        format.json {render json: @student}
+      else
+        format.json { render json: {
+                                            errors: @student.errors.full_messages },
+                                            :status => 422
+                                           }
       end
     end
   end
