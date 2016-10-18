@@ -1,8 +1,7 @@
 <div class="card">
-Comment: {{ comment.body }}<br>
+  Comment: {{ comment.body }}<br>
 
-Teacher: {{ comment["teacher"]["first_name"] }}
-         {{ comment["teacher"]["last_name"] }}<br>
-Date: {{ comment.created_at | date }}
+  Teacher: {{ comment["teacher"]["first_name"] }}
+           {{ comment["teacher"]["last_name"] }}<br>
+  Date: {{ comment.created_at | date }}
 </div>
-{{ currentUser }}

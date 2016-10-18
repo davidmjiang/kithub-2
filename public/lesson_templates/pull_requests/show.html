@@ -44,9 +44,10 @@
 
           <h2>Comments</h2>
           <div ng-repeat="comment in pullRequest.comments">
-            <pr-comment comment="comment"></pr-comment>
+            <pr-comment pullRequest="pullRequest" comment="comment"></pr-comment>
+
           </div>
-            <new-pr-comment pull-request="pullRequest"></new-pr-comment>
+            <new-pr-comment pull-request="pullRequest" comments="pullRequest.comments"></new-pr-comment>
 
       </div>
 
