@@ -9,15 +9,15 @@ describe CommentsController do
 
   describe 'GET #index' do
 
-    before do
-      lesson_plan
-      sign_in teacher
-      process :index, method: :get, params: { lesson_plan_id: lesson_plan.id }, format: :json
-    end
+    # before do
+    #   lesson_plan
+    #   sign_in teacher
+    #   process :index, method: :get, params: { lesson_plan_id: lesson_plan.id }, format: :json
+    # end
 
-    it "will return a succesful response" do
-      expect(response).to be_success
-    end
+    # it "will return a succesful response" do
+    #   expect(response).to be_success
+    # end
 
     # it 'will not return nil if there are lessons in the database' do
     #   puts "HERE"
