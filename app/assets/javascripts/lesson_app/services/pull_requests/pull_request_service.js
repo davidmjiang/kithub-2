@@ -19,6 +19,29 @@ Lesson.factory("pullRequestService", ["Restangular",
     return _pullRequests;
   }
 
+  var getNewPullRequest = function(lessonId) {
+    return {
+      forked_plan_id: lessonId,
+      status: "pending",
+      parent_plan_id: 38
+    }
+  }
+
+  var createNewPullRequest = function(data, lessonId) {
+    Restangular.one("lesson_plans", lessonId).all("pull_requests").post({
+      pull_request: data
+    }).then(function(response){
+      _pullRequests << response
+    })
+  }
+
+  var createNewComment = function(data) {
+    Restangular.all("comments").post({
+      comment: data
+    }).then(function(response) {
+      // add comment to _pullRequests.comment
+    })
+  }
   // var getBoard = function(id) {
   //   return Restangular.one('boards', Number(id)).get()
   // }
@@ -62,5 +85,8 @@ Lesson.factory("pullRequestService", ["Restangular",
   return {
     all: all,
     getPullRequests: getPullRequests,
+    getNewPullRequest: getNewPullRequest,
+    createNewPullRequest: createNewPullRequest,
+    createNewComment: createNewComment
   }
 }]);

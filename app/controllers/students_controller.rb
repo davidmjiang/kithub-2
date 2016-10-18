@@ -30,14 +30,15 @@ class StudentsController < ApplicationController
   end
 
 
-  # def create_submissions(course_id, student_id)
-  #   student = Student.find_by_id(student_id)
-  #   a = Course.find_by_id(course_id).assignments
-  #   a.each do |assignment| 
-  #     submission = Submission.create()
-  #     submission.assignment_id = assignment.id
-  #     student.submissions << submission
-  #   end
-  # end
+  def create_submissions(course_id, student_id)
+    student = Student.find_by_id(student_id)
+    a = Course.find_by_id(course_id).assignments
+    a.each do |assignment| 
+      submission = Submission.create()
+      submission.raw_score = 0
+      submission.assignment_id = assignment.id
+      student.submissions << submission
+    end
+  end
 
 end
