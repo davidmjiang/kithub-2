@@ -22,6 +22,17 @@ class SubmissionsController < ApplicationController
     end
   end
 
+  def update
+    puts "YOU MADE IT!!"
+    @submission = Submission.find_by_id(params[:id])
+    @submission.update(submission_params)
+    if @submission.save! 
+      respond_to do |format|
+        format.json { render json: @submission, status: 200 }
+      end
+    end
+  end
+
   private
 
   def submission_params
