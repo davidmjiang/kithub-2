@@ -26,9 +26,9 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
 
 
   for (var i = 0; i < $scope.assignments.length; i++){
-      cols.push($scope.assignments[i].assignment_type +
-       ($scope.assignments[i].title)
-       + "(" + ($scope.assignments[i].possible_score) +")"  );
+      cols.push($scope.assignments[i].assignment_type + ": " +
+                        ($scope.assignments[i].title)
+                        + "(" + ($scope.assignments[i].possible_score) +")"  );
   }
   cols.push("Overall")
 
@@ -62,28 +62,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
   $scope.colCount = $scope.assignments.length + 5;
   $scope.rowCount = $scope.students.length;
 
-  // $scope.incrementCol = function(direction){
-  //   if(direction === "up") {
-  //     $scope.colCount ++;
-  //   }
-  //   else {
-  //     if($scope.colCount > 3) {
-  //       $scope.colCount --;
-  //     }
-  //   }
-  // }
-
-  $scope.addAssignment = function(course){
-    $scope.colCount ++;
-    $scope.cols[$scope.cols.length - 1] = "New Title";
-    $scope.cols.push("Overall");
-    for(var i = 0; i < $scope.allRows.length; i++) {
-      var temp = $scope.allRows[i].slice(-1)[0]
-      $scope.allRows[i][$scope.allRows[i].length - 1] = 0;
-      $scope.allRows[i].push(temp);
-    }
-    AssignmentService.addAssignment(course);
-  }
 
 
   $scope.incrementRow = function(direction){
@@ -123,7 +101,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
     else if(index === $scope.colCount - 1) {
       return "You cannot update the overall score. Update specific scores.";
     }
-    else if(index > 4 && !(parseInt(item))) {
+    else if(index > 3 && !(parseInt(item))) {
       return "The score needs to be a positive number greater than 0";
     }
     else if(index < $scope.colCount - 1) {
@@ -160,10 +138,37 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
     })
   }
 
+  $scope.addAssignmentModal = function(course) {
+    AssignmentService.addAssignment(course);
+    ModalService.showModal({
+      templateUrl: "gradebook_templates/assignments/new.html",
+      controller: "AssignmentNewCtrl",
+      inputs: {
+        course: course
+      }
+    }).then(function(modal) {
+      modal.element.modal();
+
+    })
+  }
+
   $scope.$on("student.added", function(event, data) {
     $scope.rowCount ++;
     allRows.push(data);
   })
+
+  $scope.$on("assignment.added", function(event, data) {
+    $scope.colCount ++;
+    $scope.cols[$scope.cols.length - 1] = data.assignment_type + ": " +
+                                          data.title + "(" + data.possible_score
+                                          + ")";
+    $scope.cols.push("Overall");
+    for(var i = 0; i < $scope.allRows.length; i++) {
+      var temp = $scope.allRows[i].slice(-1)[0]
+      $scope.allRows[i][$scope.allRows[i].length - 1] = 0;
+      $scope.allRows[i].push(temp);
+    }
+    })
 
   $scope.deleteCourse = function() {
     CourseService.deleteCourse($scope.course).then(function(response) {
