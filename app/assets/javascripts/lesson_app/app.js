@@ -10,6 +10,10 @@ angular.module('Lesson').factory('SimpleMDE', ['$window', function($window) {
   return $window.SimpleMDE;
 }]);
 
+angular.module('Lesson').factory('JsDiff', ['$window', function($window) {
+  return $window.JsDiff;
+}]);
+
 angular.module('Lesson').config([
   "$httpProvider",
   function($httpProvider) {
@@ -60,9 +64,12 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
             .then(function(user){
               return user;
             });
-          }]
-       	}
-		})
+          }],
+      diff: ['DiffService', function(DiffService) {
+        console.log(DiffService('Hello', 'Hello World'));
+      }]
+    }
+	})
 
    // .state('main.dashboard', {
    //    url: "/dashboard",
