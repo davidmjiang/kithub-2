@@ -1,0 +1,24 @@
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+
+      <a class="nav-link active"
+        ui-sref="main.lessons.show"
+        data-toggle="tab">
+        Lesson Plan
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link"
+          ui-sref="main.lessons.show.pullRequests"
+          data-toggle="tab">
+
+          Pull Requests
+        <span class="tag tag-pill tag-info">{{teacher.starred_lesson_plans}}</span>
+      </a>
+    </li>
+
+  </ul>
+
+<div ui-view='newPullRequest'></div>
+<div ui-view='mainContainer'></div>
