@@ -1,0 +1,15 @@
+class LessonPlanContributorsController < ApplicationController
+
+  def index
+    @teacher = Teacher.find(params[:teacher_id])
+    @lesson_plans = @teacher.lesson_plans_contributed_to
+    respond_to do |format|
+      format.json {render "lesson_plan_stars/lesson_plans.json.jbuilder"}
+    end
+  end
+
+
+  def create
+
+  end
+end

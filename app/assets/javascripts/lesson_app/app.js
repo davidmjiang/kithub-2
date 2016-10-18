@@ -10,6 +10,10 @@ angular.module('Lesson').factory('SimpleMDE', ['$window', function($window) {
   return $window.SimpleMDE;
 }]);
 
+angular.module('Lesson').factory('JsDiff', ['$window', function($window) {
+  return $window.JsDiff;
+}]);
+
 angular.module('Lesson').config([
   "$httpProvider",
   function($httpProvider) {
@@ -47,7 +51,7 @@ angular.module('Lesson').
 //routes
 angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 
-	$urlRouterProvider.otherwise('/dashboard');
+	$urlRouterProvider.otherwise('');
 
 	$stateProvider
 	 .state('main',{
@@ -55,31 +59,29 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
     abstract: true,
     template: "<div ui-view></div>",
 		resolve: {
-			currentUser: ['Auth', '$state', function(Auth, $state){
+			currentUser: ['Auth', function(Auth){
             return Auth.currentUser()
             .then(function(user){
               return user;
             });
-          }]
-       	}
-		})
+          }],
+      diff: ['DiffService', function(DiffService) {
+        console.log(DiffService('Hello', 'Hello World'));
+      }]
+    }
+	})
 
-   .state('main.dashboard', {
-      url: "/dashboard",
-      templateUrl: "lesson_templates/teacher/teacher_show.html",
-      controller: "TeacherShowCtrl",
-      resolve: {
-        teacher: ["currentUser", "TeacherService", function(currentUser, TeacherService){
-            return TeacherService.getTeacher(currentUser.id);
-        }]
-      }
-    })
+   // .state('main.dashboard', {
+   //    url: "/dashboard",
+   //    templateUrl: "lesson_templates/teacher/teacher_show.html",
+   //    controller: "TeacherShowCtrl",
+   //    resolve: {
+   //      teacher: ["currentUser", "TeacherService", function(currentUser, TeacherService){
+   //          return TeacherService.getTeacher(currentUser.id);
+   //      }]
+   //    }
+   //  })
 
-		.state('main.teachers', {
-			abstract: true,
-			url:'/teachers',
-			template: "<div ui-view></div>"
-		})
 		.state('main.lessons', {
       url: '/lessons',
       templateUrl: "lesson_templates/show.html",
@@ -95,7 +97,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
          controller: "PullRequestNewCtrl",
          resolve: {
           forkedLesson: ["LessonService", "$stateParams", function(LessonService, $stateParams){
-          return LessonService.getLesson($stateParams.id)
+          return LessonService.getLesson($stateParams.id);
 
          }]}},
 
@@ -131,8 +133,9 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
       }
     })
 
-		.state('main.teachers.show', {
-			url: '/:id',
+		.state('main.teachers', {
+			url: '/teachers/:id',
+      abstract: true,
 			templateUrl: "lesson_templates/teacher/teacher_show.html",
 			controller: "TeacherShowCtrl",
 			resolve: {
@@ -140,7 +143,70 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 	        	return TeacherService.getTeacher($stateParams.id);
 	      }]
 			}
-		});
+		})
+    .state('main.teachers.overview',{
+      url: '/overview',
+      templateUrl: 'lesson_templates/teacher/overview.html'
+    })
+    .state('main.teachers.lessonPlans',{
+      url: '/lessonPlans',
+      templateUrl: 'lesson_templates/teacher/lesson_plans.html'
+    })
+    .state('main.teachers.starred',{
+      url: '/starred',
+      templateUrl: 'lesson_templates/teacher/starred.html',
+      resolve: {
+        starred_lessons: ["$stateParams", "Restangular", function($stateParams, Restangular){
+          return Restangular.all('lesson_plan_stars').getList({teacher_id: $stateParams.id});
+        }]
+      },
+      controller: 'StarredLessonsCtrl'
+    })
+    .state('main.teachers.contributions',{
+      url: '/contributions',
+      templateUrl: 'lesson_templates/teacher/contributions.html',
+      resolve: {
+        lessons_contributed_to: ["$stateParams", "Restangular", function($stateParams, Restangular){
+          return Restangular.all('lesson_plan_contributors').getList({teacher_id: $stateParams.id});
+        }]
+      },
+      controller: 'ContributionsCtrl'
+    })
+    .state('main.teachers.followers',{
+      url: '/followers',
+      templateUrl: 'lesson_templates/teacher/followers.html',
+      resolve: {
+        followers: ["$stateParams", 'Restangular', function($stateParams, Restangular){
+          return Restangular.all('teacher_followings').customGET(
+            "", {followed_id: $stateParams.id}
+          ).then(function(response){
+            return response;
+          });
+        }]
+      },
+      controller: "TeacherFollowersCtrl"
+    })
+    .state('main.teachers.following',{
+      url: '/following',
+      templateUrl: 'lesson_templates/teacher/following.html',
+      resolve: {
+        following: ["$stateParams", 'Restangular', function($stateParams, Restangular){
+          return Restangular.all('teacher_followings').customGET(
+            "", {follower_id: $stateParams.id})
+          .then(function(response){
+            return response;
+          });
+        }]
+      },
+      controller: "TeacherFollowingCtrl"
+    })
+
+
+
+
+
+
+    ;
 
 }]);
 

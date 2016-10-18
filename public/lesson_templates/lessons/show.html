@@ -2,11 +2,11 @@
 
 <div class="container-fluid">
 
-<div id="lesson-new" class="row">
+<div id="lesson-show" class="row">
 
   <div class="col-md-12">
     <div class="col-md-10">
-      <h2 ng-show="editing"  editable-text="lesson.title">{{ lesson.title || 'New Lesson' }}</h2>
+      <h2 ng-show="editing" editable-text="lesson.title" class="editable">{{ lesson.title || 'New Lesson' }} <i class="fa fa-pencil" aria-hidden="true"></i></h2>
       <h2 ng-hide="editing">{{ lesson.title }}</h2>
     </div>
 
@@ -22,7 +22,7 @@
               <button class="btn btn-success" ng-click="save()">Save</button>
               <button class="btn btn-danger" ng-click="toggleEditing()">Cancel</button>
             </div>
-            <div ng-if="editing === false">
+            <div ng-if="editing === false && currentUserLesson === true">
               <button class="btn btn-primary" ng-click="toggleEditing()">Edit</button>
             </div>
           </div>

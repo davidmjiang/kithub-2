@@ -1,4 +1,4 @@
-Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList", "NgTableParams", function($scope, ModalService, courseList, NgTableParams) {
+Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList", "CourseService", "NgTableParams", function($scope, ModalService, courseList, CourseService, NgTableParams) {
 
   $scope.courses = courseList;
 
@@ -12,7 +12,7 @@ Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList",
         if (newCourse) {
           // add the new class to the scope, or get all classes
         }
-        // remove leftover modal DOM elements if necessary
+          // remove leftover modal DOM elements if necessary
       })
     })
   }

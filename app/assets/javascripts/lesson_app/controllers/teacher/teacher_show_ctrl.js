@@ -1,8 +1,8 @@
 "use strict";
 angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser', 'teacher', 'Upload', function($scope, currentUser, teacher, Upload){
 
+	$scope.isCurrentUser = currentUser.id === teacher.id;
 	$scope.teacher = teacher;
-	console.log(teacher)
 	$scope.lessons = teacher.lesson_plans;
 	$scope.states = teacher.states;
 	$scope.teacherEditing = false;
@@ -30,9 +30,9 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 	// toggle between displaying name and input types to edit name
 	$scope.editTeacher = function(){
 		$scope.teacherEditing = !$scope.teacherEditing;
-		$scope.tempFirst = $scope.teacher.first_name
-		$scope.tempLast = $scope.teacher.last_name
-		$scope.tempState = $scope.teacher.state
+		$scope.tempFirst = $scope.teacher.first_name;
+		$scope.tempLast = $scope.teacher.last_name;
+		$scope.tempState = $scope.teacher.state;
 
 	};
 

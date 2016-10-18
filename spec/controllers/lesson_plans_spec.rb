@@ -124,4 +124,63 @@ describe LessonPlansController do
 
   end
 
+  describe "PATCH #update" do
+
+    let!(:old_lesson){ create(:lesson_plan, teacher_id: teacher.id) }
+    before do
+      sign_in teacher
+    end
+
+    it 'will return unsuccessful response with invalid attributes' do
+      patch :update,
+              params: { :id => old_lesson.id,
+                        :lesson_plan => attributes_for(:lesson_plan,
+                                                       :without_title)
+                      }, :format => :json
+
+      expect(response).to_not be_success
+    end
+
+    it 'will return error message on failed update' do
+      patch :update, 
+              params: {
+                        :id => old_lesson.id,
+                        :lesson_plan => attributes_for(:lesson_plan,
+                                                       :without_title)
+                      }, :format => :json
+      body = JSON.parse(response.body)
+
+      expect(body['errors']).to_not be_empty
+    end
+
+    it 'will return successful response with valid attributes' do
+      patch :update, 
+              params: { :id => old_lesson.id, :lesson_plan => attributes_for(:lesson_plan, title: "New Title") },
+              :format => :json
+
+      expect(response).to be_success
+    end
+
+    it 'will update lesson in database with valid attributes' do
+      patch :update,
+              params: { :id => old_lesson.id, :lesson_plan => attributes_for(:lesson_plan, title: "New Title") },
+              :format => :json
+      body = JSON.parse(response.body)
+
+      expect(body['title']).to eq("New Title")
+    end
+
+    it 'will return updated object with valid attributes' do
+      patch :update, 
+              params: { :id => old_lesson.id, :lesson_plan => attributes_for(:lesson_plan,
+                                                      title: "Phil does it again.") },
+              :format => :json
+
+      new_lesson = JSON.parse(response.body)
+
+      expect(new_lesson['title']).to eq "Phil does it again."
+    end
+
+  end
+
 end
