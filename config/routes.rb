@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       resources :courses
       resources :comments, only: [:create]
       resources :assignments, only: [:create]
-      resources :submissions, only: [:create, :index]
+      resources :submissions, only: [:create, :index, :update]
       resources :lesson_plans, only: [:index, :create, :show, :update] do
         resources :pull_requests, only: [:index, :create]
 
