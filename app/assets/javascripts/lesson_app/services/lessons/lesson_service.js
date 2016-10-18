@@ -1,4 +1,5 @@
-Lesson.factory('LessonService', ['Restangular', function(Restangular) {
+Lesson.factory('LessonService', ['Restangular', "pullRequestService",
+  function(Restangular, pullRequestService) {
 
   var lessonService = {};
 
@@ -30,7 +31,8 @@ Lesson.factory('LessonService', ['Restangular', function(Restangular) {
 
   lessonService.save = function(lesson) {
     lesson.patch().then(function(response) {
-
+      // MAYBE just do one
+      pullRequestService.all();
     });
   };
 
