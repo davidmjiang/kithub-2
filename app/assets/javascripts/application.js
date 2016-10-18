@@ -31,5 +31,7 @@
 //= require bower_components/ng-file-upload/ng-file-upload.min
 //= require xeditable.min
 //= require ng-table.min
+//= require Chart.min
+//= require angular-chart.min
 
 //= require_tree .
