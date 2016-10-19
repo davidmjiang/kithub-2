@@ -1,5 +1,5 @@
-Lesson.factory('LessonService', ['Restangular', "pullRequestService",
-  function(Restangular, pullRequestService) {
+Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherService',
+  function(Restangular, pullRequestService, TeacherService) {
 
   var lessonService = {};
 
@@ -7,16 +7,25 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService",
 
   var _grades = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
+  var pushToUserLessons = function(lesson) {
+    var teacher = TeacherService.getTeacher(lesson.teacher_id);
+    teacher.lesson_plans.push(lesson);
+  };
+
+  // returns list of US states
   lessonService.getStates = function() {
     return _states;
   };
 
+  // returns list of school grades (0-12)
   lessonService.getGrades = function() {
     return _grades;
   };
 
   lessonService.create = function(newLesson) {
     return Restangular.all('lesson_plans').post(newLesson).then(function(response) {
+
+        pushToUserLessons(response);
         return response;
       // returns lesson object
 
@@ -28,10 +37,13 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService",
   };
 
   lessonService.save = function(lesson) {
-    return lesson.patch().then(function(response) {
-      // MAYBE just do one
-      // pullRequestService.all();
-    });
+    return lesson.patch().then(
+      function(response) {
+        // success
+      },
+      function(response) {
+        // error
+      });
   };
 
   lessonService.getLesson = function(lesson_id) {
