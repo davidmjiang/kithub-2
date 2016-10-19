@@ -19,9 +19,7 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
   var updateUserLesson = function(lesson) {
     var teacher = TeacherService.getTeacher(lesson.teacher_id);
     var teacherLesson = _.find(teacher.lesson_plans, { 'id': lesson.id } );
-    console.log(teacherLesson)
     angular.copy(lesson, teacherLesson);
-    console.log(teacherLesson)
   };
 
   // returns list of US states
@@ -38,8 +36,8 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
     return Restangular.all('lesson_plans').post(newLesson).then(function(response) {
 
         pushToUserLessons(response);
+        // returns lesson object
         return response;
-      // returns lesson object
 
     },
     function(response) {
