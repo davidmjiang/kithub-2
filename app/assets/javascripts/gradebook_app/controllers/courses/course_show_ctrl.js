@@ -1,6 +1,6 @@
 
 
-Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "GPAService", "ModalService", "AssignmentService", "SubmissionsService", function($scope, course, StudentService, GPAService, ModalService, AssignmentService, SubmissionsService){
+Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "GPAService", "ModalService", "AssignmentService", "SubmissionService", function($scope, course, StudentService, GPAService, ModalService, AssignmentService, SubmissionService){
 
 
   var cols =[];
@@ -11,7 +11,19 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
   $scope.rawGPA = GPAService.rawGPA(course)
   $scope.students = $scope.course.students;
 
-  $scope.assignments = $scope.course.assignments;
+  $scope.assignments = $scope.course.assignments.sort(function(a,b) {
+    var created_atA = a.created_at
+    var created_atB = b.created_at
+    if(created_atA < created_atB) {
+      return -1;
+    }
+    if(created_atB < created_atA) {
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  })
 
   $scope.studentDetailModal = function(email) {
     ModalService.showModal({
@@ -85,7 +97,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
     else if (index > 3 && index < row.length - 1) {
       var submission = $scope.students[rowIndex].submissions[index - 4]
       submission.raw_score = parseInt(item)
-      SubmissionsService.editSubmission(submission)
+      SubmissionService.editSubmission(submission)
     }
   }
 
@@ -155,6 +167,16 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "G
   $scope.$on("student.added", function(event, data) {
     $scope.rowCount ++;
     allRows.push(data);
+  })
+
+  $scope.$on("assignment.edit", function(event, data) {
+    var newAssignment = data.assignment_type + ": " + data.title +
+                        "(" + data.possible_score + ")"
+    for(var i = 0; i < $scope.assignments.length; i++) {
+      if($scope.assignments[i].id === data.id) {
+        $scope.cols[i] = newAssignment;
+      }
+    }
   })
 
   $scope.$on("assignment.added", function(event, data) {

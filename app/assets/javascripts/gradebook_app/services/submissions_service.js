@@ -1,5 +1,5 @@
 
-Gradebook.factory('SubmissionsService', ['Restangular', function(Restangular){
+Gradebook.factory('SubmissionService', ['Restangular', function(Restangular){
 
 
 	var stub = {}
