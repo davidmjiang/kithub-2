@@ -35,5 +35,6 @@
 //= require ng-table.min
 //= require Chart.min
 //= require angular-chart.min
+//= require dirPagination
 
 //= require_tree .
