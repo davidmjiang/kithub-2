@@ -1,4 +1,4 @@
-Gradebook.controller("StudentNewCtrl", ["$scope", "course", "StudentService", "_", "$rootScope", function($scope, course, StudentService,  _, $rootScope) {
+Gradebook.controller("StudentNewCtrl", ["$scope", "course", "StudentService", "_", "$rootScope", "close", function($scope, course, StudentService,  _, $rootScope, close) {
 
 	$scope.course = course
 	//StudentService.addStudent(course);	
@@ -6,14 +6,17 @@ Gradebook.controller("StudentNewCtrl", ["$scope", "course", "StudentService", "_
 
 	$scope.addStudent = function(student) {
 		student.course_ids = [course.id];
+		$scope.close();
 		StudentService.addStudent(student).then(function(newStudent) {
 			$rootScope.$broadcast('student.added', newStudent);
 			return newStudent;
 		})
 	}
 
-	$scope.removeStudent = function(student) {
-		
-	}
+	$scope.close = function() {
+   	angular.element('body').removeClass('modal-open');
+   	angular.element(".modal-backdrop").remove();
+   	close();
+   };
 
 }])
