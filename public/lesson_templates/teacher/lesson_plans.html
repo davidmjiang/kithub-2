@@ -3,25 +3,36 @@
       <div class="row">
         <div class='col-xs-12 filter-container'>
           <input type="text" ng-model="titleFilter" placeholder="Filter by title..." class=" form-control lesson-plan-filter" >
-          <p ng-click="toggleAdvancedFilters()" id="advanced-filters">Advanced Filters</p>
+          <p ng-click="toggleAdvancedFilters()" id="advanced-filters"><i class="fa fa-sliders" aria-hidden="true"></i> Advanced Filters</p>
         </div>
       </div>
       <div class="row" ng-show="advancedFilters">
+        <div class="col-xs-3 pull-right">
+          <button  class="btn btn-outline-primary pull-right" id="clear-filters" ng-click="resetFilters()">Clear Filters</button>
+        </div>
         <div class="col-xs-12 lesson-filters">
-          Grade: {{gradeFilter}} & up  <input type="range" ng-model="gradeFilter" class="filter-range" min="0" max="12"> <div class="filter-vertical-divide"></div>
-          Hours: {{hourFilter}} & up <input type="range" ng-model="hourFilter" class="filter-range" min="0" max="10">  <div class="filter-vertical-divide"></div>
-          Lesson Type: <select ng-model="lessonTypeFilter">
+          Grade: {{filters.grade}} & up  <input type="range" ng-model="filters.grade" class="filter-range" min="0" max="12"> <div class="filter-vertical-divide"></div>
+          Hours: {{filters.hour}} & up <input type="range" ng-model="filters.hour" class="filter-range" min="0" max="10">  <div class="filter-vertical-divide"></div>
+          Lesson Type: <select ng-model="filters.lessonType">
             <option value=""></option>
             <option ng-repeat="lessontype in lessonTypes" value="{{lessontype}}">{{lessontype}}</option>
           </select> <div class="filter-vertical-divide"></div>
-          Subject: <select ng-model="subjectFilter">
+          Subject: <select ng-model="filters.subject">
             <option value=""></option>
             <option ng-repeat="subject in subjects" value="{{subject}}">{{subject}}</option>
           </select>
         </div>
       </div>
       <div class="list-group row">
-        <div lesson-card class="col-md-6" lesson="lesson" ng-repeat="lesson in teacher.lesson_plans | orderBy: '-created_at' | filter: {title: titleFilter} | filter: greaterThan('grade', gradeFilter) | filter: {lesson_type: lessonTypeFilter} | filter: {subject: subjectFilter} | filter: greaterThan('hours', hourFilter)">
+        <div dir-paginate="lesson in teacher.lesson_plans | orderBy: '-created_at' | filter: {title: titleFilter} | filter: greaterThan('grade', filters.grade) | filter: {lesson_type: filters.lessonType} | filter: {subject: filters.subject} | filter: greaterThan('hours', filters.hour) | itemsPerPage: 10">
+          <div class="clearfix" ng-if="$index % 2 == 0"></div>
+          <div lesson-card class="col-md-6" lesson="lesson"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 pagination-holder">
+          <dir-pagination-controls></dir-pagination-controls>
+        </div>
       </div>
     </div>
   </div>
