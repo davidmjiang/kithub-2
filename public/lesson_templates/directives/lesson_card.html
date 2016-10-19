@@ -1,16 +1,22 @@
 <div class="row">
-    <div class="col-md-11 list-group-item active listed-lesson-plan">
-      <a ui-sref="main.lessons.show({id: {{lesson.id}}})">
-        <h4>{{lesson.title}}</h4>
-      </a>
-      <!-- <p>Creator: {{lesson.first_name || lesson.teacher.first_name}} {{lesson.last_name || lesson.teacher.last_name}}</p> -->
-      <p>Created: {{lesson.created_at | date}}</p>
-      <p>Last updated: {{lesson.updated_at | date}}</p>
-      <p> Subject: {{lesson.subject}} <strong>|</strong> Grade: {{lesson.grade}} <strong>|</strong> Hours: {{lesson.hours}}</p>
-      <p>Lesson type: {{lesson.lesson_type}}
-      <p><span class="fa fa-star" aria-hidden="true"></span> {{lesson.stars}} <span class="fa fa-code-fork" aria-hidden="true"></span> {{lesson.forks}}</p>
-      <div ng-if="lesson.parent_plan_id">
-        <p>Forked from <a ui-sref="main.lessons.show({id: {{lesson.parent_plan_id }}})">{{lesson.parent_plan_title}}</a></p>
+    <div class="col-md-11">
+      <div class="card card-outline-primary listed-lesson-plan">
+        <h4 class="card-header " ng-class="{group: lesson.lesson_type === 'Group', individual: lesson.lesson_type === 'Individual', teacher: lesson.lesson_type === 'Teacher-led'}">
+          <a ui-sref="main.lessons.show({id: {{lesson.id}}})">
+            {{lesson.title}}
+          </a>
+        </h4>
+        <div class="card-block">
+        <!-- <p>Creator: {{lesson.first_name || lesson.teacher.first_name}} {{lesson.last_name || lesson.teacher.last_name}}</p> -->
+          <p>Created: {{lesson.created_at | date}}</p>
+          <p>Last updated: {{lesson.updated_at | date}}</p>
+          <p> Subject: {{lesson.subject}} <strong>|</strong> Grade: {{lesson.grade}} <strong>|</strong> Hours: {{lesson.hours}}</p>
+          <p>Lesson type: {{lesson.lesson_type}}
+          <p><span class="fa fa-star" aria-hidden="true"></span> {{lesson.stars}} <span class="fa fa-code-fork" aria-hidden="true"></span> {{lesson.forks}}</p>
+          <div ng-if="lesson.parent_plan_id">
+            <p>Forked from <a ui-sref="main.lessons.show({id: {{lesson.parent_plan_id }}})">{{lesson.parent_plan_title}}</a></p>
+          </div>
+        </div>
       </div>
     </div>
   

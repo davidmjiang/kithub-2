@@ -11,7 +11,15 @@
 	max-height: 250px;
 	vertical-align: middle;
 	max-width: 100%;
-	border-radius: 0;
+	border-radius: 2px;
+}
+
+.teacher-info{
+	text-align: center;
+	.btn {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
 }
 
 #photo-upload{
@@ -35,12 +43,29 @@
 
 .listed-lesson-plan{
 	border-radius: .25rem;
-		margin-top: 25px;
-	a {
-		color: white;
-	}
-	P {
+	margin-top: 25px;
+
+	p {
 		margin-bottom: 5px;
+	}
+	.card-header {
+		a {
+			color: white;
+		}
+		border-radius: 2px 2px 0 0;
+		margin-bottom: 0;
+	}
+	.card-block {
+		padding: 10px;
+	}
+	.group{
+		background-color: $primary-color;
+	}
+	.teacher {
+		background-color: $secondary-color;
+	}
+	.individual {
+		background: $blue-sky-color;
 	}
 }
 
