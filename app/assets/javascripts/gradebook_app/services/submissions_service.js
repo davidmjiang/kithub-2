@@ -20,15 +20,6 @@ Gradebook.factory('SubmissionService', ['Restangular', '$q', function(Restangula
   });
 
   // transitioning over to curves service. this function will be deprecated
-  stub.applyFlatCurve = function(flatRate, assignmentId) {
-    var requests = []
-    _.each(submissions, function(submission) {
-      var realScore = ((submission.raw_score / pointsPossible) * 100) + flatRate;
-      Restangular.restangularizeElement(null, submission, 'submissions')
-      requests.push(submission.patch({real_score: realScore}))
-    })
-    return $q.all(requests)
-  }
 
   stub.applyLinearCurve = function(submissions, input, pointsPossible) {
     var requests = []

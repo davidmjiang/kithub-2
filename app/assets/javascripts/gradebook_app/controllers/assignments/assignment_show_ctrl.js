@@ -7,7 +7,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
 
   // this will have to change
   if ($scope.assignment.has_curve ) {
-    console.log("assignment has curve!")
+    console.log("assignment has curve!!")
     $scope.gpa.real = GPAService.realGPA(course, $scope.assignment)
     $scope.curveApplied = true 
   } else {
@@ -89,6 +89,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   }
 
 
+  // private 
+
   var _applyFlatCurve = function() {
     CurveService.applyFlatCurve($scope.curve.flatRate, assignment.id)
     .then(function(response) {
@@ -100,25 +102,13 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   }
 
   var _applyLinearCurve = function() {
-    CurveService.applyLinearCurve($$scope.curve, assignment.id)
+    CurveService.applyLinearCurve($scope.curve, assignment.id)
       .then(function(response) {
         console.log("response in controller")
         console.log(response)
-        assignment.linear_curve = response
         $scope.assignment.linear_curve = response
         $scope.assignment.has_curve = true
-    })
-  }
-
-  var _applyResponseSubmissions = function(response) {
-    _.each(response, function(responseSubmission) {
-      _.each(course.students, function(student) {
-        _.each(student.submissions, function(studentSubmission) {
-          if (studentSubmission.id === responseSubmission.id) {
-            studentSubmission.real_score = responseSubmission.real_score
-          }
-        })
-      })
+        assignment.linear_curve = response
     })
   }
 
@@ -130,6 +120,14 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       submission.real_score = _linearFormula($scope.curve, _rawPercent)
     })
     return _averageRealScore(_simulatedSubmissions)
+    // to simulate linear curve:
+    // create a copy of $scope.assignment with a linear curve as per the input data
+    // send that info over to GPAService.realGPA
+    // apply the result to $scope.realGPA
+    var _simulatedAssignment = {}
+    angular.copy($scope.assignment, _simulatedAssignment)
+    _simulatedAssignment.linear_curve = $scope.curve
+    return GPAService.realGPA(course, _simulatedAssignment)
   }
 
   var _linearFormula = function(input, rawPercent) {

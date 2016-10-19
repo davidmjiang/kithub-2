@@ -20,5 +20,5 @@ json.assignments @course.assignments do |assignment|
 
   json.has_curve assignment.has_curve
   json.flat_curve assignment.flat_curve
-  # json.linear_curve assignment.linear_curve
+  json.linear_curve assignment.linear_curve
 end

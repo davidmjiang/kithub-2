@@ -43,10 +43,14 @@ Gradebook.factory("GPAService", function() {
     return gpa
   }
 
+
+
+  // private
+
   var _applyCurve = function(assignment, rawPercent) {
     if (assignment.flat_curve) {
       return _applyFlatCurve(assignment, rawPercent)
-    } else if (assigment.linear_curve) {
+    } else if (assignment.linear_curve) {
       return _applyLinearCurve(assignment, rawPercent)
     }
   }
@@ -56,7 +60,11 @@ Gradebook.factory("GPAService", function() {
   }
 
   var _applyLinearCurve = function(assignment, rawPercent) {
+    return _linearFormula(assignment.linear_curve, rawPercent)
+  }
 
+  var _linearFormula = function(input, rawPercent) {
+    return input.curvedA + (((input.curvedB - input.curvedA)/(input.rawB - input.rawA)) * (rawPercent - input.rawA));
   }
 
   return GPAService
