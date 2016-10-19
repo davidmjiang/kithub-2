@@ -13,7 +13,7 @@ Lesson.directive("pullRequestShow",  [ "pullRequestService", "DiffService",
       }
 
       scope.rejectChanges = function() {
-
+        pullRequestService.rejectChanges()
       }
     }
   };

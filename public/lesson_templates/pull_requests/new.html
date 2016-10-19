@@ -1,6 +1,5 @@
 <fork-lesson-plan ng-if="lessonBelongsToCurrentUser === false && alreadyForked !== true"></fork-lesson-plan>
 
-{{ lessonBelongsToCurrentUser }}
 <button ng-if="lessonBelongsToCurrentUser"
         ng-click="getDiffInfo()"
         type="button"
@@ -28,7 +27,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
 
-        <h4 class="modal-title" id="myModalLabel">
+        <h4 class="modal-title" id="myModalLabel" ng-required required>
           New Pull Request
         </h4>
       </div>
