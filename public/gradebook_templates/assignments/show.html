@@ -32,57 +32,67 @@
           <button ng-hide="addingCurve" ng-click="addCurve()" class="btn btn-outline-warning">Add/Edit Curve</button>
 
           <div ng-show="addingCurve">
-            <label>Type:</label>
-            <select ng-model="curveType">
-              <option value="Flat">Flat</option>
-              <option value="Linear">Linear</option>
-            </select>
-       
-            <!-- flat -->
-            <div ng-if="curveType==='Flat'">
-              <label>By what percent would you like to increase scores?</label>
-              <input type="number" max="100" ng-model="curve.flatOffset">
-              &nbsp; %
-              <button ng-click="applyFlatCurve()">Apply Curve</button>
-              <button ng-show="addingCurve" ng-click="resetCurve()">
-                Remove Curve
-              </button>
+
+            <div ng-hide="hasCurve">
+              <label>Type:</label>
+              <select ng-model="curveType">
+                <option value="Flat">Flat</option>
+                <option value="Linear">Linear</option>
+              </select>
+         
+              <!-- flat -->
+              <div ng-if="curveType==='Flat'">
+                <label>By what percent would you like to increase scores?</label>
+                <input type="number" max="100" ng-model="curve.flatRate">
+                &nbsp; %
+                <button ng-click="applyFlatCurve()">Apply Curve</button>
+                <button ng-show="addingCurve" ng-click="resetCurve()">
+                  Remove Curve
+                </button>
+              </div>
+
+              <!-- linear -->
+              <div ng-if="curveType==='Linear'">
+                <p>Pick two raw score percent values (for example, the mean score and the lowest score), then choose what you'd like those values to become. </p>
+                <label>Score A (original):</label>
+                <input class="float-right" 
+                        type="number" 
+                        max="100" 
+                        min="0" 
+                        ng-model="curve.rawA">
+                <label>Score A (curved):</label>
+                <input class="float-right" 
+                        type="number" 
+                        max="100" 
+                        min="0" 
+                        ng-model="curve.curvedA">
+                <label>Score B (original):</label>
+                <input class="float-right" 
+                        type="number" 
+                        max="100" 
+                        min="0" 
+                        ng-model="curve.rawB">
+                <label>Score B (curved):</label>
+                <input class="float-right" 
+                        type="number" 
+                        max="100" 
+                        min="0" 
+                        ng-model="curve.curvedB">
+                <button ng-click="applyLinearCurve()">
+                  Apply Curve
+                </button>
+                <button ng-show="addingCurve" ng-click="resetCurve()">
+                  Remove Curve
+                </button>
+              </div>
             </div>
 
-            <!-- linear -->
-            <div ng-if="curveType==='Linear'">
-              <p>Pick two raw score percent values (for example, the mean score and the lowest score), then choose what you'd like those values to become. </p>
-              <label>Score A (original):</label>
-              <input class="float-right" 
-                      type="number" 
-                      max="100" 
-                      min="0" 
-                      ng-model="curve.rawA">
-              <label>Score A (curved):</label>
-              <input class="float-right" 
-                      type="number" 
-                      max="100" 
-                      min="0" 
-                      ng-model="curve.curvedA">
-              <label>Score B (original):</label>
-              <input class="float-right" 
-                      type="number" 
-                      max="100" 
-                      min="0" 
-                      ng-model="curve.rawB">
-              <label>Score B (curved):</label>
-              <input class="float-right" 
-                      type="number" 
-                      max="100" 
-                      min="0" 
-                      ng-model="curve.curvedB">
-              <button ng-click="applyLinearCurve()">
-                Apply Curve
-              </button>
-              <button ng-show="addingCurve" ng-click="resetCurve()">
-                Remove Curve
-              </button>
+            <div ng-show="editCurve">
+
+              <!-- stuff for editing curves -->
+
             </div>
+
           </div>
         </div>
 

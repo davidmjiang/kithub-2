@@ -17,4 +17,8 @@ json.assignments @course.assignments do |assignment|
   json.possible_score assignment.possible_score
 
   json.submissions assignment.submissions
+
+  json.has_curve assignment.has_curve
+  json.flat_curve assignment.flat_curve
+  # json.linear_curve assignment.linear_curve
 end

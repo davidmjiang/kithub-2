@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       resources :lesson_plans, only: [:index, :create, :show, :update] do
         resources :pull_requests, only: [:index, :create]
       end
+      resources :flat_curves, only: [:create, :update, :destroy]
       resources :teacher_followings, only: [:index, :create, :destroy]
       resources :lesson_plan_contributors, only: [:index, :create]
       resources :lesson_plan_stars, only: [:index, :create]
