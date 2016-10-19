@@ -38,6 +38,7 @@
         <th sortable-header col="Email">Email</th>
 
         <th sortable-header col="{{col}}" sortable-header ng-repeat="col in cols track by $index | limitTo: colCount - 4" ng-click="showAssignmentModal(assignments[$index])">{{col}}</th>
+        <th>Details</th>
 
       </tr>
     </thead>
