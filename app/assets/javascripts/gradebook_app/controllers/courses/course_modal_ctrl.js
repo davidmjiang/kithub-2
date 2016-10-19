@@ -1,23 +1,60 @@
-Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments", "gpa", function($scope, _, course, assignments, gpa) {
+Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments", "gpa", "students", "close", function($scope, _, course, assignments, gpa, students, close) {
 
   $scope.course = course;
   $scope.assignments = assignments;
   $scope.gpa = gpa;
-
-  $scope.labels = _.map(assignments, 'title');
-
-  var getAvg = function(assignment) {
-    var possible = assignment.possible_score;
-    var sum = 0;
-    for (var i = 0; i < assignment.submissions.length; i++) {
-      sum += assignment.submissions[i].raw_score
-    }
-    var avg = sum / assignment.submissions.length
-    return ((avg/possible) * 100)
+  $scope.students = students;
+  $scope.close = function() {
+    angular.element('body').removeClass('modal-open');
+    angular.element(".modal-backdrop").remove();
+    close();
   };
 
-  $scope.data = [_.map(assignments, function(assignment) {
-    return getAvg(assignment).toFixed(2);
+  var getPercent = function(assignment, score) {
+    var possible = assignment.possible_score;
+    return ((score/possible)*100);
+  };
+
+  var assignmentAvg = function(assignment) {
+    var sum = 0;
+    for (var i = 0; i < assignment.submissions.length; i++) {
+      sum += getPercent(assignment, assignment.submissions[i].raw_score)
+    }
+    return sum / assignment.submissions.length
+  };
+
+  var studentAvg = function(student) {
+    var sum = 0;
+    for (var i = 0; i < student.submissions.length; i++) {
+      var submission = student.submissions[i];
+      var assignment = _.find($scope.assignments, {'id': submission.assignment_id});
+      sum += getPercent(assignment, submission.raw_score)
+    }
+    return sum / student.submissions.length
+  };
+
+  var studentAverages = function(students) {
+    var studentArray = [];
+    angular.forEach(students, function(student) {
+      studentArray.push({
+              'name': student.first_name + " " + student.last_name[0] + ".",
+              'average': studentAvg(student)})
+    })
+    studentArray.sort(function(a, b){
+      return a.average-b.average
+    })
+    return studentArray
+  };
+
+  var averages = studentAverages($scope.students)
+  $scope.studentLabels = _.map(averages, 'name');
+  $scope.studentData = [_.map(averages, function(student){
+    return student.average.toFixed(2);
+  })];
+
+  $scope.assignmentLabels = _.map(assignments, 'title');
+  $scope.assignmentData = [_.map(assignments, function(assignment) {
+    return assignmentAvg(assignment).toFixed(2);
   })];
 
   $scope.opts = {
