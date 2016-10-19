@@ -38,7 +38,6 @@ class SubmissionsController < ApplicationController
   end
 
   def update
-    puts "YOU MADE IT!!"
     @submission = Submission.find_by_id(params[:id])
     @submission.update(submission_params)
     if @submission.save! 
