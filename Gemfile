@@ -27,9 +27,9 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
 end
 # testing to resolve an issue with font-awesome-sass files unfound or unreadable
-# gem 'font-awesome-rails'
+gem 'font-awesome-rails'
 # icons, since Bootstrap 4 doesn't have any
-gem 'font-awesome-sass'
+# gem 'font-awesome-sass', '~> 4.6.2'
 # JQuery UI for angular-modal
 gem 'jquery-ui-rails'
 # to be able to user assert_template in controller testing

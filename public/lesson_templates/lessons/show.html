@@ -3,30 +3,28 @@
 <div class="container-fluid">
 
 <div id="lesson-show" class="row">
-
-  <div class="col-md-12">
-    <div class="col-md-10">
+    
+  <div class="row">
+    <div class="col-md-4">
       <h2 ng-show="editing" editable-text="lesson.title" class="editable">{{ lesson.title || 'New Lesson' }} <i class="fa fa-pencil" aria-hidden="true"></i></h2>
       <h2 ng-hide="editing">{{ lesson.title }}</h2>
     </div>
 
+    <div class="col-md-4" style="text-align: right;">
+      <div ng-if="editing === true">
+        <button class="btn btn-primary" ng-click="toggleEditing()">Stop editing</button>
+        <button class="btn btn-success" ng-click="save()" id="save-btn"><i class="fa {{ saving ? 'fa-spinner fa-spin' : 'fa-floppy-o' }} fa-fw"></i> Commit Changes</button>
+      </div>
+      <div ng-if="editing === false && currentUserLesson === true">
+        <button class="btn btn-primary" ng-click="toggleEditing()">Edit</button>
+      </div>
+    </div>
+  </div>
 
     <div class="row">
       <div class="col-md-8">
         <textarea lesson-edit='editorOptions' preview="false" id="editor" ng-model="lesson.content" ng-if="editing === true"></textarea>
         <textarea lesson-edit='previewOptions' preview="true" ng-model="lesson.content"  ng-if="editing === false"></textarea>
-
-        <div class="row">
-          <div class="col-md-6">
-            <div ng-if="editing === true">
-              <button class="btn btn-success" ng-click="save()">Save</button>
-              <button class="btn btn-danger" ng-click="toggleEditing()">Cancel</button>
-            </div>
-            <div ng-if="editing === false && currentUserLesson === true">
-              <button class="btn btn-primary" ng-click="toggleEditing()">Edit</button>
-            </div>
-          </div>
-        </div>
       </div>
 
 
@@ -78,6 +76,6 @@
     </div>
 
 
+
   </div>
-</div>
 </div>
