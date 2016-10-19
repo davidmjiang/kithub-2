@@ -40,6 +40,7 @@ class LessonPlansController < ApplicationController
       if @lesson_plan.save
         format.json { render json: @lesson_plan }
       else
+        puts @lesson_plan.errors.full_messages
         format.json { render json: {
                                     errors: @lesson_plan.errors.full_messages },
                                     :status => 422
@@ -53,7 +54,7 @@ class LessonPlansController < ApplicationController
     def lesson_plan_params
       params.require(:lesson_plan).permit(:title, :content, :hours,
                                           :version, :state, :grade,
-                                          :subject, :lesson_type)
+                                          :subject, :lesson_type, :parent_plan_id)
     end
 
 end
