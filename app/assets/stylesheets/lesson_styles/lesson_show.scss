@@ -1,5 +1,15 @@
 #lesson-show {
 
+  #profile-img {
+    height: 1.75em;
+    width: 1.75em;
+    vertical-align: middle;
+    border-radius: 0.25rem;
+    display: inline-block;
+    background-size: contain;
+    background-position: 50% 50%;
+  }
+
   .CodeMirror, .CodeMirror-scroll {
     min-height: 450px;
   }

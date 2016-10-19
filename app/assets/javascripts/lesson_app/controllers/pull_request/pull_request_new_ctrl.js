@@ -1,6 +1,7 @@
-angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$stateParams', "pullRequestService", "LessonService", "forkedLesson", "currentUser", "teacher", "DiffService", function($scope, $stateParams, pullRequestService, LessonService, forkedLesson, currentUser, teacher, DiffService){
+angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$stateParams', "pullRequestService", "LessonService", "lesson", "currentUser", "teacher", "DiffService", function($scope, $stateParams, pullRequestService, LessonService, lesson, currentUser, teacher, DiffService){
 
-  $scope.forkedLesson = forkedLesson
+  $scope.newPR = pullRequestService.getNewPullRequest($stateParams.id);
+  $scope.forkedLesson = lesson;
 
   LessonService.getLesson($stateParams.id).then(function(response){
     $scope.newPR = pullRequestService.getNewPullRequest($stateParams.id, response.parent_plan_id);
