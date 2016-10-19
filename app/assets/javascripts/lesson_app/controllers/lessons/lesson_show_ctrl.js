@@ -6,6 +6,8 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
 
   // determines if mode is preview or editing
   $scope.editing = false;
+  // true means an ajax update request is still pending
+  $scope.saving = false;
 
   // options for the editing window
   $scope.editorOptions = {
@@ -46,11 +48,20 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     LessonService.create(newLesson);
   };
 
+  // turns on and off spinning save image
+  var toggleSaving = function(toggle) {
+    $scope.saving = toggle;
+  };
+
   // patches the lesson object
   $scope.save = function() {
-    LessonService.save($scope.lesson);
-    $scope.toggleEditing();
+    toggleSaving(true);
+    LessonService.save($scope.lesson).then(function() {
+      toggleSaving(false);
+    });
+    // $scope.toggleEditing();
   };
+
 
   // switch from editing to preview mode
   $scope.toggleEditing = function() {
