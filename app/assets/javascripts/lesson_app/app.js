@@ -149,7 +149,14 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 			resolve: {
 	      teacher: ["$stateParams", "TeacherService", function($stateParams, TeacherService){
 	        	return TeacherService.getTeacher($stateParams.id);
-	      }]
+	      }],
+         followers: ["$stateParams", 'Restangular', function($stateParams, Restangular){
+          return Restangular.all('teacher_followings').customGET(
+            "", {followed_id: $stateParams.id}
+          ).then(function(response){
+            return response;
+          });
+        }]
 			}
 		})
     .state('main.teachers.overview',{
@@ -184,15 +191,6 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
     .state('main.teachers.followers',{
       url: '/followers',
       templateUrl: 'lesson_templates/teacher/followers.html',
-      resolve: {
-        followers: ["$stateParams", 'Restangular', function($stateParams, Restangular){
-          return Restangular.all('teacher_followings').customGET(
-            "", {followed_id: $stateParams.id}
-          ).then(function(response){
-            return response;
-          });
-        }]
-      },
       controller: "TeacherFollowersCtrl"
     })
     .state('main.teachers.following',{
