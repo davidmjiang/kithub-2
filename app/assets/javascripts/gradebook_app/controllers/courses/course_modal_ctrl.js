@@ -1,34 +1,34 @@
-Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments", "gpa", function($scope, _, course, assignments, gpa) {
+Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments", "gpa", "students", "close", "VisualService", function($scope, _, course, assignments, gpa, students, close, VisualService) {
 
   $scope.course = course;
-  $scope.assignments = assignments;
   $scope.gpa = gpa;
-
-  $scope.labels = _.map(assignments, 'title');
-
-  var getAvg = function(assignment) {
-    var possible = assignment.possible_score;
-    var sum = 0;
-    for (var i = 0; i < assignment.submissions.length; i++) {
-      sum += assignment.submissions[i].raw_score
-    }
-    var avg = sum / assignment.submissions.length
-    return ((avg/possible) * 100)
+  $scope.close = function() {
+    angular.element('body').removeClass('modal-open');
+    angular.element(".modal-backdrop").remove();
+    close();
   };
 
-  $scope.data = [_.map(assignments, function(assignment) {
-    return getAvg(assignment).toFixed(2);
+  var averages = VisualService.studentAverages(students, assignments)
+  $scope.studentLabels = _.map(averages, 'name');
+  $scope.studentData = [_.map(averages, function(student){
+    return student.average.toFixed(2);
+  })];
+
+  $scope.assignmentLabels = _.map(assignments, 'title');
+  $scope.assignmentData = [_.map(assignments, function(assignment) {
+    return VisualService.assignmentAvg(assignment).toFixed(2);
   })];
 
   $scope.opts = {
-  scales: {
-    yAxes: [
-      {ticks: {
-        beginAtZero: true,
-        steps: 10,
-        stepValue: 10,
-        max: 100
-      }}]
+    scales: {
+      yAxes: [
+        {ticks: {
+          beginAtZero: true,
+          steps: 10,
+          stepValue: 10,
+          max: 100
+        }}
+      ]
     }
   }
 

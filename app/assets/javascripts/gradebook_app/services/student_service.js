@@ -7,7 +7,7 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   }
 
   StudentService.addStudent = function(student) {
-    return Restangular.all("students").post({student}).then(function(createStudent) {
+    return Restangular.all("students").post(student).then(function(createStudent) {
       var response = [];
       response.push(createStudent.id);
       response.push(createStudent.first_name);
@@ -44,7 +44,10 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   StudentService.updateStudent = function(params, student) {
     Restangular.restangularizeElement(null, student, 'students');
     student.patch(params);
+  }
 
+  StudentService.removeStudent = function(student) {
+    return Restangular.one("students", student.id).remove()
   }
 
   return StudentService

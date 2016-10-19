@@ -1,4 +1,4 @@
-Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "close", "AssignmentService", "CurveService", "$rootScope", function($scope, course, assignment, GPAService, close, AssignmentService, CurveService, $rootScope) {
+Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "close", "AssignmentService", "CurveService", "$rootScope", "students", "VisualService", function($scope, course, assignment, GPAService, close, AssignmentService, CurveService, $rootScope, students, VisualService) {
 
   $scope.assignment = assignment
   $scope.gpa = {}
@@ -157,7 +157,25 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   }
 
 
+  
 
+  $scope.opts = {
+    scales: {
+      yAxes: [
+        {ticks: {
+          beginAtZero: true,
+          steps: 10,
+          stepValue: 10,
+          max: 100
+        }}
+      ]
+    }
+  }
 
+  var scores = VisualService.studentScores(students, assignment)
+  $scope.scoreLabels = _.map(scores, 'name');
+  $scope.scoreData = [_.map(scores, function(score){
+    return score.percent.toFixed(2);
+  })];
 
 }])

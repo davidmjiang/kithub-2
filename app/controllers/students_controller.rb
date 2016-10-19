@@ -2,16 +2,17 @@ class StudentsController < ApplicationController
 
   def show
     @student = Student.find_by_id(params[:id])
-    respond_to do |format| 
+    respond_to do |format|
       format.json {render json: @student, include: [:submissions]}
     end
   end
 
   def create
     @student = Student.new(student_params)
+    @student.course_ids = params['course_ids']
     respond_to do |format|
       if @student.save
-        create_submissions(params["student"]["course_ids"], @student.id)
+        create_submissions(params["course_ids"], @student.id)
         format.json {render json: @student, include: [:submissions]}
       else
         format.json { render json: {
@@ -39,6 +40,20 @@ class StudentsController < ApplicationController
     end
   end
 
+  def destroy
+    @student = Student.find(params[:id])
+    respond_to do |format|
+      if @student.destroy
+        format.json {render json: @student}
+      else
+        format.json { render json: {
+                                            errors: @student.errors.full_messages },
+                                            :status => 422
+                                           }
+      end
+    end
+  end
+
   private
 
   def student_params
@@ -49,7 +64,7 @@ class StudentsController < ApplicationController
   def create_submissions(course_id, student_id)
     student = Student.find_by_id(student_id)
     a = Course.find_by_id(course_id).assignments
-    a.each do |assignment| 
+    a.each do |assignment|
       submission = Submission.create()
       submission.raw_score = 0
       submission.assignment_id = assignment.id
