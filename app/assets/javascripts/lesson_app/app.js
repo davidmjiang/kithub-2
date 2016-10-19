@@ -1,6 +1,6 @@
 "use strict";
 
-var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise", 'ngFileUpload', "xeditable"]);
+var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise", 'ngFileUpload', "xeditable", 'angularUtils.directives.dirPagination']);
 
 angular.module('Lesson').factory('_', ['$window', function($window) {
   return $window._;
@@ -48,6 +48,13 @@ angular.module('Lesson').
         AuthProvider.resourceName('teacher');
     }]);
 
+// config for pagination
+angular.module('Lesson')
+  .config(['paginationTemplateProvider', function(paginationTemplateProvider) {
+    paginationTemplateProvider
+    .setPath('lesson_templates/dirPagination.tpl.html');
+}]);
+
 //routes
 angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 
@@ -75,7 +82,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
       url: "/redirect",
       controller: ['currentUser', '$state', function(currentUser, $state){
             $state.go('main.teachers.overview', {id: currentUser.id})
-              
+
         }]
     })
 
@@ -94,9 +101,13 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
          controller: "PullRequestNewCtrl",
          resolve: {
           forkedLesson: ["LessonService", "$stateParams", function(LessonService, $stateParams){
-          return LessonService.getLesson($stateParams.id);
+            return LessonService.getLesson($stateParams.id);
+          }],
 
-         }]}},
+          teacher: ["$stateParams", "TeacherService", "currentUser", function($stateParams, TeacherService, currentUser){
+            return TeacherService.getTeacher(currentUser.id);
+          }]
+       }},
 
         'mainContainer@main.lessons': {
           templateUrl: "lesson_templates/lessons/show.html",
@@ -147,7 +158,8 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
     })
     .state('main.teachers.lessonPlans',{
       url: '/lessonPlans',
-      templateUrl: 'lesson_templates/teacher/lesson_plans.html'
+      templateUrl: 'lesson_templates/teacher/lesson_plans.html',
+      controller: 'LessonPlanCtrl'
     })
     .state('main.teachers.starred',{
       url: '/starred',

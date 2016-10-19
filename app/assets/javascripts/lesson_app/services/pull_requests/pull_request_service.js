@@ -21,10 +21,11 @@ Lesson.factory("pullRequestService", ["Restangular",
 
   // returns scaffolding for a new pull request including pending status and the
   // id of the forked lesson plan
-  var getNewPullRequest = function(lessonId) {
+  var getNewPullRequest = function(lessonId, parentId) {
     return {
       forked_plan_id: lessonId,
-      status: "pending"
+      status: "pending",
+      parent_plan_id: parentId
     }
   }
 
@@ -48,9 +49,23 @@ Lesson.factory("pullRequestService", ["Restangular",
     });
   };
 
+  // deletes a comment and returns restangular response
   var removeComment = function(id) {
     return Restangular.one("comments", Number(id)).remove()
   };
+
+  var pullRequestMade = function(forked_id) {
+    return all(forked_id).then(function() {
+      console.log(_pullRequests)
+      for(var i in _pullRequests) {
+        if(_pullRequests[i].forked_plan_id === Number(forked_id)
+            && _pullRequests[i].status === "pending") {
+          return true;
+        }
+      }
+      return false;
+    })
+  }
 
   return {
     all: all,
@@ -58,6 +73,7 @@ Lesson.factory("pullRequestService", ["Restangular",
     getNewPullRequest: getNewPullRequest,
     createNewPullRequest: createNewPullRequest,
     createNewComment: createNewComment,
-    removeComment: removeComment
+    removeComment: removeComment,
+    pullRequestMade: pullRequestMade
   }
 }]);
