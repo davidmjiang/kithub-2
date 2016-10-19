@@ -1,9 +1,8 @@
 <h1>Pull Requests</h1>
-<div class="card" ng-repeat="pr in pullRequests">
+<div class="card" ng-repeat="pr in pullRequests | filter:{ status: 'pending' }">
   <h2>Title: {{ pr.title }}</h2>
   <h6>Description: {{ pr.description }}</h6>
-<!-- add parent and pr user depending on how lesson people format data
- -->  <p>Status: {{ pr.status }}</p>
-      <pull-request-show pull-request="pr"></pull-request-show>
+  <p>Status: {{ pr.status }}</p>
+  <pull-request-show pull-request="pr"></pull-request-show>
 
 </div>
