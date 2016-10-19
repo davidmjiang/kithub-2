@@ -4,12 +4,13 @@
       Grade: <input type="range" ng-model="gradeFilter" min="0" max="12"> {{gradeFilter}}
       Lesson Type: <select ng-model="lessonTypeFilter">
         <option value=""></option>
-        <option ng-repeat="type in lessonTypes" value="type">{{type}}</option>
+        <option ng-repeat="lessontype in lessonTypes" value="{{lessontype}}">{{lessontype}}</option>
       </select>
       Subject: <select ng-model="subjectFilter">
         <option value=""></option>
-        <option ng-repeat="subject in subjects" value="type">{{subject}}</option>
+        <option ng-repeat="subject in subjects" value="{{subject}}">{{subject}}</option>
       </select>
+      {{subjectFilter}}
       <div class="list-group row">
         <div lesson-card class="col-md-6" lesson="lesson" ng-repeat="lesson in teacher.lesson_plans | orderBy: '-created_at' | filter: {title: titleFilter} | filter: { grade: gradeFilter } | filter: {lesson_type: lessonTypeFilter} | filter: {subject: subjectFilter}">
       </div>
