@@ -7,6 +7,14 @@ Lesson.directive("pullRequestShow",  [ "pullRequestService", "DiffService",
     link: function(scope) {
       scope.comments = scope.pullRequest.comments
       scope.diffs = DiffService(scope.pullRequest.parent_plan.content, scope.pullRequest.forked_plan.content);
+
+      scope.acceptChanges = function() {
+
+      }
+
+      scope.rejectChanges = function() {
+
+      }
     }
   };
 
