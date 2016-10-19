@@ -71,55 +71,52 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
             .then(function(user){
               return user;
             });
-          }],
-      diff: ['DiffService', function(DiffService) {
-        console.log(DiffService('Hello', 'Hello World'));
-      }]
+          }]
     }
 	})
 
    .state('main.redirect', {
       url: "/redirect",
       controller: ['currentUser', '$state', function(currentUser, $state){
-            $state.go('main.teachers.overview', {id: currentUser.id})
+            $state.go('main.teachers.overview', {id: currentUser.id});
 
         }]
     })
 
 		.state('main.lessons', {
       url: '/lessons',
-      templateUrl: "lesson_templates/show.html",
-      abstract: true
+      abstract: true,
 		})
 
 		.state('main.lessons.show', {
       url: '/:id',
-      views: {
-
-      newPullRequest: {
-        templateUrl: "lesson_templates/pull_requests/new.html",
-         controller: "PullRequestNewCtrl",
-         resolve: {
-          forkedLesson: ["LessonService", "$stateParams", function(LessonService, $stateParams){
-            return LessonService.getLesson($stateParams.id);
-          }],
-
-          teacher: ["$stateParams", "TeacherService", "currentUser", function($stateParams, TeacherService, currentUser){
-            return TeacherService.getTeacher(currentUser.id);
-          }]
-       }},
-
-        'mainContainer@main.lessons': {
-          templateUrl: "lesson_templates/lessons/show.html",
-          controller: "LessonShowCtrl",
-          resolve: {
-            lesson: ['LessonService', '$stateParams', function(LessonService, $stateParams) {
-              return LessonService.getLesson($stateParams.id).then(function(response) {
-                return response;
-              });
+      resolve: {
+        lesson: ['LessonService', '$stateParams', function(LessonService, $stateParams) {
+              return LessonService.getLesson($stateParams.id);
+            }],
+        owner: ['TeacherService', 'lesson', function(TeacherService, lesson) {
+              return TeacherService.getTeacher(lesson.teacher_id);
             }]
+      },
+      views: {
+        '@': {
+          templateUrl: "lesson_templates/show.html",
+          controller: "LessonShowCtrl",     
+        },
 
-          }
+        'newPullRequest@main.lessons.show': {
+          templateUrl: "lesson_templates/pull_requests/new.html",
+           controller: "PullRequestNewCtrl",
+           resolve: {
+            teacher: ["TeacherService", "currentUser", function(TeacherService, currentUser){
+              return TeacherService.getTeacher(currentUser.id);
+            }]
+           }
+        },
+
+        'mainContainer@main.lessons.show': {
+          templateUrl: "lesson_templates/lessons/show.html",
+          controller: "LessonShowCtrl"
         }
       }
     })
@@ -127,7 +124,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 		.state('main.lessons.show.pullRequests', {
       url: '/pullrequests',
       views: {
-        "mainContainer@main.lessons": {
+        "mainContainer@main.lessons.show": {
           templateUrl:  "lesson_templates/pull_requests/index.html",
           controller: "PullRequestIndexCtrl",
           resolve: {
