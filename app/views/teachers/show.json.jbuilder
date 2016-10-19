@@ -7,6 +7,7 @@ json.lesson_plans @teacher.lesson_plans do |lesson_plan|
   json.title (lesson_plan.title)
   json.first_name (lesson_plan.teacher.first_name)
   json.last_name (lesson_plan.teacher.last_name)
+  json.parent_plan_id (lesson_plan.parent_plan_id)
   json.created_at (lesson_plan.created_at)
   json.updated_at (lesson_plan.updated_at)
 end
