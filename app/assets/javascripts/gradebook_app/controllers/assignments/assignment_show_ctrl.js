@@ -1,4 +1,4 @@
-Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "SubmissionService", "close", function($scope, course, assignment, GPAService, SubmissionService, close) {
+Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "SubmissionService", "close", "AssignmentService", "$rootScope", function($scope, course, assignment, GPAService, SubmissionService, close, AssignmentService, $rootScope) {
 
   $scope.assignment = assignment
   $scope.gpa = {}
@@ -34,6 +34,12 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   $scope.numStudents = course.students.length
 
   
+
+  $scope.editAssignment = function(assignment) {
+    AssignmentService.editAssignment(assignment)
+    $rootScope.$broadcast('assignment.edit', assignment);
+    
+  }
 
   $scope.editTitle = function() {
     $scope.editingTitle = true
