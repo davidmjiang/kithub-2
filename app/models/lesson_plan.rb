@@ -1,8 +1,8 @@
 class LessonPlan < ApplicationRecord
 
   validates :title, presence: true
-  validates :content, presence: true
-  validates_numericality_of :hours, greater_than_or_equal_to: 0
+  # validates :content, presence: true
+  validates_numericality_of :hours, greater_than_or_equal_to: 0, allow_nil: true
   belongs_to :teacher
 
   # self-association
@@ -35,7 +35,7 @@ class LessonPlan < ApplicationRecord
   has_many :contributors, through: :lesson_plan_contributors, class_name: "Teacher", source: :teacher
 
   #Validations
-  validates_presence_of :title, :content
+  validates_presence_of :title #, :content
   validates :title, length: { minimum: 2, maximum: 200 }
 
   #additional materials

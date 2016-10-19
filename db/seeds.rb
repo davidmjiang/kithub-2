@@ -41,14 +41,12 @@ t = Teacher.create(email: person,
                            assignment_type: assignment_type.sample,
                            possible_score: rand(10..100))
     end
-    puts 'creating students'
     15.times do |i|
       s = Student.create(first_name: Faker::Name.first_name,
                          last_name: Faker::Name.last_name,
                          email: Faker::Internet.safe_email)
       s.courses << c;
       c.assignments.each do |assignment| 
-        puts "creating submissions for students"
         s.submissions.create(assignment_id: assignment.id,
                             raw_score: rand(0..assignment.possible_score))
       end
@@ -60,10 +58,10 @@ t = Teacher.create(email: person,
                           content: Faker::Lorem.sentence,
                           hours: rand(1..10),
                           version: 1,
-                          state: Faker::Address.state,
-                          grade: rand(1..12),
-                          subject: subjects.sample,
-                          lesson_type: Faker::Company.buzzword
+                          state: STATES.sample,
+                          grade: GRADES.sample,
+                          subject: SUBJECTS.sample,
+                          lesson_type: LESSON_TYPES.sample
                           )
     l.taggings(tag_id: Tag.all.sample.id )
   end
@@ -115,8 +113,8 @@ puts 'creating standards'
 
 4.times do
   st = Standard.create(title: Faker::Hipster.word,
-                  state: Faker::Address.state,
-                  subject: subjects.sample)
+                  state: STATES.sample,
+                  subject: SUBJECTS.sample)
   4.times do
     l = LessonPlan.all.sample
     while (st.lesson_plans.include?(l))

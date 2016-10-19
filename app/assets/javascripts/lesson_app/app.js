@@ -51,7 +51,7 @@ angular.module('Lesson').
 //routes
 angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 
-	$urlRouterProvider.otherwise('');
+	$urlRouterProvider.otherwise('/redirect');
 
 	$stateProvider
 	 .state('main',{
@@ -71,16 +71,13 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
     }
 	})
 
-   // .state('main.dashboard', {
-   //    url: "/dashboard",
-   //    templateUrl: "lesson_templates/teacher/teacher_show.html",
-   //    controller: "TeacherShowCtrl",
-   //    resolve: {
-   //      teacher: ["currentUser", "TeacherService", function(currentUser, TeacherService){
-   //          return TeacherService.getTeacher(currentUser.id);
-   //      }]
-   //    }
-   //  })
+   .state('main.redirect', {
+      url: "/redirect",
+      controller: ['currentUser', '$state', function(currentUser, $state){
+            $state.go('main.teachers.overview', {id: currentUser.id})
+              
+        }]
+    })
 
 		.state('main.lessons', {
       url: '/lessons',
@@ -210,6 +207,6 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 
 }]);
 
-angular.module('Lesson').run(function($rootScope){
+angular.module('Lesson').run(['$rootScope', function($rootScope){
   $rootScope.$on("$stateChangeError", console.error.bind(console));
-});
+}]);
