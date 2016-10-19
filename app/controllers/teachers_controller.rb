@@ -7,6 +7,8 @@ class TeachersController < ApplicationController
   def show
     @teacher = Teacher.find(params[:id])
     @states = STATES
+    @lesson_types = LESSON_TYPES
+    @subjects = SUBJECTS
   end
 
   def update
@@ -14,6 +16,8 @@ class TeachersController < ApplicationController
     respond_to do |format|
     	if @teacher.update(teacher_params)
         @states = STATES
+        @lesson_types = LESSON_TYPES
+        @subjects = SUBJECTS
         format.json {render "show.json.jbuilder"}
       else
         format.json {render json: { errors: 
