@@ -7,7 +7,7 @@
           </a>
         </h4>
         <div class="card-block">
-        <!-- <p>Creator: {{lesson.first_name || lesson.teacher.first_name}} {{lesson.last_name || lesson.teacher.last_name}}</p> -->
+        <p ng-if="notTeacherShow">Creator: {{lesson.first_name || lesson.teacher.first_name}} {{lesson.last_name || lesson.teacher.last_name}}</p>
           <p>Created: {{lesson.created_at | date}}</p>
           <p>Last updated: {{lesson.updated_at | date}}</p>
           <p> Subject: {{lesson.subject}} <strong>|</strong> Grade: {{lesson.grade}} <strong>|</strong> Hours: {{lesson.hours}}</p>
