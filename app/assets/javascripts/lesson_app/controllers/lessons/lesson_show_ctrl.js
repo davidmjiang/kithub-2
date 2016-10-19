@@ -91,9 +91,6 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     });
   };
 
-  //state for upload spinner
-  $scope.saving = false;
-
   //upload additional material
   $scope.upload = function(file){
     $scope.saving = true;
