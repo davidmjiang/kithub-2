@@ -51,10 +51,10 @@ ActiveRecord::Schema.define(version: 20161019210654) do
   end
 
   create_table "courses", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string   "title"
     t.integer  "teacher_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "flat_curves", force: :cascade do |t|
@@ -100,7 +100,6 @@ ActiveRecord::Schema.define(version: 20161019210654) do
     t.integer  "teacher_id"
     t.float    "hours"
     t.float    "version",        default: 1.0
-    t.integer  "forks",          default: 0
     t.string   "state"
     t.integer  "grade"
     t.string   "subject"
