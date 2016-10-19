@@ -1,9 +1,7 @@
-<fork-lesson-plan ng-if="lessonBelongsToCurrentUser == false"></fork-lesson-plan>
-
 <div class="container-fluid">
 
 <div id="lesson-show" class="row">
-    
+
   <div class="row">
     <div class="col-md-4">
       <h2 ng-show="editing" editable-text="lesson.title" class="editable">{{ lesson.title || 'New Lesson' }} <i class="fa fa-pencil" aria-hidden="true"></i></h2>
