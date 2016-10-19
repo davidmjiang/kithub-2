@@ -13,7 +13,7 @@ class LessonPlansController < ApplicationController
   def show
     @lesson = LessonPlan.find(params[:id])
     respond_to do |format|
-      format.json { render json: @lesson }
+      format.json{render "show.json.jbuilder"}
     end
   end
 

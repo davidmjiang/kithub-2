@@ -1,5 +1,6 @@
-Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'Auth',
-  function($scope, LessonService, Restangular, lesson, Auth) {
+"use strict";
+Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'Auth', 'Upload',
+  function($scope, LessonService, Restangular, lesson, Auth, Upload) {
 
   $scope.states = LessonService.getStates();
   $scope.grades = LessonService.getGrades();
@@ -28,6 +29,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   };
   
   $scope.lesson = lesson;
+  console.log($scope.lesson);
   $scope.lesson.grade = $scope.lesson.grade.toString(); // for dropdown menu values
 
   Auth.currentUser()
@@ -62,6 +64,32 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   // switch from editing to preview mode
   $scope.toggleEditing = function() {
     $scope.editing = !$scope.editing;
+  };
+
+  //show additional materials
+  $scope.materials = $scope.lesson.additional_materials;
+
+  //upload additional material
+  $scope.upload = function(file){
+    Upload.upload({
+      url: 'api/v1/lesson_plans/' + $scope.lesson.id + '/additional_materials.json',
+      method: 'POST',
+      headers: {'Content-Type': false},
+      fields:{
+        "additional_material[material]": file
+      },
+      file: file,
+      sendFieldsAs: 'json'
+    }).then(function(response){
+      $scope.materials.push(response);
+      console.log("success");
+    }, function(response){
+      console.log("error: ", response.status);
+    },
+    function(evt){
+      var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+      console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+    });
   };
 
 }]);
