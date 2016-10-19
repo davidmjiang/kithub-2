@@ -1,13 +1,15 @@
 Gradebook.factory('AssignmentService', ['Restangular', function(Restangular){
 	var stub = {}
 
-	stub.addAssignment = function(course) {
-		// var assignment = {}
-  //   assignment.course_id = course.id
-    return Restangular.all("assignments").post({course_id: course.id}).then(function(createAssignment) {
+	stub.addAssignment = function(assignment) {
+    return Restangular.all("assignments").post(assignment).then(function(createAssignment) {
       return createAssignment;
     })
 	}
+
+  stub.editAssignment = function(assignment) {
+    Restangular.one("assignments").customPUT(assignment, assignment.id)
+  }
 
 	Restangular.extendModel("assignments", function(model) {
     model.edit = function(data) {
@@ -17,4 +19,5 @@ Gradebook.factory('AssignmentService', ['Restangular', function(Restangular){
   });
 
 	return stub;
+
 }])

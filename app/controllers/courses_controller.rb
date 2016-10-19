@@ -8,13 +8,25 @@ class CoursesController < ApplicationController
   end
 
   def show
-    @course = Course.find(params[:id])
+    @course = Course.includes( { :students => :submissions}, { :assignments => :submissions }).find(params[:id])
   end
 
   def create
     @course = current_teacher.courses.build(course_params)
     respond_to do |format|
       if @course.save
+        format.json {render json: @course, include: [{students: {include: :submissions}}, {assignments: {include: :submissions}}]}
+      else
+        format.json { render json: {errors: @course.errors.full_messages },
+                                    :status => 422}
+      end
+    end
+  end
+
+  def update
+    @course = Course.find(params[:id])
+    respond_to do |format|
+      if @course.update(course_params)
         format.json {render json: @course, include: [{students: {include: :submissions}}, {assignments: {include: :submissions}}]}
       else
         format.json { render json: {errors: @course.errors.full_messages },
