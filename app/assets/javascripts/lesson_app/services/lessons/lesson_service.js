@@ -1,5 +1,5 @@
-Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherService',
-  function(Restangular, pullRequestService, TeacherService) {
+Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherService', '_',
+  function(Restangular, pullRequestService, TeacherService, _) {
 
   var lessonService = {};
 
@@ -7,9 +7,21 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
 
   var _grades = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
+  // takes in the lesson (from a create action response)
+  // adds this to the teacher's lesson plan array in memory
   var pushToUserLessons = function(lesson) {
     var teacher = TeacherService.getTeacher(lesson.teacher_id);
     teacher.lesson_plans.push(lesson);
+  };
+
+  // takes in the lesson (from an update action response)
+  // updates the teacher's lesson plan in memory
+  var updateUserLesson = function(lesson) {
+    var teacher = TeacherService.getTeacher(lesson.teacher_id);
+    var teacherLesson = _.find(teacher.lesson_plans, { 'id': lesson.id } );
+    console.log(teacherLesson)
+    angular.copy(lesson, teacherLesson);
+    console.log(teacherLesson)
   };
 
   // returns list of US states
@@ -40,6 +52,7 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
     return lesson.patch().then(
       function(response) {
         // success
+        updateUserLesson(response);
       },
       function(response) {
         // error
