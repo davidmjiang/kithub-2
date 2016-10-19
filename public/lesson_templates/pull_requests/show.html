@@ -8,13 +8,13 @@
 </button>
 
 <!-- Modal -->
-<div class="modal fade"
+<div class="modal fade pull-request-modal"
      id="pullRequestModal{{ pullRequest.id }}"
      tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel"
      aria-hidden="true">
 
-  <div class="modal-dialog" role="document">
+  <div class="modal-admin" role="document">
     <div class="modal-content">
       <div class="modal-header">
 
@@ -30,34 +30,26 @@
 
       <div class="modal-body">
 
-          <h5>{{ pullRequest.description }}</h5>
-          <h5>{{ pullRequest.status }}</h5>
+          <h5>Description: {{ pullRequest.description }}</h5>
+          <h5>Status: {{ pullRequest.status }}</h5>
 
           <div>
             <div class="card">
               <div class="card-block">
-                <h4 class="card-title">Parent Plan: {{ pullRequest["parent_plan"]["title"] }}</h4>
-                <p class="card-text">{{ pullRequest["parent_plan"]["content"] }}</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <h4 class="card-title">Changes</h4>
+                <pre><span ng-repeat="diff in diffs" ng-class="{ added: diff.added, removed: diff.removed }">{{ diff.value }}</span></pre>
               </div>
             </div>
-
-            <div class="card">
-              <div class="card-block">
-                <h4 class="card-title">Forked Plan: {{ pullRequest["forked_plan"]["title"] }}</h4>
-                <p class="card-text">{{ pullRequest["forked_plan"]["content"] }}</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-
           </div>
 
           <h2>Comments</h2>
-          <div ng-repeat="comment in pullRequest.comments">
-            <pr-comment comment="comment"></pr-comment>
-          </div>
-            <new-pr-comment pull-request="pullRequest"></new-pr-comment>
+          <div class="container-fluid">
+            <div ng-repeat="comment in pullRequest.comments | orderBy: 'created_at'">
+              <pr-comment pullRequest="pullRequest" comment="comment" comments="pullRequest.comments"></pr-comment>
 
+            </div>
+              <new-pr-comment pull-request="pullRequest" comments="pullRequest.comments"></new-pr-comment>
+          </div>
       </div>
 
       <div class="modal-footer">

@@ -1,7 +1,10 @@
-{{ comment }}
-<div class="card">
-  <form ng-submit="createNewComment()">
-    <textarea ng-model="comment.body">Enter Comment Here...</textarea>
-    <input type="submit">
-  </form>
-</div>
+<form ng-submit="createNewComment()" class="form">
+  <div class="form-group">
+    <textarea ng-model="comment.body" class="form-control" rows=3>
+      Enter Comment Here...
+    </textarea>
+  <input type="submit" class="btn secondary-bg-color">
+</form>
+
+
+
