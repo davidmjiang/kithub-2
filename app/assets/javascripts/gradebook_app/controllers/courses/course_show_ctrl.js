@@ -24,6 +24,21 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     }
   })
 
+  $scope.percentScore = function(item, index) {
+    if(index > 3 && index < $scope.colCount - 1) {
+      return ((item / $scope.assignments[index - 4].possible_score * 100).toFixed(2) + "%")
+    }
+  }
+
+  $scope.isItemScore = function(item, index) {
+    if(index > 3 && index < $scope.colCount - 1) {
+      return "(" + item + ")"
+    }
+    else {
+      return item;
+    }
+  }
+
   $scope.studentDetailModal = function(email, overall) {
     ModalService.showModal({
       templateUrl: '/gradebook_templates/students/detail.html',
@@ -137,7 +152,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     else if(index === $scope.colCount - 1) {
       return "You cannot update the overall score. Update specific scores.";
     }
-    else if(index > 3 && !(parseInt(item))) {
+    else if(index > 3 && !(parseInt(item) > -2)) {
       return "The score needs to be a positive number greater than 0";
     }
     else if(index < $scope.colCount - 1) {
@@ -178,7 +193,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   }
 
   $scope.addAssignmentModal = function(course) {
-    AssignmentService.addAssignment(course);
     ModalService.showModal({
       templateUrl: "gradebook_templates/assignments/new.html",
       controller: "AssignmentNewCtrl",
@@ -204,7 +218,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     }).then(function(modal) {
       modal.element.modal();
       modal.close.then(function(response) {
-
+        console.log(response)
       })
     })
   }
@@ -235,7 +249,15 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       $scope.allRows[i][$scope.allRows[i].length - 1] = 0;
       $scope.allRows[i].push(temp);
     }
-    })
+  })
+
+  $scope.$on("student.deleted", function(event, data) {
+    for(var i = 0; i < $scope.allRows.length; i ++) {
+      if($scope.allRows[i][0] == data.id) {
+        $scope.allRows.splice(i,1);
+      }
+    }
+  })
 
   $scope.deleteCourse = function() {
     CourseService.deleteCourse($scope.course).then(function(response) {
