@@ -44,7 +44,6 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   StudentService.updateStudent = function(params, student) {
     Restangular.restangularizeElement(null, student, 'students');
     student.patch(params);
-
   }
 
   return StudentService

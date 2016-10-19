@@ -8,7 +8,7 @@ class CoursesController < ApplicationController
   end
 
   def show
-    @course = Course.find(params[:id])
+    @course = Course.includes( { :students => :submissions}, { :assignments => :submissions }).find(params[:id])
   end
 
   def create
