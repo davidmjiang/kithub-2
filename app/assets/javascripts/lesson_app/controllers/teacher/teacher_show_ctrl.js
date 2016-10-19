@@ -1,5 +1,5 @@
 "use strict";
-angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser', 'teacher', 'Upload', function($scope, currentUser, teacher, Upload){
+angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser', 'teacher', 'Upload', 'followers', '_', function($scope, currentUser, teacher, Upload, followers, _){
 
 	$scope.isCurrentUser = currentUser.id === teacher.id;
 	$scope.teacher = teacher;
@@ -59,7 +59,17 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 			$scope.teacher.patch();
 			$scope.stateEditing = false;
 		}
-	}
+	};
+
+	//decide whether to show follow or unfollow
+	$scope.isFollowing = function(){
+		var ids = _.map(followers.teachers, function(el){
+			return el.id;
+		});
+		return _.includes(ids, currentUser.id);
+	};
+
+	$scope.followBtn = !$scope.isFollowing();
 
 	//upload profile photo
 	$scope.upload = function(file){
