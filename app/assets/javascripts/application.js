@@ -37,5 +37,6 @@
 //= require angular-chart.min
 //= require angular-scrollable-header.min
 //= require dirPagination
+//= require rzslider.min
 
 //= require_tree .
