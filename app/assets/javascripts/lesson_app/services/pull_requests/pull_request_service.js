@@ -67,6 +67,18 @@ Lesson.factory("pullRequestService", ["Restangular",
     })
   }
 
+  var acceptChanges = function(pullRequest) {
+    pullRequest.status = 'accepted';
+    pullRequest.accept_reject_time = Date.now();
+    return pullRequest.patch().then(function(response) {
+      return response
+    });
+  }
+
+  var rejectrequest = function() {
+
+  }
+
   return {
     all: all,
     getPullRequests: getPullRequests,
