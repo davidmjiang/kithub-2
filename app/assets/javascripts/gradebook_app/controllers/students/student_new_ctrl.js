@@ -12,4 +12,8 @@ Gradebook.controller("StudentNewCtrl", ["$scope", "course", "StudentService", "_
 		})
 	}
 
+	$scope.removeStudent = function(student) {
+		
+	}
+
 }])
