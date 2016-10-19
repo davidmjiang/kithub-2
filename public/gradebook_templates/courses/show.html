@@ -24,27 +24,33 @@
 <p>Average GPA by raw score: <span>{{rawGPA | number:2}}%</span></p>
 <p>GPA with curve: <span>{{curvedGPA}}% </span></p>
 <div class="overflow-x-auto">
- <table class="table table-bordered">
-    <tr>
-      <th>Student ID</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Email</th>
+  <button class="btn btn-success" ng-click="addStudentModal(course)">Add Student</button>
+  <button class="btn btn-success" ng-click="addAssignmentModal(course)">Add Assignment</button>
+  <button class="btn btn-danger" ng-click="removeStudentModal(course)">Remove Student</button>
+  <button class="btn btn-outline-danger" ng-click="deleteCourse()">Delete this course</button>
+  <scrollable-table>
+   <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th sortable-header col="Student ID">Student ID</th>
+        <th sortable-header col="First Name">First Name</th>
+        <th sortable-header col="Last Name">Last Name</th>
+        <th sortable-header col="Email">Email</th>
 
-      <th ng-repeat="col in cols| orderBy: 'col.blah' | limitTo: colCount - 4" ng-click="showAssignmentModal(assignments[$index])">{{col}}</th>
+        <th sortable-header col="{{col}}" sortable-header ng-repeat="col in cols track by $index | limitTo: colCount - 4" ng-click="showAssignmentModal(assignments[$index])">{{col}}</th>
 
-    </tr>
-    <tr ng-repeat="row in allRows | limitTo: rowCount">
-    <button class="btn btn-success" ng-click="addStudentModal(course)">Add Student</button>
-    <button class="btn btn-success" ng-click="addAssignmentModal(course)">Add Assignment</button>
-    <button class="btn btn-danger" ng-click="removeStudentModal(course)">Remove Student</button>
-    <button class="btn btn-outline-danger" ng-click="deleteCourse()">Delete this course</button>
-        <td ng-submit="submitEdit(row, item, $index)" ng-repeat="item in row track by $index | limitTo: colCount ">
+      </tr>
+    </thead>
+      <tbody>
+        <tr ng-repeat="row in allRows | limitTo: rowCount">
+            <td ng-submit="submitEdit(row, item, $index)" ng-repeat="item in row track by $index | limitTo: colCount ">
 
-          <a href="#" onbeforesave="checkItem($index, $data)" editable-text="item"> {{item}}</a>
-      </td>
-      <td><a ng-click="studentDetailModal(row[3], row[row.length - 1])">Details</a></td>
-    </tr>
-  </table>
+              {{percentScore(item, $index)}}<a href="#" onbeforesave="checkItem($index, $data)" editable-text="item"> {{isItemScore(item, $index)}}</a>
+          </td>
+          <td><a ng-click="studentDetailModal(row[3], row[row.length - 1])">Details</a></td>
+        </tr>
+      </table>
+    </tbody>
+  </scrollable-table>
 </div>
 
