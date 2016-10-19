@@ -22,10 +22,19 @@ class StudentsController < ApplicationController
     end
   end
 
+  def update
+    @student = Student.find(params[:id])
+    if @student.update(student_params)
+      respond_to do |format|
+        format.json {render json: @student}
+      end
+    end
+  end
+
   private
 
   def student_params
-    params.require(:student).permit(:first_name, :last_name, :email, course_ids: [])
+    params.require(:student).permit(:first_name, :last_name, :email, :notes, course_ids: [])
   end
 
 end
