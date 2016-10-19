@@ -16,10 +16,8 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService",
   };
 
   lessonService.create = function(newLesson) {
-    console.log("Creating...");
     return Restangular.all('lesson_plans').post(newLesson).then(function(response) {
-      console.log(response);
-        return response
+        return response;
       // returns lesson object
 
     },
@@ -41,7 +39,7 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService",
       return response;
     }, function(response) {
       return response;
-      // error handling
+      // TODO: error handling
     });
   };
 

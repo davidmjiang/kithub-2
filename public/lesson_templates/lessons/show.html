@@ -13,7 +13,7 @@
     <div class="col-md-4" style="text-align: right;">
       <div ng-if="editing === true">
         <button class="btn btn-primary" ng-click="toggleEditing()">Stop editing</button>
-        <button class="btn btn-success" ng-click="save()" id="save-btn"><i class="fa {{ saving ? 'fa-spinner fa-spin' : 'fa-floppy-o' }} fa-fw"></i> Commit Changes</button>
+        <button class="btn btn-success" ng-click="save()" id="save-btn"><i class="fa {{ saving ? 'fa-spinner fa-spin' : 'fa-floppy-o' }} fa-fw"></i> Save</button>
       </div>
       <div ng-if="editing === false && currentUserLesson === true">
         <button class="btn btn-primary" ng-click="toggleEditing()">Edit</button>
@@ -34,13 +34,13 @@
           <div class="form-group row">
             <label for="example-text-input" class="col-md-6 col-form-label">Estimated Time (in hrs)</label>
             <div class="col-md-6">
-              <input class="form-control" type="number" min="0" ng-model="lesson.hours">
+              <input class="form-control" type="number" min="0" ng-model="lesson.hours" ng-disabled="!editing">
             </div>
           </div>
           <div class="form-group row">
             <label for="example-search-input" class="col-md-6 col-form-label">State</label>
             <div class="col-md-6">
-              <select ng-model="lesson.state" class="form-control">
+              <select ng-model="lesson.state" class="form-control"  ng-disabled="!editing">
                 <option ng-repeat="state in states" value="{{ state }}">{{ state }}</option>
               </select>
             </div>
@@ -48,7 +48,7 @@
           <div class="form-group row">
             <label class="col-md-6 col-form-label">Grade</label>
             <div class="col-md-6">
-              <select ng-model="lesson.grade" class="form-control">
+              <select ng-model="lesson.grade" class="form-control"  ng-disabled="!editing">
                 <option ng-repeat="grade in grades" value="{{ grade }}">{{ grade }}</option>
               </select>
             </div>
@@ -56,20 +56,20 @@
           <div class="form-group row">
             <label class="col-md-6 col-form-label">Subject</label>
             <div class="col-md-6">
-              <input class="form-control" type="text" ng-model="lesson.subject">
+              <input class="form-control" type="text" ng-model="lesson.subject" ng-disabled="!editing">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-md-6 col-form-label">Lesson Type</label>
             <div class="col-md-6">
-              <input class="form-control" type="text" ng-model="lesson.lesson_type">
+              <input class="form-control" type="text" ng-model="lesson.lesson_type" ng-disabled="!editing">
             </div>
           </div>
         </div>
 
         <div class="card card-block">
           <h4 class="card-title">Additional Materials</h4>
-          <a href="#" class="btn btn-primary">Upload</a>
+          <a href="#" class="btn btn-primary" ng-class="{ disabled: !editing }">Upload</a>
         </div>
       </div>
 
