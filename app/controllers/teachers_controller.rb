@@ -5,7 +5,7 @@ class TeachersController < ApplicationController
   end
 
   def show
-    @teacher = Teacher.find(params[:id])
+    @teacher = Teacher.includes( { lesson_plans: [:parent_plan, :standards, :forked_plans, :lesson_plan_stars, :teachers_who_starred] }, :followed_by, :following, :starred_lesson_plans, :lesson_plans_contributed_to).find(params[:id])
     @states = STATES
     @lesson_types = LESSON_TYPES
     @subjects = SUBJECTS
@@ -20,8 +20,8 @@ class TeachersController < ApplicationController
         @subjects = SUBJECTS
         format.json {render "show.json.jbuilder"}
       else
-        format.json {render json: { errors: 
-                    @teacher.errors.full_messages,  
+        format.json {render json: { errors:
+                    @teacher.errors.full_messages,
                     :status => 422}
                   }
       end
