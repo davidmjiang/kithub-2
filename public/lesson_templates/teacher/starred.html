@@ -1,7 +1,14 @@
 <div class="tab-content" ui-view>
   <div class="tab-pane active" id="main" role="tabpanel">
-      <div class="list-group row">
-        <div lesson-card class="col-md-6" lesson="lesson" ng-repeat="lesson in starred_lessons | orderBy: '-created_at'">
+    <div class="list-group row">
+      <div dir-paginate="lesson in starred_lessons | orderBy: '-created_at' | itemsPerPage: 10">
+        <div class="clearfix" ng-if="$index % 2 == 0"></div>
+        <div lesson-card class="col-md-6" lesson="lesson"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 pagination-holder">
+        <dir-pagination-controls></dir-pagination-controls>
       </div>
     </div>
   </div>

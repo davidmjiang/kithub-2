@@ -7,7 +7,7 @@ json.students @course.students do |student|
   json.email student.email
   json.notes student.notes
 
-  json.submissions student.course_submissions(@course)
+  json.submissions student.submissions
 end
 
 json.assignments @course.assignments do |assignment|

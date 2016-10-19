@@ -70,5 +70,12 @@ Rails.application.configure do
       :secret_access_key => Rails.application.secrets.aws_secret_key
     }
   }
-  
+
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.alert = true
+    Bullet.bullet_logger = true
+    Bullet.console = true
+  end
+
 end
