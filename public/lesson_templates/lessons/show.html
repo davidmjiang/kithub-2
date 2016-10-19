@@ -69,10 +69,11 @@
 
         <div class="card card-block">
           <h4 class="card-title">Additional Materials</h4>
-          <label for="file-upload" class="upload-btn">Upload</label>
-          <input id="file-upload" type="file" ngf-select="upload($file)" ng-model="materials">
+          <button><i class="fa  {{ saving ? 'fa-spinner fa-spin' : 'fa-upload' }} fa-fw"></i><label for="file-upload" class="upload-btn">Upload</label></button>
+          <input id="file-upload" type="file" ngf-select="upload($file)">
           <ul>
-            <li ng-repeat="m in materials"><a ng-href="{{m.image_url}}" target="_blank">{{m.file_name}}</a></li>
+            <li ng-repeat="m in materials"><a ng-href="{{m.image_url}}" target="_blank">{{m.file_name | limitTo: 30}}
+            <a class="fa fa-download am-btn" aria-hidden="true" ng-href="{{m.image_url}}" download></a><a ng-if="currentUserLesson === true" class="fa fa-trash-o am-btn" aria-hidden="true" ng-click="deleteMat(m)"></a></li>
           </ul>
         </div>
       </div>

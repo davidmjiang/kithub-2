@@ -8,7 +8,7 @@ class AdditionalMaterialsController < ApplicationController
 		@material = @lesson.additional_materials.build(am_params)
 		respond_to do |format|
 			if @material.save
-				format.json{render json: @material}
+				format.json{render "create.json.jbuilder"}
 			else
 				format.json{render json: {errors: @material.errors.full_messages, :status => 422}}
 			end
@@ -17,6 +17,8 @@ class AdditionalMaterialsController < ApplicationController
 	end
 
 	def destroy
+		@material = AdditionalMaterial.find(params[:id])
+		@material.destroy
 	end
 
 	private

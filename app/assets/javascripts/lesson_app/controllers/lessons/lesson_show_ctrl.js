@@ -1,6 +1,6 @@
 "use strict";
-Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'Auth', 'Upload',
-  function($scope, LessonService, Restangular, lesson, Auth, Upload) {
+Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'Auth', 'Upload', '$http',
+  function($scope, LessonService, Restangular, lesson, Auth, Upload, $http) {
 
   $scope.states = LessonService.getStates();
   $scope.grades = LessonService.getGrades();
@@ -29,7 +29,6 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   };
   
   $scope.lesson = lesson;
-  console.log($scope.lesson);
   $scope.lesson.grade = $scope.lesson.grade.toString(); // for dropdown menu values
 
   Auth.currentUser()
@@ -68,9 +67,25 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
 
   //show additional materials
   $scope.materials = $scope.lesson.additional_materials;
+ 
+  //delete additional material
+  $scope.deleteMat = function(am){
+    $http({
+      method: 'DELETE',
+      url:'/api/v1/additional_materials/' + am.id
+    }).then(function(response){
+      var index = $scope.materials.indexOf(am);
+      $scope.materials.splice(index, 1);
+      console.log(response.status);
+    });
+  };
+
+  //state for upload spinner
+  $scope.saving = false;
 
   //upload additional material
   $scope.upload = function(file){
+    $scope.saving = true;
     Upload.upload({
       url: 'api/v1/lesson_plans/' + $scope.lesson.id + '/additional_materials.json',
       method: 'POST',
@@ -81,7 +96,9 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
       file: file,
       sendFieldsAs: 'json'
     }).then(function(response){
-      $scope.materials.push(response);
+      $scope.materials.push(response.data);
+      $scope.saving = false;
+      console.log(response);
       console.log("success");
     }, function(response){
       console.log("error: ", response.status);

@@ -1,3 +1,4 @@
+"use strict";
 Lesson.factory('LessonService', ['Restangular', function(Restangular) {
 
   var lessonService = {};
