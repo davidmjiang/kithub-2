@@ -10,13 +10,34 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   $scope.rawGPA = GPAService.rawGPA(course)
   $scope.students = $scope.course.students;
 
-  $scope.assignments = $scope.course.assignments.sort(function(a,b) {
-    var created_atA = a.created_at
-    var created_atB = b.created_at
-    if(created_atA < created_atB) {
+  $scope.sortStudents = function() {
+    var students = $scope.course.students.sort(function(a,b) {
+      var lastNameA = a.last_name
+      var lastNameB = b.last_name
+      if(lastNameA < lastNameB) {
+        return -1;
+      }
+      if(lastNameB < lastNameA) {
+        return 1;
+      }
+      else {
+        return 0;
+      }
+    })
+    return students;
+  }
+
+
+
+  $scope.students = $scope.sortStudents();
+
+  var assignments = $scope.course.assignments.sort(function(a,b) {
+    var createdAtA = a.id
+    var createdAtB = b.id
+    if(createdAtA < createdAtB) {
       return -1;
     }
-    if(created_atB < created_atA) {
+    if(createdAtB < createdAtA) {
       return 1;
     }
     else {
@@ -24,8 +45,10 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     }
   })
 
+  $scope.assignments = assignments
+
   $scope.percentScore = function(item, index) {
-    if(index > 3 && index < $scope.colCount - 1) {
+    if(index > 3 && index < $scope.colCount - 1 && $scope.assignments[index - 4]) {
       return ((item / $scope.assignments[index - 4].possible_score * 100).toFixed(2) + "%")
     }
   }
@@ -228,6 +251,21 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     $scope.rowCount ++;
     allRows.push(data);
     $scope.students.push(response);
+    var students = allRows.sort(function(a,b) {
+      var lastNameA = a[2]
+      var lastNameB = b[2]
+      if(lastNameA < lastNameB) {
+        return -1;
+      }
+      if(lastNameB < lastNameA) {
+        return 1;
+      }
+      else {
+        return 0;
+      }
+    })
+    return students;
+    allRows = students;
   })
 
   $scope.$on("assignment.edit", function(event, data) {
@@ -263,7 +301,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
   $scope.deleteCourse = function() {
     CourseService.deleteCourse($scope.course).then(function(response) {
-      console.log("course deleted")
       $state.go("gradebook.courseIndex")
     })
   }
