@@ -2,9 +2,10 @@
 Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http',
   function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http) {
 
+  $scope.lesson = lesson;
+  $scope.lesson.grade = $scope.lesson.grade.toString(); // for dropdown menu values
   $scope.states = LessonService.getStates();
   $scope.grades = LessonService.getGrades();
-  $scope.lesson = lesson;
   $scope.owner = owner;
 
   //show profile photo if there is one
