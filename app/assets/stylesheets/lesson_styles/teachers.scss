@@ -37,6 +37,9 @@
 	a {
 		color: white;
 	}
+	P {
+		margin-bottom: 5px;
+	}
 }
 
 .small-photo{
@@ -54,11 +57,44 @@
 	margin-top: 20px;
 }
 
-.lesson-plan-filter {
-	display: block;
-	margin: 0 auto;
-	margin-top: 30px;
-	width: 400px;
-	font-size: 16px;
+.filter-container {
+	position: relative;
+	padding-bottom: 20px;
+	.lesson-plan-filter {
+		display: block;
+		margin: 0 auto;
+		margin-top: 30px;
+		width: 400px;
+		font-size: 16px;
+	}
+	#advanced-filters{
+		position: absolute;
+		right: 40px;
+		top: 40px;
+		color: #0275d8;
+		font-size: 14px;
+	}
+
+}
+.lesson-filters {
+	font-size: 13px;
+	.filter-vertical-divide {
+		margin-left: 4px;
+		margin-right: 4px;
+		height: 20px;
+		width: 2px;
+		border-left: 1px solid #0275d8;
+		border-right: 1px solid #0275d8;
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.filter-range {
+		vertical-align: middle;
+	}
+}
+
+
+.fa-code-fork {
+	margin-left: 4px;
 }
 
