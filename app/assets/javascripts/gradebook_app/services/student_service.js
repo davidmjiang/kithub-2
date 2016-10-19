@@ -47,5 +47,9 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
 
   }
 
+  StudentService.removeStudent = function(student) {
+    return Restangular.one("students", student.id).remove()
+  }
+
   return StudentService
 }])
