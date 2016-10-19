@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161018160504) do
+
+ActiveRecord::Schema.define(version: 20161018225025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "add_notes_to_student_models", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "assignments", force: :cascade do |t|
     t.string   "title",           default: "Default"
@@ -36,10 +42,10 @@ ActiveRecord::Schema.define(version: 20161018160504) do
   end
 
   create_table "courses", force: :cascade do |t|
-    t.string   "title"
-    t.integer  "teacher_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "title"
+    t.integer  "teacher_id"
   end
 
   create_table "lesson_plan_contributors", force: :cascade do |t|
@@ -127,13 +133,14 @@ ActiveRecord::Schema.define(version: 20161018160504) do
     t.string   "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text     "notes"
   end
 
   create_table "submissions", force: :cascade do |t|
     t.integer  "assignment_id"
     t.integer  "student_id"
-    t.integer  "raw_score"
-    t.integer  "real_score"
+    t.float    "raw_score"
+    t.float    "real_score"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["assignment_id"], name: "index_submissions_on_assignment_id", using: :btree

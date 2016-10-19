@@ -1,17 +1,47 @@
 <div class="modal fade">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content student-modal">
       <div class="modal-header">
       <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">Student Details</h4>
       </div>
       <div class="modal-body">
         <h2>{{student.first_name}} {{student.last_name}}</h2>
-        <p>{{student.email}}</p>
+        <p>
+          <span>{{student.email}}</span>
+          <span style="float: right">Overall: {{overall}}%</span>
+        </p>
 
         <canvas id="bar" class="chart chart-bar"
-          chart-data="data" chart-labels="labels"> chart-series="series"
-        </canvas>
+          chart-data="data" chart-labels="labels" chart-options="opts"> chart-series="series"
+        </canvas><hr>
+
+        <h3>Notes
+          <button class="btn btn-secondary btn-sm" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
+          edit</button>
+        </h3>
+        
+        <div ng-submit="update(student.notes)">
+          <span editable-textarea="student.notes" e-rows="7" e-cols="68" e-form="textBtnForm">
+            <pre>{{ student.notes || 'Currently no notes.' }}</pre>
+          </span>
+        </div>
+
+<!--         <form action="#" editable-form name="textBtnForm"> 
+          <span editable-textarea="student.notes" e-rows="7" e-cols="68" e-form="textBtnForm">
+            <pre>{{ student.notes || 'Currently no notes.' }}</pre>
+          </span>
+
+          <span ng-show="textBtnForm.$visible">
+              <button type="submit" class="btn btn-primary btn-sm" ng-disabled="textBtnForm.$waiting" ng-click="update()">
+                Save
+              </button>
+              <button type="button" class="btn btn-default btn-sm" ng-disabled="textBtnForm.$waiting" ng-click="textBtnForm.$cancel()">
+                Cancel
+              </button>
+          </span>
+        </form> -->
+
       </div>
       <div class="modal-footer">
         <button type="button" ng-click="cancel()" class="btn btn-primary" data-dismiss="modal">Done</button>

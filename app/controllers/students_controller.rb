@@ -11,7 +11,8 @@ class StudentsController < ApplicationController
     @student = Student.new(student_params)
     respond_to do |format|
       if @student.save
-        format.json {render json: @student}
+        create_submissions(params["student"]["course_ids"], @student.id)
+        format.json {render json: @student, include: [:submissions]}
       else
         format.json { render json: {
                                             errors: @student.errors.full_messages },
@@ -22,10 +23,38 @@ class StudentsController < ApplicationController
     end
   end
 
+
+
+  def update
+    @student = Student.find_by_id(params[:id])
+    respond_to do |format|
+      if @student.update(student_params)
+        format.json {render json: @student}
+      else
+        format.json { render json: {
+                                            errors: @student.errors.full_messages },
+                                            :status => 422
+                                           }
+      end
+    end
+  end
+
   private
 
   def student_params
-    params.require(:student).permit(:first_name, :last_name, :email, course_ids: [])
+    params.require(:student).permit(:first_name, :last_name, :email, :notes, course_ids: [])
+  end
+
+
+  def create_submissions(course_id, student_id)
+    student = Student.find_by_id(student_id)
+    a = Course.find_by_id(course_id).assignments
+    a.each do |assignment| 
+      submission = Submission.create()
+      submission.raw_score = 0
+      submission.assignment_id = assignment.id
+      student.submissions << submission
+    end
   end
 
 end
