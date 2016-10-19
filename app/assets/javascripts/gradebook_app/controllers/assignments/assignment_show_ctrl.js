@@ -115,7 +115,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     var _simulatedSubmissions = []
     angular.copy($scope.submissions, _simulatedSubmissions)
     _.each(_simulatedSubmissions, function(submission) {
-      var _rawPercent = submission.raw_score / $scope.assignment.possible_score
+      var _rawPercent = submission.raw_score / $scope.assignment.possible_score * 100
       submission.real_score = _linearFormula($scope.curve, _rawPercent)
     })
     return _averageRealScore(_simulatedSubmissions)
