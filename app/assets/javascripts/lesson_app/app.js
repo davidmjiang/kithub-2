@@ -157,7 +157,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
       templateUrl: 'lesson_templates/teacher/starred.html',
       resolve: {
         starred_lessons: ["$stateParams", "Restangular", function($stateParams, Restangular){
-          return Restangular.all('lesson_plan_stars').getList({teacher_id: $stateParams.id})
+          return Restangular.all('lesson_plan_stars').getList({teacher_id: $stateParams.id});
         }]
       },
       controller: 'StarredLessonsCtrl'
@@ -167,7 +167,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
       templateUrl: 'lesson_templates/teacher/contributions.html',
       resolve: {
         lessons_contributed_to: ["$stateParams", "Restangular", function($stateParams, Restangular){
-          return Restangular.all('lesson_plan_contributors').getList({teacher_id: $stateParams.id})
+          return Restangular.all('lesson_plan_contributors').getList({teacher_id: $stateParams.id});
         }]
       },
       controller: 'ContributionsCtrl'
@@ -177,9 +177,11 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
       templateUrl: 'lesson_templates/teacher/followers.html',
       resolve: {
         followers: ["$stateParams", 'Restangular', function($stateParams, Restangular){
-          return Restangular.all('teacher_followings').getList({
-            followed_id: $stateParams.id
-          })
+          return Restangular.all('teacher_followings').customGET(
+            "", {followed_id: $stateParams.id}
+          ).then(function(response){
+            return response;
+          });
         }]
       },
       controller: "TeacherFollowersCtrl"
@@ -189,9 +191,11 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
       templateUrl: 'lesson_templates/teacher/following.html',
       resolve: {
         following: ["$stateParams", 'Restangular', function($stateParams, Restangular){
-          return Restangular.all('teacher_followings').getList({
-            follower_id: $stateParams.id
-          })
+          return Restangular.all('teacher_followings').customGET(
+            "", {follower_id: $stateParams.id})
+          .then(function(response){
+            return response;
+          });
         }]
       },
       controller: "TeacherFollowingCtrl"
@@ -206,6 +210,6 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 
 }]);
 
-angular.module('Lesson').run(function($rootScope){
+angular.module('Lesson').run(['$rootScope', function($rootScope){
   $rootScope.$on("$stateChangeError", console.error.bind(console));
-});
+}]);

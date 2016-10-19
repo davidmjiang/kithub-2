@@ -32,7 +32,8 @@ teachers.each do |person|
 t = Teacher.create(email: person,
                    password: 'password123',
                    first_name: Faker::Name.first_name,
-                   last_name: Faker::Name.last_name)
+                   last_name: Faker::Name.last_name,
+                   state: Faker::Address.state)
   2.times do
     c = t.courses.create(title: Faker::Educator.course)
     15.times do
@@ -69,7 +70,7 @@ t = Teacher.create(email: person,
 end
 
 puts 'creating follows'
-5.times do
+15.times do
   t1 = Teacher.all.sample
   t2 = Teacher.all.sample
   while (t2 === t1 || t1.following.include?(t2))

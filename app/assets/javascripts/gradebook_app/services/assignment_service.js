@@ -19,4 +19,5 @@ Gradebook.factory('AssignmentService', ['Restangular', function(Restangular){
   });
 
 	return stub;
+
 }])

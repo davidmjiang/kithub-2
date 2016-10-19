@@ -1,4 +1,5 @@
 Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
+
   var StudentService = {}
 
   StudentService.getStudentSubmissions = function(studentId) {
@@ -38,6 +39,12 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
 
   StudentService.createSubmissions = function(id) {
   	console.log(id)
+  }
+
+  StudentService.updateStudent = function(params, student) {
+    Restangular.restangularizeElement(null, student, 'students');
+    student.patch(params);
+
   }
 
   return StudentService

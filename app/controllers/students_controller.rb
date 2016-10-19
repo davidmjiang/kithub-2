@@ -24,6 +24,7 @@ class StudentsController < ApplicationController
   end
 
 
+
   def update
     @student = Student.find_by_id(params[:id])
     respond_to do |format|
@@ -41,7 +42,7 @@ class StudentsController < ApplicationController
   private
 
   def student_params
-    params.require(:student).permit(:first_name, :last_name, :email, course_ids: [])
+    params.require(:student).permit(:first_name, :last_name, :email, :notes, course_ids: [])
   end
 
 
