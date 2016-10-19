@@ -4,16 +4,46 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   $scope.gpa = {}
   $scope.gpa.raw = GPAService.rawGPA(course, assignment)
   $scope.hasCurve = assignment.has_curve
+  $scope.curve = {}
+  $scope.editingTitle = false
+  $scope.addingCurve = false
+  $scope.assignmentTitle = assignment.title
+  $scope.numStudents = course.students.length
+
+  var _fillFlatRateEditInput = function() {
+    var curve = {}
+    angular.copy($scope.assignment.flat_curve, curve)
+    $scope.curve.flatRate = curve.flat_rate
+  }
+
+  var _fillLinearCurveEditInputs = function() {
+    var curve = {}
+    angular.copy($scope.assignment.linear_curve, curve)
+    $scope.curve.rawA = curve.rawA
+    $scope.curve.rawB = curve.rawB
+    $scope.curve.curvedA = curve.curvedA
+    $scope.curve.curvedB = curve.curvedB
+  }
+
+  var _fillCurveEditInputs = function() {
+    if ($scope.assignment.flat_curve) {
+      _fillFlatRateEditInput()
+    } else if ($scope.assignment.linear_curve) {
+      _fillLinearCurveEditInputs()
+    }
+  }
 
   // this will have to change
   if ($scope.assignment.has_curve ) {
     console.log("assignment has curve!!")
+    _fillCurveEditInputs()
     $scope.gpa.real = GPAService.realGPA(course, $scope.assignment)
     $scope.curveApplied = true 
   } else {
     $scope.gpa.real = $scope.gpa.raw
     $scope.curveApplied = false
   }
+
 
   (function() {
     var _submissions = []
@@ -28,12 +58,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.submissions = _submissions
   })()
 
-  $scope.curve = {}
 
-  $scope.editingTitle = false
-  $scope.addingCurve = false
-  $scope.assignmentTitle = assignment.title
-  $scope.numStudents = course.students.length
 
   $scope.editAssignment = function(assignment) {
     AssignmentService.editAssignment(assignment)
@@ -113,17 +138,6 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   }
 
   var _simulateLinearCurve = function() {
-    var _simulatedSubmissions = []
-    angular.copy($scope.submissions, _simulatedSubmissions)
-    _.each(_simulatedSubmissions, function(submission) {
-      var _rawPercent = submission.raw_score / $scope.assignment.possible_score * 100
-      submission.real_score = _linearFormula($scope.curve, _rawPercent)
-    })
-    return _averageRealScore(_simulatedSubmissions)
-    // to simulate linear curve:
-    // create a copy of $scope.assignment with a linear curve as per the input data
-    // send that info over to GPAService.realGPA
-    // apply the result to $scope.realGPA
     var _simulatedAssignment = {}
     angular.copy($scope.assignment, _simulatedAssignment)
     _simulatedAssignment.linear_curve = $scope.curve
@@ -141,5 +155,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     })
     return total / submissions.length
   }
+
+
+
+
 
 }])
