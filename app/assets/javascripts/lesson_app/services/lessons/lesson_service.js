@@ -51,9 +51,7 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
       function(response) {
         // success
         updateUserLesson(response);
-      },
-      function(response) {
-        // error
+        return response;
       });
   };
 
