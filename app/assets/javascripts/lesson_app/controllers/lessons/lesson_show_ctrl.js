@@ -18,7 +18,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
       enabled: true,
       uniqueId: "lessonEditor",
     },
-    status: ["autosave", "lines", "words"]
+    status: ["lines", "words"]
   };
 
   // options for the preview window

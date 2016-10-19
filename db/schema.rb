@@ -10,10 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161018160504) do
+ActiveRecord::Schema.define(version: 20161018225025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "add_notes_to_student_models", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "assignments", force: :cascade do |t|
     t.string   "title",           default: "Default"
@@ -127,13 +132,14 @@ ActiveRecord::Schema.define(version: 20161018160504) do
     t.string   "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text     "notes"
   end
 
   create_table "submissions", force: :cascade do |t|
     t.integer  "assignment_id"
     t.integer  "student_id"
-    t.integer  "raw_score"
-    t.integer  "real_score"
+    t.float    "raw_score"
+    t.float    "real_score"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["assignment_id"], name: "index_submissions_on_assignment_id", using: :btree
@@ -188,6 +194,15 @@ ActiveRecord::Schema.define(version: 20161018160504) do
     t.datetime "avatar_updated_at"
     t.index ["email"], name: "index_teachers_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_teachers_on_reset_password_token", unique: true, using: :btree
+  end
+
+  create_table "testers", force: :cascade do |t|
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
 end
