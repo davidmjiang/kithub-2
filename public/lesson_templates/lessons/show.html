@@ -1,7 +1,8 @@
 <div class="container-fluid">
 
-<div id="lesson-show" class="row">
 
+<div class="row">
+    
   <div class="row">
     <div class="col-md-4">
       <h2 ng-show="editing" editable-text="lesson.title" class="editable">{{ lesson.title || 'New Lesson' }} <i class="fa fa-pencil" aria-hidden="true"></i></h2>
@@ -67,7 +68,12 @@
 
         <div class="card card-block">
           <h4 class="card-title">Additional Materials</h4>
-          <a href="#" class="btn btn-primary" ng-class="{ disabled: !editing }">Upload</a>
+          <button ng-class="{ disabled: !editing }"><i class="fa  {{ saving ? 'fa-spinner fa-spin' : 'fa-upload' }} fa-fw"></i><label for="file-upload" class="upload-btn">Upload</label></button>
+          <input id="file-upload" type="file" ngf-select="upload($file)">
+          <ul>
+            <li ng-repeat="m in materials"><a ng-href="{{m.image_url}}" target="_blank">{{m.file_name | limitTo: 30}}
+            <a class="fa fa-download am-btn" aria-hidden="true" ng-href="{{m.image_url}}" download></a><a ng-if="currentUserLesson === true" class="fa fa-trash-o am-btn" aria-hidden="true" ng-click="deleteMat(m)"></a></li>
+          </ul>
         </div>
       </div>
 

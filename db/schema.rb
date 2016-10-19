@@ -20,6 +20,16 @@ ActiveRecord::Schema.define(version: 20161019204921) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "additional_materials", force: :cascade do |t|
+    t.integer  "lesson_plan_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.string   "material_file_name"
+    t.string   "material_content_type"
+    t.integer  "material_file_size"
+    t.datetime "material_updated_at"
+  end
+
   create_table "assignments", force: :cascade do |t|
     t.string   "title",           default: "Default"
     t.string   "assignment_type"
