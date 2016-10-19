@@ -1,4 +1,4 @@
-angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$stateParams', "pullRequestService", "LessonService", "lesson", "currentUser", function($scope, $stateParams, pullRequestService, LessonService, lesson, currentUser){
+angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$stateParams', "pullRequestService", "LessonService", "lesson", "currentUser", "teacher", "DiffService", function($scope, $stateParams, pullRequestService, LessonService, lesson, currentUser, teacher, DiffService){
 
   $scope.newPR = pullRequestService.getNewPullRequest($stateParams.id);
   $scope.forkedLesson = lesson;
