@@ -40,6 +40,7 @@ class LessonPlansController < ApplicationController
       if @lesson_plan.save
         format.json { render json: @lesson_plan }
       else
+        puts @lesson_plan.errors.full_messages
         format.json { render json: {
                                     errors: @lesson_plan.errors.full_messages },
                                     :status => 422
