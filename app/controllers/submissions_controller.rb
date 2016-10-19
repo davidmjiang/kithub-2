@@ -14,6 +14,21 @@ class SubmissionsController < ApplicationController
     end
   end
 
+
+  def update
+    @submission = Submission.find_by_id(params[:id])
+    respond_to do |format|
+      if @submission.update(submission_params)
+        format.json {render json: @submission}
+      else
+        format.json { render json: {
+                                            errors: @submission.errors.full_messages },
+                                            :status => 422
+                                           }
+      end
+    end
+  end
+
   def index
     # for API call for data visualizations - perhaps this should be a non-RESTful route    
     @submissions = current_teacher_submissions
@@ -23,7 +38,6 @@ class SubmissionsController < ApplicationController
   end
 
   def update
-    puts "YOU MADE IT!!"
     @submission = Submission.find_by_id(params[:id])
     @submission.update(submission_params)
     if @submission.save! 

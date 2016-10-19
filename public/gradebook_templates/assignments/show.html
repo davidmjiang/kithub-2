@@ -3,27 +3,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 ng-hide="editingTitle" ng-click="editTitle()" class="modal-title">{{assignment.title}}</h4>
-
-        <input ng-show="editingTitle" 
-        type="text" 
-        name="edit-title" 
-        ng-model="assignmentTitle"
-        value="{{assignment.title}}" >
-
-
-        <input class="btn btn-warning" 
-        ng-show="editingTitle" 
-        type="submit" 
-        name="edit-title-submit" 
-        value="Submit" 
-        ng-click="submitTitleEdits()">
-
-        <button class="btn btn-info" 
-        ng-show="editingTitle" 
-        ng-click="cancelEditTitle()">
-        Cancel
-        </button>
+        <div ng-submit="editAssignment(assignment)">
+          Assignment Title: <h4 editable-text="assignment.title">{{assignment.title}}</h4>
+          Assignment Type: <h4 editable-text="assignment.assignment_type">{{assignment.assignment_type}}</h4>
+          Assignment Score: <h4 editable-text="assignment.possible_score">{{assignment.possible_score}}</h4>
+        </div>
 
       </div>
       <div class="modal-body clearfix">  
@@ -73,25 +57,25 @@
                       type="number" 
                       max="100" 
                       min="0" 
-                      ng-model="curve.rawScoreA">
+                      ng-model="curve.rawA">
               <label>Score A (curved):</label>
               <input class="float-right" 
                       type="number" 
                       max="100" 
                       min="0" 
-                      ng-model="curve.curvedScoreA">
+                      ng-model="curve.curvedA">
               <label>Score B (original):</label>
               <input class="float-right" 
                       type="number" 
                       max="100" 
                       min="0" 
-                      ng-model="curve.rawScoreA">
+                      ng-model="curve.rawB">
               <label>Score B (curved):</label>
               <input class="float-right" 
                       type="number" 
                       max="100" 
                       min="0" 
-                      ng-model="curve.curvedScoreB">
+                      ng-model="curve.curvedB">
               <button ng-click="applyLinearCurve()">
                 Apply Curve
               </button>

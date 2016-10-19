@@ -13,6 +13,14 @@ describe SubmissionsController do
       sign_in teacher
     end
 
+    it "will return a valid success when the raw score is changed" do 
+     process :create, method: :post,
+              params: { :submission => {student_id: student.id, assignment_id: assignment.id, raw_score: 3}},
+              :format => :json
+    expect(response).to be_success
+    end
+
+
     it 'will return successful response with valid attributes' do
       process :create, method: :post,
               params: { :submission => {student_id: student.id, assignment_id: assignment.id}},
