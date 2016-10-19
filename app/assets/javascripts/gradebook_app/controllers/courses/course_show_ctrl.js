@@ -47,7 +47,8 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       inputs: {
         course: $scope.course,
         assignments: $scope.assignments,
-        gpa: gpa
+        gpa: gpa,
+        students: $scope.students
       }
     }).then(function(modal) {
       modal.element.modal();
