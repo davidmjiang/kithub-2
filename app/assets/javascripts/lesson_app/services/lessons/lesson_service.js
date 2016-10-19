@@ -39,9 +39,10 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService",
       return response;
     }, function(response) {
       return response;
-      // error handling
+      // TODO: error handling
     });
   };
+
 
 
   return lessonService;
