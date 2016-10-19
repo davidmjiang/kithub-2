@@ -8,18 +8,22 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
 
   StudentService.addStudent = function(student) {
     return Restangular.all("students").post(student).then(function(createStudent) {
-      var response = [];
-      response.push(createStudent.id);
-      response.push(createStudent.first_name);
-      response.push(createStudent.last_name);
-      response.push(createStudent.email);
-      for(var i = 0; i < createStudent.submissions.length; i ++) {
-        response.push(createStudent.submissions[i].raw_score);
-      }
-      response.push(0);
-      return response;
+      return createStudent;
     })
   }
+
+  StudentService.studentData = function(createStudent) {
+    var response = [];
+    response.push(createStudent.id);
+    response.push(createStudent.first_name);
+    response.push(createStudent.last_name);
+    response.push(createStudent.email);
+    for(var i = 0; i < createStudent.submissions.length; i ++) {
+      response.push(createStudent.submissions[i].raw_score);
+    }
+    response.push(0);
+    return response;
+  };
 
   StudentService.editStudent = function(student, index, item) {
     if(index === 1) {

@@ -209,9 +209,11 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     })
   }
 
-  $scope.$on("student.added", function(event, data) {
+  $scope.$on("student.added", function(event, response) {
+    var data = StudentService.studentData(response)
     $scope.rowCount ++;
     allRows.push(data);
+    $scope.students.push(response);
   })
 
   $scope.$on("assignment.edit", function(event, data) {
