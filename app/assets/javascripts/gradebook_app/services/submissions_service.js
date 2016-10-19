@@ -16,6 +16,10 @@ Gradebook.factory('SubmissionService', ['Restangular', '$q', function(Restangula
     return model;
   });
 
+  var _linearFormula = function(input, rawPercent) {
+    return input.curvedA + (((input.curvedB - input.curvedA)/(input.rawB - input.rawA)) * (rawPercent - input.rawA));
+  }
+
   stub.applyFlatCurve = function(submissions, flatRate, pointsPossible) {
     var requests = []
     _.each(submissions, function(submission) {
@@ -23,9 +27,18 @@ Gradebook.factory('SubmissionService', ['Restangular', '$q', function(Restangula
       Restangular.restangularizeElement(null, submission, 'submissions')
       requests.push(submission.patch({real_score: realScore}))
     })
-    return $q.all(requests).then(function(response) {
-      return response
+    return $q.all(requests)
+  }
+
+  stub.applyLinearCurve = function(submissions, input, pointsPossible) {
+    var requests = []
+    _.each(submissions, function(submission) {
+      var rawPercent = submission.raw_score/pointsPossible * 100
+      var realScore = _linearFormula(input, rawPercent)
+      Restangular.restangularizeElement(null, submission, 'submissions')
+      requests.push(submission.patch({real_score: realScore}))
     })
+    return $q.all(requests)
   }
 
 	return stub

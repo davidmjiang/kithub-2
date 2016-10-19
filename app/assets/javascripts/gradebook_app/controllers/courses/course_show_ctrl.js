@@ -169,7 +169,9 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       }
     }).then(function(modal) {
       modal.element.modal();
+      modal.close.then(function(response) {
 
+      })
     })
   }
 
@@ -183,7 +185,25 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       }
     }).then(function(modal) {
       modal.element.modal();
+      modal.close.then(function(response) {
 
+      })
+    })
+  }
+
+
+  $scope.removeStudentModal = function(course) {
+    ModalService.showModal({
+      templateUrl: "gradebook_templates/students/destroy.html",
+      controller: "StudentDestroyCtrl",
+      inputs: {
+        course: course
+      }
+    }).then(function(modal) {
+      modal.element.modal();
+      modal.close.then(function(response) {
+
+      })
     })
   }
 
