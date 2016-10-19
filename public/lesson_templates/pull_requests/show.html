@@ -33,14 +33,7 @@
           <h5>Description: {{ pullRequest.description }}</h5>
           <h5>Status: {{ pullRequest.status }}</h5>
 
-          <div>
-            <div class="card">
-              <div class="card-block">
-                <h4 class="card-title">Changes</h4>
-                <pre><span ng-repeat="diff in diffs" ng-class="{ added: diff.added, removed: diff.removed }">{{ diff.value }}</span></pre>
-              </div>
-            </div>
-          </div>
+          <diff pull-request="pullRequest"></diff>
 
           <h2>Comments</h2>
           <div class="container-fluid">
