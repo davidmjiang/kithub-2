@@ -27,7 +27,24 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     return students;
   }
 
-
+  $scope.sortSubmissions = function() {
+    for(var i = 0; i < $scope.students.length; i++) {
+      $scope.students[i].submissions.sort(function(a,b) {
+        var createdAtA = a.id
+        var createdAtB = b.id
+        if(createdAtA < createdAtB) {
+          return -1;
+        }
+        if(createdAtB < createdAtA) {
+          return 1;
+        }
+        else {
+          return 0;
+        }
+      })
+    }
+  }
+  $scope.sortSubmissions();
 
   $scope.students = $scope.sortStudents();
 
@@ -110,10 +127,10 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   for(var j = 0; j < $scope.students.length; j++ ) {
     var rawTotal = 0;
     var possibleTotal = 0;
-    rowData.push($scope.students[j].id)
-    rowData.push($scope.students[j].first_name)
-    rowData.push($scope.students[j].last_name)
-    rowData.push($scope.students[j].email)
+    rowData.push($scope.students[j].id);
+    rowData.push($scope.students[j].first_name);
+    rowData.push($scope.students[j].last_name);
+    rowData.push($scope.students[j].email);
     for(var i = 0; i < $scope.students[j].submissions.length; i++) {
       var rawScore = $scope.students[j].submissions[i].raw_score;
       var possibleScore = $scope.assignments[i].possible_score;
