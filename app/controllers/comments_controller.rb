@@ -1,9 +1,11 @@
 class CommentsController < ApplicationController
   def create
-    @comment = Comment.create!(comment_params)
-    respond_to do |format|
-       format.json { render json: @comment, status: 200 }
-    end
+    @comment = Comment.create(comment_params)
+  end
+
+  def destroy
+    @comment = Comment.find(params[:id])
+    @comment.destroy if @comment
   end
 
   private
