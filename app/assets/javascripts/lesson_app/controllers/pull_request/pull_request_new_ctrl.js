@@ -9,11 +9,6 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
        $scope.newPR.parent_plan = parent
     }).then(function() {
 
-      LessonService.getLesson($scope.newPR.forked_plan_id).then(function(forked) {
-       $scope.newPR.forked_plan = forked
-       $scope.diffs = DiffService($scope.newPR.parent_plan.content, $scope.newPR.forked_plan.content);
-      })
-
     })
 
 
@@ -32,7 +27,15 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
     $scope.alreadyForked = $scope.alreadyForked || false
   }
 
+  $scope.getDiffInfo = function() {
+      LessonService.getLesson($scope.newPR.forked_plan_id).then(function(forked) {
+       $scope.newPR.forked_plan = forked
+       $scope.diffs = DiffService($scope.newPR.parent_plan.content, $scope.newPR.forked_plan.content);
+      })
+  }
+
   $scope.createNewPullRequest = function() {
+
     pullRequestService.createNewPullRequest($scope.newPR, $stateParams.id);
   }
 
