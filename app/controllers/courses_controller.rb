@@ -23,6 +23,18 @@ class CoursesController < ApplicationController
     end
   end
 
+  def update
+    @course = Course.find(params[:id])
+    respond_to do |format|
+      if @course.update(course_params)
+        format.json {render json: @course, include: [{students: {include: :submissions}}, {assignments: {include: :submissions}}]}
+      else
+        format.json { render json: {errors: @course.errors.full_messages },
+                                    :status => 422}
+      end
+    end
+  end
+
   def destroy
     @course = current_teacher.courses.find_by_id(params[:id])
     course = @course
