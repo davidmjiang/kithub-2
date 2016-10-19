@@ -1,39 +1,64 @@
-Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "SubmissionService", "close", "AssignmentService", "$rootScope", "students", "VisualService", function($scope, course, assignment, GPAService, SubmissionService, close, AssignmentService, $rootScope, students, VisualService) {
+Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "close", "AssignmentService", "CurveService", "$rootScope", "students", "VisualService", function($scope, course, assignment, GPAService, close, AssignmentService, CurveService, $rootScope, students, VisualService) {
 
   $scope.assignment = assignment
   $scope.gpa = {}
   $scope.gpa.raw = GPAService.rawGPA(course, assignment)
-  $scope.gpa.real = GPAService.realGPA(course, assignment)
-  var _realGPA = GPAService.realGPA(course, assignment)
-  if (_realGPA ) {
-    $scope.curveApplied = true 
-    $scope.gpa.real = _realGPA
-  } else {
-    $scope.curveApplied = false
-    $scope.gpa.real = $scope.gpa.raw
-  }
-
-  (function() {
-    var out = []
-    _.each(course.students, function(student) {
-      _.each(student.submissions, function(submission) {
-        if (submission.assignment_id === assignment.id) {
-          out.push(submission)
-        }
-      })
-    })
-    $scope.numSubmissions = out.length
-    $scope.submissions = out
-  })()
-
+  $scope.hasCurve = assignment.has_curve
   $scope.curve = {}
-
   $scope.editingTitle = false
   $scope.addingCurve = false
   $scope.assignmentTitle = assignment.title
   $scope.numStudents = course.students.length
 
-  
+  var _fillFlatRateEditInput = function() {
+    var curve = {}
+    angular.copy($scope.assignment.flat_curve, curve)
+    $scope.curve.flatRate = curve.flat_rate
+  }
+
+  var _fillLinearCurveEditInputs = function() {
+    var curve = {}
+    angular.copy($scope.assignment.linear_curve, curve)
+    $scope.curve.rawA = curve.rawA
+    $scope.curve.rawB = curve.rawB
+    $scope.curve.curvedA = curve.curvedA
+    $scope.curve.curvedB = curve.curvedB
+  }
+
+  var _fillCurveEditInputs = function() {
+    if ($scope.assignment.flat_curve) {
+      _fillFlatRateEditInput()
+    } else if ($scope.assignment.linear_curve) {
+      _fillLinearCurveEditInputs()
+    }
+  }
+
+  // this will have to change
+  if ($scope.assignment.has_curve ) {
+    console.log("assignment has curve!!")
+    _fillCurveEditInputs()
+    $scope.gpa.real = GPAService.realGPA(course, $scope.assignment)
+    $scope.curveApplied = true 
+  } else {
+    $scope.gpa.real = $scope.gpa.raw
+    $scope.curveApplied = false
+  }
+
+
+  (function() {
+    var _submissions = []
+    _.each(course.students, function(student) {
+      _.each(student.submissions, function(submission) {
+        if (submission.assignment_id === assignment.id) {
+          _submissions.push(submission)
+        }
+      })
+    })
+    $scope.numSubmissions = _submissions.length
+    $scope.submissions = _submissions
+  })()
+
+
 
   $scope.editAssignment = function(assignment) {
     AssignmentService.editAssignment(assignment)
@@ -66,7 +91,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   }
 
   $scope.applyFlatCurve = function() {
-    $scope.gpa.real = $scope.curve.flatOffset + $scope.gpa.raw
+    $scope.gpa.real = $scope.curve.flatRate + $scope.gpa.raw
     $scope.curveApplied = true
   }
 
@@ -89,42 +114,34 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   }
 
 
+  // private 
+
   var _applyFlatCurve = function() {
-    SubmissionService.applyFlatCurve($scope.submissions, $scope.curve.flatOffset, assignment.possible_score)
-      .then(function(response) {
-        _applyResponseSubmissions(response)
+    CurveService.applyFlatCurve($scope.curve.flatRate, assignment.id)
+    .then(function(response) {
+      console.log("response in controller")
+      console.log(response)
+      $scope.assignment.has_curve = true
+      assignment.flat_curve = response
     })
   }
 
   var _applyLinearCurve = function() {
-    SubmissionService.applyLinearCurve($scope.submissions, $scope.curve, assignment.possible_score)
+    CurveService.applyLinearCurve($scope.curve, assignment.id)
       .then(function(response) {
         console.log("response in controller")
         console.log(response)
-        _applyResponseSubmissions(response)
-    })
-  }
-
-  var _applyResponseSubmissions = function(response) {
-    _.each(response, function(responseSubmission) {
-      _.each(course.students, function(student) {
-        _.each(student.submissions, function(studentSubmission) {
-          if (studentSubmission.id === responseSubmission.id) {
-            studentSubmission.real_score = responseSubmission.real_score
-          }
-        })
-      })
+        $scope.assignment.linear_curve = response
+        $scope.assignment.has_curve = true
+        assignment.linear_curve = response
     })
   }
 
   var _simulateLinearCurve = function() {
-    var _simulatedSubmissions = []
-    angular.copy($scope.submissions, _simulatedSubmissions)
-    _.each(_simulatedSubmissions, function(submission) {
-      var _rawPercent = submission.raw_score / $scope.assignment.possible_score * 100
-      submission.real_score = _linearFormula($scope.curve, _rawPercent)
-    })
-    return _averageRealScore(_simulatedSubmissions)
+    var _simulatedAssignment = {}
+    angular.copy($scope.assignment, _simulatedAssignment)
+    _simulatedAssignment.linear_curve = $scope.curve
+    return GPAService.realGPA(course, _simulatedAssignment)
   }
 
   var _linearFormula = function(input, rawPercent) {
@@ -138,6 +155,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     })
     return total / submissions.length
   }
+
+
+  
 
   $scope.opts = {
     scales: {
