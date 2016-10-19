@@ -263,9 +263,11 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     })
   }
 
-  $scope.$on("student.added", function(event, data) {
+  $scope.$on("student.added", function(event, response) {
+    var data = StudentService.studentData(response)
     $scope.rowCount ++;
     allRows.push(data);
+    $scope.students.push(response);
     var students = allRows.sort(function(a,b) {
       var lastNameA = a[2]
       var lastNameB = b[2]
