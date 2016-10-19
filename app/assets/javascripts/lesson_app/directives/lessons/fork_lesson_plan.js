@@ -5,8 +5,7 @@ Lesson.directive("forkLessonPlan",  [ "LessonService", "$stateParams", "Auth", "
     restrict: "E",
     link: function(scope) {
       // creates a new copy of the current lesson under the current user with updated version number
-
-      // also increases the number of forks of the parent lesson by 1
+      // redirects to new fork
       scope.forkLesson = function() {
 
         LessonService.getLesson($stateParams.id).then(function(response){

@@ -11,9 +11,6 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 	$scope.stateEditing = false;
 	$scope.stateHover = false;
 	$scope.imageHover = false;
-	$scope.hourFilter = 0;
-	$scope.gradeFilter = 0;
-	$scope.advancedFilters = false;
 
 	//show profile photo if there is one
 	if(teacher.avatar_file_name){
@@ -61,19 +58,6 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 			$scope.teacher.patch();
 			$scope.stateEditing = false;
 		}
-	}
-
-	// filter for grade slide
-	$scope.greaterThan = function(prop, val){
-		return function(item){
-			return item[prop] >= val;
-		}
-	}
-
-	// turn advanced filters on and off
-
-	$scope.toggleAdvancedFilters = function(){
-		$scope.advancedFilters = !$scope.advancedFilters
 	}
 
 	//upload profile photo
