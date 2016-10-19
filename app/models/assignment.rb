@@ -9,11 +9,11 @@ class Assignment < ApplicationRecord
   has_many :students, through: :submissions
 
   has_one :flat_curve
-  # has_one :linear_curve
+  has_one :linear_curve
 
 
   def has_curve
-    return true if self.flat_curve # || self.linear_curve
+    return true if self.flat_curve || self.linear_curve
   end
 
 end
