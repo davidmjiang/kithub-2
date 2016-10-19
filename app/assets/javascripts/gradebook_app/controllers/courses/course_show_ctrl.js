@@ -151,7 +151,8 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       controller: "AssignmentShowCtrl",
       inputs: {
         assignment: assignment,
-        course: course
+        course: course,
+        students: $scope.students
       }
     }).then(function(modal) {
       modal.element.modal();
