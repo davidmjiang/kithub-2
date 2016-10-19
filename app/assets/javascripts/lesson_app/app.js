@@ -48,12 +48,12 @@ angular.module('Lesson').
         AuthProvider.resourceName('teacher');
     }]);
 
-// config for pagination 
+// config for pagination
 angular.module('Lesson')
-  .config(function(paginationTemplateProvider) {
+  .config(['paginationTemplateProvider', function(paginationTemplateProvider) {
     paginationTemplateProvider
     .setPath('lesson_templates/dirPagination.tpl.html');
-});
+}]);
 
 //routes
 angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
@@ -82,7 +82,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
       url: "/redirect",
       controller: ['currentUser', '$state', function(currentUser, $state){
             $state.go('main.teachers.overview', {id: currentUser.id})
-              
+
         }]
     })
 
