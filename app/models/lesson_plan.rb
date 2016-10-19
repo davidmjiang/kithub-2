@@ -37,4 +37,7 @@ class LessonPlan < ApplicationRecord
   #Validations
   validates_presence_of :title, :content
   validates :title, length: { minimum: 2, maximum: 200 }
+
+  #additional materials
+  has_many :additional_materials
 end

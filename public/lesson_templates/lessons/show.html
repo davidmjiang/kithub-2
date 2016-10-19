@@ -69,7 +69,11 @@
 
         <div class="card card-block">
           <h4 class="card-title">Additional Materials</h4>
-          <a href="#" class="btn btn-primary">Upload</a>
+          <label for="file-upload" class="upload-btn">Upload</label>
+          <input id="file-upload" type="file" ngf-select="upload($file)" ng-model="materials">
+          <ul>
+            <li ng-repeat="m in materials"><a ng-href="{{m.image_url}}" target="_blank">{{m.file_name}}</a></li>
+          </ul>
         </div>
       </div>
 
