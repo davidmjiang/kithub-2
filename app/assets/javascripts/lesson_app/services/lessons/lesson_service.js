@@ -28,7 +28,9 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService",
   };
 
   lessonService.save = function(lesson) {
+    console.log(lesson);
     return lesson.patch().then(function(response) {
+      return response
       // MAYBE just do one
       // pullRequestService.all();
     });
