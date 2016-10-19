@@ -41,8 +41,6 @@ t = Teacher.create(email: person,
                            assignment_type: assignment_type.sample,
                            possible_score: rand(10..100))
     end
-    puts 'creating students'
-    puts "creating submissions for students"
     15.times do |i|
       s = Student.create(first_name: Faker::Name.first_name,
                          last_name: Faker::Name.last_name,

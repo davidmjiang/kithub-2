@@ -10,7 +10,6 @@
         <option value=""></option>
         <option ng-repeat="subject in subjects" value="{{subject}}">{{subject}}</option>
       </select>
-      {{subjectFilter}}
       <div class="list-group row">
         <div lesson-card class="col-md-6" lesson="lesson" ng-repeat="lesson in teacher.lesson_plans | orderBy: '-created_at' | filter: {title: titleFilter} | filter: { grade: gradeFilter } | filter: {lesson_type: lessonTypeFilter} | filter: {subject: subjectFilter}">
       </div>
