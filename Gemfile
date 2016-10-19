@@ -95,6 +95,7 @@ group :development do
   # Allow creation fo fake data
   # Fake email sending
   gem "letter_opener"
+  gem "bullet"
 
 
 
