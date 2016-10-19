@@ -40,6 +40,20 @@ class StudentsController < ApplicationController
     end
   end
 
+  def destroy
+    @student = Student.find(params[:id])
+    respond_to do |format|
+      if @student.destroy
+        format.json {render json: @student}
+      else
+        format.json { render json: {
+                                            errors: @student.errors.full_messages },
+                                            :status => 422
+                                           }
+      end
+    end
+  end
+
   private
 
   def student_params

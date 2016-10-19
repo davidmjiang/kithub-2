@@ -1,9 +1,19 @@
 "use strict";
-Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'Auth', 'Upload', '$http',
-  function($scope, LessonService, Restangular, lesson, Auth, Upload, $http) {
-    
+Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http',
+  function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http) {
+
+  $scope.lesson = lesson;
+  $scope.lesson.grade = $scope.lesson.grade.toString(); // for dropdown menu values
   $scope.states = LessonService.getStates();
   $scope.grades = LessonService.getGrades();
+  $scope.owner = owner;
+
+  //show profile photo if there is one
+  if (owner.avatar_file_name) {
+    $scope.profile_photo = owner.image;
+  } else {
+    $scope.profile_photo = "http://placehold.it/250x250";
+  }
 
   // determines if mode is preview or editing
   $scope.editing = false;
@@ -29,9 +39,6 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     toolbar: false,
     status: ["lines", "words"]
   };
-
-  $scope.lesson = lesson;
-  $scope.lesson.grade = $scope.lesson.grade.toString(); // for dropdown menu values
 
   // checks whether or not the lesson
   // belongs to the current user, and sets
