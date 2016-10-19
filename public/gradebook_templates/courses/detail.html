@@ -9,15 +9,31 @@
         <h2>{{course.title}}</h2>
         <p>
           <span>Overall Class Average: {{gpa | number:2}}%</span>
-          <span style="float: right"><small>Class Average per Assignment</small></span>
         </p>
 
-        <canvas id="bar" class="chart chart-bar"
-          chart-data="data" chart-labels="labels" chart-options="opts"> chart-series="series"
-        </canvas>
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" href="#assign" role="tab" data-toggle="tab" target="_self"><small>Class Average per Assignment</small></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#student" role="tab" data-toggle="tab" target="_self"><small>Student Averages in Class</small></a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane fade in active" id="assign">
+            <canvas id="bar" class="chart chart-bar" chart-data="assignmentData" chart-labels="assignmentLabels" chart-options="opts"> chart-series="series"
+            </canvas>
+          </div>
+          <div role="tabpanel" class="tab-pane fade" id="student">
+            <canvas id="bar" class="chart chart-bar" chart-data="studentData" chart-labels="studentLabels" chart-options="opts"> chart-series="series"
+            </canvas>
+          </div>
+        </div>
+
       </div>
       <div class="modal-footer">
-        <button type="button" ng-click="cancel()" class="btn btn-primary" data-dismiss="modal">Done</button>
+        <button type="button" ng-click="close()" class="btn btn-primary" data-dismiss="modal">Done</button>
       </div>
     </div>
   </div>
