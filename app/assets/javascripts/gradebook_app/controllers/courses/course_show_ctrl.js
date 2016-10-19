@@ -1,4 +1,4 @@
-Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", "ModalService", "$state", function($scope, course, StudentService, AssignmentService, GPAService, ModalService, $state){
+Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", "ModalService", "$state", "CourseService", function($scope, course, StudentService, AssignmentService, GPAService, ModalService, $state, CourseService){
 
   var cols =[];
   var allRows= [];
@@ -39,6 +39,10 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       modal.element.modal();
       modal.close;
     })
+  }
+
+  $scope.update = function(title) {
+    CourseService.updateCourse({course: {title: title}}, $scope.course)
   }
 
 

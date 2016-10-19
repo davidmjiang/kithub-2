@@ -10,18 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161014164623) do
+ActiveRecord::Schema.define(version: 20161018214907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "add_notes_to_student_models", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "assignments", force: :cascade do |t|
-    t.string   "title"
+    t.string   "title",           default: "Default"
     t.string   "assignment_type"
-    t.integer  "possible_score"
+    t.integer  "possible_score",  default: 0
     t.integer  "course_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   create_table "comments", force: :cascade do |t|
