@@ -27,6 +27,7 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
     $scope.alreadyForked = $scope.alreadyForked || false
   }
 
+
   $scope.getDiffInfo = function() {
       LessonService.getLesson($scope.newPR.forked_plan_id).then(function(forked) {
        $scope.newPR.forked_plan = forked
@@ -37,7 +38,7 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
   $scope.createNewPullRequest = function() {
 
     pullRequestService.createNewPullRequest($scope.newPR, $stateParams.id);
-  }
+  };
 
 
 

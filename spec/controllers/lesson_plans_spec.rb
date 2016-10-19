@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe LessonPlansController do
+  render_views
 
   let(:teacher){create :teacher}
 
