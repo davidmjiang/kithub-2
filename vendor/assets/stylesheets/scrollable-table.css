@@ -78,7 +78,7 @@
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 400px;
+
 }
 .scrollArea table tr th:first-child th .box {
     border-left: none;
