@@ -13,6 +13,7 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
 
 
     $scope.lessonBelongsToCurrentUser = (currentUser.id === response.teacher_id)
+
       pullRequestService.pullRequestMade(response.id).then(function(response) {$scope.pullRequestMade = response;})
       console.log($scope.pullRequestMade)
     });
