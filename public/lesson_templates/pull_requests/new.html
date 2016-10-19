@@ -1,6 +1,8 @@
-<fork-lesson-plan ng-if="lessonBelongsToCurrentUser == false"></fork-lesson-plan>
+<fork-lesson-plan ng-if="lessonBelongsToCurrentUser === false && alreadyForked !== true"></fork-lesson-plan>
 
+{{ lessonBelongsToCurrentUser }}
 <button ng-if="lessonBelongsToCurrentUser"
+        ng-click="getDiffInfo()"
         type="button"
         class="btn btn-info pull-right"
         data-toggle="modal"
@@ -11,7 +13,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade large"
+<div class="modal fade large pull-request-modal"
      id="newPRModal{{ newPR.forked_plan_id }}"
      tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel"
@@ -33,36 +35,23 @@
 
       <div class="modal-body">
           <form>
-            <h2>Pull Request Title:</h2>
-            <h2><input type="text" name="" ng-model="newPR.title"></h2>
+            <h2>Title:</h2>
+            <h2><input class="form-control"  type="text" name="" ng-model="newPR.title"></h2>
 
-            <h2>Pull Request Description:</h2>
-            <textarea ng-model="newPR.description"></textarea>
+            <h2>Description:</h2>
+            <textarea class="form-control" ng-model="newPR.description"></textarea>
 
 
           </form>
-          <h5>{{ pullRequest.description }}</h5>
-          <h5>{{ pullRequest.status }}</h5>
-
+          <br>
           <div>
             <div class="card">
               <div class="card-block">
-                <h4 class="card-title">Parent Lesson Plan: {{ parentLesson.title }}</h4>
-
+                <h4 class="card-title">Changes</h4>
+                <pre><span ng-repeat="diff in diffs" ng-class="{ added: diff.added, removed: diff.removed }">{{ diff.value }}</span></pre>
               </div>
             </div>
-
-            <div class="card">
-              <div class="card-block">
-                <h4 class="card-title">Forked Lesson Plan: {{ forkedLesson.title }}</h4>
-
-              </div>
-            </div>
-
           </div>
-
-          <a href="#" class="btn primary-color">Compare Lessons</a>
-
 
       </div>
 

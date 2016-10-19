@@ -101,9 +101,13 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
          controller: "PullRequestNewCtrl",
          resolve: {
           forkedLesson: ["LessonService", "$stateParams", function(LessonService, $stateParams){
-          return LessonService.getLesson($stateParams.id);
+            return LessonService.getLesson($stateParams.id);
+          }],
 
-         }]}},
+          teacher: ["$stateParams", "TeacherService", "currentUser", function($stateParams, TeacherService, currentUser){
+            return TeacherService.getTeacher(currentUser.id);
+          }]
+       }},
 
         'mainContainer@main.lessons': {
           templateUrl: "lesson_templates/lessons/show.html",
