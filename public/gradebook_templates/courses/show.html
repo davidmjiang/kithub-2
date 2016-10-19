@@ -35,18 +35,16 @@
 
     </tr>
     <tr ng-repeat="row in allRows | limitTo: rowCount">
+    <button class="btn btn-success" ng-click="addStudentModal(course)">Add Student</button>
+    <button class="btn btn-success" ng-click="addAssignmentModal(course)">Add Assignment</button>
+    <button class="btn btn-danger" ng-click="removeStudentModal(course)">Remove Student</button>
+    <button class="btn btn-outline-danger" ng-click="deleteCourse()">Delete this course</button>
         <td ng-submit="submitEdit(row, item, $index)" ng-repeat="item in row track by $index | limitTo: colCount ">
+
           <a href="#" onbeforesave="checkItem($index, $data)" editable-text="item"> {{item}}</a>
       </td>
       <td><a ng-click="studentDetailModal(row[3], row[row.length - 1])">Details</a></td>
     </tr>
   </table>
 </div>
-
-
-  <button class="btn btn-success" ng-click="addAssignmentModal(course)">Add Assignment</button>
-  <button class="btn btn-danger" ng-click="incrementCol('down')">Remove Column</button></br></br>
-  <button class="btn btn-success" ng-click="addStudentModal(course)">Add Student</button>
-  <button class="btn btn-danger" ng-click="incrementRow('down')">Remove Row</button>
-  <button class="btn btn-outline-danger" ng-click="deleteCourse()">Delete this course</button>
 
