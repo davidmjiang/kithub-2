@@ -9,6 +9,7 @@ class StudentsController < ApplicationController
 
   def create
     @student = Student.new(student_params)
+    @student.course_ids = params['course_ids']
     respond_to do |format|
       if @student.save
         create_submissions(params["course_ids"], @student.id)
