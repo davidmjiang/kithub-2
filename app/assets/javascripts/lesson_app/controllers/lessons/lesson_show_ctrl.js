@@ -98,7 +98,6 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     }).then(function(response){
       $scope.materials.push(response.data);
       $scope.saving = false;
-      console.log(response);
       console.log("success");
     }, function(response){
       console.log("error: ", response.status);
