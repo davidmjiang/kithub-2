@@ -43,6 +43,11 @@ Gradebook.factory('CourseService', ['Restangular', function(Restangular){
     })
   }
 
+  stub.updateCourse = function(params, course) {
+    Restangular.restangularizeElement(null, course, 'courses');
+    course.patch(params);
+  }
+
   return stub;
 
 }]);

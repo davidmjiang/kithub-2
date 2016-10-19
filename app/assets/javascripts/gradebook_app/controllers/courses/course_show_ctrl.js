@@ -1,4 +1,6 @@
-Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", "ModalService", "$state", function($scope, course, StudentService, AssignmentService, GPAService, ModalService, $state){
+
+Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", "ModalService", "$state", "CourseService", "SubmissionService", function($scope, course, StudentService, AssignmentService, GPAService, ModalService, $state, CourseService, SubmissionService){
+
 
   var cols =[];
   var allRows= [];
@@ -8,24 +10,60 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   $scope.rawGPA = GPAService.rawGPA(course)
   $scope.students = $scope.course.students;
 
-  $scope.assignments = $scope.course.assignments;
+  $scope.assignments = $scope.course.assignments.sort(function(a,b) {
+    var created_atA = a.created_at
+    var created_atB = b.created_at
+    if(created_atA < created_atB) {
+      return -1;
+    }
+    if(created_atB < created_atA) {
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  })
 
-  $scope.studentDetailModal = function(email) {
+  $scope.studentDetailModal = function(email, overall) {
     ModalService.showModal({
       templateUrl: '/gradebook_templates/students/detail.html',
       controller: 'StudentModalCtrl',
-      inputs: {students: $scope.students, email: email, assignments: $scope.assignments}
+      inputs: {
+        students: $scope.students,
+        email: email,
+        assignments: $scope.assignments,
+        overall: overall
+      }
     }).then(function(modal) {
       modal.element.modal();
       modal.close;
     })
   }
 
+  $scope.courseDetailModal = function(gpa) {
+    ModalService.showModal({
+      templateUrl: '/gradebook_templates/courses/detail.html',
+      controller: 'CourseModalCtrl',
+      inputs: {
+        course: $scope.course,
+        assignments: $scope.assignments,
+        gpa: gpa
+      }
+    }).then(function(modal) {
+      modal.element.modal();
+      modal.close;
+    })
+  }
+
+  $scope.update = function(title) {
+    CourseService.updateCourse({course: {title: title}}, $scope.course)
+  }
+
 
   for (var i = 0; i < $scope.assignments.length; i++){
-      cols.push($scope.assignments[i].assignment_type +
-       $scope.assignments[i].id + ": " + ($scope.assignments[i].title)
-       + "(" + ($scope.assignments[i].possible_score) +")"  );
+      cols.push($scope.assignments[i].assignment_type + ": " +
+                        ($scope.assignments[i].title)
+                        + "(" + ($scope.assignments[i].possible_score) +")"  );
   }
   cols.push("Overall")
 
@@ -48,7 +86,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
         rawTotal += rawScore;
         possibleTotal += possibleScore;
       }
-      rowData.push(rawScore + " / " + possibleScore);
+      rowData.push(rawScore);
     }
     rowData.push(Number(rawTotal / possibleTotal * 100).toFixed(2));
     allRows.push(rowData)
@@ -59,38 +97,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   $scope.colCount = $scope.assignments.length + 5;
   $scope.rowCount = $scope.students.length;
 
-  // $scope.incrementCol = function(direction){
-  //   if(direction === "up") {
-  //     $scope.colCount ++;
-  //   }
-  //   else {
-  //     if($scope.colCount > 3) {
-  //       $scope.colCount --;
-  //     }
-  //   }
-  // }
 
-  $scope.addAssignment = function(course){
-    $scope.colCount ++;
-    $scope.cols[$scope.cols.length - 1] = "New Assignment";
-    $scope.cols.push("Overall");
-    for(var i = 0; i < $scope.allRows.length; i++) {
-      var temp = $scope.allRows[i].slice(-1)[0]
-      $scope.allRows[i][$scope.allRows[i].length - 1] = 0;
-      $scope.allRows[i].push(temp);
-    }
-    AssignmentService.addAssignment(course);
-  }
-
-  $scope.addStudent = function(course) {
-    $scope.rowCount ++
-    StudentService.addStudent(course);
-    var newStudent = [];
-    for(var i = 0; i < $scope.colCount; i++) {
-      newStudent.push(["New Student"])
-    }
-    $scope.allRows.push(newStudent)
-  }
 
   $scope.incrementRow = function(direction){
     if(direction === "up") {
@@ -100,6 +107,40 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       if($scope.rowCount > 0) {
         $scope.rowCount --;
       }
+    }
+  }
+
+  $scope.submitEdit = function(row, item, index) {
+    var rowIndex = $scope.allRows.indexOf(row)
+    if(index > 0 && index < 4) {
+      var student = $scope.students[rowIndex]
+      StudentService.editStudent(student, index, item)
+
+    }
+    else if (index > 3 && index < row.length - 1) {
+      var submission = $scope.students[rowIndex].submissions[index - 4]
+      submission.raw_score = parseInt(item)
+      SubmissionService.editSubmission(submission)
+    }
+  }
+
+
+  $scope.checkItem = function(index, item) {
+    console.log(!parseInt(item))
+    if (index === 0) {
+      return "You cannot update the student's id";
+    }
+    if(index === 3 && !item.includes("@")) {
+      return "Please enter a valid student email";
+    }
+    else if(index === $scope.colCount - 1) {
+      return "You cannot update the overall score. Update specific scores.";
+    }
+    else if(index > 3 && !(parseInt(item))) {
+      return "The score needs to be a positive number greater than 0";
+    }
+    else if(index < $scope.colCount - 1) {
+      return true;
     }
   }
 
@@ -114,10 +155,65 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     }).then(function(modal) {
       modal.element.modal();
       modal.close.then(function(response) {
-        // update course show
+
       })
     })
   }
+
+  $scope.addStudentModal = function(course) {
+    ModalService.showModal({
+      templateUrl: "gradebook_templates/students/new.html",
+      controller: "StudentNewCtrl",
+      inputs: {
+        course: course
+      }
+    }).then(function(modal) {
+      modal.element.modal();
+
+    })
+  }
+
+  $scope.addAssignmentModal = function(course) {
+    AssignmentService.addAssignment(course);
+    ModalService.showModal({
+      templateUrl: "gradebook_templates/assignments/new.html",
+      controller: "AssignmentNewCtrl",
+      inputs: {
+        course: course
+      }
+    }).then(function(modal) {
+      modal.element.modal();
+
+    })
+  }
+
+  $scope.$on("student.added", function(event, data) {
+    $scope.rowCount ++;
+    allRows.push(data);
+  })
+
+  $scope.$on("assignment.edit", function(event, data) {
+    var newAssignment = data.assignment_type + ": " + data.title +
+                        "(" + data.possible_score + ")"
+    for(var i = 0; i < $scope.assignments.length; i++) {
+      if($scope.assignments[i].id === data.id) {
+        $scope.cols[i] = newAssignment;
+      }
+    }
+  })
+
+  $scope.$on("assignment.added", function(event, data) {
+    $scope.colCount ++;
+    $scope.cols[$scope.cols.length - 1] = data.assignment_type + ": " +
+                                          data.title + "(" + data.possible_score
+                                          + ")";
+    $scope.cols.push("Overall");
+    for(var i = 0; i < $scope.allRows.length; i++) {
+      var temp = $scope.allRows[i].slice(-1)[0]
+      $scope.allRows[i][$scope.allRows[i].length - 1] = 0;
+      $scope.allRows[i].push(temp);
+    }
+    })
 
   $scope.deleteCourse = function() {
     CourseService.deleteCourse($scope.course).then(function(response) {
