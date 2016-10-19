@@ -11,6 +11,7 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 	$scope.stateEditing = false;
 	$scope.stateHover = false;
 	$scope.imageHover = false;
+	$scope.saving = false;
 
 	//show profile photo if there is one
 	if(teacher.avatar_file_name){
@@ -62,6 +63,7 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 
 	//upload profile photo
 	$scope.upload = function(file){
+		$scope.saving = true;
 		Upload.upload({
 			url: 'api/v1/teachers/' + teacher.id + '.json',
 			method: 'PUT',
@@ -74,6 +76,7 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 		}).then(function(response){
 			$scope.profile_photo = response.data.image;
 			$scope.imageHover = false;
+			$scope.saving = false;
 			console.log("success");
 		}, function(response){
 			console.log("error: ", response.status);
