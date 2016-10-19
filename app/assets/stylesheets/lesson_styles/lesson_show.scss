@@ -1,13 +1,17 @@
 #lesson-show {
 
-  .CodeMirror, .CodeMirror-scroll {
-    min-height: 450px;
+  #profile-img {
+    height: 1.75em;
+    width: 1.75em;
+    vertical-align: middle;
+    border-radius: 0.25rem;
+    display: inline-block;
+    background-size: contain;
+    background-position: 50% 50%;
   }
 
-  #save-btn {
-    i {
-      line-height: 1.25;
-    }
+  .CodeMirror, .CodeMirror-scroll {
+    min-height: 450px;
   }
 
   .editable {
@@ -24,4 +28,21 @@
     }
   }
   
+}
+
+#file-upload{
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.upload-btn{
+  cursor: pointer;
+}
+
+.am-btn{
+  margin-left: 10px;
 }

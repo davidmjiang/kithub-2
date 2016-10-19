@@ -12,18 +12,37 @@
   <body class="container-fluid" <%= content_for :angular_app %> >
     <nav class="navbar navbar-light bg-faded">
       <a class="navbar-brand" href="#">KitHub</a>
-      <ul class="nav navbar-nav">
+      <% if teacher_signed_in? %>
+        <ul class="nav navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="<%= root_path %>" >Overview</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<%= gradebook_path %>" >Gradebook</a>
+          </li>
+        </ul>
+      <% end %>
+      <% if controller_name == 'kithub' %>
+        <form class="form-inline center-form">
+          <input class="form-control" type="text" placeholder="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      <% end %>
+      <ul class="nav navbar-nav pull-xs-right">
+      <% if teacher_signed_in? %>
         <li class="nav-item">
-          <a class="nav-link" href="<%= root_path %>" >Dashboard</a>
+          <a class="nav-link" href="" ><%= current_teacher.first_name %></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<%= gradebook_path %>" >Gradebook</a>
+          <%= link_to "Logout",  destroy_teacher_session_path, method: :delete, class: "nav-link" %>
         </li>
+      <% else %>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= new_teacher_session_path %>" >Login</a>
+        </li>
+      <% end %>
       </ul>
-      <form class="form-inline pull-xs-right">
-        <input class="form-control" type="text" placeholder="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+
     </nav>
     <%= yield %>
   </body>

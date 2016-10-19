@@ -13,7 +13,7 @@ class LessonPlansController < ApplicationController
   def show
     @lesson = LessonPlan.find(params[:id])
     respond_to do |format|
-      format.json { render json: @lesson }
+      format.json{render "show.json.jbuilder"}
     end
   end
 
@@ -40,6 +40,7 @@ class LessonPlansController < ApplicationController
       if @lesson_plan.save
         format.json { render json: @lesson_plan }
       else
+        puts @lesson_plan.errors.full_messages
         format.json { render json: {
                                     errors: @lesson_plan.errors.full_messages },
                                     :status => 422
