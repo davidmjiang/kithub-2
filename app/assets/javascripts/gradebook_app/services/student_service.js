@@ -76,7 +76,7 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   }
 
   StudentService.createSubmissions = function(id) {
-  	console.log(id)
+  	console.log(id);
   }
 
   StudentService.updateStudent = function(params, student) {
@@ -85,8 +85,8 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   }
 
   StudentService.removeStudent = function(student) {
-    console.log(student)
-    return Restangular.one("students", student.id).remove()
+    console.log(student);
+    return Restangular.one("students", student.id).remove();
   }
 
   return StudentService
