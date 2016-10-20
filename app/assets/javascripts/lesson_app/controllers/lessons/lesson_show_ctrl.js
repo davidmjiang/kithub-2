@@ -3,10 +3,6 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http) {
 
   $scope.lesson = lesson; 
-  $scope.states = LessonService.getStates();
-  $scope.grades = LessonService.getGrades();
-  $scope.lessonTypes = LessonService.getLessonTypes();
-  $scope.subjects = LessonService.getSubjects();
   $scope.owner = owner;
   $scope.draftTitle = $scope.lesson.title;
 
