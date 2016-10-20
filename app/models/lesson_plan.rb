@@ -3,6 +3,13 @@ class LessonPlan < ApplicationRecord
   validates :title, presence: true
   # validates :content, presence: true
   validates_numericality_of :hours, greater_than_or_equal_to: 0, allow_nil: true
+  validates :state, inclusion: {in: STATES}, allow_nil: true
+  validates :subject, inclusion: {in: SUBJECTS}, allow_nil: true
+  validates :lesson_type, inclusion: {in: LESSON_TYPES}, allow_nil: true
+  # validates :grade, inclusion: {in: GRADES}, allow_nil: true
+
+
+
   belongs_to :teacher
 
   # self-association

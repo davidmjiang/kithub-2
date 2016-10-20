@@ -20,6 +20,13 @@ $secondary-color: #B7B8B6; /*granite*/;
 $ternary-color: #34675C; /*pine*/;
 $blue-sky-color: #4CB5F5; /*blue-sky*/;
 
+.cabin-sketch-font {
+  font-family: 'Cabin Sketch', cursive;
+}
+
+.abel-font {
+font-family: 'Roboto', sans-serif;
+}
 
 .primary-color {
   color: $primary-color;
@@ -55,6 +62,22 @@ $blue-sky-color: #4CB5F5; /*blue-sky*/;
   background-color: $blue-sky-color;
 }
 
+.primary-border-color {
+  border-color: $primary-color;
+}
+
+.secondary-border-color {
+  border-color: $secondary-color;
+}
+
+.ternary-border-color {
+  border-color: $ternary-color;
+}
+
+.blue-sky-border-color {
+  border-color: $blue-sky-color;
+}
+
  @import "bootstrap";
  @import "xeditable";
  @import "font-awesome";
@@ -62,6 +85,7 @@ $blue-sky-color: #4CB5F5; /*blue-sky*/;
  @import "simplemde.min";
  @import "lesson_styles/lesson_show";
  @import "lesson_styles/teachers";
+ @import "lesson_styles/new_lesson_modal";
  @import "gradebook_styles/courses";
  @import "gradebook_styles/assignments";
  @import "lesson_styles/pull_request_show";
