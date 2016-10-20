@@ -75,7 +75,6 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
         toggleSaving(false);
       },
       function() {
-        console.log("Didn't work!")
         $scope.lesson.title = oldTitle;
       });
     // $scope.toggleEditing();
