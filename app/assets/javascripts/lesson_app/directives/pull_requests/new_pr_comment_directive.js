@@ -4,7 +4,6 @@ Lesson.directive("newPrComment",  [ "pullRequestService", "$stateParams", "Auth"
     scope: { pullRequest: "=", comments: "="},
     restrict: "E",
     link: function(scope) {
-      console.log(scope.comments)
       scope.comment = {
         commentable_type: "PullRequest",
         commentable_id: Number(scope.pullRequest.id)
