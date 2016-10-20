@@ -3,6 +3,8 @@
  <p><a ui-sref="main.teachers.overview({id: owner.id})"><div id="profile-img" style="background-image: url({{ profile_photo }})"></div> {{ owner.first_name + ' ' + owner.last_name}}</a> — <strong>{{ lesson.title }}</strong>
  <small ng-if="lesson.parent_plan_id">/ (forked from <a ui-sref="main.lessons.show({id: lesson.parent_plan_id})" >this lesson</a>)</small>
  </p>
+ 
+
  <div ui-view='newPullRequest'></div>
 
   <ul class="nav nav-tabs">
