@@ -1,4 +1,4 @@
-<fork-lesson-plan ng-if="lessonBelongsToCurrentUser === false && alreadyForked !== true"></fork-lesson-plan>
+<fork-lesson-plan owner="owner" ng-if="lessonBelongsToCurrentUser === false && alreadyForked !== true"></fork-lesson-plan>
 
 <button ui-sref="main.lessons.show.pullRequests({id: newPR.parent_plan_id})" ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length > 0" class="btn btn-warning pull-right">Pending Pull Request</button>
 
@@ -10,6 +10,8 @@
         data-target="#newPRModal{{ newPR.forked_plan_id }}">
   New Pull Request</button>
 </div>
+
+
 
 <!-- Modal -->
 <div class="modal fade large pull-request-modal"
