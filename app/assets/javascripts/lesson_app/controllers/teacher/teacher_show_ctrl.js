@@ -1,5 +1,5 @@
 "use strict";
-angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser', 'teacher', 'Upload', 'followers', '_', function($scope, currentUser, teacher, Upload, followers, _){
+angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser', 'teacher', 'Upload', 'followers', '_', 'Restangular', '$http', '$rootScope', function($scope, currentUser, teacher, Upload, followers, _, Restangular, $http, $rootScope){
 
 	$scope.isCurrentUser = currentUser.id === teacher.id;
 	$scope.teacher = teacher;
@@ -18,7 +18,7 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 		$scope.profile_photo = teacher.image;
 	}
 	else{
-		$scope.profile_photo = "http://placehold.it/250x250";
+		$scope.profile_photo = "https://placehold.it/250x250";
 	}
 
 	// display editing pencil on hover
@@ -70,6 +70,35 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 	};
 
 	$scope.followBtn = !$scope.isFollowing();
+
+	$scope.$on("follow:created", function(){
+		$scope.teacher.following ++;
+	});
+
+	$scope.$on("follow:removed", function(){
+		$scope.teacher.following --;
+	});
+
+	$scope.follow = function(){
+		var params = {following: {follower_id: currentUser.id,
+			followed_id: $scope.teacher.id}};
+		Restangular.all("teacher_followings").post(params).then(function(){
+			$scope.teacher.followed_by ++;
+			$scope.followBtn = false;
+			$rootScope.$broadcast('follow:new');
+		});
+		//post a follow, then increment scope.teacher.followed and add following to the following tab
+	};
+
+	$scope.unfollow = function(){
+		$http.delete('api/v1/teacher_followings/0', 
+			{params: {'follower_id': currentUser.id, 'followed_id': $scope.teacher.id}}).then(function(){
+				$scope.teacher.followed_by --;
+				$scope.followBtn = true;
+				$rootScope.$broadcast("unfollow:new", currentUser);
+			});
+		//find the following, delete it, then decrement scope.teacher.followed and remove following from the following tab
+	};
 
 	//upload profile photo
 	$scope.upload = function(file){

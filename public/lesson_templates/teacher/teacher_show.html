@@ -34,8 +34,8 @@
 		<div class="row">
 			<div class="col-md-3 offset-md-9">
 				<button class="btn btn-primary" ng-if="isCurrentUser" data-toggle="modal" data-target="#newLessonModal">Create New +</button>
-				<button class="btn btn-primary" ng-if="followBtn && !isCurrentUser">Follow</button>
-				<button class="btn btn-primary" ng-if="!followBtn && !isCurrentUser">Unfollow</button>
+				<button class="btn btn-primary" ng-if="followBtn && !isCurrentUser" ng-click="follow()">Follow</button>
+				<button class="btn btn-primary" ng-if="!followBtn && !isCurrentUser" ng-click="unfollow()">Unfollow</button>
         <new-lesson-modal teacher="teacher"></new-lesson-modal>
 			</div>
 		</div>

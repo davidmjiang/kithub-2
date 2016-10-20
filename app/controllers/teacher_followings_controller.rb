@@ -2,9 +2,11 @@ class TeacherFollowingsController < ApplicationController
 
   def index
     if params[:follower_id]
-      @teachers = TeacherFollowing.where("follower_id = ?", params[:follower_id]).map{|tf| Teacher.find(tf.followed_id)}
+      @followings = TeacherFollowing.where("follower_id = ?", params[:follower_id])
+      @teachers = @followings.map{|tf| Teacher.find(tf.followed_id)}
     elsif params[:followed_id]
-      @teachers = TeacherFollowing.where("followed_id = ?", params[:followed_id]).map{|tf| Teacher.find(tf.follower_id)}
+      @followings = TeacherFollowing.where("followed_id = ?", params[:followed_id])
+      @teachers = @followings.map{|tf| Teacher.find(tf.follower_id)}
     end
     @currentUser = current_teacher
     respond_to do |format|
@@ -24,7 +26,11 @@ class TeacherFollowingsController < ApplicationController
   end
 
   def destroy
-    @following = TeacherFollowing.find(params[:id])
+    if params[:follower_id]
+    @following = TeacherFollowing.find_by follower_id: params[:follower_id], followed_id: params[:followed_id]
+    else
+      @following = TeacherFollowing.find(params[:id])
+    end
     @following.destroy
   end
 

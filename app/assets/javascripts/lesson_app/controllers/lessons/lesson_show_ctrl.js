@@ -13,7 +13,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   if (owner.avatar_file_name) {
     $scope.profile_photo = owner.image;
   } else {
-    $scope.profile_photo = "http://placehold.it/250x250";
+    $scope.profile_photo = "https://placehold.it/250x250";
   }
 
   // determines if mode is preview or editing
