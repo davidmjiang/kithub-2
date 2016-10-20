@@ -10,6 +10,13 @@ angular.module('Lesson').directive("newLessonModal",  ['LessonService', '$state'
     restrict: "E",
     link: function(scope){
       scope.title = "";
+      scope.lessonTypes = LessonService.getLessonTypes();
+      scope.newLessonType = scope.lessonTypes[0];
+      scope.subjects = LessonService.getSubjects();
+      scope.newSubject = scope.subjects[0];
+
+      
+      // flag for ajax call
       scope.saving = false;
 
       scope.createLesson = function() {
@@ -20,8 +27,8 @@ angular.module('Lesson').directive("newLessonModal",  ['LessonService', '$state'
           content: "",
           version: 1.0,
           hours: 1,
-          grade: 0,
-          lesson_type: LessonService.getLessonTypes()[0]
+          lesson_type: scope.newLessonType,
+          subject: scope.newSubject
         };
 
 
