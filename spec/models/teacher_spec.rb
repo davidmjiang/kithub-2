@@ -2,10 +2,17 @@ require 'rails_helper'
 
 describe Teacher do
 
+  let (:teacher){create(:teacher)}
+
+  it "is valid with default attributes" do
+    expect(teacher).to be_valid
+  end
+
   it { should validate_presence_of(:email)}
   it { should validate_presence_of(:password)}
   it { should validate_presence_of(:first_name)}
   it { should validate_presence_of(:last_name)}
+  it { should validate_inclusion_of(:state).in_array(STATES)}
 
   it { should have_many(:lesson_plans)}
   it { should have_many(:comments)}
