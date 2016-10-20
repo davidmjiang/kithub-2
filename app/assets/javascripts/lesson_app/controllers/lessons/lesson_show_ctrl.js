@@ -1,6 +1,6 @@
 "use strict";
-Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http', 'LessonStarService', 'currentTeacher',
-  function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http, LessonStarService, currentTeacher) {
+Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http', 'LessonStarService', 'currentTeacher', 'flash', '$timeout',
+  function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http, LessonStarService, currentTeacher, flash, $timeout) {
 
   $scope.lesson = lesson;
   $scope.owner = owner;
@@ -91,9 +91,11 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     LessonService.save($scope.lesson).then(
       function() {
         $scope.saved_title = $scope.lesson.title;
+        LessonService.setFlash('alert-success', 'Lesson saved!')
         toggleSaving(false);
       },
       function() {
+        LessonService.setFlash('alert-danger', 'Could not save lesson')
         $scope.lesson.title = oldTitle;
       });
     // $scope.toggleEditing();
@@ -136,7 +138,9 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
       $scope.materials.push(response.data);
       $scope.saving = false;
       console.log("success");
+      LessonService.setFlash('alert-success', 'File added!')
     }, function(response){
+      LessonService.setFlash('alert-danger', 'Could not add file!');
       console.log("error: ", response.status);
     },
     function(evt){
@@ -157,5 +161,8 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
       $scope.starred = false;
     });
   };
+
+
+
 
 }]);
