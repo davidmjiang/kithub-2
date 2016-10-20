@@ -28,10 +28,10 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     autoDownloadFontAwesome: false,
     spellChecker: false,
     placeholder: "Lesson plan...",
-    autosave: {
-      enabled: true,
-      uniqueId: "lessonEditor",
-    },
+    // autosave: {
+    //   enabled: true,
+    //   uniqueId: "lessonEditor",
+    // },
     status: ["lines", "words"]
   };
 
