@@ -1,5 +1,5 @@
-Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherService', '_',
-  function(Restangular, pullRequestService, TeacherService, _) {
+Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherService', '_', 'flash', '$timeout',
+  function(Restangular, pullRequestService, TeacherService, _, flash, $timeout) {
 
   var lessonService = {};
 
@@ -49,8 +49,8 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
   lessonService.create = function(newLesson) {
     return Restangular.all('lesson_plans').post(newLesson).then(function(response) {
         // sets initial value for stars and forks
-        response.stars = 0;
-        response.forks = 0;
+        // response.stars = 0;
+        // response.forks = 0;
 
         pushToUserLessons(response);
         // returns lesson object
@@ -74,6 +74,13 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
     return Restangular.one('lesson_plans', Number(lesson_id) ).get().then(function(response) {
         return response;
       });
+  };
+
+  lessonService.setFlash = function(className, message) {
+    flash(className, message)
+        $timeout(function(){
+          $('.alert').fadeOut(500);
+        }, 2000)
   };
 
 

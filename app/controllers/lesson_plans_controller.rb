@@ -18,14 +18,14 @@ class LessonPlansController < ApplicationController
   end
 
   def update
-    @lesson_plan = current_teacher.lesson_plans.find(params[:id])
+    @lesson = current_teacher.lesson_plans.find(params[:id])
 
     respond_to do |format|
-      if @lesson_plan.update(lesson_plan_params)
-        format.json { render json: @lesson_plan }
+      if @lesson.update(lesson_plan_params)
+        format.json{render "show.json.jbuilder"}
       else
         format.json { render json: {
-                                    errors: @lesson_plan.errors.full_messages },
+                                    errors: @lesson.errors.full_messages },
                                     :status => 422
                                    }
       end
@@ -34,15 +34,15 @@ class LessonPlansController < ApplicationController
 
   # Creates a new lesson based on API call from App. Responds with the newly created lesson if successful, responds with error message and status if not.
   def create
-    @lesson_plan = current_teacher.lesson_plans.build(lesson_plan_params)
+    @lesson = current_teacher.lesson_plans.build(lesson_plan_params)
 
     respond_to do |format|
-      if @lesson_plan.save
-        format.json { render json: @lesson_plan }
+      if @lesson.save
+        format.json{render "show.json.jbuilder"}
       else
-        puts @lesson_plan.errors.full_messages
+        puts @lesson.errors.full_messages
         format.json { render json: {
-                                    errors: @lesson_plan.errors.full_messages },
+                                    errors: @lesson.errors.full_messages },
                                     :status => 422
                                    }
       end

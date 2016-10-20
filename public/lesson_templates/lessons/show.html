@@ -2,7 +2,6 @@
 
 
 <div class="row">
-
   <div class="row">
     <div class="col-md-4">
       <i ng-hide="starred" class="fa fa-star-o pull-xs-left lesson-star" aria-hidden="true" ng-click="starLesson()"></i>
@@ -19,6 +18,9 @@
       <div ng-if="editing === false && currentUserLesson === true">
         <button class="btn btn-primary" ng-click="toggleEditing()">Edit</button>
       </div>
+    </div>
+    <div class="col-md-4">
+      <flash:messages></flash:messages>
     </div>
   </div>
 
@@ -37,7 +39,7 @@
 
         <div class="card card-block">
           <h4 class="card-title">Additional Materials</h4>
-          <button ng-class="{ disabled: !editing }"><i class="fa  {{ saving ? 'fa-spinner fa-spin' : 'fa-upload' }} fa-fw"></i><label for="file-upload" class="upload-btn">Upload</label></button>
+          <button ng-if="currentUserLesson === true" ng-disabled="!editing"><i class="fa  {{ saving ? 'fa-spinner fa-spin' : 'fa-upload' }} fa-fw"></i><label for="file-upload" class="upload-btn">Upload</label></button>
           <input id="file-upload" type="file" ngf-select="upload($file)">
           <ul>
             <li ng-repeat="m in materials"><a ng-href="{{m.image_url}}" target="_blank">{{m.file_name | limitTo: 30}}
