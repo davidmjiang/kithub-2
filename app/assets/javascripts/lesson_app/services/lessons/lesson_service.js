@@ -48,7 +48,7 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
 
   lessonService.create = function(newLesson) {
     return Restangular.all('lesson_plans').post(newLesson).then(function(response) {
-        // sets default for stars and forks
+        // sets initial value for stars and forks
         response.stars = 0;
         response.forks = 0;
 
