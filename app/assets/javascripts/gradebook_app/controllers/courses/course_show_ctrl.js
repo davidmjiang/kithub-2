@@ -30,7 +30,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   }
   $scope.sortSubmissions();
 
-  $scope.students = StudentsService.sortStudents($scope.course.students);
+  $scope.students = StudentService.sortStudents($scope.course.students);
 
   var assignments = $scope.course.assignments.sort(function(a,b) {
     var createdAtA = a.id
