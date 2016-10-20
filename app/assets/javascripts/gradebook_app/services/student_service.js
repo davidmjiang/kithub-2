@@ -2,6 +2,23 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
 
   var StudentService = {}
 
+  StudentService.sortStudents = function(students) {
+    var students = students.sort(function(a,b) {
+      var lastNameA = a.last_name
+      var lastNameB = b.last_name
+      if(lastNameA < lastNameB) {
+        return -1;
+      }
+      if(lastNameB < lastNameA) {
+        return 1;
+      }
+      else {
+        return 0;
+      }
+    })
+    return students;
+  }
+
   StudentService.getStudentSubmissions = function(studentId) {
     return Restangular.one("students", studentId).get();
   }
@@ -21,7 +38,6 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
     for(var i = 0; i < createStudent.submissions.length; i ++) {
       response.push(createStudent.submissions[i].raw_score);
     }
-    response.push(0);
     return response;
   };
 
@@ -51,6 +67,7 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   }
 
   StudentService.removeStudent = function(student) {
+    console.log(student)
     return Restangular.one("students", student.id).remove()
   }
 
