@@ -3,9 +3,6 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http, LessonStarService, currentTeacher) {
 
   $scope.lesson = lesson;
-  $scope.lesson.grade = $scope.lesson.grade.toString(); // for dropdown menu values
-  $scope.states = LessonService.getStates();
-  $scope.grades = LessonService.getGrades();
   $scope.owner = owner;
   $scope.draftTitle = $scope.lesson.title;
 
@@ -29,6 +26,8 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     $scope.starred = false;
   }
 
+  if ($scope.lesson.grade) { $scope.lesson.grade = $scope.lesson.grade.toString(); }
+
   //show profile photo if there is one
   if (owner.avatar_file_name) {
     $scope.profile_photo = owner.image;
@@ -48,7 +47,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     placeholder: "Lesson plan...",
     autosave: {
       enabled: true,
-      uniqueId: "lessonEditor",
+      uniqueId: "lessonplan-" + $scope.lesson.id,
     },
     status: ["lines", "words"]
   };
@@ -95,7 +94,6 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
         toggleSaving(false);
       },
       function() {
-        console.log("Didn't work!")
         $scope.lesson.title = oldTitle;
       });
     // $scope.toggleEditing();
