@@ -292,7 +292,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     var data = StudentService.studentData(response)
     $scope.rowCount ++;
     allRows.push(data);
-    $scope.course.students.push(response);
+    $scope.students.push(response);
     $scope.sortRows();
   })
 
