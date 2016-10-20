@@ -100,7 +100,6 @@ ActiveRecord::Schema.define(version: 20161019210654) do
     t.integer  "teacher_id"
     t.float    "hours"
     t.float    "version",        default: 1.0
-    t.integer  "forks",          default: 0
     t.string   "state"
     t.integer  "grade"
     t.string   "subject"

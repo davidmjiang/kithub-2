@@ -23,6 +23,16 @@ Gradebook.factory("CurveService", ["Restangular", function(Restangular) {
     })
   }
 
+  stub.removeCurve = function(assignment) {
+    if (assignment.flat_curve) {
+      Restangular.restangularizeElement(null, assignment.flat_curve, 'flat_curves')
+      return assignment.flat_curve.remove()
+    } else if (assignment.linear_curve) {
+      Restangular.restangularizeElement(null, assignment.linear_curve, 'linear_curves')
+      return assignment.linear_curve.remove()
+    }
+  }
+
   return stub
 
 }])

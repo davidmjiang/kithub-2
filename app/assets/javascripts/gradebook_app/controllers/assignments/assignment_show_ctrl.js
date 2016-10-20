@@ -102,6 +102,11 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   $scope.resetCurve = function() {
     $scope.curveApplied = false
     $scope.gpa.real = $scope.gpa.raw
+    $scope.curve.flatRate = 0
+    $scope.curve.rawA = 0
+    $scope.curve.rawB = 0
+    $scope.curve.curvedA = 0
+    $scope.curve.curvedB = 0
   }
 
   $scope.saveChanges = function() {
@@ -109,6 +114,19 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       _applyFlatCurve();
     } else if ($scope.curveApplied && $scope.curveType === "Linear") {
       _applyLinearCurve();
+    } else if (!$scope.curveApplied && $scope.assignment.has_curve) {
+      // if the assignment has a curve and the reset button was clicked:
+      CurveService.removeCurve($scope.assignment)
+      .then(function(response) {
+        console.log("response in controller")
+        console.log(response)
+        // angular.copy(response.assignment, $scope.assignment)
+        // angular.copy(response.assignment, assignment)
+        $scope.assignment.has_curve = false
+        assignment.has_curve = false
+        $scope.assignment.flat_curve = null
+        assignment.flat_curve = null
+      })
     }
   }
 
@@ -130,14 +148,14 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
 
   var _applyLinearCurve = function() {
     CurveService.applyLinearCurve($scope.curve, assignment.id)
-      .then(function(response) {
-        console.log("response in controller")
-        console.log(response)
-        $scope.assignment.linear_curve = response
-        $scope.assignment.has_curve = true
-        // not sure if either above or below or both are necessary
-        assignment.has_curve = true 
-        assignment.linear_curve = response
+    .then(function(response) {
+      console.log("response in controller")
+      console.log(response)
+      $scope.assignment.linear_curve = response
+      $scope.assignment.has_curve = true
+      // not sure if either above or below or both are necessary
+      assignment.has_curve = true 
+      assignment.linear_curve = response
     })
   }
 

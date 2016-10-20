@@ -27,7 +27,24 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     return students;
   }
 
-
+  $scope.sortSubmissions = function() {
+    for(var i = 0; i < $scope.students.length; i++) {
+      $scope.students[i].submissions.sort(function(a,b) {
+        var createdAtA = a.id
+        var createdAtB = b.id
+        if(createdAtA < createdAtB) {
+          return -1;
+        }
+        if(createdAtB < createdAtA) {
+          return 1;
+        }
+        else {
+          return 0;
+        }
+      })
+    }
+  }
+  $scope.sortSubmissions();
 
   $scope.students = $scope.sortStudents();
 
@@ -110,11 +127,11 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   for(var j = 0; j < $scope.students.length; j++ ) {
     var rawTotal = 0;
     var possibleTotal = 0;
-    rowData.push($scope.students[j].id)
-    rowData.push($scope.students[j].first_name)
-    rowData.push($scope.students[j].last_name)
-    rowData.push($scope.students[j].email)
 
+    rowData.push($scope.students[j].id);
+    rowData.push($scope.students[j].first_name);
+    rowData.push($scope.students[j].last_name);
+    rowData.push($scope.students[j].email);
     for(var i = 0; i < $scope.students[j].submissions.length; i++) {
       var rawScore = $scope.students[j].submissions[i].raw_score;
       var possibleScore = $scope.assignments[i].possible_score;
@@ -155,13 +172,20 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     if(index > 0 && index < 4) {
       var student = $scope.students[rowIndex]
       StudentService.editStudent(student, index, item)
-
     }
     else if (index > 3 && index < row.length - 1) {
-      var submission = $scope.students[rowIndex].submissions[index - 4]
+      var submission
+      for(var i = 0; i < $scope.students.length; i ++) {
+        if($scope.students[i].id == row[0]) {
+          var submission = $scope.students[i].submissions[index - 4]
+        }
+      }
+      //ERROR HERE. FIX IT!
+      //WHEN YOU ADD AN ASSIGNMENT, IT DOES NOT GET ADDED TO SCOPE.STUDENTS SUBMISSIONS
       submission.raw_score = parseInt(item)
       SubmissionService.editSubmission(submission)
     }
+    
   }
 
 
@@ -247,12 +271,8 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     })
   }
 
-  $scope.$on("student.added", function(event, response) {
-    var data = StudentService.studentData(response)
-    $scope.rowCount ++;
-    allRows.push(data);
-    $scope.students.push(response);
-    var students = allRows.sort(function(a,b) {
+  $scope.sortRows = function() {
+    var students = $scope.allRows.sort(function(a,b) {
       var lastNameA = a[2]
       var lastNameB = b[2]
       if(lastNameA < lastNameB) {
@@ -267,6 +287,14 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     })
     return students;
     allRows = students;
+  }
+
+  $scope.$on("student.added", function(event, response) {
+    var data = StudentService.studentData(response)
+    $scope.rowCount ++;
+    allRows.push(data);
+    $scope.course.students.push(response);
+    $scope.sortRows();
   })
 
   $scope.$on("assignment.edit", function(event, data) {
@@ -280,6 +308,15 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   })
 
   $scope.$on("assignment.added", function(event, data) {
+    //Goes through all the students and pushes the newly
+    //created blank submissions to the correct student's submissions array 
+    for(var i = 0; i < data.submissions.length; i++) {
+      for(var j = 0; j < $scope.students.length; j++) {
+        if(data.submissions[i].student_id == $scope.students[j].id) {
+          $scope.students[j].submissions.push(data.submissions[i]);
+        }
+      }
+    };
     $scope.colCount ++;
     $scope.cols[$scope.cols.length - 1] = data.assignment_type + ": " +
                                           data.title + "(" + data.possible_score
@@ -289,7 +326,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       var temp = $scope.allRows[i].slice(-1)[0]
       $scope.allRows[i][$scope.allRows[i].length - 1] = 0;
       $scope.allRows[i].push(temp);
-    }
+    };
   })
 
   $scope.$on("student.deleted", function(event, data) {
