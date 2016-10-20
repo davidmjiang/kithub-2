@@ -87,6 +87,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
 
   $scope.addCurve = function() {
     $scope.modifyingCurve = true
+    if ($scope.assignment.has_curve) {
+      $scope.editingCurve = true
+    } 
   }
 
   $scope.applyFlatCurve = function() {
@@ -115,13 +118,57 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     } else if ($scope.curveApplied && $scope.curveType === "Linear") {
       _applyLinearCurve();
     } else if (!$scope.curveApplied && $scope.assignment.has_curve) {
-      // if the assignment has a curve and the reset button was clicked:
       _removeCurve();
+    } else if ($scope.editingCurve && $scope.assignment.flat_curve) {
+      _editFlatCurve();
+    } else if ($scope.editingCurve && $scope.assignment.linear_curve) {
+      _editLinearCurve();
     }
   }
 
 
   // private 
+
+  var _unchangedLinearCurveInputs = function() {
+    return $scope.curve.rawA === $scope.assignment.linear_curve.rawA &&
+           $scope.curve.rawB === $scope.assignment.linear_curve.rawB &&
+           $scope.curve.curvedA === $scope.assignment.linear_curve.curvedA &&
+           $scope.curve.curvedB === $scope.assignment.linear_curve.curvedB
+  }
+
+  var _editFlatCurve = function() {
+    // do nothing if flatRate hasn't changed
+    if ($scope.assignment.flat_curve.flat_rate === $scope.curve.flatRate) {
+      return
+    // if flatRate has changed to 0, remove the curve
+    } else if ($scope.curve.flatRate === "0") {
+      _removeCurve();
+    // else, CurveService.editFlatCurve($scope.assignment)
+    } else {
+      CurveService.editFlatCurve($scope.assignment, $scope.curve.flatRate)
+      .then(function(response) {
+        console.log("response in controller")
+        console.log(response)
+        $scope.assignment.flat_curve = response
+        assignment.flat_curve = response // ?
+      })
+    }
+  }
+
+  var _editLinearCurve = function() {
+    // do nothing if inputs haven't changed
+    if (_unchangedLinearCurveInputs()) {
+      return
+    } else {
+      CurveService.editLinearCurve($scope.assignment, $scope.curve)
+      .then(function(response) {
+        console.log("response in controller")
+        console.log(response)
+        $scope.assignment.linear_curve = response
+        assignment.linear_curve = response // ?
+      })
+    }
+  }
 
   var _removeCurve = function() {
     CurveService.removeCurve($scope.assignment)
