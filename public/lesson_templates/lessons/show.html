@@ -48,20 +48,24 @@
             <label class="col-md-6 col-form-label">Grade</label>
             <div class="col-md-6">
               <select ng-model="lesson.grade" class="form-control"  ng-disabled="!editing">
-                <option ng-repeat="grade in grades" value="{{ grade }}">{{ grade }}</option>
+                <option ng-repeat="grade in grades" value="{{ grade }}">{{ grade===0 ? 'Kindergarten' : grade }}</option>
               </select>
             </div>
           </div>
           <div class="form-group row">
             <label class="col-md-6 col-form-label">Subject</label>
             <div class="col-md-6">
-              <input class="form-control" type="text" ng-model="lesson.subject" ng-disabled="!editing">
+              <select ng-model="lesson.subject" class="form-control"  ng-disabled="!editing">
+                <option ng-repeat="subject in subjects" value="{{ subject }}">{{ subject }}</option>
+              </select>
             </div>
           </div>
           <div class="form-group row">
             <label class="col-md-6 col-form-label">Lesson Type</label>
             <div class="col-md-6">
-              <input class="form-control" type="text" ng-model="lesson.lesson_type" ng-disabled="!editing">
+              <select ng-model="lesson.lesson_type" class="form-control"  ng-disabled="!editing">
+                <option ng-repeat="lessonType in lessonTypes" value="{{ lessonType }}">{{ lessonType }}</option>
+              </select>
             </div>
           </div>
         </div>
