@@ -1,6 +1,6 @@
 "use strict";
-Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http', 'LessonStarService', 'currentTeacher',
-  function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http, LessonStarService, currentTeacher) {
+Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http', 'LessonStarService', 'currentTeacher', 'flash', '$timeout',
+  function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http, LessonStarService, currentTeacher, flash, $timeout) {
 
   $scope.lesson = lesson;
   $scope.owner = owner;
@@ -91,6 +91,10 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     LessonService.save($scope.lesson).then(
       function() {
         $scope.saved_title = $scope.lesson.title;
+        flash('alert-success', 'Lesson saved!')
+        $timeout( function(){
+          $('.alert').fadeOut(500);
+        }, 3000)
         toggleSaving(false);
       },
       function() {
