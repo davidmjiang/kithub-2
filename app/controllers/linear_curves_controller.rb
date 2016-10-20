@@ -9,6 +9,14 @@ class LinearCurvesController < ApplicationController
     end
   end
 
+  def update
+    @linear_curve = LinearCurve.find_by_id(params[:id])
+    @linear_curve.update(linear_curve_params)
+    if @linear_curve.save 
+      puts "Updated the linear curve"
+    end
+  end
+
   def destroy
     puts "Destroying linear curve..."
     @linear_curve = LinearCurve.find_by_id(params[:id])
