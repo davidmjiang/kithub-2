@@ -6,6 +6,8 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   $scope.lesson.grade = $scope.lesson.grade.toString(); // for dropdown menu values
   $scope.states = LessonService.getStates();
   $scope.grades = LessonService.getGrades();
+  $scope.lessonTypes = LessonService.getLessonTypes();
+  $scope.subjects = LessonService.getSubjects();
   $scope.owner = owner;
   $scope.draftTitle = $scope.lesson.title;
 
