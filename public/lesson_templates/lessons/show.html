@@ -48,7 +48,7 @@
             <label class="col-md-6 col-form-label">Grade</label>
             <div class="col-md-6">
               <select ng-model="lesson.grade" class="form-control"  ng-disabled="!editing">
-                <option ng-repeat="grade in grades" value="{{ grade }}">{{ grade }}</option>
+                <option ng-repeat="grade in grades" value="{{ grade }}">{{ grade===0 ? 'Kindergarten' : grade }}</option>
               </select>
             </div>
           </div>

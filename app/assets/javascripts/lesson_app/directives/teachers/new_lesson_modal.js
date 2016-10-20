@@ -1,5 +1,6 @@
 "use strict";
-angular.module('Lesson').directive("newLessonModal",  ['LessonService', '$state', function(LessonService, $state) {
+angular.module('Lesson').directive("newLessonModal",  ['LessonService', '$state', 'Restangular',
+ function(LessonService, $state, Restangular) {
   
   return {
     templateUrl:"lesson_templates/directives/new_lesson_modal.html",
@@ -19,8 +20,11 @@ angular.module('Lesson').directive("newLessonModal",  ['LessonService', '$state'
           content: "",
           version: 1.0,
           hours: 1,
-          grade: 0
+          grade: 0,
+          lesson_type: LessonService.getLessonTypes()[0]
         };
+
+
 
         LessonService.create(lesson).then(
           function(response) {

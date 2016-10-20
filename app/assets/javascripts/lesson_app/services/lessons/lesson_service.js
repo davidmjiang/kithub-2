@@ -7,6 +7,10 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
 
   var _grades = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
+  var _subjects = ['Math', 'Science', 'English', 'Foreign Language', 'Art', 'Physical Education', 'History'];
+
+  var _lesson_types = ['Individual', 'Group', 'Teacher-led'];
+
   // takes in the lesson (from a create action response)
   // adds this to the teacher's lesson plan array in memory
   var pushToUserLessons = function(lesson) {
@@ -32,17 +36,26 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
     return _grades;
   };
 
+  // returns list of school subjects
+  lessonService.getSubjects = function() {
+    return _subjects;
+  };
+
+  // returns list of lesson type constants
+  lessonService.getLessonTypes = function() {
+    return _lesson_types;
+  };
+
   lessonService.create = function(newLesson) {
     return Restangular.all('lesson_plans').post(newLesson).then(function(response) {
+        // sets default for stars and forks
+        response.stars = 0;
+        response.forks = 0;
 
         pushToUserLessons(response);
         // returns lesson object
         return response;
 
-    },
-    function(response) {
-      // returns error object
-      console.error(response.errors);
     });
   };
 
@@ -57,11 +70,8 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
 
   lessonService.getLesson = function(lesson_id) {
     return Restangular.one('lesson_plans', Number(lesson_id) ).get().then(function(response) {
-      return response;
-    }, function(response) {
-      return response;
-      // TODO: error handling
-    });
+        return response;
+      });
   };
 
 
