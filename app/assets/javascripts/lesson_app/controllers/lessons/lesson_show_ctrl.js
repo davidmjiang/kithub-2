@@ -6,6 +6,8 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   $scope.lesson.grade = $scope.lesson.grade.toString(); // for dropdown menu values
   $scope.states = LessonService.getStates();
   $scope.grades = LessonService.getGrades();
+  $scope.lessonTypes = LessonService.getLessonTypes();
+  $scope.subjects = LessonService.getSubjects();
   $scope.owner = owner;
   $scope.draftTitle = $scope.lesson.title;
 
@@ -26,10 +28,10 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     autoDownloadFontAwesome: false,
     spellChecker: false,
     placeholder: "Lesson plan...",
-    autosave: {
-      enabled: true,
-      uniqueId: "lessonEditor",
-    },
+    // autosave: {
+    //   enabled: true,
+    //   uniqueId: "lessonEditor",
+    // },
     status: ["lines", "words"]
   };
 
@@ -75,7 +77,6 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
         toggleSaving(false);
       },
       function() {
-        console.log("Didn't work!")
         $scope.lesson.title = oldTitle;
       });
     // $scope.toggleEditing();

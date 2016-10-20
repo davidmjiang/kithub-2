@@ -2,20 +2,18 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
 
   $scope.newPR = pullRequestService.getNewPullRequest($stateParams.id);
   $scope.forkedLesson = lesson;
-
+  $scope.pullRequestMade = $scope.forkedLesson.pull_requests_sent.length > 0;
+  console.log($scope.pullRequestMade)
   LessonService.getLesson($stateParams.id).then(function(response){
+    console.log(response.parent_plan_id)
     $scope.newPR = pullRequestService.getNewPullRequest($stateParams.id, response.parent_plan_id);
 
     LessonService.getLesson($scope.newPR.parent_plan_id).then(function(parent) {
        $scope.newPR.parent_plan = parent
-    }).then(function() {
-
     })
-
 
     $scope.lessonBelongsToCurrentUser = (currentUser.id === response.teacher_id)
       pullRequestService.pullRequestMade(response.id).then(function(response) {$scope.pullRequestMade = response;})
-      console.log($scope.pullRequestMade)
     });
 
   if(!$scope.lessonBelongsToCurrentUser) {
@@ -40,7 +38,5 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
 
     pullRequestService.createNewPullRequest($scope.newPR, $stateParams.id);
   };
-
-
 
 }]);
