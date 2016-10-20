@@ -48,9 +48,10 @@ Gradebook.factory("VisualService", ["Restangular", "_", function(Restangular, _)
 
   VisualService.studentScores = function(students, assignment) {
     var scoreArray = [];
-    angular.forEach(assignment.submissions, function(submission) {
+    angular.forEach(students, function(student) {
+      var submission = _.find(student.submissions,
+                             {'assignment_id': assignment.id});
       var score = VisualService.getPercent(assignment, submission.raw_score)
-      var student = _.find(students, {'id': submission.student_id});
       scoreArray.push({
               'name': student.first_name + " " + student.last_name[0] + ".",
               'percent': score})

@@ -1,5 +1,7 @@
 <fork-lesson-plan ng-if="lessonBelongsToCurrentUser === false && alreadyForked !== true"></fork-lesson-plan>
 
+<button ui-sref="main.lessons.show.pullRequests({id: newPR.parent_plan_id})" ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length > 0" class="btn btn-warning pull-right">Pending Pull Request</button>
+
 <button ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length === 0"
         ng-click="getDiffInfo()"
         type="button"

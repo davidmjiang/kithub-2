@@ -11,10 +11,10 @@
       </div>
       <div class="modal-body">
         <!-- form -->
-        <form class="container">
+        <form class="container" name="newLesson">
           <div class="form-group row">
           <div class="col-xs-12">
-            <input type="text" class="form-control" id="lesson-title" placeholder="Title" ng-model="title">
+            <input type="text" name="lesson-title" class="form-control" placeholder="Title (2 character minimum)" ng-model="title" ng-required="true" ng-minlength="2">
             </div>
           </div>
           <div class="form-group row">
@@ -35,7 +35,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary"  ng-click="createLesson()"><i class="fa {{ saving ? 'fa-spinner fa-spin' : 'fa-graduation-cap' }} fa-fw"></i> Create</button>
+        <button type="button" class="btn" ng-class="{ 'btn-primary': newLesson.$valid, 'btn-secondary': newLesson.$invalid }" ng-click="createLesson(newLesson.$valid)"><i class="fa {{ saving ? 'fa-spinner fa-spin' : 'fa-graduation-cap' }} fa-fw"></i> Create</button>
       </div>
     </div>
   </div>
