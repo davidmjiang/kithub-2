@@ -19,6 +19,24 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
     return students;
   }
 
+  StudentService.sortSubmissions = function(students) {
+    for(var i = 0; i < students.length; i++) {
+      students[i].submissions.sort(function(a,b) {
+        var createdAtA = a.id
+        var createdAtB = b.id
+        if(createdAtA < createdAtB) {
+          return -1;
+        }
+        if(createdAtB < createdAtA) {
+          return 1;
+        }
+        else {
+          return 0;
+        }
+      })
+    }
+  }
+
   StudentService.getStudentSubmissions = function(studentId) {
     return Restangular.one("students", studentId).get();
   }

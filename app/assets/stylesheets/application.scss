@@ -20,6 +20,13 @@ $secondary-color: #B7B8B6; /*granite*/;
 $ternary-color: #34675C; /*pine*/;
 $blue-sky-color: #4CB5F5; /*blue-sky*/;
 
+.cabin-sketch-font {
+  font-family: 'Cabin Sketch', cursive;
+}
+
+.abel-font {
+font-family: 'Roboto', sans-serif;
+}
 
 .primary-color {
   color: $primary-color;
@@ -53,6 +60,22 @@ $blue-sky-color: #4CB5F5; /*blue-sky*/;
 
 .blue-sky-bg-color {
   background-color: $blue-sky-color;
+}
+
+.primary-border-color {
+  border-color: $primary-color;
+}
+
+.secondary-border-color {
+  border-color: $secondary-color;
+}
+
+.ternary-border-color {
+  border-color: $ternary-color;
+}
+
+.blue-sky-border-color {
+  border-color: $blue-sky-color;
 }
 
  @import "bootstrap";
