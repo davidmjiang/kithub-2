@@ -28,7 +28,11 @@ describe LessonPlan do
     .is_greater_than_or_equal_to(0)
   }
 
-  it { should validate_presence_of(:content)}
+  # it { should validate_presence_of(:content)}
+  it { should validate_inclusion_of(:state).in_array(STATES)}
+  it { should validate_inclusion_of(:subject).in_array(SUBJECTS)}
+  it { should validate_inclusion_of(:lesson_type).in_array(LESSON_TYPES)}
+  # it { should validate_inclusion_of(:grade).in_array(GRADES)}
 
   #testing associations
   it { should belong_to(:teacher) }

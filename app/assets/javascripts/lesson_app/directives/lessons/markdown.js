@@ -18,6 +18,7 @@ Lesson.directive('lessonEdit', [
         options = $parse(attrs.lessonEdit)(scope) || {};
         options.element = element[0];
         var mde = new SimpleMDE(options);
+        // mde.value(""); // for the autosave bug when switching to a new page
         mde.codemirror.on('change', function() {
           scope.$applyAsync(function() {
             ngModel.$setViewValue(mde.value());
