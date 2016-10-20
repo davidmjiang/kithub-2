@@ -37,7 +37,7 @@
 
         <div class="card card-block">
           <h4 class="card-title">Additional Materials</h4>
-          <button ng-class="{ disabled: !editing }"><i class="fa  {{ saving ? 'fa-spinner fa-spin' : 'fa-upload' }} fa-fw"></i><label for="file-upload" class="upload-btn">Upload</label></button>
+          <button ng-if="currentUserLesson === true" ng-disabled="!editing"><i class="fa  {{ saving ? 'fa-spinner fa-spin' : 'fa-upload' }} fa-fw"></i><label for="file-upload" class="upload-btn">Upload</label></button>
           <input id="file-upload" type="file" ngf-select="upload($file)">
           <ul>
             <li ng-repeat="m in materials"><a ng-href="{{m.image_url}}" target="_blank">{{m.file_name | limitTo: 30}}
