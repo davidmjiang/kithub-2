@@ -25,33 +25,46 @@ Gradebook.factory("GPAService", function() {
     }
   }
 
-  // calculates real GPA> 
+  // calculates an assignment's average grade after the curve 
   GPAService.realGPA = function(course, assignment) {
-    var noRealGPA
     var pointsEarned = 0
     _.each(course.students, function(student) {
       _.each(student.submissions, function(submission) {
-        if (assignment) {
-          if (submission.assignment_id === assignment.id) {
-            if (submission.real_score) {
-              pointsEarned += (submission.real_score/100 * assignment.possible_score)
-            } else {
-              noRealGPA = true
-            }
-          }
-        } else {
-          pointsEarned += (submission.real_score/100 * assignment.possible_score)
+        if (submission.assignment_id === assignment.id) {
+          var rawPercent = submission.raw_score/assignment.possible_score * 100
+          var curvedPercent = _applyCurve(assignment, rawPercent)
+          pointsEarned += (curvedPercent/100 * assignment.possible_score)
         }
       })
     })
-    if (noRealGPA) return undefined
-    if (assignment) {
-      var assignmentGPA = (pointsEarned / course.students.length) / assignment.possible_score * 100
-      return assignmentGPA
-    } else {
-      var courseGPA = (pointsEarned / course.students.length) / course.points_possible * 100
-      return courseGPA 
+    console.log("points earned: " + pointsEarned)
+    var gpa = (pointsEarned / course.students.length) / assignment.possible_score * 100
+    console.log("gpa: " + gpa)
+    return gpa
+  }
+
+
+
+  // private
+
+  var _applyCurve = function(assignment, rawPercent) {
+    if (assignment.flat_curve) {
+      return _applyFlatCurve(assignment, rawPercent)
+    } else if (assignment.linear_curve) {
+      return _applyLinearCurve(assignment, rawPercent)
     }
+  }
+
+  var _applyFlatCurve = function(assignment, rawPercent) {
+    return assignment.flat_curve.flat_rate + rawPercent
+  }
+
+  var _applyLinearCurve = function(assignment, rawPercent) {
+    return _linearFormula(assignment.linear_curve, rawPercent)
+  }
+
+  var _linearFormula = function(input, rawPercent) {
+    return input.curvedA + (((input.curvedB - input.curvedA)/(input.rawB - input.rawA)) * (rawPercent - input.rawA));
   }
 
   return GPAService
