@@ -2,6 +2,23 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
 
   var StudentService = {}
 
+  StudentService.sortStudents = function(students) {
+    var students = students.sort(function(a,b) {
+      var lastNameA = a.last_name
+      var lastNameB = b.last_name
+      if(lastNameA < lastNameB) {
+        return -1;
+      }
+      if(lastNameB < lastNameA) {
+        return 1;
+      }
+      else {
+        return 0;
+      }
+    })
+    return students;
+  }
+
   StudentService.getStudentSubmissions = function(studentId) {
     return Restangular.one("students", studentId).get();
   }
