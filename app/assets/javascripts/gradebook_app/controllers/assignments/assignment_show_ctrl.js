@@ -151,6 +151,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
         console.log(response)
         $scope.assignment.flat_curve = response
         assignment.flat_curve = response // ?
+        $scope.assignment.updated_at = response.assignment.updated_at
+        assignment.updated_at = response.assignment.updated_at
       })
     }
   }
@@ -166,6 +168,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
         console.log(response)
         $scope.assignment.linear_curve = response
         assignment.linear_curve = response // ?
+        $scope.assignment.updated_at = response.assignment.updated_at
+        assignment.updated_at = response.assignment.updated_at
       })
     }
   }
@@ -181,6 +185,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       assignment.flat_curve = null
       $scope.assignment.linear_curve = null
       assignment.linear_curve = null
+      $scope.assignment.updated_at = response.assignment.updated_at
+      assignment.updated_at = response.assignment.updated_at
     })
   }
 
@@ -194,6 +200,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       // not sure which is necessary
       assignment.has_curve = true
       assignment.flat_curve = response
+      $scope.assignment.updated_at = response.assignment.updated_at
+      assignment.updated_at = response.assignment.updated_at
     })
   }
 
@@ -207,6 +215,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       // not sure if either above or below or both are necessary
       assignment.has_curve = true 
       assignment.linear_curve = response
+      $scope.assignment.updated_at = response.assignment.updated_at
+      assignment.updated_at = response.assignment.updated_at
     })
   }
 
