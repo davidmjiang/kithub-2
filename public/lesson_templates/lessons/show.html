@@ -2,9 +2,11 @@
 
 
 <div class="row">
-    
+
   <div class="row">
     <div class="col-md-4">
+      <i ng-hide="starred" class="fa fa-star-o pull-xs-left lesson-star" aria-hidden="true" ng-click="starLesson()"></i>
+      <i ng-show="starred" class="fa fa-star pull-xs-left lesson-star" aria-hidden="true" ng-click="unstarLesson()"></i>
       <h2 ng-show="editing" editable-text="draftTitle" class="editable">{{ draftTitle || 'New Lesson' }} <i class="fa fa-pencil" aria-hidden="true"></i></h2>
       <h2 ng-hide="editing">{{ lesson.title }}</h2>
     </div>
@@ -30,44 +32,7 @@
       <div class="col-md-4">
         <div class="card card-block">
           <h4 class="card-title">Details</h4>
-          <div class="form-group row">
-            <label for="example-text-input" class="col-md-6 col-form-label">Estimated Time (in hrs)</label>
-            <div class="col-md-6">
-              <input class="form-control" type="number" min="0" ng-model="lesson.hours" ng-disabled="!editing">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="example-search-input" class="col-md-6 col-form-label">State</label>
-            <div class="col-md-6">
-              <select ng-model="lesson.state" class="form-control"  ng-disabled="!editing">
-                <option ng-repeat="state in states" value="{{ state }}">{{ state }}</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-6 col-form-label">Grade</label>
-            <div class="col-md-6">
-              <select ng-model="lesson.grade" class="form-control"  ng-disabled="!editing">
-                <option ng-repeat="grade in grades" value="{{ grade }}">{{ grade===0 ? 'Kindergarten' : grade }}</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-6 col-form-label">Subject</label>
-            <div class="col-md-6">
-              <select ng-model="lesson.subject" class="form-control"  ng-disabled="!editing">
-                <option ng-repeat="subject in subjects" value="{{ subject }}">{{ subject }}</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-6 col-form-label">Lesson Type</label>
-            <div class="col-md-6">
-              <select ng-model="lesson.lesson_type" class="form-control"  ng-disabled="!editing">
-                <option ng-repeat="lessonType in lessonTypes" value="{{ lessonType }}">{{ lessonType }}</option>
-              </select>
-            </div>
-          </div>
+          <lesson-details-form lesson="lesson" editing="editing"></lesson-details-form>
         </div>
 
         <div class="card card-block">
