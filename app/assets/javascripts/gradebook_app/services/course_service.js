@@ -1,5 +1,6 @@
 Gradebook.factory('CourseService', ['Restangular', function(Restangular){
-
+  var stub = {}
+  
   var _courses = [];
 
   var _removeCourse = function(response) {
@@ -10,7 +11,25 @@ Gradebook.factory('CourseService', ['Restangular', function(Restangular){
       })
   }
 
-  var stub = {}
+
+  stub.sortRows = function(rows) {
+    var students = rows.sort(function(a,b) {
+      var lastNameA = a[2]
+      var lastNameB = b[2]
+      if(lastNameA < lastNameB) {
+        return -1;
+      }
+      if(lastNameB < lastNameA) {
+        return 1;
+      }
+      else {
+        return 0;
+      }
+    })
+    return students;
+  }
+
+  
 
   var populateCourses = function() {
     return Restangular.all('courses').getList().then(function(courses) {

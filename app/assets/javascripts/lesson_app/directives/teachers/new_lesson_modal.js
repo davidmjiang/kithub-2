@@ -19,31 +19,35 @@ angular.module('Lesson').directive("newLessonModal",  ['LessonService', '$state'
       // flag for ajax call
       scope.saving = false;
 
-      scope.createLesson = function() {
-        scope.saving = true;
+      scope.createLesson = function(valid) {
+        console.log(valid)
+        if (valid) {
+          scope.saving = true;
 
-        var lesson = {
-          title: scope.title,
-          content: "",
-          version: 1.0,
-          hours: 1,
-          lesson_type: scope.newLessonType,
-          subject: scope.newSubject
-        };
+          var lesson = {
+            title: scope.title,
+            content: "",
+            version: 1.0,
+            hours: 1,
+            lesson_type: scope.newLessonType,
+            subject: scope.newSubject
+          };
 
 
 
-        LessonService.create(lesson).then(
-          function(response) {
-            // success
-            scope.saving = false;
-            scope.goToLesson(response);
-          }, 
-          function(response) {
-            // error
-            // TODO Flash error
-            scope.saving = false;
-          });
+          LessonService.create(lesson).then(
+            function(response) {
+              // success
+              scope.saving = false;
+              scope.goToLesson(response);
+            }, 
+            function(response) {
+              // error
+              // TODO Flash error
+              scope.saving = false;
+            });
+        }
+
       };
 
       scope.goToLesson = function(lesson) {
