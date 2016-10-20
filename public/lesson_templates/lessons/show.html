@@ -40,6 +40,7 @@
             <label for="example-search-input" class="col-md-6 col-form-label">State</label>
             <div class="col-md-6">
               <select ng-model="lesson.state" class="form-control"  ng-disabled="!editing">
+                <option></option>
                 <option ng-repeat="state in states" value="{{ state }}">{{ state }}</option>
               </select>
             </div>
@@ -48,6 +49,7 @@
             <label class="col-md-6 col-form-label">Grade</label>
             <div class="col-md-6">
               <select ng-model="lesson.grade" class="form-control"  ng-disabled="!editing">
+                <option></option>
                 <option ng-repeat="grade in grades" value="{{ grade }}">{{ grade===0 ? 'Kindergarten' : grade }}</option>
               </select>
             </div>
