@@ -11,7 +11,7 @@
 
   </head>
 
-  <body class="container-fluid" <%= content_for :angular_app %> >
+  <body <%= content_for :angular_app %> >
     <nav class="navbar navbar-light bg-faded">
       <a class="navbar-brand" href="#">KitHub</a>
       <% if teacher_signed_in? %>
@@ -46,6 +46,8 @@
       </ul>
 
     </nav>
-    <%= yield %>
+    <div class="container-fluid">
+      <%= yield %>
+    </div>
   </body>
 </html>

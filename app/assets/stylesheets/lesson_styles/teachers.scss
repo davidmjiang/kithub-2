@@ -22,7 +22,11 @@
 	}
 }
 
-#photo-upload{
+.tab-container{
+	margin-top: 10px;
+}
+
+.photo-upload{
 	position: absolute;
 	line-height: normal;
 	top: 10px;
@@ -78,6 +82,10 @@
 	border-bottom: 1px solid #e5e5e5;
 	padding-top: 24px;
 	padding-bottom: 24px;
+}
+
+.follow-btn{
+	width: 100%;
 }
 
 .page-container{

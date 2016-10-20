@@ -3,6 +3,8 @@
  <p><a ui-sref="main.teachers.overview({id: owner.id})"><div id="profile-img" style="background-image: url({{ profile_photo }})"></div> {{ owner.first_name + ' ' + owner.last_name}}</a> — <strong>{{ lesson.title }}</strong>
  <small ng-if="lesson.parent_plan_id">/ (forked from <a ui-sref="main.lessons.show({id: lesson.parent_plan_id})" >this lesson</a>)</small>
  </p>
+
+
  <div ui-view='newPullRequest'></div>
 
   <ul class="nav nav-tabs">
@@ -14,23 +16,19 @@
         Lesson Plan
       </a>
     </li>
-
+  {{ hey }}
     <li class="nav-item">
       <a class="nav-link"
           ui-sref="main.lessons.show.pullRequests"
           data-toggle="tab">
 
-          Pull Requests
+          Pull Requests <span class="tag tag-default">{{ pendingPRs }}</span>
         <span class="tag tag-pill tag-info">{{teacher.starred_lesson_plans}}</span>
       </a>
     </li>
 
   </ul>
 
-<!-- TODO: add check to see if current lesson belongs to current user
- -->
-
-
 <div ui-view='mainContainer' id="main-content"></div>
 
-</div> <!-- namespace wrapper  -->
+</div>

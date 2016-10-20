@@ -38,5 +38,6 @@
 //= require angular-scrollable-header.min
 //= require dirPagination
 //= require rzslider.min
+//= require angular-flash
 
 //= require_tree .
