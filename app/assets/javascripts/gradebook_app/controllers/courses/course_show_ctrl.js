@@ -260,6 +260,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     allRows.push(data);
     $scope.students.push(response);
     CourseService.sortRows($scope.allRows);
+    CourseService.sortStudents($scope.course.students);
   })
 
   $scope.$on("assignment.edit", function(event, data) {
