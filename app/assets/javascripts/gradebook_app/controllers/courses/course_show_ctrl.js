@@ -121,7 +121,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
                         $scope.assignments[i].assignment_type
                         + "(" + ($scope.assignments[i].possible_score) +")"  );
   }
-  cols.push("Overall")
+  // cols.push("Overall")
 
   var rowData = [];
   for(var j = 0; j < $scope.students.length; j++ ) {
