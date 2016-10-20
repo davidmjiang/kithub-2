@@ -1,4 +1,4 @@
-Gradebook.factory('CourseService', ['Restangular', function(Restangular){
+Gradebook.factory('CourseService', ['Restangular', '$rootScope', function(Restangular, $rootScope){
   var stub = {}
   
   var _courses = [];
@@ -64,7 +64,9 @@ Gradebook.factory('CourseService', ['Restangular', function(Restangular){
 
   stub.updateCourse = function(params, course) {
     Restangular.restangularizeElement(null, course, 'courses');
-    course.patch(params);
+    course.patch(params).then(function(){
+      $rootScope.$broadcast('course.update')
+    });
   }
 
   return stub;

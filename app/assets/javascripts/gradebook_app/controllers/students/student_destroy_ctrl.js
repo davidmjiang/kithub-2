@@ -28,8 +28,8 @@ Gradebook.controller("StudentDestroyCtrl", ["$scope", "course", "_", "StudentSer
    	close();
   };
 
-  $scope.$on("student.added", function(event, data) {
-    $scope.students.push(data);
-  })
+  // $scope.$on("student.added", function(event, data) {
+  //   $scope.students.push(data);
+  // })
 
 }]);
