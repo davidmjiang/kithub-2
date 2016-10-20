@@ -6,7 +6,7 @@ class LessonPlan < ApplicationRecord
   validates :state, inclusion: {in: STATES}, allow_nil: true
   validates :subject, inclusion: {in: SUBJECTS}, allow_nil: true
   validates :lesson_type, inclusion: {in: LESSON_TYPES}, allow_nil: true
-  validates :grade, inclusion: {in: GRADES}, allow_nil: true
+  # validates :grade, inclusion: {in: GRADES}, allow_nil: true
 
 
 
