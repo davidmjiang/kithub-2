@@ -8,10 +8,10 @@
 		<a ui-sref="main.teachers.overview({id: teacher.id})">
 			<span>{{teacher.first_name}} {{teacher.last_name}}</span>
 		</a>
-		<p><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp{{teacher.state}}</p>
+		<p ng-show="{{teacher.state}}"><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp{{teacher.state}}</p>
 	</div>
 	<div class="col-md-2">
-		<input ng-if="!following" class="btn btn-primary btn-sm" value="Follow">
-		<input ng-if="following" class="btn btn-primary btn-sm" value="Unfollow">
+		<button ng-if="!following" class="btn btn-primary btn-sm follow-btn" ng-click="follow()">Follow</button>
+		<button ng-if="following" class="btn btn-primary btn-sm follow-btn" ng-click="unfollow()">Unfollow</button>
 	</div>
 </div>
