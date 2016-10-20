@@ -1,5 +1,8 @@
-<h1>Pull Requests</h1>
-<h2 ng-if="pullRequests.length === 0">You have no pull requests!</h2>
+<h1 ng-hide="pullRequests.length === 0">Pull Requests</h1>
+<h2 ng-if="pullRequests.length === 0" class="text-xs-center cabin-sketch-font"><br>
+  This lesson plan has no pull requests!
+</h2>
+
 <div class="card" ng-repeat="pr in pullRequests | filter:{ status: 'pending' }">
   <h2>Title: {{ pr.title }}</h2>
   <h6>Description: {{ pr.description }}</h6>
