@@ -4,8 +4,8 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
 
   StudentService.sortStudents = function(students) {
     var students = students.sort(function(a,b) {
-      var lastNameA = a.last_name
-      var lastNameB = b.last_name
+      var lastNameA = a.last_name.toLowerCase();
+      var lastNameB = b.last_name.toLowerCase();
       if(lastNameA < lastNameB) {
         return -1;
       }
@@ -22,8 +22,8 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   StudentService.sortSubmissions = function(students) {
     for(var i = 0; i < students.length; i++) {
       students[i].submissions.sort(function(a,b) {
-        var createdAtA = a.id
-        var createdAtB = b.id
+        var createdAtA = a.id;
+        var createdAtB = b.id;
         if(createdAtA < createdAtB) {
           return -1;
         }
