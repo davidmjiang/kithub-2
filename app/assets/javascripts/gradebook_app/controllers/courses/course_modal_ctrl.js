@@ -19,6 +19,13 @@ Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments",
     return VisualService.assignmentAvg(assignment).toFixed(2);
   })];
 
+  this.closed = false;
+
+  this.closeModal = function () {
+    close(null, 200);
+    this.closed = true;
+  }
+
   $scope.opts = {
     scales: {
       yAxes: [
