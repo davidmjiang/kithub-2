@@ -36,7 +36,10 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
   }
 
   $scope.createNewPullRequest = function() {
-    pullRequestService.createNewPullRequest($scope.newPR, $stateParams.id);
+    pullRequestService.createNewPullRequest($scope.newPR, $stateParams.id).then(function(response) {
+      $scope.prSent.push(response)
+    });
+
   };
 
 }]);
