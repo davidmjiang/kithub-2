@@ -132,6 +132,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   }
 
   $scope.showScore = function(j) {
+    if (j) {
     var rawTotal = 0;
     var possibleTotal = 0;
     for (var i = 0; i < $scope.assignments.length; i++) {
@@ -147,6 +148,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     }
     return Number(rawTotal / possibleTotal * 100).toFixed(2);
   }
+}
       
 
 
@@ -189,7 +191,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
 
   $scope.checkItem = function(index, item) {
-    console.log(!parseInt(item))
     if (index === 0) {
       return "You cannot update the student's id";
     }
@@ -265,7 +266,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     }).then(function(modal) {
       modal.element.modal();
       modal.close.then(function(response) {
-        console.log(response)
+        // console.log(response)
       })
     })
   }
@@ -323,7 +324,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     $scope.cols[$scope.cols.length - 1] = data.assignment_type + ": " +
                                           data.title + "(" + data.possible_score
                                           + ")";
-    $scope.cols.push("Overall");
     for(var i = 0; i < $scope.allRows.length; i++) {
       var temp = $scope.allRows[i].slice(-1)[0]
       $scope.allRows[i][$scope.allRows[i].length - 1] = 0;
