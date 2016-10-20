@@ -132,7 +132,8 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   }
 
   $scope.showScore = function(j) {
-    if (j) {
+    $scope.students = StudentService.sortStudents($scope.course.students);
+    if (j > -1) {
     var rawTotal = 0;
     var possibleTotal = 0;
     for (var i = 0; i < $scope.assignments.length; i++) {
@@ -321,13 +322,13 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     };
     //Add student to the table and move over overall score
     $scope.colCount ++;
-    $scope.cols[$scope.cols.length - 1] = data.assignment_type + ": " +
+    $scope.cols[$scope.cols.length] = data.assignment_type + ": " +
                                           data.title + "(" + data.possible_score
-                                          + ")";
+                                         + ")";
     for(var i = 0; i < $scope.allRows.length; i++) {
-      var temp = $scope.allRows[i].slice(-1)[0]
-      $scope.allRows[i][$scope.allRows[i].length - 1] = 0;
-      $scope.allRows[i].push(temp);
+      //var temp = $scope.allRows[i].slice(-2)[0]
+      //$scope.allRows[i][$scope.allRows[i].length - 1] = 0;
+      $scope.allRows[i].push(-1);
     };
   })
 
