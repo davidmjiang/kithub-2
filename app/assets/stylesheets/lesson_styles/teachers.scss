@@ -10,6 +10,16 @@
 .profile-img{
 	max-height: 250px;
 	vertical-align: middle;
+	max-width: 100%;
+	border-radius: 2px;
+}
+
+.teacher-info{
+	text-align: center;
+	.btn {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
 }
 
 .photo-upload{
@@ -33,12 +43,29 @@
 
 .listed-lesson-plan{
 	border-radius: .25rem;
-		margin-top: 25px;
-	a {
-		color: white;
-	}
-	P {
+	margin-top: 25px;
+
+	p {
 		margin-bottom: 5px;
+	}
+	.card-header {
+		a {
+			color: white;
+		}
+		border-radius: 2px 2px 0 0;
+		margin-bottom: 0;
+	}
+	.card-block {
+		padding: 10px;
+	}
+	.group{
+		background-color: $primary-color;
+	}
+	.teacher {
+		background-color: $secondary-color;
+	}
+	.individual {
+		background: $blue-sky-color;
 	}
 }
 
@@ -79,29 +106,36 @@
 		font-size: 14px;
 	}
 
+	#clear-filters{
+		position: absolute;
+		top: 35px;
+		left: 40px;
+		margin-bottom: 10px;
+		font-size: 13px;
+	}
+
 }
 .lesson-filters {
-	font-size: 13px;
-	.filter-vertical-divide {
-		margin-left: 4px;
-		margin-right: 4px;
-		height: 20px;
-		width: 2px;
-		border-left: 1px solid #0275d8;
-		border-right: 1px solid #0275d8;
+	h6 {
 		display: inline-block;
-		vertical-align: middle;
+		font-size: 13px;
 	}
-	.filter-range {
-		vertical-align: middle;
+	.rzslider {
+		width: 50%;
+		.rz-pointer {
+			height: 12px;
+			width: 12px;
+		}
+		.rz-bar-wrapper {
+			padding-top: 6px;
+		}
+	}
+	.select-container{
+		margin-top: 15px;
 	}
 }
 
-#clear-filters{
-	margin-bottom: 10px;
-	font-size: 13px;
-	margin-right: 30px;
-}
+
 
 
 .fa-code-fork {
