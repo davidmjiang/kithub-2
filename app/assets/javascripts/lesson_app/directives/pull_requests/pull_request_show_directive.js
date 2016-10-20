@@ -11,12 +11,10 @@ Lesson.directive("pullRequestShow",  [ "pullRequestService", "DiffService", 'Les
         Auth.currentUser().then(function(currentUser){
           if (currentUser.id === lesson.teacher_id) {
             scope.lessonBelongsToCurrentUser = true
-
           } else {
             scope.lessonBelongsToCurrentUser = false
           }
         })
-
       })
 
       //Porbably need to update version, make pull requests as accepted somehow.

@@ -15,6 +15,7 @@ json.assignments @course.assignments do |assignment|
   json.title assignment.title
   json.assignment_type assignment.assignment_type
   json.possible_score assignment.possible_score
+  json.updated_at assignment.updated_at
 
   json.submissions assignment.submissions
 
