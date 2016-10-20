@@ -2,14 +2,12 @@
 Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http',
   function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http) {
 
-  $scope.lesson = lesson;
-  $scope.lesson.grade = $scope.lesson.grade.toString(); // for dropdown menu values
-  $scope.states = LessonService.getStates();
-  $scope.grades = LessonService.getGrades();
-  $scope.lessonTypes = LessonService.getLessonTypes();
-  $scope.subjects = LessonService.getSubjects();
+  $scope.lesson = lesson; 
   $scope.owner = owner;
   $scope.draftTitle = $scope.lesson.title;
+
+  // for dropdown menu values
+  if ($scope.lesson.grade) { $scope.lesson.grade = $scope.lesson.grade.toString(); }
 
   //show profile photo if there is one
   if (owner.avatar_file_name) {
@@ -28,10 +26,10 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     autoDownloadFontAwesome: false,
     spellChecker: false,
     placeholder: "Lesson plan...",
-    // autosave: {
-    //   enabled: true,
-    //   uniqueId: "lessonEditor",
-    // },
+    autosave: {
+      enabled: true,
+      uniqueId: "lessonplan-" + $scope.lesson.id,
+    },
     status: ["lines", "words"]
   };
 
