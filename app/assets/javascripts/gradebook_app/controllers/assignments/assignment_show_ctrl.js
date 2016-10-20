@@ -1,5 +1,12 @@
 Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "close", "AssignmentService", "CurveService", "$rootScope", "students", "VisualService", function($scope, course, assignment, GPAService, close, AssignmentService, CurveService, $rootScope, students, VisualService) {
 
+  this.closeModal = function () {
+    close(null, 200);
+    this.closed = true;
+  }
+
+  $scope.closed = false;
+
   $scope.assignment = assignment
   $scope.gpa = {}
   $scope.gpa.raw = GPAService.rawGPA(course, assignment)
@@ -84,6 +91,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
 
   $scope.close = function(result) {
     close(result, 200)
+    $scope.closed = true;
   }
 
   $scope.addCurve = function() {
