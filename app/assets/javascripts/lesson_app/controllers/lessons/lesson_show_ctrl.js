@@ -1,18 +1,22 @@
 "use strict";
-Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http', 'LessonStarService', 'currentTeacher', 'flash', '$timeout',
-  function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http, LessonStarService, currentTeacher, flash, $timeout) {
+
+Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http', 'LessonStarService', 'currentTeacher', 'flash', '$timeout', "_",
+  function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http, LessonStarService, currentTeacher, flash, $timeout, _) {
 
   $scope.lesson = lesson;
   $scope.owner = owner;
   $scope.draftTitle = $scope.lesson.title;
 
+  $scope.pendingPRs = _.remove($scope.lesson.pull_requests_received, function (pr) {
+    return pr.status === "pending"
+  }).length;
+
   // Searches the starred lesson_plans array for lesson plans that have already been starred.
   var has_starred = function(current_user, lesson) {
     var starred = current_user.starred_lesson_plans
-    console.log(starred)
+
     for (var i = 0; i < starred.length; i++) {
       if (starred[i].id === lesson.id) {
-        console.log('found')
         return true;
       }
     }

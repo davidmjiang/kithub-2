@@ -1,4 +1,4 @@
-Gradebook.factory('CourseService', ['Restangular', function(Restangular){
+Gradebook.factory('CourseService', ['Restangular', '$rootScope', function(Restangular, $rootScope){
   var stub = {}
   
   var _courses = [];
@@ -6,7 +6,7 @@ Gradebook.factory('CourseService', ['Restangular', function(Restangular){
   var _removeCourse = function(response) {
     _.each(_courses, function(course, index) {
         if (course.id === response.id) {
-          return _courses.splice(index, 1)
+          return _courses.splice(index, 1);
         }
       })
   }
@@ -14,8 +14,8 @@ Gradebook.factory('CourseService', ['Restangular', function(Restangular){
 
   stub.sortRows = function(rows) {
     var students = rows.sort(function(a,b) {
-      var lastNameA = a[2]
-      var lastNameB = b[2]
+      var lastNameA = a[2];
+      var lastNameB = b[2];
       if(lastNameA < lastNameB) {
         return -1;
       }
@@ -52,19 +52,21 @@ Gradebook.factory('CourseService', ['Restangular', function(Restangular){
   stub.addCourse = function(params) {
     return Restangular.all('courses').post(params).then(function(response){
       angular.copy(populateCourses(), _courses);
-      return response
+      return response;
     })
   };
 
   stub.deleteCourse = function(course) {
     return course.remove().then(function(response) {
-      _removeCourse(response)
+      _removeCourse(response);
     })
   }
 
   stub.updateCourse = function(params, course) {
     Restangular.restangularizeElement(null, course, 'courses');
-    course.patch(params);
+    course.patch(params).then(function(){
+      $rootScope.$broadcast('course.update')
+    });
   }
 
   return stub;
