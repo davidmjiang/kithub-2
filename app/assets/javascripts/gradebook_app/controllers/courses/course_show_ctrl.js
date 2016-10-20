@@ -174,7 +174,12 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
     }
     else if (index > 3 && index < row.length - 1) {
-      var submission = $scope.students[rowIndex].submissions[index - 4]
+      var submission
+      for(var i = 0; i < $scope.students.length; i ++) {
+        if($scope.students[i].id == row[0]) {
+          var submission = $scope.students[i].submissions[index - 4]
+        }
+      }
       submission.raw_score = parseInt(item)
       SubmissionService.editSubmission(submission)
     }
@@ -267,7 +272,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     var data = StudentService.studentData(response)
     $scope.rowCount ++;
     allRows.push(data);
-    $scope.students.push(response);
+    $scope.course.students.push(response);
     var students = allRows.sort(function(a,b) {
       var lastNameA = a[2]
       var lastNameB = b[2]
