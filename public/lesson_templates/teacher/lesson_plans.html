@@ -31,15 +31,17 @@
           </div>
         </div>
       </div>
-      <div class="list-group row">
-        <div dir-paginate="lesson in teacher.lesson_plans | orderBy: '-created_at' | filter: {title: titleFilter} | filter: between('grade', filters.gradeMin, filters.gradeMax) | filter: {lesson_type: filters.lessonType} | filter: {subject: filters.subject} | filter: between('hours', filters.hourMin, filters.hourMax) | itemsPerPage: 10">
-          <div class="clearfix" ng-if="$index % 2 == 0"></div>
-          <div lesson-card class="col-md-6" lesson="lesson"></div>
+      <div class="lesson-container">
+        <div class="list-group row">
+          <div dir-paginate="lesson in lessons | orderBy: '-created_at' | filter: {title: titleFilter} | filter: between('grade', filters.gradeMin, filters.gradeMax) | filter: {lesson_type: filters.lessonType} | filter: {subject: filters.subject} | filter: between('hours', filters.hourMin, filters.hourMax) | itemsPerPage: 10">
+            <div class="clearfix" ng-if="$index % 2 == 0"></div>
+            <div lesson-card class="col-md-6" lesson="lesson"></div>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-11 pagination-holder">
-          <dir-pagination-controls></dir-pagination-controls>
+        <div class="row">
+          <div class="col-xs-11 pagination-holder">
+            <dir-pagination-controls></dir-pagination-controls>
+          </div>
         </div>
       </div>
     </div>
