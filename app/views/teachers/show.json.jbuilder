@@ -29,11 +29,9 @@ end
 
 json.followed_by (@teacher.followed_by.length)
 json.following (@teacher.following.length)
-json.starred_lesson_plans (@teacher.starred_lesson_plans.length)
+json.starred_lesson_plans (@teacher.starred_lesson_plans)
 json.lesson_plans_contributed_to (@teacher.lesson_plans_contributed_to.length)
 json.num_lessons (@teacher.lesson_plans.length)
 json.states (@states)
 json.lesson_types (@lesson_types)
 json.subjects (@subjects)
-
-
