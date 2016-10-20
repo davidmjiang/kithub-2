@@ -127,6 +127,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   for(var j = 0; j < $scope.students.length; j++ ) {
     var rawTotal = 0;
     var possibleTotal = 0;
+
     rowData.push($scope.students[j].id);
     rowData.push($scope.students[j].first_name);
     rowData.push($scope.students[j].last_name);
