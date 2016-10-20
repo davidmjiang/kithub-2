@@ -28,16 +28,16 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   StudentService.editStudent = function(student, index, item) {
     if(index === 1) {
       student.first_name = item;
-      Restangular.one("students").customPUT(student, student.id)
+      Restangular.one("students").customPUT(student, student.id);
     }
     else if (index === 2) {
       student.last_name = item;
-      Restangular.one("students").customPUT(student, student.id)
+      Restangular.one("students").customPUT(student, student.id);
     }
 
     else if (index === 3) {
       student.email = item;
-      Restangular.one("students").customPUT(student, student.id)
+      Restangular.one("students").customPUT(student, student.id);
     }
   }
 
