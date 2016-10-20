@@ -10,22 +10,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   $scope.rawGPA = GPAService.rawGPA(course)
   $scope.students = $scope.course.students;
 
-  $scope.sortStudents = function() {
-    var students = $scope.course.students.sort(function(a,b) {
-      var lastNameA = a.last_name
-      var lastNameB = b.last_name
-      if(lastNameA < lastNameB) {
-        return -1;
-      }
-      if(lastNameB < lastNameA) {
-        return 1;
-      }
-      else {
-        return 0;
-      }
-    })
-    return students;
-  }
 
   $scope.sortSubmissions = function() {
     for(var i = 0; i < $scope.students.length; i++) {
@@ -46,7 +30,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   }
   $scope.sortSubmissions();
 
-  $scope.students = $scope.sortStudents();
+  $scope.students = StudentService.sortStudents($scope.course.students);
 
   var assignments = $scope.course.assignments.sort(function(a,b) {
     var createdAtA = a.id
@@ -121,7 +105,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
                         ($scope.assignments[i].title)
                         + "(" + ($scope.assignments[i].possible_score) +")"  );
   }
-  cols.push("Overall")
 
   var rowData = [];
   for(var j = 0; j < $scope.students.length; j++ ) {
@@ -145,10 +128,29 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       }
       rowData.push(rawScore);
     }
-    rowData.push(Number(rawTotal / possibleTotal * 100).toFixed(2));
     allRows.push(rowData)
     rowData = []
   }
+
+  $scope.showScore = function(j) {
+    if (j) {
+    var rawTotal = 0;
+    var possibleTotal = 0;
+    for (var i = 0; i < $scope.assignments.length; i++) {
+      var rawScore = $scope.students[j].submissions[i].raw_score;
+      var possibleScore = $scope.assignments[i].possible_score;
+      //Put default value here;
+      if(rawScore === -1) {
+      }
+      else {
+        rawTotal += rawScore;
+        possibleTotal += possibleScore;
+      }
+    }
+    return Number(rawTotal / possibleTotal * 100).toFixed(2);
+  }
+}
+      
 
 
   $scope.colCount = $scope.assignments.length + 5;
@@ -173,7 +175,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       var student = $scope.students[rowIndex]
       StudentService.editStudent(student, index, item)
     }
-    else if (index > 3 && index < row.length - 1) {
+    else if (index > 3 && index < row.length) {
       var submission
       for(var i = 0; i < $scope.students.length; i ++) {
         if($scope.students[i].id == row[0]) {
@@ -190,7 +192,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
 
   $scope.checkItem = function(index, item) {
-    console.log(!parseInt(item))
     if (index === 0) {
       return "You cannot update the student's id";
     }
@@ -266,7 +267,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     }).then(function(modal) {
       modal.element.modal();
       modal.close.then(function(response) {
-        console.log(response)
+        // console.log(response)
       })
     })
   }
@@ -308,6 +309,8 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   })
 
   $scope.$on("assignment.added", function(event, data) {
+    //Add student to the scope
+    $scope.course.assignments.push(data);
     //Goes through all the students and pushes the newly
     //created blank submissions to the correct student's submissions array 
     for(var i = 0; i < data.submissions.length; i++) {
@@ -317,11 +320,11 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
         }
       }
     };
+    //Add student to the table and move over overall score
     $scope.colCount ++;
     $scope.cols[$scope.cols.length - 1] = data.assignment_type + ": " +
                                           data.title + "(" + data.possible_score
                                           + ")";
-    $scope.cols.push("Overall");
     for(var i = 0; i < $scope.allRows.length; i++) {
       var temp = $scope.allRows[i].slice(-1)[0]
       $scope.allRows[i][$scope.allRows[i].length - 1] = 0;
