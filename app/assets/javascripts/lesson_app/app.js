@@ -1,6 +1,6 @@
 "use strict";
 
-var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise", 'ngFileUpload', "xeditable", 'angularUtils.directives.dirPagination', 'rzModule']);
+var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise", 'ngFileUpload', "xeditable", 'angularUtils.directives.dirPagination', 'rzModule', 'flash']);
 
 angular.module('Lesson').factory('_', ['$window', function($window) {
   return $window._;
