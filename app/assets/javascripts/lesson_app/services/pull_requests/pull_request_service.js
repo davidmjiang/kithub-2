@@ -32,7 +32,7 @@ Lesson.factory("pullRequestService", ["Restangular",
   // sends restangular post request and adds the response to the front end
   // pull request model
   var createNewPullRequest = function(data, lessonId) {
-    Restangular.one("lesson_plans", lessonId).all("pull_requests").post({
+    return Restangular.one("lesson_plans", lessonId).all("pull_requests").post({
       pull_request: data
     }).then(function(response){
       _pullRequests.push(response);
@@ -56,7 +56,6 @@ Lesson.factory("pullRequestService", ["Restangular",
 
   var pullRequestMade = function(forked_id) {
     return all(forked_id).then(function() {
-      console.log(_pullRequests)
       for(var i in _pullRequests) {
         if(_pullRequests[i].forked_plan_id === Number(forked_id)
             && _pullRequests[i].status === "pending") {
@@ -67,6 +66,22 @@ Lesson.factory("pullRequestService", ["Restangular",
     })
   }
 
+  var acceptChanges = function(pullRequest, lessonId) {
+    pullRequest.status = 'accepted';
+    pullRequest.accept_reject_time = Date.now();
+    return Restangular.one("lesson_plans", lessonId).one("pull_requests", pullRequest.id).patch(pullRequest).then(function(response) {
+      return response
+    });
+  }
+
+  var rejectChanges = function(pullRequest, lessonId) {
+    pullRequest.status = 'rejected';
+    pullRequest.accept_reject_time = Date.now();
+    return Restangular.one("lesson_plans", lessonId).one("pull_requests", pullRequest.id).patch(pullRequest).then(function(response) {
+      return response
+    });
+  }
+
   return {
     all: all,
     getPullRequests: getPullRequests,
@@ -74,6 +89,8 @@ Lesson.factory("pullRequestService", ["Restangular",
     createNewPullRequest: createNewPullRequest,
     createNewComment: createNewComment,
     removeComment: removeComment,
-    pullRequestMade: pullRequestMade
+    pullRequestMade: pullRequestMade,
+    acceptChanges: acceptChanges,
+    rejectChanges: rejectChanges
   }
 }]);

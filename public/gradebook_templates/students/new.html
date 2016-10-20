@@ -1,10 +1,13 @@
 <div class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h1>Add student to course:  {{course.title}}</h1>
-        <form class="form" ng-submit="addStudent(student)">
+      <form class="form" ng-submit="addStudent(student)">
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h2 class="modal-title">Add Student</h2>
+          <h4>{{course.title}}</h4>
+        </div>
+        <div class="modal-body">
           <div class="form-group">
             <label>Student First Name:</label>
             <input ng-model="student.first_name" class="form-control" type="text">
@@ -17,11 +20,12 @@
             <label>Student Email:</label>
             <input ng-model="student.email" class=form-control type="email">
           </div>
-          <div class="modal-footer">
-            <input class="btn btn-success" type="submit" name="Submit Student">
-            <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
-          </div>
-        </form>
+        </div>
+        <div class="modal-footer">
+          <input class="btn btn-success" type="submit" name="Submit Student">
+          <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

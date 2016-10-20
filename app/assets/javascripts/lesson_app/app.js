@@ -71,7 +71,10 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
             .then(function(user){
               return user;
             });
-          }]
+          }],
+      currentTeacher: ['currentUser', 'TeacherService', function(currentUser, TeacherService) {
+        return TeacherService.getTeacher(currentUser.id)
+      }]
     }
 	})
 
@@ -96,12 +99,17 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
             }],
         owner: ['TeacherService', 'lesson', function(TeacherService, lesson) {
               return TeacherService.getTeacher(lesson.teacher_id);
-            }]
+            }],
+
+        lessonBelongsToCurrentUser: ["currentUser", "lesson", function(currentUser, lesson){
+          return (currentUser.id === lesson.teacher_id)
+        }]
+
       },
       views: {
         '@': {
           templateUrl: "lesson_templates/show.html",
-          controller: "LessonShowCtrl",     
+          controller: "LessonShowCtrl",
         },
 
         'newPullRequest@main.lessons.show': {
