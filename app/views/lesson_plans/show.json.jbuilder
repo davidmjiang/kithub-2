@@ -9,3 +9,7 @@ end
 json.pull_requests_sent @lesson.pull_requests_sent do |pr|
   json.id (pr.id)
 end
+
+json.pull_requests_received @lesson.pull_requests_received do |pr|
+  json.id (pr.id)
+end
