@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161018225025) do
+ActiveRecord::Schema.define(version: 20161019204921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,7 +93,6 @@ ActiveRecord::Schema.define(version: 20161018225025) do
     t.integer  "teacher_id"
     t.float    "hours"
     t.float    "version",        default: 1.0
-    t.integer  "forks",          default: 0
     t.string   "state"
     t.integer  "grade"
     t.string   "subject"
