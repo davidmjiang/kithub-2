@@ -300,10 +300,12 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   })
 
   $scope.deleteCourse = function() {
-    CourseService.deleteCourse($scope.course).then(function(response) {
-      $state.go("gradebook.courseIndex")
-    })
-  }
+    if (confirm('Are you sure?')) {
+      CourseService.deleteCourse($scope.course).then(function(response) {
+        $state.go("gradebook.courseIndex")
+      })
+    }
+  };
 
   $scope.cols = cols;
   $scope.allRows = allRows;
