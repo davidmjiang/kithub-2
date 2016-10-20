@@ -1,12 +1,31 @@
 "use strict";
-Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http',
-  function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http) {
+Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http', 'LessonStarService', 'currentTeacher',
+  function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http, LessonStarService, currentTeacher) {
 
-  $scope.lesson = lesson; 
+  $scope.lesson = lesson;
   $scope.owner = owner;
   $scope.draftTitle = $scope.lesson.title;
 
-  // for dropdown menu values
+  // Searches the starred lesson_plans array for lesson plans that have already been starred.
+  var has_starred = function(current_user, lesson) {
+    var starred = current_user.starred_lesson_plans
+    console.log(starred)
+    for (var i = 0; i < starred.length; i++) {
+      if (starred[i].id === lesson.id) {
+        console.log('found')
+        return true;
+      }
+    }
+    return false;
+  };
+
+  // Sets the star to filled in or not depending on whether that teacher has starred the lesson.
+  if (has_starred(currentTeacher, lesson)) {
+    $scope.starred = true;
+  } else {
+    $scope.starred = false;
+  }
+
   if ($scope.lesson.grade) { $scope.lesson.grade = $scope.lesson.grade.toString(); }
 
   //show profile photo if there is one
@@ -65,7 +84,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   // patches the lesson object
   $scope.save = function() {
     var oldTitle = $scope.lesson.title;  // save in case of failure
-    
+
     toggleSaving(true);
 
     $scope.lesson.title = $scope.draftTitle;
@@ -88,7 +107,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
 
   //show additional materials
   $scope.materials = $scope.lesson.additional_materials;
- 
+
   //delete additional material
   $scope.deleteMat = function(am){
     $http({
@@ -123,6 +142,19 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     function(evt){
       var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
       console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+    });
+  };
+
+  // Allows you to star a lesson when you click on the star on the show page.
+  $scope.starLesson = function() {
+    LessonStarService.newStar(lesson.id, currentUser.id).then(function(response) {
+      $scope.starred = true;
+    });
+  };
+
+  $scope.unstarLesson = function() {
+    LessonStarService.removeStar(lesson.id, currentUser.id).then(function(response) {
+      $scope.starred = false;
     });
   };
 
