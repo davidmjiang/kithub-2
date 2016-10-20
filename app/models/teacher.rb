@@ -5,6 +5,8 @@ class Teacher < ApplicationRecord
   validates :password, presence: true, on: :create
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :state, inclusion: {in: STATES}, allow_nil: true
+
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
