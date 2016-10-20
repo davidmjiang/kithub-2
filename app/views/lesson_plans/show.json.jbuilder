@@ -19,4 +19,5 @@ end
 
 json.pull_requests_received @lesson.pull_requests_received do |pr|
   json.id (pr.id)
+  json.status (pr.status)
 end
