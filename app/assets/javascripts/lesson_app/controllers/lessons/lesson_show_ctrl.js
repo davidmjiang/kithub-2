@@ -7,6 +7,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   $scope.states = LessonService.getStates();
   $scope.grades = LessonService.getGrades();
   $scope.owner = owner;
+  $scope.draftTitle = $scope.lesson.title;
 
   //show profile photo if there is one
   if (owner.avatar_file_name) {
@@ -63,10 +64,20 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
 
   // patches the lesson object
   $scope.save = function() {
+    var oldTitle = $scope.lesson.title;  // save in case of failure
+    
     toggleSaving(true);
-    LessonService.save($scope.lesson).then(function() {
-      toggleSaving(false);
-    });
+
+    $scope.lesson.title = $scope.draftTitle;
+    LessonService.save($scope.lesson).then(
+      function() {
+        $scope.saved_title = $scope.lesson.title;
+        toggleSaving(false);
+      },
+      function() {
+        console.log("Didn't work!")
+        $scope.lesson.title = oldTitle;
+      });
     // $scope.toggleEditing();
   };
 
