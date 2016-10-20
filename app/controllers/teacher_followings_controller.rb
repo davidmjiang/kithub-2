@@ -13,10 +13,23 @@ class TeacherFollowingsController < ApplicationController
   end
 
   def create
-
+    @following = TeacherFollowing.new(following_params)
+    respond_to do |format|
+      if @following.save
+        format.json {render json: @following}
+      else
+        format.json{render json: {errors: @following.errors.full_messages, :status => 422}}
+      end
+    end
   end
 
   def destroy
+    @following = TeacherFollowing.find(params[:id])
+    @following.destroy
+  end
 
+  private
+  def following_params
+    params.require("following").permit(:follower_id, :followed_id)
   end
 end

@@ -3,7 +3,9 @@ angular.module('Lesson').controller('TeacherFollowersCtrl', ['$scope', 'currentU
 	
   $scope.followers = followers.teachers;
 
-  $scope.followings = followers.following;
+  $scope.followings = followers.followings;
+
+  $scope.currentUser = currentUser;
 
   $scope.isFollowing = function(teacher){
   	var ids = _.map($scope.followings, function(el){
