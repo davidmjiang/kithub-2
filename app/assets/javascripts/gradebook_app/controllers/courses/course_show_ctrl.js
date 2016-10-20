@@ -293,7 +293,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     var data = StudentService.studentData(response)
     $scope.rowCount ++;
     allRows.push(data);
-    $scope.course.students.push(response);
+    $scope.students.push(response);
     $scope.sortRows();
   })
 
@@ -340,10 +340,12 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   })
 
   $scope.deleteCourse = function() {
-    CourseService.deleteCourse($scope.course).then(function(response) {
-      $state.go("gradebook.courseIndex")
-    })
-  }
+    if (confirm('Are you sure?')) {
+      CourseService.deleteCourse($scope.course).then(function(response) {
+        $state.go("gradebook.courseIndex")
+      })
+    }
+  };
 
   $scope.cols = cols;
   $scope.allRows = allRows;
