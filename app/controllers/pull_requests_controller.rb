@@ -11,6 +11,17 @@ class PullRequestsController < ApplicationController
     @pull_request.save
   end
 
+  def update
+    @pull_request = PullRequest.find_by_id(params[:id])
+
+
+    if @pull_request.update(pull_request_params)
+      respond_to do |format|
+         format.json { render json: @pull_request, status: 200 }
+      end
+    end
+  end
+
   private
 
   def pull_request_params

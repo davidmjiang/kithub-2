@@ -12,18 +12,23 @@ angular.module('Lesson').controller('LessonPlanCtrl', ['$scope', 'currentUser', 
   $scope.subjectFilter = "";
   $scope.lessonTypeFilter = "";
   $scope.filters = {
-    hour: 0,
-    grade: 0,
+    hourMin: 0,
+    hourMax: 10,
+    gradeMin: 0,
+    gradeMax: 12,
     subject: "",
-    lessonType: ""
+    lessonType: "",
+    options: {
+      hideLimitLabels: true
+    }
   }
   $scope.advancedFilters = false;
 
 
   // filter for grade slide
-  $scope.greaterThan = function(prop, val){
+  $scope.between = function(prop, min, max){
     return function(item){
-      return item[prop] >= val;
+      return item[prop] >= min && item[prop] <= max;
     }
   }
 
@@ -34,8 +39,10 @@ angular.module('Lesson').controller('LessonPlanCtrl', ['$scope', 'currentUser', 
   }
 
   $scope.resetFilters = function(){
-    $scope.filters.hour = 0;
-    $scope.filters.grade = 0;
+    $scope.filters.hourMin = 0;
+    $scope.filters.hourMax = 10;
+    $scope.filters.gradeMin = 0;
+    $scope.filters.gradeMax = 12;
     $scope.filters.subject = "";
     $scope.filters.lessonType = "";
   }
