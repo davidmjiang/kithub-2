@@ -6,12 +6,6 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
   LessonService.getLesson($stateParams.id).then(function(response){
     $scope.newPR = pullRequestService.getNewPullRequest($stateParams.id, response.parent_plan_id);
 
-    LessonService.getLesson($scope.newPR.parent_plan_id).then(function(parent) {
-       $scope.newPR.parent_plan = parent
-    }).then(function() {
-
-    })
-
     $scope.lessonBelongsToCurrentUser = (currentUser.id === response.teacher_id)
       pullRequestService.pullRequestMade(response.id).then(function(response) {$scope.pullRequestMade = response;})
     });
@@ -38,7 +32,5 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
 
     pullRequestService.createNewPullRequest($scope.newPR, $stateParams.id);
   };
-
-
 
 }]);
