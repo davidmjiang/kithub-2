@@ -9,6 +9,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   $scope.addingCurve = false
   $scope.assignmentTitle = assignment.title
   $scope.numStudents = course.students.length
+  $scope.students = students;
 
   var _fillFlatRateEditInput = function() {
     var curve = {}
@@ -111,6 +112,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     } else if ($scope.curveApplied && $scope.curveType === "Linear") {
       _applyLinearCurve();
     }
+    angular.element('body').removeClass('modal-open');
+    angular.element(".modal-backdrop").remove();
+    close();
   }
 
 
