@@ -2,14 +2,16 @@
 Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http',
   function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http) {
 
-  $scope.lesson = lesson;
-  $scope.lesson.grade = $scope.lesson.grade.toString(); // for dropdown menu values
+  $scope.lesson = lesson; 
   $scope.states = LessonService.getStates();
   $scope.grades = LessonService.getGrades();
   $scope.lessonTypes = LessonService.getLessonTypes();
   $scope.subjects = LessonService.getSubjects();
   $scope.owner = owner;
   $scope.draftTitle = $scope.lesson.title;
+
+  // for dropdown menu values
+  if ($scope.lesson.grade) { $scope.lesson.grade = $scope.lesson.grade.toString(); }
 
   //show profile photo if there is one
   if (owner.avatar_file_name) {
