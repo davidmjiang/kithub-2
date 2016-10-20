@@ -1,15 +1,13 @@
 <fork-lesson-plan ng-if="lessonBelongsToCurrentUser === false && alreadyForked !== true"></fork-lesson-plan>
 
-<button ng-if="lessonBelongsToCurrentUser"
+<button ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id"
         ng-click="getDiffInfo()"
         type="button"
         class="btn btn-info pull-right"
         data-toggle="modal"
         data-target="#newPRModal{{ newPR.forked_plan_id }}">
   New Pull Request</button>
-
-
-</div>
+k</div>
 
 <!-- Modal -->
 <div class="modal fade large pull-request-modal"

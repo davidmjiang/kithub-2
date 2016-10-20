@@ -1,4 +1,4 @@
-Lesson.directive("pullRequestShow",  [ "pullRequestService", "DiffService", 'LessonService', "$stateParams", "Restangular", function(pullRequestService, DiffService, LessonService, $stateParams, Restangular) {
+Lesson.directive("pullRequestShow",  [ "pullRequestService", "DiffService", 'LessonService', "$stateParams", "Restangular", "Auth", function(pullRequestService, DiffService, LessonService, $stateParams, Restangular, Auth) {
   return {
     templateUrl:"lesson_templates/pull_requests/show.html",
     scope: { pullRequest: "=" },
@@ -6,6 +6,18 @@ Lesson.directive("pullRequestShow",  [ "pullRequestService", "DiffService", 'Les
     link: function(scope) {
       scope.comments = scope.pullRequest.comments
       scope.diffs = DiffService(scope.pullRequest.parent_plan.content, scope.pullRequest.forked_plan.content);
+
+      LessonService.getLesson($stateParams.id).then(function(lesson) {
+        Auth.currentUser().then(function(currentUser){
+          if (currentUser.id === lesson.teacher_id) {
+            scope.lessonBelongsToCurrentUser = true
+
+          } else {
+            scope.lessonBelongsToCurrentUser = false
+          }
+        })
+
+      })
 
       //Porbably need to update version, make pull requests as accepted somehow.
       scope.acceptChanges = function() {
