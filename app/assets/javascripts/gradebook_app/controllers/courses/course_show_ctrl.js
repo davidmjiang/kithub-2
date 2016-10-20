@@ -27,24 +27,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     return students;
   }
 
-  $scope.sortSubmissions = function() {
-    for(var i = 0; i < $scope.students.length; i++) {
-      $scope.students[i].submissions.sort(function(a,b) {
-        var createdAtA = a.id
-        var createdAtB = b.id
-        if(createdAtA < createdAtB) {
-          return -1;
-        }
-        if(createdAtB < createdAtA) {
-          return 1;
-        }
-        else {
-          return 0;
-        }
-      })
-    }
-  }
-  $scope.sortSubmissions();
+  StudentService.sortSubmissions($scope.course.students);
 
   $scope.students = $scope.sortStudents();
 
@@ -149,6 +132,26 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     rowData = []
   }
 
+  $scope.showScore = function(j) {
+    $scope.students = StudentService.sortStudents($scope.course.students);
+    if (j > -1) {
+    var rawTotal = 0;
+    var possibleTotal = 0;
+    for (var i = 0; i < $scope.assignments.length; i++) {
+      var rawScore = $scope.students[j].submissions[i].raw_score;
+      var possibleScore = $scope.assignments[i].possible_score;
+      //Put default value here;
+      if(rawScore === -1) {
+      }
+      else {
+        rawTotal += rawScore;
+        possibleTotal += possibleScore;
+      }
+    }
+    return Number(rawTotal / possibleTotal * 100).toFixed(2);
+    }
+  }
+      
 
   $scope.colCount = $scope.assignments.length + 5;
   $scope.rowCount = $scope.students.length;
@@ -179,8 +182,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
           var submission = $scope.students[i].submissions[index - 4]
         }
       }
-      //ERROR HERE. FIX IT!
-      //WHEN YOU ADD AN ASSIGNMENT, IT DOES NOT GET ADDED TO SCOPE.STUDENTS SUBMISSIONS
       submission.raw_score = parseInt(item)
       SubmissionService.editSubmission(submission)
     }
@@ -270,23 +271,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     })
   }
 
-  $scope.sortRows = function() {
-    var students = $scope.allRows.sort(function(a,b) {
-      var lastNameA = a[2]
-      var lastNameB = b[2]
-      if(lastNameA < lastNameB) {
-        return -1;
-      }
-      if(lastNameB < lastNameA) {
-        return 1;
-      }
-      else {
-        return 0;
-      }
-    })
-    return students;
-    allRows = students;
-  }
 
   $scope.$on("student.added", function(event, response) {
     var data = StudentService.studentData(response)
@@ -317,14 +301,13 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       }
     };
     $scope.colCount ++;
-    $scope.cols[$scope.cols.length - 1] = data.assignment_type + ": " +
+    $scope.cols[$scope.cols.length] = data.assignment_type + ": " +
                                           data.title + "(" + data.possible_score
-                                          + ")";
-    $scope.cols.push("Overall");
+                                         + ")";
     for(var i = 0; i < $scope.allRows.length; i++) {
-      var temp = $scope.allRows[i].slice(-1)[0]
-      $scope.allRows[i][$scope.allRows[i].length - 1] = 0;
-      $scope.allRows[i].push(temp);
+      //var temp = $scope.allRows[i].slice(-2)[0]
+      //$scope.allRows[i][$scope.allRows[i].length - 1] = 0;
+      $scope.allRows[i].push(-1);
     };
   })
 
@@ -346,5 +329,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
   $scope.cols = cols;
   $scope.allRows = allRows;
+  allRows = CourseService.sortRows($scope.allRows);
 
 }])
