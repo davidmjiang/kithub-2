@@ -116,22 +116,26 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       _applyLinearCurve();
     } else if (!$scope.curveApplied && $scope.assignment.has_curve) {
       // if the assignment has a curve and the reset button was clicked:
-      CurveService.removeCurve($scope.assignment)
-      .then(function(response) {
-        console.log("response in controller")
-        console.log(response)
-        // angular.copy(response.assignment, $scope.assignment)
-        // angular.copy(response.assignment, assignment)
-        $scope.assignment.has_curve = false
-        assignment.has_curve = false
-        $scope.assignment.flat_curve = null
-        assignment.flat_curve = null
-      })
+      _removeCurve();
     }
   }
 
 
   // private 
+
+  var _removeCurve = function() {
+    CurveService.removeCurve($scope.assignment)
+    .then(function(response) {
+      console.log("response in controller")
+      console.log(response)
+      $scope.assignment.has_curve = false
+      assignment.has_curve = false
+      $scope.assignment.flat_curve = null
+      assignment.flat_curve = null
+      $scope.assignment.linear_curve = null
+      assignment.linear_curve = null
+    })
+  }
 
   var _applyFlatCurve = function() {
     CurveService.applyFlatCurve($scope.curve.flatRate, assignment.id)
