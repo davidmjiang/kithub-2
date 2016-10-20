@@ -11,24 +11,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   $scope.students = $scope.course.students;
 
 
-  $scope.sortSubmissions = function() {
-    for(var i = 0; i < $scope.students.length; i++) {
-      $scope.students[i].submissions.sort(function(a,b) {
-        var createdAtA = a.id
-        var createdAtB = b.id
-        if(createdAtA < createdAtB) {
-          return -1;
-        }
-        if(createdAtB < createdAtA) {
-          return 1;
-        }
-        else {
-          return 0;
-        }
-      })
-    }
-  }
-  $scope.sortSubmissions();
+  StudentService.sortSubmissions($scope.course.students);
 
   $scope.students = StudentService.sortStudents($scope.course.students);
 
@@ -182,8 +165,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
           var submission = $scope.students[i].submissions[index - 4]
         }
       }
-      //ERROR HERE. FIX IT!
-      //WHEN YOU ADD AN ASSIGNMENT, IT DOES NOT GET ADDED TO SCOPE.STUDENTS SUBMISSIONS
       submission.raw_score = parseInt(item)
       SubmissionService.editSubmission(submission)
     }
@@ -272,23 +253,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     })
   }
 
-  $scope.sortRows = function() {
-    var students = $scope.allRows.sort(function(a,b) {
-      var lastNameA = a[2]
-      var lastNameB = b[2]
-      if(lastNameA < lastNameB) {
-        return -1;
-      }
-      if(lastNameB < lastNameA) {
-        return 1;
-      }
-      else {
-        return 0;
-      }
-    })
-    return students;
-    allRows = students;
-  }
 
   $scope.$on("student.added", function(event, response) {
     var data = StudentService.studentData(response)
@@ -350,5 +314,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
   $scope.cols = cols;
   $scope.allRows = allRows;
+  allRows = CourseService.sortRows($scope.allRows);
 
 }])
