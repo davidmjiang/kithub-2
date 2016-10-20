@@ -10,7 +10,7 @@ Lesson.directive("forkLessonPlan",  [ "LessonService", "$stateParams", "Auth", "
 
         LessonService.getLesson($stateParams.id).then(function(response){
 
-          _.find(scope.owner.lesson_plans, {'id': Number($stateParams.id)}).forks++
+          // _.find(scope.owner.lesson_plans, {'id': Number($stateParams.id)}).forks++
           return Auth.currentUser().then(function(currentUser){
             return LessonService.create( {title: response.title,
                                   content: response.content,
