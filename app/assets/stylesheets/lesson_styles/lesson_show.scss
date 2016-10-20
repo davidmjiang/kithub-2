@@ -28,27 +28,29 @@
     }
   }
 
-}
+  #main-content {
+    margin-top: 35px;
+  }
 
-#file-upload{
-  width: 0.1px;
-  height: 0.1px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -1;
-}
+  #file-upload{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
 
-.upload-btn{
-  cursor: pointer;
-}
+  .upload-btn{
+    cursor: pointer;
+  }
 
-.am-btn{
-  margin-left: 10px;
-}
-
-.lesson-star {
-  font-size: 35px;
-  margin-right: 10px;
-  cursor: pointer;
+  .am-btn{
+    margin-left: 10px;
+  }
+  .lesson-star {
+    font-size: 35px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
 }

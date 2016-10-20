@@ -1,6 +1,6 @@
 <fork-lesson-plan ng-if="lessonBelongsToCurrentUser === false && alreadyForked !== true"></fork-lesson-plan>
 
-<button ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id"
+<button ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length === 0"
         ng-click="getDiffInfo()"
         type="button"
         class="btn btn-info pull-right"
