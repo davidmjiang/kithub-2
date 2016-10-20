@@ -2,38 +2,76 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
 
   var StudentService = {}
 
+  StudentService.sortStudents = function(students) {
+    var students = students.sort(function(a,b) {
+      var lastNameA = a.last_name
+      var lastNameB = b.last_name
+      if(lastNameA < lastNameB) {
+        return -1;
+      }
+      if(lastNameB < lastNameA) {
+        return 1;
+      }
+      else {
+        return 0;
+      }
+    })
+    return students;
+  }
+
+  StudentService.sortSubmissions = function(students) {
+    for(var i = 0; i < students.length; i++) {
+      students[i].submissions.sort(function(a,b) {
+        var createdAtA = a.id
+        var createdAtB = b.id
+        if(createdAtA < createdAtB) {
+          return -1;
+        }
+        if(createdAtB < createdAtA) {
+          return 1;
+        }
+        else {
+          return 0;
+        }
+      })
+    }
+  }
+
   StudentService.getStudentSubmissions = function(studentId) {
     return Restangular.one("students", studentId).get();
   }
 
   StudentService.addStudent = function(student) {
     return Restangular.all("students").post(student).then(function(createStudent) {
-      var response = [];
-      response.push(createStudent.id);
-      response.push(createStudent.first_name);
-      response.push(createStudent.last_name);
-      response.push(createStudent.email);
-      for(var i = 0; i < createStudent.submissions.length; i ++) {
-        response.push(createStudent.submissions[i].raw_score);
-      }
-      response.push(0);
-      return response;
+      return createStudent;
     })
   }
+
+  StudentService.studentData = function(createStudent) {
+    var response = [];
+    response.push(createStudent.id);
+    response.push(createStudent.first_name);
+    response.push(createStudent.last_name);
+    response.push(createStudent.email);
+    for(var i = 0; i < createStudent.submissions.length; i ++) {
+      response.push(createStudent.submissions[i].raw_score);
+    }
+    return response;
+  };
 
   StudentService.editStudent = function(student, index, item) {
     if(index === 1) {
       student.first_name = item;
-      Restangular.one("students").customPUT(student, student.id)
+      Restangular.one("students").customPUT(student, student.id);
     }
     else if (index === 2) {
       student.last_name = item;
-      Restangular.one("students").customPUT(student, student.id)
+      Restangular.one("students").customPUT(student, student.id);
     }
 
     else if (index === 3) {
       student.email = item;
-      Restangular.one("students").customPUT(student, student.id)
+      Restangular.one("students").customPUT(student, student.id);
     }
   }
 
@@ -47,6 +85,7 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   }
 
   StudentService.removeStudent = function(student) {
+    console.log(student)
     return Restangular.one("students", student.id).remove()
   }
 
