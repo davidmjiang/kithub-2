@@ -2,7 +2,6 @@
 
 
 <div class="row">
-  <flash:messages class="float-left"></flash:messages>
   <div class="row">
     <div class="col-md-4">
       <i ng-hide="starred" class="fa fa-star-o pull-xs-left lesson-star" aria-hidden="true" ng-click="starLesson()"></i>
@@ -19,6 +18,9 @@
       <div ng-if="editing === false && currentUserLesson === true">
         <button class="btn btn-primary" ng-click="toggleEditing()">Edit</button>
       </div>
+    </div>
+    <div class="col-md-4">
+      <flash:messages></flash:messages>
     </div>
   </div>
 

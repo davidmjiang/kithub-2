@@ -55,6 +55,11 @@
   }
 
   #flash-messages {
-    
+    .alert {
+      padding: .38rem;
+      width: 200px;
+      text-align: center;
+      margin: 0 auto;
+    }
   }
 }

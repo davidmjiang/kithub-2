@@ -1,4 +1,4 @@
-Lesson.directive("forkLessonPlan",  [ "LessonService", "$stateParams", "Auth", "$state", function(LessonService, $stateParams, Auth, $state) {
+Lesson.directive("forkLessonPlan",  [ "LessonService", "$stateParams", "Auth", "$state", 'flash', '$timeout', function(LessonService, $stateParams, Auth, $state, flash, $timeout) {
   return {
     template:"<button class='btn primary-bg-color pull-right' ng-click='forkLesson()'>Fork This Lesson</button>",
     scope: { lesson: "=" },
@@ -25,6 +25,9 @@ Lesson.directive("forkLessonPlan",  [ "LessonService", "$stateParams", "Auth", "
 
           .then(function(newLesson) {
             $state.go("main.lessons.show", {id: newLesson.id})
+            $timeout(function(){
+              flash('alert-success', 'Lesson plan forked!') 
+            }, 500)
             })
           })
         })
