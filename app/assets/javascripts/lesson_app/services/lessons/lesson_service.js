@@ -60,12 +60,14 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
   };
 
   lessonService.save = function(lesson) {
+
     return lesson.patch().then(
       function(response) {
         // success
         updateUserLesson(response);
         return response;
       });
+
   };
 
   lessonService.getLesson = function(lesson_id) {

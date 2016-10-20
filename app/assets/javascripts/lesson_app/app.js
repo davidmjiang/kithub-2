@@ -1,6 +1,6 @@
 "use strict";
 
-var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise", 'ngFileUpload', "xeditable", 'angularUtils.directives.dirPagination']);
+var Lesson = angular.module('Lesson', ["ui.router", "restangular", "Devise", 'ngFileUpload', "xeditable", 'angularUtils.directives.dirPagination', 'rzModule']);
 
 angular.module('Lesson').factory('_', ['$window', function($window) {
   return $window._;
@@ -96,12 +96,17 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
             }],
         owner: ['TeacherService', 'lesson', function(TeacherService, lesson) {
               return TeacherService.getTeacher(lesson.teacher_id);
-            }]
+            }],
+
+        lessonBelongsToCurrentUser: ["currentUser", "lesson", function(currentUser, lesson){
+          return (currentUser.id === lesson.teacher_id)
+        }]
+
       },
       views: {
         '@': {
           templateUrl: "lesson_templates/show.html",
-          controller: "LessonShowCtrl",     
+          controller: "LessonShowCtrl",
         },
 
         'newPullRequest@main.lessons.show': {
