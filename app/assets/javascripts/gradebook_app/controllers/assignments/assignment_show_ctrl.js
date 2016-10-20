@@ -6,7 +6,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   $scope.hasCurve = assignment.has_curve
   $scope.curve = {}
   $scope.editingTitle = false
-  $scope.addingCurve = false
+  $scope.modifyingCurve = false
   $scope.assignmentTitle = assignment.title
   $scope.numStudents = course.students.length
 
@@ -33,9 +33,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     }
   }
 
-  // this will have to change
   if ($scope.assignment.has_curve ) {
-    console.log("assignment has curve!!")
+    console.log("assignment has curve!")
     _fillCurveEditInputs()
     $scope.gpa.real = GPAService.realGPA(course, $scope.assignment)
     $scope.curveApplied = true 
@@ -87,7 +86,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   }
 
   $scope.addCurve = function() {
-    $scope.addingCurve = true
+    $scope.modifyingCurve = true
   }
 
   $scope.applyFlatCurve = function() {
@@ -122,6 +121,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       console.log("response in controller")
       console.log(response)
       $scope.assignment.has_curve = true
+      $scope.assignment.flat_curve = response
+      // not sure which is necessary
+      assignment.has_curve = true
       assignment.flat_curve = response
     })
   }
@@ -133,6 +135,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
         console.log(response)
         $scope.assignment.linear_curve = response
         $scope.assignment.has_curve = true
+        // not sure if either above or below or both are necessary
+        assignment.has_curve = true 
         assignment.linear_curve = response
     })
   }
@@ -154,10 +158,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       total += submission.real_score
     })
     return total / submissions.length
-  }
-
-
-  
+  }  
 
   $scope.opts = {
     scales: {
@@ -172,9 +173,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     }
   }
 
-  var scores = VisualService.studentScores(students, assignment)
-  $scope.scoreLabels = _.map(scores, 'name');
-  $scope.scoreData = [_.map(scores, function(score){
+  var _scores = VisualService.studentScores(students, assignment)
+  $scope.scoreLabels = _.map(_scores, 'name');
+  $scope.scoreData = [_.map(_scores, function(score){
     return score.percent.toFixed(2);
   })];
 

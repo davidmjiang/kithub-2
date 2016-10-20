@@ -45,7 +45,7 @@
                 <button ng-hide="addingCurve" ng-click="addCurve()" class="btn btn-outline-warning">Add/Edit Curve</button>
 
               <!-- upon clicking "Add/Edit Curve" -->
-                <div ng-show="addingCurve">
+                <div ng-show="modifyingCurve">
 
                   <!-- if assignment currently has no curve -->
                   <div ng-hide="hasCurve">
@@ -60,7 +60,7 @@
                       <input type="number" max="100" ng-model="curve.flatRate">
                       &nbsp; %
                       <button ng-click="applyFlatCurve()">Apply Curve</button>
-                      <button ng-show="addingCurve" ng-click="resetCurve()">
+                      <button ng-click="resetCurve()">
                         Remove Curve
                       </button>
                     </div>
@@ -94,7 +94,7 @@
                       <button ng-click="applyLinearCurve()">
                         Apply Curve
                       </button>
-                      <button ng-show="addingCurve" ng-click="resetCurve()">
+                      <ng-click="resetCurve()">
                         Remove Curve
                       </button>
 
@@ -110,7 +110,7 @@
                       <input type="number" max="100" ng-model="curve.flatRate">
                       &nbsp; %
                       <button ng-click="applyFlatCurve()">Apply Curve</button>
-                      <button ng-show="addingCurve" ng-click="resetCurve()">
+                      <button ng-click="resetCurve()">
                         Remove Curve
                       </button>
                     </div>
@@ -144,7 +144,7 @@
                       <button ng-click="applyLinearCurve()">
                         Apply Curve
                       </button>
-                      <button ng-show="addingCurve" ng-click="resetCurve()">
+                      <button ng-click="resetCurve()">
                         Remove Curve
                       </button>
                     </div>

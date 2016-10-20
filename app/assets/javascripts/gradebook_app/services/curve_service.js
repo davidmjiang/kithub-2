@@ -8,10 +8,6 @@ Gradebook.factory("CurveService", ["Restangular", function(Restangular) {
         assignment_id: assignmentId,
         flat_rate: flatRate
       }
-    }).then(function(response) {
-      console.log("response in service")
-      console.log(response)
-      return response
     })
   }
 
@@ -24,10 +20,6 @@ Gradebook.factory("CurveService", ["Restangular", function(Restangular) {
         curvedA: inputs.curvedA,
         curvedB: inputs.curvedB
       }
-    }).then(function(response) {
-      console.log("response in service")
-      console.log(response)
-      return response
     })
   }
 

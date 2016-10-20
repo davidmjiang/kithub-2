@@ -114,6 +114,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     rowData.push($scope.students[j].first_name)
     rowData.push($scope.students[j].last_name)
     rowData.push($scope.students[j].email)
+
     for(var i = 0; i < $scope.students[j].submissions.length; i++) {
       var rawScore = $scope.students[j].submissions[i].raw_score;
       var possibleScore = $scope.assignments[i].possible_score;
