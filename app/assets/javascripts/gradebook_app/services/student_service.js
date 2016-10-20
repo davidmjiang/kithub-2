@@ -38,7 +38,6 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
     for(var i = 0; i < createStudent.submissions.length; i ++) {
       response.push(createStudent.submissions[i].raw_score);
     }
-    response.push(0);
     return response;
   };
 
@@ -68,6 +67,7 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   }
 
   StudentService.removeStudent = function(student) {
+    console.log(student)
     return Restangular.one("students", student.id).remove()
   }
 
