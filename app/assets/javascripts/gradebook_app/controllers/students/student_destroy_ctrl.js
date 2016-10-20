@@ -8,8 +8,10 @@ Gradebook.controller("StudentDestroyCtrl", ["$scope", "course", "_", "StudentSer
 			for(var i = 0; i < $scope.students.length; i++) {
 				//Because one is a string and one is a number, '==' will check for equality without type
 				if($scope.students[i].id == studentId) {
+          var student_id = $scope.students[i].id
 					StudentService.removeStudent($scope.students[i]).then(function(removedStudent) {
-						$scope.students.splice(i, 1);
+            _.remove($scope.students, {id: student_id});
+						// $scope.students.splice(i, 1);
 						$rootScope.$broadcast("student.deleted", removedStudent);
 						$scope.close();
 					})
