@@ -17,20 +17,24 @@ Gradebook.factory("VisualService", ["Restangular", "_", function(Restangular, _)
 
   VisualService.assignmentAvg = function(assignment) {
     var sum = 0;
+    var possible = 0;
     for (var i = 0; i < assignment.submissions.length; i++) {
-      sum += VisualService.getPercent(assignment, assignment.submissions[i].raw_score)
+      sum += assignment.submissions[i].raw_score
+      possible += assignment.possible_score;
     }
-    return sum / assignment.submissions.length
+    return (sum / possible)*100
   };
 
   VisualService.studentAvg = function(student, assignments) {
     var sum = 0;
+    var possible = 0;
     for (var i = 0; i < student.submissions.length; i++) {
-      var submission = student.submissions[i];
+      var submission = student.submissions[i]
       var assignment = _.find(assignments, {'id': submission.assignment_id});
-      sum += VisualService.getPercent(assignment, submission.raw_score)
+      sum += submission.raw_score
+      possible += assignment.possible_score
     }
-    return sum / student.submissions.length
+    return (sum / possible)*100
   };
 
   VisualService.studentAverages = function(students, assignments) {
