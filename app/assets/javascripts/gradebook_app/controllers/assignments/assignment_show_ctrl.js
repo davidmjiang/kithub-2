@@ -305,7 +305,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.curveAlert = true;
     $timeout(function() {
       $scope.curveAlert = false;
-    }, 3000)
+    }, 4000)
   }
 
 }])
