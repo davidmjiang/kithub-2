@@ -54,7 +54,7 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
     response.push(createStudent.last_name);
     response.push(createStudent.email);
     for(var i = 0; i < createStudent.submissions.length; i ++) {
-      response.push(createStudent.submissions[i].raw_score);
+      response.push(createStudent.submissions[i].raw_score); // maybe add a filter here to get curved score (via submission.assignment.flat_curve or linear_curve)
     }
     return response;
   };
