@@ -9,14 +9,22 @@ Gradebook.controller("StudentNewCtrl", ["$scope", "course", "StudentService", "_
 	}
 
 	$scope.addStudent = function(student) {
-		student.course_ids = [course.id];
-		student.first_name = $scope.capitalize(student.first_name);
-		student.last_name = $scope.capitalize(student.last_name);
-		$scope.close();
-		StudentService.addStudent(student).then(function(newStudent) {
-			$rootScope.$broadcast('student.added', newStudent);
-			return newStudent;
-		})
+		for(var i = 0; i < $scope.course.students.length; i++) {
+			if($scope.course.students[i].email === student.email) {
+				alert("Someone in this course has that email. Try again")
+			}
+			else {
+				student.course_ids = [course.id];
+				student.first_name = $scope.capitalize(student.first_name);
+				student.last_name = $scope.capitalize(student.last_name);
+				$scope.close();
+				StudentService.addStudent(student).then(function(newStudent) {
+					$rootScope.$broadcast('student.added', newStudent);
+					return newStudent;
+				})	
+			}
+		}
+
 	}
 
 	$scope.close = function() {
