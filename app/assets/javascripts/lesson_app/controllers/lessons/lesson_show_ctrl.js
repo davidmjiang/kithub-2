@@ -3,6 +3,9 @@
 Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http', 'LessonStarService', 'currentTeacher', 'flash', '$timeout', "_",
   function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http, LessonStarService, currentTeacher, flash, $timeout, _) {
 
+  $scope.changeToIndexState = function(){
+    console.log("changing...")
+  };  
   $scope.lesson = lesson;
   $scope.owner = owner;
   $scope.draftTitle = $scope.lesson.title;

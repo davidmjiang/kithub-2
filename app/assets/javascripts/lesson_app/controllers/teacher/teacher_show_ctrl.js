@@ -12,7 +12,11 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 	$scope.stateHover = false;
 	$scope.imageHover = false;
 	$scope.saving = false;
+	$scope.changeToIndexState = function(){
+    console.log("changing...")
+  }; 
 
+  $scope.test = "Hello!" 
 	//show profile photo if there is one
 	if(teacher.avatar_file_name){
 		$scope.profile_photo = teacher.image;
