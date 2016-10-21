@@ -16,23 +16,19 @@
         Lesson Plan
       </a>
     </li>
-
+  {{ hey }}
     <li class="nav-item">
       <a class="nav-link"
           ui-sref="main.lessons.show.pullRequests"
           data-toggle="tab">
 
-          Pull Requests <span class="tag tag-default">{{ lesson.pull_requests_received.length }}</span>
+          Pull Requests <span class="tag tag-default">{{ pendingPRs }}</span>
         <span class="tag tag-pill tag-info">{{teacher.starred_lesson_plans}}</span>
       </a>
     </li>
 
   </ul>
 
-<!-- TODO: add check to see if current lesson belongs to current user
- -->
-
-
 <div ui-view='mainContainer' id="main-content"></div>
 
-</div> <!-- namespace wrapper  -->
+</div>

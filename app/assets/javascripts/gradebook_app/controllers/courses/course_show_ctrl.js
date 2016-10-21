@@ -75,6 +75,11 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
         students: $scope.students
       }
     }).then(function(modal) {
+      modal.element.one('hidden.bs.modal', function () {
+        if (!modal.controller.closed) {
+            modal.controller.closeModal();
+        }
+      })
       modal.element.modal();
       modal.close;
     })
@@ -208,6 +213,12 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
         students: $scope.students
       }
     }).then(function(modal) {
+
+      modal.element.one('hidden.bs.modal', function () {
+        if (!modal.controller.closed) {
+          modal.controller.closeModal();
+        }
+      });
       modal.element.modal();
       modal.close.then(function(response) {
 
