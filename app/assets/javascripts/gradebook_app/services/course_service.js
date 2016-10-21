@@ -64,8 +64,10 @@ Gradebook.factory('CourseService', ['Restangular', '$rootScope', function(Restan
 
   stub.updateCourse = function(params, course) {
     Restangular.restangularizeElement(null, course, 'courses');
-    course.patch(params).then(function(){
-      $rootScope.$broadcast('course.update')
+    course.patch(params).then(function(response){
+      var updatedCourse = _.find(_courses, { id: response.id })
+      var indexCourse = _.indexOf(_courses, updatedCourse)
+      _courses[indexCourse] = response;
     });
   }
 

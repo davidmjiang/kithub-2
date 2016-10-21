@@ -20,6 +20,22 @@
     <!-- {{course}} -->
   </div>
 </div>
+<p>The following students are failing (under 60%) your class:</p>
+<div class="failing-students">
+  <ul>
+    <li ng-repeat="(failingStudent, score) in failingStudents">{{failingStudent}} : {{score}}%
+    <button class="btn btn-primary">Notify Parent</button></li></ul>
+    </li></br>
+  </ul>
+</div>
+<p>The following students are doing exceptionally well(over 90%) in your class:</p>
+<div class="passing-students">
+  <ul>
+    <li ng-repeat="(exceptionalStudent, score) in exceptionalStudents">{{exceptionalStudent}} : {{score}}%
+    <button class="btn btn-primary">Notify Parent</button></li></ul>
+    </li></br>
+  </ul>
+</div>
 
 <p>Average GPA by raw score: <span>{{rawGPA | number:2}}%</span></p>
 <p>GPA with curve: <span>{{curvedGPA}}% </span></p>
