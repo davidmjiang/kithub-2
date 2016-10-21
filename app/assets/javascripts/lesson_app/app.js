@@ -63,8 +63,8 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 	$stateProvider
 	 .state('main',{
     url: '',
-    abstract: true,
     template: "<div ui-view></div>",
+    abstract: true,
 		resolve: {
 			currentUser: ['Auth', function(Auth){
             return Auth.currentUser()
@@ -88,8 +88,17 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 
 		.state('main.lessons', {
       url: '/lessons',
-      abstract: true,
+      abstract: true
 		})
+
+    .state('main.search', {
+      url: '/search',
+      params: {
+        title_cont: null
+      },
+      templateUrl: 'lesson_templates/lessons/search.html',
+      controller: 'SearchCtrl'
+    })
 
 		.state('main.lessons.show', {
       url: '/:id',
