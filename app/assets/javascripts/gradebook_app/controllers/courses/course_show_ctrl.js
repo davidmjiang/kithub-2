@@ -256,11 +256,12 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
   $scope.$on("student.added", function(event, response) {
     var data = StudentService.studentData(response)
+    console.log(response)
     $scope.rowCount ++;
     allRows.push(data);
     $scope.students.push(response);
     CourseService.sortRows($scope.allRows);
-    CourseService.sortStudents($scope.course.students);
+    StudentService.sortStudents($scope.course.students);
   })
 
   $scope.$on("assignment.edit", function(event, data) {
