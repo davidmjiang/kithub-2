@@ -1,6 +1,8 @@
 
 Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", "ModalService", "$state", "CourseService", "SubmissionService", function($scope, course, StudentService, AssignmentService, GPAService, ModalService, $state, CourseService, SubmissionService){
 
+  console.log($scope.students)
+  console.log($scope.allRows)
 
   var cols =[];
   var allRows= [];
