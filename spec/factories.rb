@@ -117,4 +117,21 @@ FactoryGirl.define do
     association :followed
   end
 
+  factory :flat_curve do 
+    flat_rate 12
+    assignment
+
+    trait :without_rate do 
+      flat_rate nil
+    end
+
+    trait :with_high_rate do 
+      flat_rate 120
+    end
+
+    trait :with_low_rate do
+      flat_rate -20
+    end
+  end
+
 end
