@@ -1,25 +1,30 @@
 #search-results{
   h2{
+    margin-top: 20px;
     text-align: center;
   }
   .filters{
-    position: fixed;
-    width: inherit;
-    h3 {
-      text-align: center;
+      position: fixed;
+      width: inherit;
+      h3 {
+        text-align: center;
+      }
+      h6{
+        display: inline-block;
+        font-size: 14px;
+      }
+      .rzslider {
+      width: 50%;
+      .rz-pointer {
+        height: 12px;
+        width: 12px;
+      }
+      .rz-bar-wrapper {
+        padding-top: 6px;
+      }
     }
-    .rzslider {
-    width: 50%;
-    .rz-pointer {
-      height: 12px;
-      width: 12px;
+    #clear-filters{
+      margin-top: 20px;
     }
-    .rz-bar-wrapper {
-      padding-top: 6px;
     }
   }
-  .select-container{
-    margin-top: 15px;
-  }
-  }
-}
