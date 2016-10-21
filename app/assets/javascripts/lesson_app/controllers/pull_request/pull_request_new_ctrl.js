@@ -44,7 +44,6 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
       });
 
     } else {
-      console.log(angular.element(document.querySelector('#newPRTitleInput')))
       angular.element(document.querySelector('#newPRTitleInput')).addClass('error');
     }
   };

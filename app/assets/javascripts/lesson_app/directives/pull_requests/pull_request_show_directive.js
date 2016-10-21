@@ -23,8 +23,12 @@ Lesson.directive("pullRequestShow",  [ "pullRequestService", "DiffService", 'Les
         scope.pullRequest.parent_plan.content = scope.pullRequest.forked_plan.content
         scope.pullRequest.parent_plan = Restangular.restangularizeElement(null, scope.pullRequest.parent_plan, "lesson_plans")
 
+        console.log(scope.pullRequest.forked_plan)
+        contributorData = { teacher_id: scope.pullRequest.forked_plan.teacher_id,
+                            lesson_plan_id: scope.pullRequest.parent_plan.id }
+
         LessonService.save(scope.pullRequest.parent_plan).then(function() {
-          pullRequestService.acceptChanges(scope.pullRequest, $stateParams.id)
+          pullRequestService.acceptChanges(scope.pullRequest, contributorData, $stateParams.id)
         });
       }
 
