@@ -18,7 +18,8 @@ json.assignments @course.assignments do |assignment|
   json.updated_at assignment.updated_at
 
   json.submissions assignment.submissions
-
+  json.flat_curve assignment.flat_curve
+  json.linear_curve assignment.linear_curve
   json.has_curve assignment.has_curve
 end
 
