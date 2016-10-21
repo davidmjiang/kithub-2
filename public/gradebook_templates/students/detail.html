@@ -9,7 +9,7 @@
         <h2>{{student.first_name}} {{student.last_name}}</h2>
         <p>
           <span>{{student.email}}</span>
-          <span style="float: right">Overall: {{overall}}%</span>
+          <span style="float: right">Overall: {{overall | number:2}}%</span>
         </p>
 
         <canvas id="bar" class="chart chart-bar"
