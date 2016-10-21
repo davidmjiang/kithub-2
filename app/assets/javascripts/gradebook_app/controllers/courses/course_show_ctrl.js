@@ -1,17 +1,18 @@
 
 Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", "ModalService", "$state", "CourseService", "SubmissionService", function($scope, course, StudentService, AssignmentService, GPAService, ModalService, $state, CourseService, SubmissionService){
 
-  console.log($scope.students)
-  console.log($scope.allRows)
 
   var cols =[];
   var allRows= [];
+  $scope.failingStudents = {};
+  $scope.exceptionalStudents = {}
 
   $scope.course = course;
 
   $scope.rawGPA = GPAService.rawGPA(course);
   $scope.students = $scope.course.students;
 
+  
 
   StudentService.sortSubmissions($scope.course.students);
 
@@ -121,25 +122,59 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     rowData = [];
   }
 
-  $scope.showScore = function(j) {
-    $scope.students = StudentService.sortStudents($scope.course.students);
-    if (j > -1) {
-    var rawTotal = 0;
-    var possibleTotal = 0;
-    for (var i = 0; i < $scope.assignments.length; i++) {
-      var rawScore = $scope.students[j].submissions[i].raw_score;
-      var possibleScore = $scope.assignments[i].possible_score;
-      //Put default value here;
-      if(rawScore === -1) {
-      }
-      else {
-        rawTotal += rawScore;
-        possibleTotal += possibleScore;
+  //Go through the failing students and remove now passing students
+  $scope.removePassingStudents = function(passingStudent) {
+    for(key in $scope.failingStudents) {
+      if (key === passingStudent) {
+        delete $scope.failingStudents[key];
       }
     }
-    return Number(rawTotal / possibleTotal * 100).toFixed(2);
   }
-}
+
+  $scope.removeExceptionalStudents = function(notExceptionalStudent) {
+    for(key in $scope.exceptionalStudents) {
+      if (key === notExceptionalStudent) {
+        delete $scope.exceptionalStudents[key];
+      }
+    }
+  }
+
+  $scope.showScore = function(j) {
+    //Get the overall score of all the students
+    $scope.students = StudentService.sortStudents($scope.course.students);
+    if (j > -1) {
+      var rawTotal = 0;
+      var possibleTotal = 0;
+      for (var i = 0; i < $scope.assignments.length; i++) {
+        var rawScore = $scope.students[j].submissions[i].raw_score;
+        var possibleScore = $scope.assignments[i].possible_score;
+        //Put default value here;
+        if(rawScore === -1) {
+        }
+        else {
+          rawTotal += rawScore;
+          possibleTotal += possibleScore;
+        }
+      } 
+      //Get all of the failing students and put it in an object for display to the teacher
+      if((Number(rawTotal / possibleTotal * 100).toFixed(2)) < 60) {
+        var failingStudent = $scope.students[j].first_name + " " + $scope.students[j].last_name;
+        $scope.failingStudents[failingStudent] = Number(rawTotal / possibleTotal * 100).toFixed(2);
+        $scope.removeExceptionalStudents(failingStudent);
+      }
+      //Remove students who were failing and are no longer failing
+      else if((Number(rawTotal / possibleTotal * 100) > 60) && (Number(rawTotal / possibleTotal * 100) < 90)) {
+        var passingStudent = $scope.students[j].first_name + " " + $scope.students[j].last_name;
+        $scope.removePassingStudents(passingStudent);
+      }
+      //Get all exceptional students and put them in an object to display to the teacher
+      else if((Number(rawTotal / possibleTotal * 100)) > 90) {
+        var exceptionalStudent = $scope.students[j].first_name + " " + $scope.students[j].last_name;
+        $scope.exceptionalStudents[exceptionalStudent] = Number(rawTotal / possibleTotal * 100).toFixed(2);
+      }
+    return Number(rawTotal / possibleTotal * 100).toFixed(2);
+    }
+  }
       
 
 

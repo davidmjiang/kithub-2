@@ -308,4 +308,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     }, 3000)
   }
 
+  $scope.failingStudents = function() {
+    
+  }
+
 }])
