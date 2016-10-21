@@ -5,9 +5,10 @@ Lesson.controller('NavCtrl', ['$scope', '$state',
 
   $scope.search = function(params){
     $state.go('main.search', {title_cont: $scope.term, content_cont: $scope.term})
+    $scope.term = "";
   }; 
 
-  
+
 
 
 
