@@ -14,15 +14,15 @@
 
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" href="#stat" role="tab" data-toggle="tab" target="_self"><small>Assignment Stats</small></a>
+            <a class="nav-link active" href="#student" role="tab" data-toggle="tab" target="_self"><small>Student Scores</small></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#student" role="tab" data-toggle="tab" target="_self"><small>Student Scores</small></a>
+            <a class="nav-link" href="#stat" role="tab" data-toggle="tab" target="_self"><small>Assignment Stats</small></a>
           </li>
         </ul>
 
         <div class="tab-content">
-          <div role="tabpanel" class="tab-pane fade in active" id="stat">
+          <div role="tabpanel" class="tab-pane fade" id="stat">
             <div class="row">
               <div class="col-sm-6">  
                 <h4>{{assignment.assignment_type | capitalize }}</h4>
@@ -57,9 +57,9 @@
                
                     <div ng-if="curveType==='Flat'">
                       <label>By what percent would you like to increase scores?</label>
-                      <input type="number" max="100" ng-model="curve.flatRate">
+                      <input type="number" max="100" min="0" ng-model="curve.flatRate">
                       &nbsp; %
-                      <button ng-click="applyFlatCurve()">Apply Curve</button>
+                      <button ng-click="applyFlatCurve(); updateData()">Apply Curve</button>
                       <button ng-click="resetCurve()">
                         Remove Curve
                       </button>
@@ -154,19 +154,43 @@
               </div>
             </div>
           </div>
-          <div role="tabpanel" class="tab-pane fade" id="student">
+          <div role="tabpanel" class="tab-pane fade in active" id="student">
+
             <div class="row">
               <div class="col-xs-12">
                 <canvas id="bar" class="chart chart-bar" chart-data="scoreData" chart-labels="scoreLabels" chart-options="opts"> chart-series="series"
                 </canvas>
               </div>
-            </div>       
+            </div>
+            
+            <div class="row">
+              <div class="col-xs-12">
+
+                <label style="font-size: 20px">Apply Curve: </label>
+                <select ng-model="curveType">
+                  <option value="Flat">Flat</option>
+                  <option value="Linear">Linear</option>
+                </select>
+
+                <div ng-if="curveType==='Flat'">
+                  <label>By what percent would you like to increase scores?</label>
+                  <input type="range" max="100" min="0" ng-model="curve.flatRate">
+                  <span> {{curve.flatRate}}%</span>
+                  <div style="text-align: center">
+                    <button class="btn btn-success" ng-click="saveChanges(); alertShow()">Apply Curve</button>
+                    <button class="btn btn-danger" ng-click="resetCurve(); resetData()">Remove Curve</button>
+                    <span ng-show="curveAlert">Curve has been applied.</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="saveChanges()" data-dismiss="modal">Save</button>
+        <button class="btn btn-primary" ng-click="close()" data-dismiss="modal">Done</button>
       </div>
     </div>
   </div>
