@@ -36,11 +36,17 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
       })
   }
 
-  $scope.createNewPullRequest = function() {
-    pullRequestService.createNewPullRequest($scope.newPR, $stateParams.id).then(function(response) {
-      $scope.prSent.push(response)
-    });
+  $scope.createNewPullRequest = function(valid) {
+    if(valid){
+      pullRequestService.createNewPullRequest($scope.newPR, $stateParams.id).then(function(response) {
+        $scope.prSent.push(response)
+        angular.element(document.querySelector('#newPRModal' + $scope.newPR.forked_plan_id)).modal('hide');
+      });
 
+    } else {
+      console.log(angular.element(document.querySelector('#newPRTitleInput')))
+      angular.element(document.querySelector('#newPRTitleInput')).addClass('error');
+    }
   };
 
 }]);

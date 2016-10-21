@@ -22,4 +22,12 @@
     height: 400px;
     overflow-y: auto;
   }
+
+  .ng-invalid.ng-dirty {
+    border-color: red;
+  }
+
+  .error {
+    border-color: red;
+  }
 }
