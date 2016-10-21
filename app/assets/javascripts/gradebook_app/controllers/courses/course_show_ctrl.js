@@ -153,6 +153,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   }
 
   $scope.submitEdit = function(row, item, index) {
+    var assignmentId = $scope.assignments[index - 4].id
     var rowIndex = $scope.allRows.indexOf(row);
     if(index > 0 && index < 4) {
       var student = $scope.students[rowIndex];
@@ -162,7 +163,12 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       var submission;
       for(var i = 0; i < $scope.students.length; i ++) {
         if($scope.students[i].id == row[0]) {
-          var submission = $scope.students[i].submissions[index - 4];
+          for(var j = 0; j < $scope.students[i].submissions.length; j++) {
+            if($scope.students[i].submissions[j].assignment_id == assignmentId) {
+              var submission = $scope.students[i].submissions[j]
+            }
+          }
+          
         }
       }
       submission.raw_score = parseInt(item);
