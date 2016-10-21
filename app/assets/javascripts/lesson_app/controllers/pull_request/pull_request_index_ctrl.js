@@ -1,10 +1,7 @@
-angular.module('Lesson').controller('PullRequestIndexCtrl', ['$scope', 'currentUser', "pullRequestService",  function($scope, currentUser, pullRequestService){
+angular.module('Lesson').controller('PullRequestIndexCtrl', ['$scope', 'currentUser', "pullRequestService", "_", "pullRequests", function($scope, currentUser, pullRequestService, _, pullRequests){
 
   $scope.pullRequests = pullRequestService.getPullRequests();
+
   $scope.currentUser = currentUser.id
-
-  // LessonService.getLesson($stateParams.id).then(function(response){
-  //   $scope.lessonBelongsToCurrentUser = (currentUser.id === response.teacher_id)
-  // })
-
+   $scope.pendingPRs = _.filter($scope.pullRequests, function(pr) { console.log(pr); pr.status === "pending" }).length;
 }]);
