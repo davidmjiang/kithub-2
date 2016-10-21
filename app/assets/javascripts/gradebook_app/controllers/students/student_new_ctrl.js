@@ -12,8 +12,9 @@ Gradebook.controller("StudentNewCtrl", ["$scope", "course", "StudentService", "_
 		for(var i = 0; i < $scope.course.students.length; i++) {
 			if($scope.course.students[i].email === student.email) {
 				alert("Someone in this course has that email. Try again")
+				break;
 			}
-			else {
+			else if(i === $scope.course.students.length - 1) {
 				student.course_ids = [course.id];
 				student.first_name = $scope.capitalize(student.first_name);
 				student.last_name = $scope.capitalize(student.last_name);
@@ -24,7 +25,6 @@ Gradebook.controller("StudentNewCtrl", ["$scope", "course", "StudentService", "_
 				})	
 			}
 		}
-
 	}
 
 	$scope.close = function() {
