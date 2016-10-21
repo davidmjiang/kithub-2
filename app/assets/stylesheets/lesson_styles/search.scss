@@ -1,0 +1,25 @@
+#search-results{
+  h2{
+    text-align: center;
+  }
+  .filters{
+    position: fixed;
+    width: inherit;
+    h3 {
+      text-align: center;
+    }
+    .rzslider {
+    width: 50%;
+    .rz-pointer {
+      height: 12px;
+      width: 12px;
+    }
+    .rz-bar-wrapper {
+      padding-top: 6px;
+    }
+  }
+  .select-container{
+    margin-top: 15px;
+  }
+  }
+}
