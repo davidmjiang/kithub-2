@@ -47,9 +47,9 @@ This feature is useful incase a student has not yet handed in an assignment or i
     </thead>
       <tbody>
         <tr ng-repeat="row in allRows track by $index | limitTo: rowCount">
-            <td ng-submit="submitEdit(row, item, $index)" ng-repeat="item in row track by $index | limitTo: colCount ">
+            <td class="styling-grades" ng-submit="submitEdit(row, item, $index)" ng-repeat="item in row track by $index | limitTo: colCount ">
 
-              {{percentScore(item, $index)}}<a href="#" onbeforesave="checkItem($index, $data)" editable-text="item"> {{isItemScore(item, $index)}}</a>
+             {{percentScore(item, $index)}}<a href="#" onbeforesave="checkItem($index, $data)" editable-text="item"> {{isItemScore(item, $index)}}</a>
           </td>
           <td>{{showScore(allRows.indexOf(row))}}</td>
           <td><a ng-click="studentDetailModal(row[3], row[row.length - 1])">Details</a></td>
