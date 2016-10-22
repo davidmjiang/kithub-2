@@ -64,11 +64,10 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
               url: '/api/v1/lesson_plans.json',
               data: { file: file, lesson_plan: lesson }
       }).then( function(response) {
-
-        pushToUserLessons(response);
+        pushToUserLessons(response.data);
 
         // returns lesson object
-        return response;
+        return response.data;
 
     });
   };
@@ -91,10 +90,10 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
   };
 
   lessonService.setFlash = function(className, message) {
-    flash(className, message)
-        $timeout(function(){
-          $('.alert').fadeOut(500);
-        }, 2000)
+    flash(className, message);
+    $timeout(function(){
+      $('.alert').fadeOut(500);
+    }, 2000);
   };
 
 
