@@ -294,6 +294,16 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     return score.percent.toFixed(2);
   })];
 
+  var assignmentDistribution = VisualService.gradeDistribution(_scores)
+  $scope.assignmentLabels = _.map(assignmentDistribution, function(amount, grade){return grade});
+  $scope.assignmentData = _.map(assignmentDistribution, function(amount, grade){return amount});
+  $scope.colors = ['#4caf50', '#81c784', '#c8e6c9', '#ef9a9a', '#f44336']
+
+  $scope.pieOpts = {
+    legend: { display: true },
+    showTooltips: true,
+  };
+
   $scope.updateData = function() {
     angular.copy([_.map(_scores, function(score){
     var updatedScore = score.percent + $scope.curve.flatRate;
