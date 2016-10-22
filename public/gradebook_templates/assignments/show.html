@@ -19,6 +19,9 @@
           <li class="nav-item">
             <a class="nav-link" href="#stat" role="tab" data-toggle="tab" target="_self"><small>Assignment Stats</small></a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#grade" role="tab" data-toggle="tab" target="_self"><small>Grade Distribution</small></a>
+          </li>
         </ul>
 
         <div class="tab-content">
@@ -224,8 +227,16 @@
               </div>
             </div>
           </div>
+
+          <div role="tabpanel" class="tab-pane fade" id="grade">
+            <canvas id="pie" class="chart chart-pie" chart-data="assignmentData" chart-labels="assignmentLabels" chart-options="pieOpts" chart-colors="colors"> chart-series="series"
+            </canvas>
+          </div>
+          
         </div>
       </div>
+
+      
 
       <div class="modal-footer">
         <button class="btn btn-primary" ng-click="close()" data-dismiss="modal">Done</button>
