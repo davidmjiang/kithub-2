@@ -1,3 +1,5 @@
+require 'doc_convert'
+
 class LessonPlansController < ApplicationController
 
   # Gets all lesson plans for all teachers and returns them in JSON object
@@ -35,6 +37,11 @@ class LessonPlansController < ApplicationController
   # Creates a new lesson based on API call from App. Responds with the newly created lesson if successful, responds with error message and status if not.
   def create
     @lesson = current_teacher.lesson_plans.build(lesson_plan_params)
+
+    if params[:file]
+      file = params[:file]
+      @lesson.content = DocConvert.docx_to_markdown(file.tempfile.path)
+    end
 
     respond_to do |format|
       if @lesson.save
