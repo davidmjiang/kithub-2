@@ -1,5 +1,5 @@
-Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherService', '_', 'flash', '$timeout',
-  function(Restangular, pullRequestService, TeacherService, _, flash, $timeout) {
+Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherService', '_', 'flash', '$timeout', 'Upload',
+  function(Restangular, pullRequestService, TeacherService, _, flash, $timeout, Upload) {
 
   var lessonService = {};
 
@@ -48,11 +48,25 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
 
   lessonService.create = function(newLesson) {
     return Restangular.all('lesson_plans').post(newLesson).then(function(response) {
-        // sets initial value for stars and forks
-        // response.stars = 0;
-        // response.forks = 0;
 
         pushToUserLessons(response);
+
+        // returns lesson object
+        return response;
+
+    });
+  };
+
+  // same as create, but sends along a file to convert
+  lessonService.upload = function (lesson, file) {
+
+    return Upload.upload({
+              url: '/api/v1/lesson_plans.json',
+              data: { file: file, lesson_plan: lesson }
+      }).then( function(response) {
+
+        pushToUserLessons(response);
+
         // returns lesson object
         return response;
 

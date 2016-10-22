@@ -139,6 +139,7 @@ GEM
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
     orm_adapter (0.5.0)
+    pandoc-ruby (2.0.1)
     paperclip (5.0.0)
       activemodel (>= 4.2.0)
       activesupport (>= 4.2.0)
@@ -275,6 +276,7 @@ DEPENDENCIES
   jquery-ui-rails
   letter_opener
   listen (~> 3.0.5)
+  pandoc-ruby
   paperclip (~> 5.0.0)
   pg (~> 0.18)
   pry
