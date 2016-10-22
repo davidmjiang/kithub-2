@@ -13,12 +13,23 @@ Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList",
           // add the new class to the scope, or get all classes
         }
           // remove leftover modal DOM elements if necessary
-      })
+        })
     })
   }
 
-      $scope.kids = [{firstName: "Moroni", lastName: "Wilks", email: "foobar1@gmail.com", assignments: [{type: "homework", score: 50}]}];
+  // is this used?
+  $scope.kids = [{firstName: "Moroni", lastName: "Wilks", email: "foobar1@gmail.com", assignments: [{type: "homework", score: 50}]}];
   $scope.tableParams = new NgTableParams({page: 1, count: 10}, { dataset: $scope.kids});
 
+
+  // data viz: line graphs of each course's GPA over time 
+
+  // get first course
+  // 
+  $scope.course = $scope.courses[0]
+
+  $scope.lineData =  [{
+
+  }];
 
 }])

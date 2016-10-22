@@ -1,67 +1,32 @@
-Gradebook.directive('d3Bars', ['d3Service', '$window', function(d3Service, $window) {
-    return {
-      restrict: "EA",
-      scope: {},
-      link: function(scope, element, attrs) {
-        d3Service.d3().then(function(d3) {
-          var svg = d3.select(element[0])
-                      .append("svg")
-                      .style("width", "100%");
+Gradebook.directive('d3Line', ['$window', function($window) {
+  return {
+    restrict: "EA",
+    scope: {},
+    link: function(scope, element, attrs) {
 
-          var margin = parseInt(attrs.margin) || 20,
-              barHeight = parseInt(attrs.barHeight) || 20,
-              barPadding = parseInt(attrs.barPadding) || 5;                 
+      var d3 = $window.d3
 
-          window.onresize = function() {
-            scope.$apply();
-          }
+      var svg = d3.select(element[0])
+          .append("svg")
 
-          scope.data = [
-            {name: "Greg", score: 98},
-            {name: "Ari", score: 96},
-            {name: 'Q', score: 75},
-            {name: "Loser", score: 48}
-          ]
+      var margin = {top: 20, right: 20, bottom: 50, left: 70},
+          width = 960 - margin.left - margin.right,
+          height = 500 - margin.top - margin.bottom
 
-          scope.$watch(function() {
-            return angular.element($window)[0].innerWidth;
-          }, function() {
-            scope.render(scope.data);
-          })
+      var parseTime = d3.timeParse("%d-%b-%y")
 
-          scope.render = function(data) {
-            svg.selectAll("*").remove(); // remove previous items
-            if (!data) return;
+      var x = d3.scaleTime().range([0, width]);
+      var y = d3.scaleLinear().range([height,0]);
 
-            var width = d3.select(element[0]).node().offsetWidth - margin,
-                height = scope.data.length * (barHeight + barPadding),
-                color = d3.scale.category20(),
-                xScale = d3.scale.linear()
-                  .domain([0, d3.max(data, function(d) {
-                    return d.score;
-                  })])
-                  .range([0, width]);
+      svg.attr('width', width + margin.left + margin.right)
+         .attr('height', height + margin.top + margin.bottom)
+         .append('g')
+            .attr('transform', 'translate(' + margin.left + ", " + margin.top + ")");
 
-            svg.attr('height', height);
-
-            svg.selectAll('rect').data(data)
-              .enter()
-                .append('rect')
-                .attr('height', barHeight)
-                .attr('width', 140)
-                .attr('x', Math.round(margin/2))
-                .attr('y', function(d,i) {
-                  return i * (barHeight + barPadding);
-                })
-                .attr('fill', function(d) { return color(d.score); })
-                .transition()
-                  .duration(1000)
-                  .attr('width', function(d) {
-                    return xScale(d.score);
-                  })
-          }
-
-        })
+      var data = attrs.data
+        
+      }
       }
     }
-  }]);
+  }
+}]);

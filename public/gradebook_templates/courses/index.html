@@ -1,7 +1,5 @@
 <button ng-click="showNewCourseModal()">Add Course</button>
 
-<!-- <a ui-sref="gradebook.dataVisuals">Compare your students' GPAs by course</a> -->
-
 <div class='row'>
   <h1>Your courses</h1>
   <div class="col-xs-4" ng-repeat="course in courses">
@@ -15,5 +13,15 @@
     <div class="new-course" ng-click="showNewCourseModal()">
     <p>Create new course..</p>
     </div>
+  </div>
+</div>
+
+{{course}}
+
+<div class="row">
+  <div class="col-xs-12">
+  <!-- ng-repeat over d3-line directive with inputs as array of objects -->
+  <!-- where each object has time and average-curved-GPA attributes -->
+    <div d3-line data="{{lineData}}" bar-height="20" bar-padding="5"></div>
   </div>
 </div>
