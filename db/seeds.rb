@@ -180,7 +180,7 @@ class Gradebook
 
   def assign_students_to_courses
     @all_courses.each do |course|
-      course.students = @students.dup.shuffle[0..rand(18..MAX_CLASS_SIZE)]
+      course.students = @students.dup[0..MAX_CLASS_SIZE]
     end
   end
 
@@ -196,6 +196,7 @@ class Gradebook
     end
   end
 
+  # fix distribution so that scores tend towards 80-90 % of possible_score
   def create_submissions_for_assignments
     @all_courses.each do |course|
       course.assignments.each do |assignment|

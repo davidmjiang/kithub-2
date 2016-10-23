@@ -1,4 +1,4 @@
-Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList", "CourseService", "NgTableParams", function($scope, ModalService, courseList, CourseService, NgTableParams) {
+Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList", "CourseService", "NgTableParams", "VisualService", function($scope, ModalService, courseList, CourseService, NgTableParams, VisualService) {
 
   $scope.courses = courseList;
 
@@ -26,10 +26,8 @@ Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList",
 
   // get first course
   // 
-  $scope.course = $scope.courses[0]
+  $scope.coursesData = VisualService.coursesPerformanceOverTime($scope.courses)
 
-  $scope.lineData =  [{
-
-  }];
+  
 
 }])

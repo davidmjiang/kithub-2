@@ -12,6 +12,10 @@ json.array! @courses do |course|
     json.course_id assignment.course_id
     json.created_at assignment.created_at
 
+    json.has_curve assignment.has_curve
+    json.flat_curve assignment.flat_curve
+    json.linear_curve assignment.linear_curve
+
     json.submissions assignment.submissions do |submission|
       json.assignment_id submission.assignment_id
       json.student_id submission.student_id

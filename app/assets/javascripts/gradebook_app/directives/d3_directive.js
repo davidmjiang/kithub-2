@@ -26,7 +26,5 @@ Gradebook.directive('d3Line', ['$window', function($window) {
       var data = attrs.data
         
       }
-      }
     }
-  }
 }]);
