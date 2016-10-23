@@ -16,12 +16,10 @@
   </div>
 </div>
 
-{{coursesData}}
+{{lineData}}
 
 <div class="row">
   <div class="col-xs-12">
-  <!-- ng-repeat over d3-line directive with inputs as array of objects -->
-  <!-- where each object has time and average-curved-GPA attributes -->
-    <div d3-line data="{{lineData}}" bar-height="20" bar-padding="5"></div>
+    <div d3-line lineData></div>
   </div>
 </div>
