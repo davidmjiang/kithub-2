@@ -16,10 +16,9 @@
   </div>
 </div>
 
-{{lineData}}
-
 <div class="row">
-  <div class="col-xs-12">
-    <div d3-line lineData></div>
+  <div class="col-xs-12" ng-repeat="course in coursesData">
+  <p>{{courses[$index].title}}</p>
+    <div d3-line index="{{$index}}"></div>
   </div>
 </div>
