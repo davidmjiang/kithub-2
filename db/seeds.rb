@@ -22,6 +22,7 @@ assignment_type = ['test', 'quiz', 'homework', 'project']
 subjects = ['Geometry', 'Home Economics', 'English', 'Spanish', 'Physics', 'Chemistry', 'Trigonometry', 'Art', 'Computer Science']
 
 
+
 puts 'creating tags'
 5.times do
   Tag.create(name: Faker::Music.instrument)
@@ -126,9 +127,6 @@ end
 
 
 
-
-
-
 puts 'creating sample gradebook'
 
 class Gradebook 
@@ -145,6 +143,7 @@ class Gradebook
     assign_students_to_courses
     create_assignments_for_courses
     create_submissions_for_assignments
+    distribute_assignment_dates
   end
 
 
@@ -196,20 +195,39 @@ class Gradebook
     end
   end
 
-  # fix distribution so that scores tend towards 80-90 % of possible_score
+  # scores follow a gaussian (normal) distribution with a mean of 78
   def create_submissions_for_assignments
     @all_courses.each do |course|
       course.assignments.each do |assignment|
+        mean = rand(50..100)
         course.students.each do |student|
-          # if rand(0..100) < 90  
-            student.submissions.create(assignment_id: assignment.id,
-                      raw_score: rand(0..assignment.possible_score ))
-          # end
+          deviation = 101 - mean
+          norm = Rubystats::NormalDistribution.new(mean, deviation)
+          raw_percent = norm.rng
+          raw_percent = 100 if raw_percent > 100
+          raw_score = (raw_percent/100 * assignment.possible_score).floor
+          student.submissions.create(assignment_id: assignment.id,
+                      raw_score: raw_score)
         end
+      end
+    end
+  end
+
+  def distribute_assignment_dates
+    @all_courses.each do |course|
+      course.assignments.each_with_index do |assignment, index|
+        new_date = Date.today - (180 * index/course.assignments.length).days
+        assignment.created_at = new_date
+        assignment.save
       end
     end
   end
 
 end
 
+
 Gradebook.new.fake_gradebook_data
+
+
+
+

@@ -83,20 +83,10 @@ Gradebook.factory("VisualService", ["Restangular", "_", "CurveService", function
     }
   }
 
+  // returns average % performance after curve to date by averaging each 
+  // assignment's submissions' curved percent scores (note: works using
+  // assignment average curved % scores, not student average scores)
   VisualService.classAvgPerformanceToDate = function(course, date) {
-    // declare a variable "classPointsEarned" and set it to 0
-    // delcare a variable "classPointsPossible" and set it to 0
-    // iterate over course.assignments
-        // declare a variable "scores", an empty array
-        // iterate over assignment.submissions
-            // divide submission.raw_score by assignment.possible_score to get rawPercent
-            // run rawPercent through curve function (if any)
-            // add post-curve (if any) score to scores array
-        // sum "scores" and divide by scores.length to get classAvgPerformance for that assignment
-        // multiply that by assignment.possible_score to get curvedAvgPoints for that assignment
-        // increment classPointsEarned by curvedAvgPoints
-        // increment classPointsPossible by assignment.possible_score
-    // return classPointsEarned divided by classPointsPossible
     var classPointsEarned = 0,
         classPointsPossible = 0
     _.each(course.assignments, function(assignment) {
@@ -121,10 +111,8 @@ Gradebook.factory("VisualService", ["Restangular", "_", "CurveService", function
   VisualService.coursesPerformanceOverTime = function(courses) {
     var coursesData = []
     _.each(courses, function(course) {
-      console.log("each course")
       var courseData = []
       _.each(course.assignments, function(assignment) {
-        console.log("each course's assignment")
         var assignmentData = {}
         assignmentData.date = assignment.created_at
         assignmentData.class_performance = VisualService.classAvgPerformanceToDate(course, assignment.created_at)
