@@ -1,9 +1,9 @@
 class CoursesController < ApplicationController
 
   def index
-    @courses = Course.includes({
-      :assignments => :submissions
-      }).where("teacher_id = ?", current_teacher.id)
+    @courses = Course.includes(
+      {:assignments => [:submissions, :flat_curve, :linear_curve]}
+      ).where("teacher_id = ?", current_teacher.id)
   end
 
   def show
