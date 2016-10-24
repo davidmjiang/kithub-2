@@ -6,10 +6,6 @@ Lesson.directive('lessonCard', [
       scope: {
         lesson: "=",
         notTeacherShow: "="
-      },
-      link: function(scope){
-        console.log(scope.notTeacherShow)
-        console.log(scope.lesson)
       }
     };
   }
