@@ -9,10 +9,11 @@ Rails.application.routes.draw do
   		resources :teachers
       resources :students
       resources :courses
+      resources :searches, only: [:index]
       resources :comments, only: [:create, :destroy]
       resources :assignments, only: [:create, :update]
       resources :submissions, only: [:create, :index, :update]
-      resources :lesson_plans, only: [:index, :create, :show, :update] do
+      resources :lesson_plans, only: [:index, :create, :show, :update, :destroy] do
         resources :pull_requests, only: [:index, :create, :update]
         resources :additional_materials, only: [:index, :create]
         resources :lesson_plan_stars, only: [:create, :destroy]

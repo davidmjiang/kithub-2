@@ -29,15 +29,20 @@
         </ul>
       <% end %>
       <% if controller_name == 'kithub' %>
-        <form class="form-inline center-form">
-          <input class="form-control" type="text" placeholder="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        <div class="form-inline center-form" ng-controller="NavCtrl">
+          <input class="form-control" type="text" ng-model="term" placeholder="Search">
+          <select id="search-type-select" ng-model="searchType" class="selectpicker">
+            <option value="title">Title</option>
+            <option value="content">Content</option>
+            <option value="name">User</option>
+          </select>
+          <button class="btn btn-outline-success" ng-click="search()">Search</button>
+        </div>
       <% end %>
       <ul class="nav navbar-nav pull-xs-right">
       <% if teacher_signed_in? %>
         <li class="nav-item">
-          <a class="nav-link" href="" ><%= current_teacher.first_name %></a>
+          <a class="nav-link" href="<%= root_path %>"><%= current_teacher.first_name %></a>
         </li>
         <li class="nav-item">
           <%= link_to "Logout",  destroy_teacher_session_path, method: :delete, class: "nav-link" %>

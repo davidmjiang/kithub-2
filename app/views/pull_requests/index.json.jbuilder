@@ -17,6 +17,7 @@ json.array! @pull_requests do |pr|
     json.title pr.forked_plan.title
     json.content pr.forked_plan.content
     json.version pr.forked_plan.version
+    json.teacher_id pr.forked_plan.teacher_id
   end
 
   json.comments pr.comments do |comment|
