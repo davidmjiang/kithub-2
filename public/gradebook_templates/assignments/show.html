@@ -191,37 +191,43 @@
                 </div>
 
                 <div ng-if="curveType==='Linear'">
-                  <p>Pick two raw score percent values (for example, the mean score and the lowest score), then choose what you'd like those values to become. </p>
-                  <label>Score A (original):</label>
-                  <input class=""
-                          type="number"
-                          max="100"
-                          min="0"
-                          ng-model="curve.rawA">
-                  <label>Score A (curved):</label>
-                  <input class="" 
-                          type="number" 
-                          max="100" 
-                          min="0" 
-                          ng-model="curve.curvedA"><br>
-                  <label>Score B (original):</label>
-                  <input class="" 
-                          type="number" 
-                          max="100" 
-                          min="0" 
-                          ng-model="curve.rawB">
-                  <label>Score B (curved):</label>
-                  <input class="" 
-                          type="number" 
-                          max="100" 
-                          min="0" 
-                          ng-model="curve.curvedB"><br>
-                  <button class="btn btn-success" ng-click="applyLinearCurve()">
-                    Apply Curve
-                  </button>
-                  <button class="btn btn-danger" ng-click="resetCurve()">
-                    Remove Curve
-                  </button>
+                  <p>Pick two raw score percent values (for example, the highest and lowest scores), then choose how much to increase those scores.</p>
+                  <form name="linearForm">
+                    <label>Low Score (original):</label>
+                    <input  type="number"
+                            max="100"
+                            min="0"
+                            ng-model="curve.rawA"
+                            required>
+                    <label>Low Score (curved):</label>
+                    <input  type="range"
+                            max="100" 
+                            min="0"
+                            ng-show="curve.rawA >= 0 ? true : false"
+                            ng-model="curve.slideA"
+                            required><span> {{curve.slideA}}%</span><br>
+                    <label>High Score (original):</label>
+                    <input  type="number"
+                            max="100" 
+                            min="0" 
+                            ng-model="curve.rawB"
+                            required>
+                    <label>High Score (curved):</label>
+                    <input  type="range"
+                            max="100" 
+                            min="0"
+                            ng-show="curve.rawB >= 0 ? true : false"
+                            ng-model="curve.slideB"
+                            required><span> {{curve.slideB}}%</span><br>
+                    <div style="text-align: center">
+                      <button class="btn btn-success" ng-disabled="linearForm.$invalid" ng-click="applyLinearCurve()">
+                        Apply Curve
+                      </button>
+                      <button class="btn btn-danger" ng-click="resetCurve()">
+                        Remove Curve
+                      </button>
+                    </div>
+                  </form>
                 </div>
 
               </div>

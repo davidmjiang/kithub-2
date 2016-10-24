@@ -9,7 +9,11 @@ Gradebook.factory("CurveService", ["Restangular", function(Restangular) {
   }
 
   stub.linearFormula = function(input, rawPercent) {
-    return input.curvedA + (((input.curvedB - input.curvedA)/(input.rawB - input.rawA)) * (rawPercent - input.rawA));
+    if (input.rawB - input.rawA === 0) {
+      return rawPercent;
+    } else {
+      return input.curvedA + (((input.curvedB - input.curvedA)/(input.rawB - input.rawA)) * (rawPercent - input.rawA));
+    }
   }
 
   stub.applyFlatCurve = function(flatRate, assignmentId) {
