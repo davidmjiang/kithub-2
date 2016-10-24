@@ -1,14 +1,16 @@
 "use strict";
 
-Lesson.controller('SearchCtrl', ['$scope', '$state', 'currentUser', '$stateParams', 'Restangular', 'LessonService', 
-  function($scope, $state, currentUser, $stateParams, Restangular, LessonService) {
+Lesson.controller('SearchCtrl', ['$scope', '$state', 'currentUser', '$stateParams', 'Restangular', 'SearchService', 'LessonService', 
+  function($scope, $state, currentUser, $stateParams, Restangular, SearchService, LessonService) {
 
     if ($stateParams.searchType === "name") {
       $scope.teachers = Restangular.all('searches').getList({q: $stateParams}).$object;
-      console.log($scope.teachers)
+      $scope.results_num = $scope.teachers.length
+      $scope.searchStyle = "users"
     } else {
       $scope.lessons =  Restangular.all('searches').getList({q: $stateParams}).$object 
-      console.log($scope.lessons)
+      $scope.results_num = $scope.lessons.length
+      $scope.searchStyle = "lesson plans' " + $stateParams.searchType
     }
     $scope.query = $stateParams.searchTerm
     $scope.notTeacherShow = true;

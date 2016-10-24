@@ -1,5 +1,5 @@
 <div id="search-results"> 
-  <h2>Search results for '{{query}}'. {{lessons.length}} results</h2>
+  <h3>You searched for '{{query}}' among KitHub's {{searchStyle}}. We found {{results_num}} results for you.</h3>
   <div class="row">
     <div class="col-sm-3">
       <div class="row filters">
@@ -41,7 +41,6 @@
             <div class="clearfix" ng-if="$index % 2 == 0"></div>
             <div lesson-card class="col-md-6" lesson="lesson" not-teacher-show="true"></div>
           </div>
-          {{teachers}}
           <div dir-paginate="teacher in teachers | itemsPerPage: 10">
             <user-box user="currentUser" teacher="teacher"></user-box>
           </div>
