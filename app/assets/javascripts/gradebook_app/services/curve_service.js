@@ -6,6 +6,10 @@ Gradebook.factory("CurveService", ["Restangular", function(Restangular) {
     return Restangular.restangularizeElement(null, assignment.flat_curve, 'flat_curves')
   }
 
+  stub.linearFormula = function(input, rawPercent) {
+    return input.curvedA + (((input.curvedB - input.curvedA)/(input.rawB - input.rawA)) * (rawPercent - input.rawA));
+  }
+
   stub.applyFlatCurve = function(flatRate, assignmentId) {
     return Restangular.all('flat_curves').post({
       flat_curve: {
