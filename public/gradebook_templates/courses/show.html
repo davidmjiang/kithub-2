@@ -16,29 +16,25 @@
       <button class="btn btn-secondary btn-sm" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
       edit title</button>
     </h1>
-
-    <!-- {{course}} -->
   </div>
 </div>
+<div ng-if="anyFailingStudents" class="failing-students row">
 <p>The following students are failing (under 60%) your class:</p>
-<div class="failing-students">
-  <ul>
-    <li ng-repeat="(failingStudent, score) in failingStudents">{{failingStudent}} : {{score}}%
-    <button class="btn btn-primary">Notify Parent</button></li></ul>
-    </li></br>
-  </ul>
+  <p ng-repeat="(failingStudent, score) in failingStudents" class="col-md-4">
+  {{failingStudent}} : {{score}}%</br>
+  <button ng-click="notifyParent(failingStudent, score)" class="btn btn-primary notify-parents">Notify {{failingStudent}}'s parent/guardian</button>
+  </p>
 </div>
-<p>The following students are doing exceptionally well(over 90%) in your class:</p>
-<div class="passing-students">
-  <ul>
-    <li ng-repeat="(exceptionalStudent, score) in exceptionalStudents">{{exceptionalStudent}} : {{score}}%
-    <button class="btn btn-primary">Notify Parent</button></li></ul>
-    </li></br>
-  </ul>
+
+<div ng-if="anyExceptionalStudents" class="exceptional-students row">
+<p>The following students are doing exceptionally well (over 90%) in your class:</p>
+  <p ng-repeat="(exceptionalStudent, score) in exceptionalStudents" class="col-md-4">{{exceptionalStudent}} : {{score}}%</br>
+    <button ng-click="notifyParent(exceptionalStudent, score)" class="btn btn-primary notify-parents">Notify {{exceptionalStudent}}'s parent/guardian</button>
+  </p>
 </div>
 
 <p>Average GPA by raw score: <span>{{rawGPA | number:2}}%</span></p>
-<p>GPA with curve: <span>{{curvedGPA}}% </span></p>
+<p ng-show="{{curvedGPA}}">GPA with curve: <span>{{curvedGPA}}% </span></p>
 <p><strong>Note</strong>: Adding a '-1' to a score DOES NOT include the score in the student's overall GPA for the course.
 This feature is useful incase a student has not yet handed in an assignment or is excused from an assignment</p>
 <div class="overflow-x-auto">
@@ -46,6 +42,7 @@ This feature is useful incase a student has not yet handed in an assignment or i
   <button class="btn btn-success sh-btn" ng-click="addAssignmentModal(course)">Add Assignment</button>
   <button class="btn btn-danger sh-btn" ng-click="removeStudentModal(course)">Remove Student</button>
   <button class="btn btn-outline-danger sh-btn" ng-click="deleteCourse()">Delete this course</button>
+  
   <scrollable-table>
    <table class="table table-striped table-bordered">
     <thead>
@@ -57,7 +54,6 @@ This feature is useful incase a student has not yet handed in an assignment or i
 
         <th sortable-header col="{{col}}" sortable-header ng-repeat="col in cols track by $index | limitTo: colCount - 4" ng-click="showAssignmentModal(assignments[$index])">{{col}}</th>
         <th>Overall</th>
-        <!-- <th>Details</th> -->
 
       </tr>
     </thead>

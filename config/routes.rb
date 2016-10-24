@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
+  devise_for :parents
   devise_for :teachers
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-
   root to: 'kithub#index'
 
   scope :api do
@@ -23,6 +23,11 @@ Rails.application.routes.draw do
       resources :teacher_followings, only: [:index, :create, :destroy]
       resources :lesson_plan_contributors, only: [:index, :create]
       resources :lesson_plan_stars, only: [:index]
+
+      post "student_progress/fail/", to: "student_progress#fail"
+      post "student_progress/exceptional/", to: "student_progress#exceptional"
+      post "student_progress/notification/", to: "student_progress#notification"
+      
       get "/gpas", to: "gpas_controller#index"
     end
  	end
