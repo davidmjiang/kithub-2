@@ -39,5 +39,6 @@
 //= require dirPagination
 //= require rzslider.min
 //= require angular-flash
+//= require bootstrap-select.min
 
 //= require_tree .
