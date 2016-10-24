@@ -1,5 +1,5 @@
 "use strict";
-angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser', 'teacher', 'Upload', 'followers', '_', 'Restangular', '$http', '$rootScope', function($scope, currentUser, teacher, Upload, followers, _, Restangular, $http, $rootScope){
+angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser', 'teacher', 'Upload', '_', 'Restangular', '$http', 'FollowingService', function($scope, currentUser, teacher, Upload, _, Restangular, $http, FollowingService){
 
 	$scope.isCurrentUser = currentUser.id === teacher.id;
 	$scope.teacher = teacher;
@@ -62,43 +62,55 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 	};
 
 	//decide whether to show follow or unfollow
-	$scope.isFollowing = function(){
-		var ids = _.map(followers.teachers, function(el){
-			return el.id;
-		});
-		return _.includes(ids, currentUser.id);
-	};
-
-	$scope.followBtn = !$scope.isFollowing();
-
-	$scope.$on("follow:created", function(){
-		$scope.teacher.following ++;
+	//check if currentUser follows this user
+	$scope.followers = FollowingService.getFollowersOf()[teacher.id];
+	var ids = _.map($scope.followers, function(el){
+		return el.id;
 	});
-
-	$scope.$on("follow:removed", function(){
-		$scope.teacher.following --;
-	});
+	$scope.followBtn = !_.includes(ids, currentUser.id);
 
 	$scope.follow = function(){
-		var params = {following: {follower_id: currentUser.id,
-			followed_id: $scope.teacher.id}};
-		Restangular.all("teacher_followings").post(params).then(function(){
-			$scope.teacher.followed_by ++;
+		FollowingService.create(currentUser, $scope.teacher).then(function(){
+			$scope.followedByNum ++;
 			$scope.followBtn = false;
-			$rootScope.$broadcast('follow:new');
 		});
-		//post a follow, then increment scope.teacher.followed and add following to the following tab
 	};
 
 	$scope.unfollow = function(){
-		$http.delete('api/v1/teacher_followings/0', 
-			{params: {'follower_id': currentUser.id, 'followed_id': $scope.teacher.id}}).then(function(){
-				$scope.teacher.followed_by --;
+		FollowingService.delete(currentUser, $scope.teacher).then(function(){
+			  $scope.followedByNum --;
 				$scope.followBtn = true;
-				$rootScope.$broadcast("unfollow:new", currentUser);
-			});
-		//find the following, delete it, then decrement scope.teacher.followed and remove following from the following tab
+		});
 	};
+
+	var followersOf = FollowingService.getFollowersOf();
+	var followedBy = FollowingService.getFollowedBy();
+
+	if(followersOf[teacher.id]){
+		$scope.followedByNum = followersOf[teacher.id].length;
+	}
+	else{
+		$scope.followedByNum = 0;
+	}
+
+	if(followedBy[teacher.id]){
+		$scope.followingNum = followedBy[teacher.id].length;
+	}
+	else{
+		$scope.followingNum = 0;
+	}
+
+	$scope.$on('follow:new', function(event, args){
+		if(args.id === teacher.id){
+			$scope.followingNum ++; 	
+		}
+	});
+
+	$scope.$on('follow:delete', function(event, args){
+		if(args.id === teacher.id){
+			$scope.followingNum --; 	
+		}
+	});
 
 	//upload profile photo
 	$scope.upload = function(file){
