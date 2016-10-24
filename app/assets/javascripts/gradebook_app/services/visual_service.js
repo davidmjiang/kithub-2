@@ -1,4 +1,4 @@
-Gradebook.factory("VisualService", ["Restangular", "_", function(Restangular, _) {
+Gradebook.factory("VisualService", ["Restangular", "_", "CurveService", function(Restangular, _, CurveService) {
 
   var VisualService = {}
 
@@ -54,17 +54,73 @@ Gradebook.factory("VisualService", ["Restangular", "_", function(Restangular, _)
     var scoreArray = [];
     angular.forEach(students, function(student) {
       var submission = _.find(student.submissions,
-                             {'assignment_id': assignment.id});
+       {'assignment_id': assignment.id});
       var score = VisualService.getPercent(assignment, submission.raw_score)
       scoreArray.push({
-              'name': student.first_name + " " + student.last_name[0] + ".",
-              'percent': score})
+        'name': student.first_name + " " + student.last_name[0] + ".",
+        'percent': score})
     })
     scoreArray.sort(function(a, b){
       return a.percent-b.percent
     })
     return scoreArray
   }
+
+  var _applyLinearCurve = function(assignment, rawPercent) {
+    return assignment.flat_curve.flat_rate + rawPercent
+  }
+  var _applyLinearCurve = function(assignment, rawPercent) {
+    return CurveService.linearFormula(assignment.linear_curve, rawPercent)
+  }
+
+  var _applyCurve = function(assignment, rawPercent) {
+    if (assignment.flat_curve) {
+      return _applyFlatCurve(assignment, rawPercent)
+    } else if (assignment.linear_curve) {
+      return _applyLinearCurve(assignment, rawPercent)
+    } else {
+      return rawPercent
+    }
+  }
+
+  // returns average % performance after curve to date by averaging each 
+  // assignment's submissions' curved percent scores (note: works using
+  // assignment average curved % scores, not student average scores)
+  VisualService.classAvgPerformanceToDate = function(course, date) {
+    var classPointsEarned = 0,
+        classPointsPossible = 0
+    _.each(course.assignments, function(assignment) {
+      var scores = []
+      if (assignment.created_at <= date) {
+        _.each(assignment.submissions, function(submission) {
+          var rawPercent = (submission.raw_score / assignment.possible_score) * 100 
+          var realPercent = assignment.has_curve ? _applyCurve(assignment, rawPercent) : rawPercent
+          scores.push(realPercent)
+        })
+        var curvedAvgPerformance = _.reduce(scores, function(sum, n) {
+          return sum + n
+        }, 0) / scores.length
+        var curvedAvgPoints = curvedAvgPerformance/100 * assignment.possible_score
+        classPointsEarned += curvedAvgPoints
+        classPointsPossible += assignment.possible_score
+      }
+    })
+    return classPointsEarned / classPointsPossible * 100
+  }
+
+  VisualService.coursesPerformanceOverTime = function(courses) {
+    var coursesData = []
+    _.each(courses, function(course) {
+      var courseData = []
+      _.each(course.assignments, function(assignment) {
+        var assignmentData = {}
+        assignmentData.date = assignment.created_at
+        assignmentData.class_performance = VisualService.classAvgPerformanceToDate(course, assignment.created_at)
+        courseData.push(assignmentData)
+      })
+      coursesData.push(courseData)
+    })
+    return coursesData
 
   VisualService.gradeDistribution = function(students) {
     var grades = {"A": 0, "B": 0, "C": 0, "D": 0, "F": 0}
