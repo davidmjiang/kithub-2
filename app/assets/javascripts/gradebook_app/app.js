@@ -1,4 +1,3 @@
-
 var Gradebook = angular.module( 'Gradebook', ['ui.router', 'restangular','Devise', 'angularModalService',"ngTable", "chart.js", "xeditable", "scrollable-table"]);
 
 
@@ -36,7 +35,7 @@ Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
     .state ('gradebook.courseIndex', {
       url: '/',
       templateUrl: '/gradebook_templates/courses/index.html',
-      controller: 'CourseIndexCtrl'
+      controller: 'CourseIndexCtrl', 
     })
 
     .state('gradebook.dataVisuals', {

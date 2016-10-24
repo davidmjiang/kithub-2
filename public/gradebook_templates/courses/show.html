@@ -20,6 +20,22 @@
     <!-- {{course}} -->
   </div>
 </div>
+<p>The following students are failing (under 60%) your class:</p>
+<div class="failing-students">
+  <ul>
+    <li ng-repeat="(failingStudent, score) in failingStudents">{{failingStudent}} : {{score}}%
+    <button class="btn btn-primary">Notify Parent</button></li></ul>
+    </li></br>
+  </ul>
+</div>
+<p>The following students are doing exceptionally well(over 90%) in your class:</p>
+<div class="passing-students">
+  <ul>
+    <li ng-repeat="(exceptionalStudent, score) in exceptionalStudents">{{exceptionalStudent}} : {{score}}%
+    <button class="btn btn-primary">Notify Parent</button></li></ul>
+    </li></br>
+  </ul>
+</div>
 
 <p>Average GPA by raw score: <span>{{rawGPA | number:2}}%</span></p>
 <p>GPA with curve: <span>{{curvedGPA}}% </span></p>
@@ -47,9 +63,9 @@ This feature is useful incase a student has not yet handed in an assignment or i
     </thead>
       <tbody>
         <tr ng-repeat="row in allRows track by $index | limitTo: rowCount">
-            <td ng-submit="submitEdit(row, item, $index)" ng-repeat="item in row track by $index | limitTo: colCount ">
+            <td class="styling-grades" ng-submit="submitEdit(row, item, $index)" ng-repeat="item in row track by $index | limitTo: colCount ">
 
-              {{percentScore(item, $index)}}<a href="#" onbeforesave="checkItem($index, $data)" editable-text="item"> {{isItemScore(item, $index)}}</a>
+             {{percentScore(item, $index)}}<a href="#" onbeforesave="checkItem($index, $data)" editable-text="item"> {{isItemScore(item, $index)}}</a>
           </td>
           <td>{{showScore(allRows.indexOf(row))}}</td>
           <td><a ng-click="studentDetailModal(row[3], row[row.length - 1])">Details</a></td>

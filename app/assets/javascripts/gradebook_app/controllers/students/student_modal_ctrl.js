@@ -1,8 +1,8 @@
-Gradebook.controller("StudentModalCtrl", ["$scope", "students", "email", "assignments", "overall", "_", "StudentService", function($scope, students, email, assignments, overall, _, StudentService) {
+Gradebook.controller("StudentModalCtrl", ["$scope", "students", "email", "assignments", "overall", "_", "StudentService", "VisualService", function($scope, students, email, assignments, overall, _, StudentService, VisualService) {
 
   $scope.student = _.find(students, {'email':email})
   $scope.assignments = assignments;
-  $scope.overall = overall;
+  $scope.overall = VisualService.studentAvg($scope.student, assignments);
   $scope.labels = _.map(assignments, 'title');
   $scope.opts = {
   scales: {
