@@ -19,6 +19,9 @@ angular.module('Lesson').directive("newLessonModal",  ['LessonService', '$state'
       // flag for ajax call
       scope.saving = false;
 
+      // for error messages
+      scope.message = "";
+
       scope.createLesson = function(valid) {
 
         if (valid) {
@@ -61,6 +64,7 @@ angular.module('Lesson').directive("newLessonModal",  ['LessonService', '$state'
               // error
               // TODO Flash error
               scope.saving = false;
+              scope.message = "Couldn't convert file.";
             });
 
           }
