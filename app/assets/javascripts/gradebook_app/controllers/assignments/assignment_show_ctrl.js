@@ -5,11 +5,6 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     this.closed = true;
   }
 
-  $scope.$watch('curve.flatRate', function (newValue) {
-    $scope.curve.flatRate = Number(newValue);
-    $scope.updateData();
-  });
-
   $scope.$watch('curve.slideA', function (newValue) {
     $scope.curve.slideA = Number(newValue);
     $scope.curve.curvedA = $scope.curve.slideA + $scope.curve.rawA;
@@ -20,6 +15,11 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.curve.slideB = Number(newValue);
     $scope.curve.curvedB = $scope.curve.slideB + $scope.curve.rawB;
     $scope.applyLinearCurve();
+  });
+
+  $scope.$watch('curve.flatRate', function (newValue) {
+    $scope.curve.flatRate = Number(newValue);
+    $scope.updateData();
   });
 
   $scope.closed = false;
@@ -49,8 +49,6 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.curve.rawB = 100;
     $scope.curve.slideA = 0;
     $scope.curve.slideB = 0;
-    $scope.curve.curvedA = 0;
-    $scope.curve.curvedB = 100;
   }
 
   var _fillFlatRateEditInput = function() {
@@ -66,6 +64,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.curve.rawB = curve.rawB
     $scope.curve.curvedA = curve.curvedA
     $scope.curve.curvedB = curve.curvedB
+    $scope.curve.slideA = $scope.curve.curvedA - $scope.curve.rawA;
+    $scope.curve.slideB = $scope.curve.curvedB - $scope.curve.rawB;
   }
 
   var _fillCurveEditInputs = function() {
@@ -175,16 +175,47 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     _removeCurve();
   }
 
+  var updateFlat = function() {
+    if ($scope.assignment.flat_curve) {
+      _editFlatCurve();
+    } else {
+      _applyFlatCurve();
+    }
+  }
+
+  var updateLinear = function() {
+    if ($scope.assignment.linear_curve) {
+      _editLinearCurve();
+    } else {
+      _applyLinearCurve();
+    }
+  }
+
   $scope.saveChanges = function() {
     if ($scope.curveType === "Flat") {
-      if ($scope.assignment.has_curve) {
-        _editFlatCurve();
+      if ($scope.assignment.linear_curve) {
+        CurveService.removeLinear($scope.assignment).then(function(){
+          $scope.curve.rawA = 0
+          $scope.curve.rawB = 100
+          $scope.curve.slideA = 0
+          $scope.curve.slideB = 0
+          $scope.assignment.linear_curve = null
+          updateFlat();
+        })
       } else {
-        _applyFlatCurve();
+        updateFlat();
       }
       $scope.gpa.real = $scope.gpa.raw + $scope.curve.flatRate;
-    } else if ($scope.curveApplied && $scope.curveType === "Linear") {
-      _applyLinearCurve();
+    } else if ($scope.curveType === "Linear") {
+      if ($scope.assignment.flat_curve) {
+        CurveService.removeFlat($scope.assignment).then(function(){
+          $scope.curve.flatRate = 0;
+          $scope.assignment.flat_curve = null
+          updateLinear();
+        })
+      } else {
+        updateLinear();
+      }
     } else if (!$scope.curveApplied && $scope.assignment.has_curve) {
       _removeCurve();
     } else if ($scope.editingCurve && $scope.assignment.flat_curve) {
@@ -204,26 +235,26 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
            $scope.curve.curvedB === $scope.assignment.linear_curve.curvedB
   }
 
-  var _editFlatCurve = function() {
-    // do nothing if flatRate hasn't changed
-    if ($scope.assignment.flat_curve.flat_rate === $scope.curve.flatRate) {
-      return
-    // if flatRate has changed to 0, remove the curve
-    } else if ($scope.curve.flatRate === "0") {
-      _removeCurve();
-    // else, CurveService.editFlatCurve($scope.assignment)
-    } else {
-      CurveService.editFlatCurve($scope.assignment, $scope.curve.flatRate)
-      .then(function(response) {
-        console.log("response in controller")
-        console.log(response)
-        $scope.assignment.flat_curve = response
-        assignment.flat_curve = response // ?
-        $scope.assignment.updated_at = response.assignment.updated_at
-        assignment.updated_at = response.assignment.updated_at
-      })
-    }
-  }
+  // var _editFlatCurve = function() {
+  //   // do nothing if flatRate hasn't changed
+  //   if ($scope.assignment.flat_curve.flat_rate === $scope.curve.flatRate) {
+  //     return
+  //   // if flatRate has changed to 0, remove the curve
+  //   } else if ($scope.curve.flatRate === "0") {
+  //     _removeCurve();
+  //   // else, CurveService.editFlatCurve($scope.assignment)
+  //   } else {
+  //     CurveService.editFlatCurve($scope.assignment, $scope.curve.flatRate)
+  //     .then(function(response) {
+  //       console.log("response in controller")
+  //       console.log(response)
+  //       $scope.assignment.flat_curve = response
+  //       assignment.flat_curve = response // ?
+  //       $scope.assignment.updated_at = response.assignment.updated_at
+  //       assignment.updated_at = response.assignment.updated_at
+  //     })
+  //   }
+  // }
 
   var _editLinearCurve = function() {
     // do nothing if inputs haven't changed
@@ -346,7 +377,18 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.curveAlert = true;
     $timeout(function() {
       $scope.curveAlert = false;
-    }, 4000)
+    }, 3000)
+  }
+
+  $scope.setNotice = function() {
+    if ($scope.assignment.flat_curve) {
+      return "Flat (" + $scope.assignment.flat_curve.flat_rate + "%)"
+    }
+    else if ($scope.assignment.linear_curve) {
+      return "Linear"
+    } else {
+      return "None"
+    }
   }
 
   $scope.failingStudents = function() {
