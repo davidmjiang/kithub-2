@@ -2,8 +2,6 @@ Gradebook.factory("CurveService", ["Restangular", function(Restangular) {
 
   var stub = {}
 
-
-
   var _restangularizeFlatCurve = function(assignment) {
     return Restangular.restangularizeElement(null, assignment.flat_curve, 'flat_curves')
   }

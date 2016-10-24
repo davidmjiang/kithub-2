@@ -60,3 +60,17 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
   stroke: steelblue;
   stroke-width: 2px;
 }
+
+#course-index-graphs {
+  margin-top: 40px;
+
+  .course-graph {
+    margin-bottom: 30px;
+  }
+
+  .graph-title {
+    text-align: center;
+    font-size: 1.3em;
+  }
+
+}
