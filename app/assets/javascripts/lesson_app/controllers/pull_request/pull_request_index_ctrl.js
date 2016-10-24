@@ -3,5 +3,8 @@ angular.module('Lesson').controller('PullRequestIndexCtrl', ['$scope', 'currentU
   $scope.pullRequests = pullRequestService.getPullRequests();
 
   $scope.currentUser = currentUser.id
-   $scope.pendingPRs = _.filter($scope.pullRequests, function(pr) { console.log(pr); pr.status === "pending" }).length;
+
+  $scope.pendingPRs = _.find($scope.pullRequests, function(pr) {
+          return pr.status === "pending" });
+
 }]);

@@ -31,3 +31,10 @@
     border-color: red;
   }
 }
+
+.diff {
+  .popover {
+    position: absolute;
+    z-index: 100;
+  }
+}
