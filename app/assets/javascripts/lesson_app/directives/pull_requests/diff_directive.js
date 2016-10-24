@@ -14,6 +14,14 @@ Lesson.directive("diff",  [ "pullRequestService", "DiffService", "LessonService"
         } else {
           scope.diffs = DiffService(scope.pullRequest.parent_plan.content, scope.pullRequest.forked_plan.content);
         }
+
+        scope.showPopover = function() {
+          scope.popoverIsVisible = true;
+        };
+
+        scope.hidePopover = function () {
+          scope.popoverIsVisible = false;
+        };
       }
     };
 

@@ -16,9 +16,11 @@ class TeacherFollowingsController < ApplicationController
 
   def create
     @following = TeacherFollowing.new(following_params)
+    @t1 = Teacher.find(following_params[:follower_id])
+    @t2 = Teacher.find(following_params[:followed_id])
     respond_to do |format|
       if @following.save
-        format.json {render json: @following}
+        format.json {render "show.json.jbuilder"}
       else
         format.json{render json: {errors: @following.errors.full_messages, :status => 422}}
       end
