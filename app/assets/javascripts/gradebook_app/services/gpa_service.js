@@ -37,9 +37,7 @@ Gradebook.factory("GPAService", function() {
         }
       })
     })
-    console.log("points earned: " + pointsEarned)
     var gpa = (pointsEarned / course.students.length) / assignment.possible_score * 100
-    console.log("gpa: " + gpa)
     return gpa
   }
 
