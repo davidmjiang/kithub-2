@@ -29,15 +29,21 @@
           <span aria-hidden="true">&times;</span>
         </button>
 
-        <h4 class="modal-title" id="myModalLabel" ng-required required>
+        <h4 class="modal-title" id="myModalLabel">
           New Pull Request
         </h4>
       </div>
 
       <div class="modal-body">
-          <form>
+          <form name="newPRForm">
             <h2>Title:</h2>
-            <h2><input class="form-control"  type="text" name="" ng-model="newPR.title"></h2>
+            <h2><input class="form-control"
+                       id="newPRTitleInput"
+                       name="title"
+                       type="text"
+                       ng-model="newPR.title"
+                       ng-required="true"
+                       placeholder="Title Required" ></h2>
 
             <h2>Description:</h2>
             <textarea class="form-control" ng-model="newPR.description"></textarea>
@@ -68,9 +74,7 @@
 
         <button type="button"
                 class="btn btn-secondary"
-                ng-click="createNewPullRequest()"
-                data-dismiss="modal">
-
+                ng-click="createNewPullRequest(newPRForm.title.$valid)">
                 Create New Pull Request
         </button>
 

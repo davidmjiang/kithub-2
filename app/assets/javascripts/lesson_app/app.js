@@ -139,7 +139,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
             pullRequests: ["pullRequestService",
                             "$stateParams",
                             function(pullRequestService, $stateParams) {
-                pullRequestService.all($stateParams.id);
+                return pullRequestService.all($stateParams.id);
               }]
           }
         },
