@@ -184,7 +184,9 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     });
   };
 
-
+  $scope.export = function() {
+    LessonService.export($scope.lesson);
+  };
 
 
 }]);

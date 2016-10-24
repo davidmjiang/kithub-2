@@ -71,6 +71,12 @@ class LessonPlansController < ApplicationController
     end
   end
 
+  def export
+    @lesson = current_teacher.lesson_plans.find(params[:id])
+    content_with_headers = DocConvert.add_headers_to_markdown(@lesson)
+    DocConvert.markdown_to_rtf(content_with_headers)
+  end
+
   private
 
     def lesson_plan_params
