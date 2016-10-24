@@ -1,4 +1,4 @@
-Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", "ModalService", "$state", "CourseService", "SubmissionService", function($scope, course, StudentService, AssignmentService, GPAService, ModalService, $state, CourseService, SubmissionService){
+Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", "ModalService", "$state", "CourseService", "SubmissionService", "CurveService", function($scope, course, StudentService, AssignmentService, GPAService, ModalService, $state, CourseService, SubmissionService, CurveService){
 
 
   var cols =[];
@@ -50,7 +50,17 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
   $scope.percentScore = function(item, index) {
     if(index > 3 && index < $scope.colCount - 1 && $scope.assignments[index - 4]) {
-      return ((item / $scope.assignments[index - 4].possible_score * 100).toFixed(2) + "%");
+      var assignment = $scope.assignments[index - 4];
+      var rawPercent = (item / assignment.possible_score * 100);
+      if(assignment.flat_curve) {
+        return ((rawPercent + assignment.flat_curve.flat_rate).toFixed(2) + "%");
+      }
+      else if(assignment.linear_curve) {
+        return ((CurveService.linearFormula(assignment.linear_curve, rawPercent)).toFixed(2) + "%");
+      }
+      else {
+        return (rawPercent.toFixed(2) + "%");
+      }
     }
   }
 
@@ -124,7 +134,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       var possibleScore = $scope.assignments[i].possible_score;
       //Put default value here;
       if(rawScore === -1) {
-
+        //Assignment does not count in overall score
       }
       else {
         rawTotal += rawScore;
@@ -160,13 +170,25 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       var rawTotal = 0;
       var possibleTotal = 0;
       for (var i = 0; i < $scope.assignments.length; i++) {
-        var rawScore = $scope.students[j].submissions[i].raw_score;
-        var possibleScore = $scope.assignments[i].possible_score;
+        var assignment = $scope.assignments[i];
+        var rawPercent = $scope.students[j].submissions[i].raw_score / assignment.possible_score * 100
+        var curvedPercent;
+        if(assignment.flat_curve) {
+           curvedPercent = rawPercent + assignment.flat_curve.flat_rate;
+        }
+        else if(assignment.linear_curve) {
+          curvedPercent = CurveService.linearFormula(assignment.linear_curve, rawPercent)
+        }
+        else {
+          curvedPercent = rawPercent
+        }
+        var possibleScore = assignment.possible_score;
+        var curvedPoints = curvedPercent / 100 * possibleScore;
         //Put default value here;
         if(rawScore === -1) {
         }
         else {
-          rawTotal += rawScore;
+          rawTotal += curvedPoints;
           possibleTotal += possibleScore;
         }
       } 
@@ -199,17 +221,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   $scope.rowCount = $scope.students.length;
 
 
-
-  $scope.incrementRow = function(direction){
-    if(direction === "up") {
-      $scope.rowCount ++;
-    }
-    else {
-      if($scope.rowCount > 0) {
-        $scope.rowCount --;
-      }
-    }
-  }
 
   $scope.submitEdit = function(row, item, index) {
     var assignmentId = $scope.assignments[index - 4].id
