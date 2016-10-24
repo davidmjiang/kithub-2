@@ -1,23 +1,25 @@
-
 Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", "ModalService", "$state", "CourseService", "SubmissionService", function($scope, course, StudentService, AssignmentService, GPAService, ModalService, $state, CourseService, SubmissionService){
 
 
   var cols =[];
   var allRows= [];
+  $scope.failingStudents = {};
+  $scope.exceptionalStudents = {}
 
   $scope.course = course;
 
-  $scope.rawGPA = GPAService.rawGPA(course)
+  $scope.rawGPA = GPAService.rawGPA(course);
   $scope.students = $scope.course.students;
 
+  
 
   StudentService.sortSubmissions($scope.course.students);
 
   $scope.students = StudentService.sortStudents($scope.course.students);
 
   var assignments = $scope.course.assignments.sort(function(a,b) {
-    var createdAtA = a.id
-    var createdAtB = b.id
+    var createdAtA = a.id;
+    var createdAtB = b.id;
     if(createdAtA < createdAtB) {
       return -1;
     }
@@ -33,13 +35,13 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
   $scope.percentScore = function(item, index) {
     if(index > 3 && index < $scope.colCount - 1 && $scope.assignments[index - 4]) {
-      return ((item / $scope.assignments[index - 4].possible_score * 100).toFixed(2) + "%")
+      return ((item / $scope.assignments[index - 4].possible_score * 100).toFixed(2) + "%");
     }
   }
 
   $scope.isItemScore = function(item, index) {
     if(index > 3 && index < $scope.colCount - 1) {
-      return "(" + item + ")"
+      return "(" + item + ")";
     }
     else {
       return item;
@@ -73,13 +75,18 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
         students: $scope.students
       }
     }).then(function(modal) {
+      modal.element.one('hidden.bs.modal', function () {
+        if (!modal.controller.closed) {
+            modal.controller.closeModal();
+        }
+      })
       modal.element.modal();
       modal.close;
     })
   }
 
   $scope.update = function(title) {
-    CourseService.updateCourse({course: {title: title}}, $scope.course)
+    CourseService.updateCourse({course: {title: title}}, $scope.course);
   }
 
 
@@ -110,29 +117,63 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       }
       rowData.push(rawScore);
     }
-    allRows.push(rowData)
-    rowData = []
+    allRows.push(rowData);
+    rowData = [];
+  }
+
+  //Go through the failing students and remove now passing students
+  $scope.removePassingStudents = function(passingStudent) {
+    for(key in $scope.failingStudents) {
+      if (key === passingStudent) {
+        delete $scope.failingStudents[key];
+      }
+    }
+  }
+
+  $scope.removeExceptionalStudents = function(notExceptionalStudent) {
+    for(key in $scope.exceptionalStudents) {
+      if (key === notExceptionalStudent) {
+        delete $scope.exceptionalStudents[key];
+      }
+    }
   }
 
   $scope.showScore = function(j) {
+    //Get the overall score of all the students
     $scope.students = StudentService.sortStudents($scope.course.students);
     if (j > -1) {
-    var rawTotal = 0;
-    var possibleTotal = 0;
-    for (var i = 0; i < $scope.assignments.length; i++) {
-      var rawScore = $scope.students[j].submissions[i].raw_score;
-      var possibleScore = $scope.assignments[i].possible_score;
-      //Put default value here;
-      if(rawScore === -1) {
+      var rawTotal = 0;
+      var possibleTotal = 0;
+      for (var i = 0; i < $scope.assignments.length; i++) {
+        var rawScore = $scope.students[j].submissions[i].raw_score;
+        var possibleScore = $scope.assignments[i].possible_score;
+        //Put default value here;
+        if(rawScore === -1) {
+        }
+        else {
+          rawTotal += rawScore;
+          possibleTotal += possibleScore;
+        }
+      } 
+      //Get all of the failing students and put it in an object for display to the teacher
+      if((Number(rawTotal / possibleTotal * 100).toFixed(2)) < 60) {
+        var failingStudent = $scope.students[j].first_name + " " + $scope.students[j].last_name;
+        $scope.failingStudents[failingStudent] = Number(rawTotal / possibleTotal * 100).toFixed(2);
+        $scope.removeExceptionalStudents(failingStudent);
       }
-      else {
-        rawTotal += rawScore;
-        possibleTotal += possibleScore;
+      //Remove students who were failing and are no longer failing
+      else if((Number(rawTotal / possibleTotal * 100) > 60) && (Number(rawTotal / possibleTotal * 100) < 90)) {
+        var passingStudent = $scope.students[j].first_name + " " + $scope.students[j].last_name;
+        $scope.removePassingStudents(passingStudent);
       }
-    }
+      //Get all exceptional students and put them in an object to display to the teacher
+      else if((Number(rawTotal / possibleTotal * 100)) > 90) {
+        var exceptionalStudent = $scope.students[j].first_name + " " + $scope.students[j].last_name;
+        $scope.exceptionalStudents[exceptionalStudent] = Number(rawTotal / possibleTotal * 100).toFixed(2);
+      }
     return Number(rawTotal / possibleTotal * 100).toFixed(2);
+    }
   }
-}
       
 
 
@@ -153,20 +194,26 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   }
 
   $scope.submitEdit = function(row, item, index) {
-    var rowIndex = $scope.allRows.indexOf(row)
+    var assignmentId = $scope.assignments[index - 4].id
+    var rowIndex = $scope.allRows.indexOf(row);
     if(index > 0 && index < 4) {
-      var student = $scope.students[rowIndex]
-      StudentService.editStudent(student, index, item)
+      var student = $scope.students[rowIndex];
+      StudentService.editStudent(student, index, item);
     }
     else if (index > 3 && index < row.length) {
-      var submission
+      var submission;
       for(var i = 0; i < $scope.students.length; i ++) {
         if($scope.students[i].id == row[0]) {
-          var submission = $scope.students[i].submissions[index - 4]
+          for(var j = 0; j < $scope.students[i].submissions.length; j++) {
+            if($scope.students[i].submissions[j].assignment_id == assignmentId) {
+              var submission = $scope.students[i].submissions[j]
+            }
+          }
+          
         }
       }
-      submission.raw_score = parseInt(item)
-      SubmissionService.editSubmission(submission)
+      submission.raw_score = parseInt(item);
+      SubmissionService.editSubmission(submission);
     }
     
   }
@@ -200,6 +247,12 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
         students: $scope.students
       }
     }).then(function(modal) {
+
+      modal.element.one('hidden.bs.modal', function () {
+        if (!modal.controller.closed) {
+          modal.controller.closeModal();
+        }
+      });
       modal.element.modal();
       modal.close.then(function(response) {
 
@@ -256,15 +309,17 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
   $scope.$on("student.added", function(event, response) {
     var data = StudentService.studentData(response)
+    console.log(response)
     $scope.rowCount ++;
     allRows.push(data);
     $scope.students.push(response);
     CourseService.sortRows($scope.allRows);
+    StudentService.sortStudents($scope.course.students);
   })
 
   $scope.$on("assignment.edit", function(event, data) {
     var newAssignment = data.assignment_type + ": " + data.title +
-                        "(" + data.possible_score + ")"
+                        "(" + data.possible_score + ")";
     for(var i = 0; i < $scope.assignments.length; i++) {
       if($scope.assignments[i].id === data.id) {
         $scope.cols[i] = newAssignment;
@@ -307,7 +362,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   $scope.deleteCourse = function() {
     if (confirm('Are you sure?')) {
       CourseService.deleteCourse($scope.course).then(function(response) {
-        $state.go("gradebook.courseIndex")
+        $state.go("gradebook.courseIndex");
       })
     }
   };

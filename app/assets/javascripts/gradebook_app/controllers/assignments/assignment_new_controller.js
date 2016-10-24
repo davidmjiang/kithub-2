@@ -12,6 +12,7 @@ Gradebook.controller("AssignmentNewCtrl", ["$scope", "course", "AssignmentServic
 		})
 	}
 
+
 	$scope.close = function() {
    	angular.element('body').removeClass('modal-open');
    	angular.element(".modal-backdrop").remove();

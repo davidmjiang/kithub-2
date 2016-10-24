@@ -2,10 +2,15 @@ class FlatCurvesController < ApplicationController
 
   def create
     @flat_curve = FlatCurve.new(flat_curve_params)
+    puts @flat_curve.to_json
     if @flat_curve.save 
       @flat_curve.assignment.touch
       respond_to do |format|
         format.json { render json: @flat_curve.to_json(include: :assignment), status: 200 }
+      end
+    else
+      respond_to do |format|
+        format.json { render json: @flat_curve.errors, status: 400 }
       end
     end
   end

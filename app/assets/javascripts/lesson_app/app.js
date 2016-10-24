@@ -102,7 +102,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
             }],
 
         lessonBelongsToCurrentUser: ["currentUser", "lesson", function(currentUser, lesson){
-          return (currentUser.id === lesson.teacher_id)
+          return (currentUser.id === lesson.teacher_id);
         }]
 
       },
