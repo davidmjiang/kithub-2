@@ -6,7 +6,7 @@ class SearchesController < ApplicationController
     @currentUser = current_teacher
     term = parsed_params["searchTerm"]
     if parsed_params["searchType"] == "name"
-      @teachers = Teacher.fuzzy_search(term)
+      @teachers = Teacher.fuzzy_search({first_name: term, last_name: term, email: term}, false)
       respond_to do |format|
         format.json {render 'teachers.json.jbuilder'}
       end
