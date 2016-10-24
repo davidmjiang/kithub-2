@@ -110,6 +110,9 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
     }, 2000);
   };
 
+  lessonService.export = function(lesson) {
+    // calls api/v1/lesson_plans/:id/export 
+  };
 
 
   return lessonService;
