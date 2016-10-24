@@ -203,7 +203,7 @@
                           type="number" 
                           max="100" 
                           min="0" 
-                          ng-model="curve.curvedA">
+                          ng-model="curve.curvedA"><br>
                   <label>Score B (original):</label>
                   <input class="" 
                           type="number" 
@@ -215,11 +215,11 @@
                           type="number" 
                           max="100" 
                           min="0" 
-                          ng-model="curve.curvedB">
-                  <button ng-click="applyLinearCurve()">
+                          ng-model="curve.curvedB"><br>
+                  <button class="btn btn-success" ng-click="applyLinearCurve()">
                     Apply Curve
                   </button>
-                  <button ng-click="resetCurve()">
+                  <button class="btn btn-danger" ng-click="resetCurve()">
                     Remove Curve
                   </button>
                 </div>
@@ -229,10 +229,10 @@
           </div>
 
           <div role="tabpanel" class="tab-pane fade" id="grade">
-            <canvas id="pie" class="chart chart-pie" chart-data="assignmentData" chart-labels="assignmentLabels" chart-options="pieOpts" chart-colors="colors"> chart-series="series"
+            <canvas id="pie" class="chart chart-pie" chart-data="assignData" chart-labels="assignLabels" chart-options="pieOpts" chart-colors="colors"> chart-series="series"
             </canvas>
           </div>
-          
+
         </div>
       </div>
 
