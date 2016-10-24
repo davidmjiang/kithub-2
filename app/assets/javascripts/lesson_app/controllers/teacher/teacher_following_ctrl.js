@@ -1,12 +1,8 @@
 "use strict";
-angular.module('Lesson').controller('TeacherFollowingCtrl', ['$scope', 'currentUser', 'following', function($scope, currentUser, following){
+angular.module('Lesson').controller('TeacherFollowingCtrl', ['$scope', 'currentUser', '$stateParams', 'FollowingService', function($scope, currentUser, $stateParams, FollowingService){
 
-  $scope.following = following.teachers;
+	$scope.following = FollowingService.getFollowedBy()[$stateParams.id];
+
   $scope.currentUser = currentUser;
-
-  $scope.$on("follow:removed", function(event, data){
-  	var index = $scope.following.indexOf(data);
-  	$scope.following.splice(index, 1);
-  });
 
 }]);
