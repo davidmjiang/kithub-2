@@ -23,6 +23,4 @@ Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList",
 
   $scope.coursesData = VisualService.coursesPerformanceOverTime($scope.courses)
 
-  $scope.lineData = $scope.coursesData[0]
-
 }])
