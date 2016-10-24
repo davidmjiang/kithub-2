@@ -1,14 +1,15 @@
 "use strict";
 
-Lesson.controller('SearchCtrl', ['$scope', '$state', 'currentUser', '$stateParams', 'Restangular', 'SearchService', 'LessonService', 
-  function($scope, $state, currentUser, $stateParams, Restangular, SearchService, LessonService) {
+Lesson.controller('SearchCtrl', ['$scope', '$state', 'currentUser', '$stateParams', 'Restangular', 'LessonService', 
+  function($scope, $state, currentUser, $stateParams, Restangular, LessonService) {
 
     if ($stateParams.searchType === "name") {
       $scope.teachers = Restangular.all('searches').getList({q: $stateParams}).$object;
       $scope.results_num = $scope.teachers.length
       $scope.searchStyle = "users"
     } else {
-      $scope.lessons =  Restangular.all('searches').getList({q: $stateParams}).$object 
+      $scope.lessons =  Restangular.all('searches').getList({q: $stateParams}).$object
+      console.log($scope.lessons); 
       $scope.results_num = $scope.lessons.length
       $scope.searchStyle = "lesson plans' " + $stateParams.searchType
     }
@@ -27,6 +28,7 @@ Lesson.controller('SearchCtrl', ['$scope', '$state', 'currentUser', '$stateParam
       gradeMax: 12,
       subject: "",
       lessonType: "",
+      state: "",
       options: {
         hideLimitLabels: true
       }
@@ -45,6 +47,7 @@ Lesson.controller('SearchCtrl', ['$scope', '$state', 'currentUser', '$stateParam
       $scope.filters.gradeMax = 12;
       $scope.filters.subject = "";
       $scope.filters.lessonType = "";
+      $scope.filters.state = "";
     };
 
 }]);
