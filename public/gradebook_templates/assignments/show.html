@@ -14,15 +14,18 @@
 
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" href="#stat" role="tab" data-toggle="tab" target="_self"><small>Assignment Stats</small></a>
+            <a class="nav-link active" href="#student" role="tab" data-toggle="tab" target="_self"><small>Student Scores</small></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#student" role="tab" data-toggle="tab" target="_self"><small>Student Scores</small></a>
+            <a class="nav-link" href="#stat" role="tab" data-toggle="tab" target="_self"><small>Assignment Stats</small></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#grade" role="tab" data-toggle="tab" target="_self"><small>Grade Distribution</small></a>
           </li>
         </ul>
 
         <div class="tab-content">
-          <div role="tabpanel" class="tab-pane fade in active" id="stat">
+          <div role="tabpanel" class="tab-pane fade" id="stat">
             <div class="row">
               <div class="col-sm-6">  
                 <h4>{{assignment.assignment_type | capitalize }}</h4>
@@ -57,9 +60,9 @@
                
                     <div ng-if="curveType==='Flat'">
                       <label>By what percent would you like to increase scores?</label>
-                      <input type="number" max="100" ng-model="curve.flatRate">
+                      <input type="number" max="100" min="0" ng-model="curve.flatRate">
                       &nbsp; %
-                      <button ng-click="applyFlatCurve()">Apply Curve</button>
+                      <button ng-click="applyFlatCurve(); updateData()">Apply Curve</button>
                       <button ng-click="resetCurve()">
                         Remove Curve
                       </button>
@@ -154,19 +157,89 @@
               </div>
             </div>
           </div>
-          <div role="tabpanel" class="tab-pane fade" id="student">
+          <div role="tabpanel" class="tab-pane fade in active" id="student">
+
             <div class="row">
               <div class="col-xs-12">
                 <canvas id="bar" class="chart chart-bar" chart-data="scoreData" chart-labels="scoreLabels" chart-options="opts"> chart-series="series"
                 </canvas>
               </div>
-            </div>       
+            </div>
+            
+            <div class="row">
+              <div class="col-xs-12">
+
+                <label style="font-size: 20px">Apply Curve: </label>
+                <select ng-model="curveType">
+                  <option value="Flat">Flat</option>
+                  <option value="Linear">Linear</option>
+                </select>
+
+                <span ng-show="curveAlert">Curve has been applied.</span>
+                <span ng-hide="curveAlert">Current Curve: 
+                  {{assignment.flat_curve.flat_rate ? assignment.flat_curve.flat_rate : 0}}%
+                </span>
+
+                <div ng-if="curveType==='Flat'">
+                  <label>By what percent would you like to increase scores?</label>
+                  <input type="range" max="100" min="0" ng-model="curve.flatRate">
+                  <span> {{curve.flatRate}}%</span>
+                  <div style="text-align: center">
+                    <button class="btn btn-success" ng-click="saveChanges(); alertShow()">Apply Curve</button>
+                    <button class="btn btn-danger" ng-click="resetCurve(); resetData()">Remove Curve</button>
+                  </div>
+                </div>
+
+                <div ng-if="curveType==='Linear'">
+                  <p>Pick two raw score percent values (for example, the mean score and the lowest score), then choose what you'd like those values to become. </p>
+                  <label>Score A (original):</label>
+                  <input class=""
+                          type="number"
+                          max="100"
+                          min="0"
+                          ng-model="curve.rawA">
+                  <label>Score A (curved):</label>
+                  <input class="" 
+                          type="number" 
+                          max="100" 
+                          min="0" 
+                          ng-model="curve.curvedA">
+                  <label>Score B (original):</label>
+                  <input class="" 
+                          type="number" 
+                          max="100" 
+                          min="0" 
+                          ng-model="curve.rawB">
+                  <label>Score B (curved):</label>
+                  <input class="" 
+                          type="number" 
+                          max="100" 
+                          min="0" 
+                          ng-model="curve.curvedB">
+                  <button ng-click="applyLinearCurve()">
+                    Apply Curve
+                  </button>
+                  <button ng-click="resetCurve()">
+                    Remove Curve
+                  </button>
+                </div>
+
+              </div>
+            </div>
           </div>
+
+          <div role="tabpanel" class="tab-pane fade" id="grade">
+            <canvas id="pie" class="chart chart-pie" chart-data="assignmentData" chart-labels="assignmentLabels" chart-options="pieOpts" chart-colors="colors"> chart-series="series"
+            </canvas>
+          </div>
+          
         </div>
       </div>
 
+      
+
       <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="saveChanges()" data-dismiss="modal">Save</button>
+        <button class="btn btn-primary" ng-click="close()" data-dismiss="modal">Done</button>
       </div>
     </div>
   </div>
