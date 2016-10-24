@@ -19,8 +19,11 @@ angular.module('Lesson').directive("newLessonModal",  ['LessonService', '$state'
       // flag for ajax call
       scope.saving = false;
 
+      // for error messages
+      scope.message = "";
+
       scope.createLesson = function(valid) {
-        console.log(valid)
+
         if (valid) {
           scope.saving = true;
 
@@ -33,9 +36,10 @@ angular.module('Lesson').directive("newLessonModal",  ['LessonService', '$state'
             subject: scope.newSubject
           };
 
+          if (scope.file) {
+            // send file to convert along with lesson info
 
-
-          LessonService.create(lesson).then(
+            LessonService.upload(lesson, scope.file).then(
             function(response) {
               // success
               scope.saving = false;
@@ -46,6 +50,24 @@ angular.module('Lesson').directive("newLessonModal",  ['LessonService', '$state'
               // TODO Flash error
               scope.saving = false;
             });
+
+          } else {
+            // no file to upload and convert
+
+            LessonService.create(lesson).then(
+            function(response) {
+              // success
+              scope.saving = false;
+              scope.goToLesson(response);
+            }, 
+            function(response) {
+              // error
+              // TODO Flash error
+              scope.saving = false;
+              scope.message = "Couldn't convert file.";
+            });
+
+          }
         }
 
       };
@@ -56,7 +78,11 @@ angular.module('Lesson').directive("newLessonModal",  ['LessonService', '$state'
         // wait for modal to close
         setTimeout(function() { 
           $state.go("main.lessons.show", {id: lesson.id}); }, 300);
-        };
+      };
+
+      scope.clearFile = function() {
+        scope.file = undefined;
+      };
     }
   };
 
