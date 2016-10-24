@@ -41,11 +41,11 @@ Gradebook.factory("VisualService", ["Restangular", "_", "CurveService", function
     var studentArray = [];
     angular.forEach(students, function(student) {
       studentArray.push({
-        'name': student.first_name + " " + student.last_name[0] + ".",
-        'average': VisualService.studentAvg(student, assignments)})
+              'name': student.first_name + " " + student.last_name[0] + ".",
+              'percent': VisualService.studentAvg(student, assignments)})
     })
     studentArray.sort(function(a, b){
-      return a.average-b.average
+      return a.percent-b.percent
     })
     return studentArray
   };
@@ -121,6 +121,23 @@ Gradebook.factory("VisualService", ["Restangular", "_", "CurveService", function
       coursesData.push(courseData)
     })
     return coursesData
+
+  VisualService.gradeDistribution = function(students) {
+    var grades = {"A": 0, "B": 0, "C": 0, "D": 0, "F": 0}
+    angular.forEach(students, function(student){
+      if (student.percent >= 90) {
+        grades["A"] += 1
+      } else if (student.percent >= 80) {
+        grades["B"] += 1
+      } else if (student.percent >= 70) {
+        grades["C"] += 1
+      } else if (student.percent >= 60) {
+        grades["D"] += 1
+      } else {
+        grades["F"] += 1
+      }
+    })
+    return grades
   }
 
   return VisualService

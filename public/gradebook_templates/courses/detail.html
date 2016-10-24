@@ -18,15 +18,22 @@
           <li class="nav-item">
             <a class="nav-link" href="#student" role="tab" data-toggle="tab" target="_self"><small>Student Averages in Class</small></a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#grade" role="tab" data-toggle="tab" target="_self"><small>Grade Distribution</small></a>
+          </li>
         </ul>
 
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane fade in active" id="assign">
-            <canvas id="bar" class="chart chart-bar" chart-data="assignmentData" chart-labels="assignmentLabels" chart-options="opts"> chart-series="series"
+            <canvas id="bar" class="chart chart-bar" chart-data="assignmentData" chart-labels="assignmentLabels" chart-options="barOpts"> chart-series="series"
             </canvas>
           </div>
           <div role="tabpanel" class="tab-pane fade" id="student">
-            <canvas id="bar" class="chart chart-bar" chart-data="studentData" chart-labels="studentLabels" chart-options="opts"> chart-series="series"
+            <canvas id="bar" class="chart chart-bar" chart-data="studentData" chart-labels="studentLabels" chart-options="barOpts"> chart-series="series"
+            </canvas>
+          </div>
+          <div role="tabpanel" class="tab-pane fade" id="grade">
+            <canvas id="pie" class="chart chart-pie" chart-data="courseData" chart-labels="courseLabels" chart-options="pieOpts" chart-colors="colors"> chart-series="series"
             </canvas>
           </div>
         </div>
