@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 
-
+gem 'rubystats'
 # help
 gem 'spring-commands-rspec', group: :development
 # Add Angular to Rails Asset Pipeline

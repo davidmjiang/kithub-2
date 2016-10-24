@@ -66,9 +66,11 @@ Lesson.factory("pullRequestService", ["Restangular",
     })
   }
 
-  var acceptChanges = function(pullRequest, lessonId) {
+  var acceptChanges = function(pullRequest, contributorData, lessonId) {
     pullRequest.status = 'accepted';
     pullRequest.accept_reject_time = Date.now();
+    console.log(contributorData)
+    Restangular.all("lesson_plan_contributors").post(contributorData)
     return Restangular.one("lesson_plans", lessonId).one("pull_requests", pullRequest.id).patch(pullRequest).then(function(response) {
       return response
     });

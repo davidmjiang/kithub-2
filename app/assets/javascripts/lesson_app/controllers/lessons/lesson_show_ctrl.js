@@ -152,6 +152,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
       $scope.saving = false;
       console.log("success");
       LessonService.setFlash('alert-success', 'File added!')
+      $scope.file = null;
     }, function(response){
       LessonService.setFlash('alert-danger', 'Could not add file!');
       console.log("error: ", response.status);
