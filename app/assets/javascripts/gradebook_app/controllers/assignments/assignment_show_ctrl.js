@@ -78,19 +78,21 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   })()
 
   var _removeCurve = function() {
-    CurveService.removeCurve($scope.assignment)
-    .then(function(response) {
-      console.log("response in controller")
-      console.log(response)
-      $scope.assignment.has_curve = false
-      assignment.has_curve = false
-      $scope.assignment.flat_curve = null
-      assignment.flat_curve = null
-      $scope.assignment.linear_curve = null
-      assignment.linear_curve = null
-      $scope.assignment.updated_at = response.assignment.updated_at
-      assignment.updated_at = response.assignment.updated_at
-    })
+    if (assignment.has_curve) {
+      CurveService.removeCurve($scope.assignment)
+      .then(function(response) {
+        console.log("response in controller")
+        console.log(response)
+        $scope.assignment.has_curve = false
+        assignment.has_curve = false
+        $scope.assignment.flat_curve = null
+        assignment.flat_curve = null
+        $scope.assignment.linear_curve = null
+        assignment.linear_curve = null
+        $scope.assignment.updated_at = response.assignment.updated_at
+        assignment.updated_at = response.assignment.updated_at
+      })
+    }
   }
 
   $scope.editAssignment = function(assignment) {
@@ -294,10 +296,10 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     return score.percent.toFixed(2);
   })];
 
-  var assignmentDistribution = VisualService.gradeDistribution(_scores)
-  $scope.assignmentLabels = _.map(assignmentDistribution, function(amount, grade){return grade});
-  $scope.assignmentData = _.map(assignmentDistribution, function(amount, grade){return amount});
+  var assignDist = VisualService.gradeDistribution(_scores)
   $scope.colors = ['#4caf50', '#81c784', '#c8e6c9', '#ef9a9a', '#f44336']
+  $scope.assignLabels = _.map(assignDist, function(amount, grade){return grade});
+  $scope.assignData = _.map(assignDist, function(amount, grade){return amount});
 
   $scope.pieOpts = {
     legend: { display: true },
