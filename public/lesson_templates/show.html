@@ -27,6 +27,15 @@
       </a>
     </li>
 
+    <li class="nav-item" ng-if="currentUserLesson === true">
+
+      <a class="nav-link"
+        ui-sref="main.lessons.show.settings"
+        data-toggle="tab">
+        Settings
+      </a>
+    </li>
+
   </ul>
 
 <div ui-view='mainContainer' id="main-content"></div>
