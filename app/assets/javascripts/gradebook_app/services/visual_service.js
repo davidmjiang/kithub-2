@@ -121,6 +121,7 @@ Gradebook.factory("VisualService", ["Restangular", "_", "CurveService", function
       coursesData.push(courseData)
     })
     return coursesData
+  }
 
   VisualService.gradeDistribution = function(students) {
     var grades = {"A": 0, "B": 0, "C": 0, "D": 0, "F": 0}
