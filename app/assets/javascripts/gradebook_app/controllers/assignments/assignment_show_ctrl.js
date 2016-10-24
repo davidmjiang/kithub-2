@@ -10,6 +10,18 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.updateData();
   });
 
+  $scope.$watch('curve.slideA', function (newValue) {
+    $scope.curve.slideA = Number(newValue);
+    $scope.curve.curvedA = $scope.curve.slideA + $scope.curve.rawA;
+    $scope.applyLinearCurve();
+  });
+
+  $scope.$watch('curve.slideB', function (newValue) {
+    $scope.curve.slideB = Number(newValue);
+    $scope.curve.curvedB = $scope.curve.slideB + $scope.curve.rawB;
+    $scope.applyLinearCurve();
+  });
+
   $scope.closed = false;
 
   $scope.assignment = assignment
@@ -28,6 +40,17 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.curve.flatRate = $scope.assignment.flat_curve.flat_rate;
   } else {
     $scope.curve.flatRate = 0;
+  }
+
+  if ($scope.assignment.linear_curve) {
+    _fillLinearCurveEditInputs;
+  } else {
+    $scope.curve.rawA = 0;
+    $scope.curve.rawB = 100;
+    $scope.curve.slideA = 0;
+    $scope.curve.slideB = 0;
+    $scope.curve.curvedA = 0;
+    $scope.curve.curvedB = 100;
   }
 
   var _fillFlatRateEditInput = function() {
@@ -52,6 +75,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       _fillLinearCurveEditInputs()
     }
   }
+
+  _fillCurveEditInputs;
 
   if ($scope.assignment.has_curve ) {
     console.log("assignment has curve!")
@@ -144,9 +169,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.gpa.real = $scope.gpa.raw
     $scope.curve.flatRate = 0
     $scope.curve.rawA = 0
-    $scope.curve.rawB = 0
-    $scope.curve.curvedA = 0
-    $scope.curve.curvedB = 0
+    $scope.curve.rawB = 100
+    $scope.curve.slideA = 0
+    $scope.curve.slideB = 0
     _removeCurve();
   }
 
@@ -258,13 +283,6 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     })
   }
 
-  var _simulateLinearCurve = function() {
-    var _simulatedAssignment = {}
-    angular.copy($scope.assignment, _simulatedAssignment)
-    _simulatedAssignment.linear_curve = $scope.curve
-    return GPAService.realGPA(course, _simulatedAssignment)
-  }
-
   var _linearFormula = function(input, rawPercent) {
     return input.curvedA + (((input.curvedB - input.curvedA)/(input.rawB - input.rawA)) * (rawPercent - input.rawA));
   }
@@ -308,9 +326,20 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
 
   $scope.updateData = function() {
     angular.copy([_.map(_scores, function(score){
-    var updatedScore = score.percent + $scope.curve.flatRate;
-    return updatedScore.toFixed(2);
-  })], $scope.scoreData)
+      var updatedScore = score.percent + $scope.curve.flatRate;
+      return updatedScore.toFixed(2);
+    })], $scope.scoreData)
+  }
+
+  var _simulateLinearCurve = function() {
+    angular.copy([_.map(_scores, function(score){
+      var updatedScore = CurveService.linearFormula($scope.curve, score.percent);
+      return updatedScore.toFixed(2);
+    })], $scope.scoreData)
+    var _simulatedAssignment = {}
+    angular.copy($scope.assignment, _simulatedAssignment)
+    _simulatedAssignment.linear_curve = $scope.curve
+    return GPAService.realGPA(course, _simulatedAssignment)
   }
 
   $scope.alertShow = function() {
