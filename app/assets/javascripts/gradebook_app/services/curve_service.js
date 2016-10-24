@@ -67,6 +67,16 @@ Gradebook.factory("CurveService", ["Restangular", function(Restangular) {
     }
   }
 
+  stub.removeFlat = function(assignment) {
+    Restangular.restangularizeElement(null, assignment.flat_curve, 'flat_curves')
+    return assignment.flat_curve.remove()
+  }
+
+  stub.removeLinear = function(assignment) {
+    Restangular.restangularizeElement(null, assignment.linear_curve, 'linear_curves')
+    return assignment.linear_curve.remove()
+  }
+
   return stub
 
 }])

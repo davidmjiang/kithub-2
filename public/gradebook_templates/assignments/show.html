@@ -171,14 +171,12 @@
 
                 <label style="font-size: 20px">Apply Curve: </label>
                 <select ng-model="curveType">
-                  <option value="Flat">Flat</option>
-                  <option value="Linear">Linear</option>
+                  <option ng-hide="assignment.linear_curve" value="Flat">Flat</option>
+                  <option ng-hide="assignment.flat_curve" value="Linear">Linear</option>
                 </select>
 
                 <span ng-show="curveAlert">Curve has been applied.</span>
-                <span ng-hide="curveAlert">Current Curve: 
-                  {{assignment.flat_curve.flat_rate ? assignment.flat_curve.flat_rate : 0}}%
-                </span>
+                <span ng-hide="curveAlert">Current Curve: {{setNotice()}}</span>
 
                 <div ng-if="curveType==='Flat'">
                   <label>By what percent would you like to increase scores?</label>
@@ -220,7 +218,7 @@
                             ng-model="curve.slideB"
                             required><span> {{curve.slideB}}%</span><br>
                     <div style="text-align: center">
-                      <button class="btn btn-success" ng-disabled="linearForm.$invalid" ng-click="applyLinearCurve()">
+                      <button class="btn btn-success" ng-disabled="linearForm.$invalid" ng-click="saveChanges(); alertShow()">
                         Apply Curve
                       </button>
                       <button class="btn btn-danger" ng-click="resetCurve()">
