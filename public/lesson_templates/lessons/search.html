@@ -34,11 +34,15 @@
       </div>
     </div>
     <div class="col-sm-9">
+
       <div class="lesson-container">
         <div class="list-group row">
-          <div dir-paginate="lesson in lessons | orderBy: '-created_at' | filter: {title: titleFilter} | filter: between('grade', filters.gradeMin, filters.gradeMax) | filter: {lesson_type: filters.lessonType} | filter: {subject: filters.subject} | filter: between('hours', filters.hourMin, filters.hourMax) | itemsPerPage: 10">
+          <div ng-if="lessons" dir-paginate="lesson in lessons | orderBy: '-created_at' | filter: {title: titleFilter} | filter: between('grade', filters.gradeMin, filters.gradeMax) | filter: {lesson_type: filters.lessonType} | filter: {subject: filters.subject} | filter: between('hours', filters.hourMin, filters.hourMax) | itemsPerPage: 10">
             <div class="clearfix" ng-if="$index % 2 == 0"></div>
             <div lesson-card class="col-md-6" lesson="lesson" not-teacher-show="true"></div>
+          </div>
+          <div dir-paginate="teacher in teachers | itemsPerPage: 10">
+            <user-box user="currentUser" teacher="teacher"></user-box>
           </div>
         </div>
         <div class="row">

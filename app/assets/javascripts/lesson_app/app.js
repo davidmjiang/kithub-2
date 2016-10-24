@@ -94,7 +94,8 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
     .state('main.search', {
       url: '/search',
       params: {
-        title_cont: null
+        searchType: null,
+        searchTerm: null
       },
       templateUrl: 'lesson_templates/lessons/search.html',
       controller: 'SearchCtrl'

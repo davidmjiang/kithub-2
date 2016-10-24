@@ -24,6 +24,8 @@ gem "figaro"
 gem 'bootstrap', '~> 4.0.0.alpha4'
 # Bootstrap dependency
 
+gem 'textacular', require: 'textacular/rails'
+
 gem 'ransack', github: 'activerecord-hackery/ransack'
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'

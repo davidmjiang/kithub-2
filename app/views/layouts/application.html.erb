@@ -27,10 +27,10 @@
       <% if controller_name == 'kithub' %>
         <div class="form-inline center-form" ng-controller="NavCtrl">
           <input class="form-control" type="text" ng-model="term" placeholder="Search">
-          <select class="selectpicker">
-            <option>Title</option>
-            <option>Content</option>
-            <option>User</option>
+          <select id="search-type-select" ng-model="searchType" class="selectpicker">
+            <option value="title">Title</option>
+            <option value="content">Content</option>
+            <option value="name">User</option>
           </select>
           <button class="btn btn-outline-success" ng-click="search()">Search</button>
         </div>

@@ -3,8 +3,14 @@
 Lesson.controller('SearchCtrl', ['$scope', '$state', '$stateParams', 'Restangular', 'LessonService',
   function($scope, $state, $stateParams, Restangular, LessonService) {
 
-    $scope.lessons = Restangular.all('searches').getList({q: $stateParams}).$object
-    $scope.query = $stateParams.title_cont
+    if ($stateParams.searchType === "name") {
+      $scope.teachers = Restangular.all('searches').getList({q: $stateParams}).$object;
+      console.log($scope.teachers)
+    } else {
+      $scope.lessons =  Restangular.all('searches').getList({q: $stateParams}).$object 
+      console.log($scope.lessons)
+    }
+    $scope.query = $stateParams.searchTerm
     $scope.notTeacherShow = true;
 
     $scope.states = LessonService.getStates();
