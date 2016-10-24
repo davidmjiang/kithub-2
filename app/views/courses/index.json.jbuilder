@@ -10,7 +10,7 @@ json.array! @courses do |course|
     json.assignment_type assignment.assignment_type
     json.possible_score assignment.possible_score
     json.course_id assignment.course_id
-    json.created_at assignment.created_at.strftime("%d-%b-%y")
+    json.created_at assignment.created_at
 
     json.has_curve assignment.has_curve
     json.flat_curve assignment.flat_curve
