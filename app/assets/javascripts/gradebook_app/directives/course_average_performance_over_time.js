@@ -8,7 +8,7 @@ Gradebook.directive('d3Line', ['$window', 'VisualService', function($window, Vis
 
       var d3 = $window.d3
 
-      var parseTime = d3.timeParse("%d-%b-%y")
+      // var parseTime = d3.timeParse("%d-%b-%y")
 
       var margin = {top: 20, right: 20, bottom: 50, left: 50},
           width = 560 - margin.left - margin.right,
@@ -33,7 +33,7 @@ Gradebook.directive('d3Line', ['$window', 'VisualService', function($window, Vis
           .y(function(d) { return y(d.class_performance) })
 
       for (var i = 0; i < data.length; i++) {
-        data[i].date = parseTime(data[i].date)
+        // data[i].date = parseTime(data[i].date)
         data[i].class_performance = +data[i].class_performance
       }
 
