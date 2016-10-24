@@ -11,7 +11,7 @@ Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments",
   var averages = VisualService.studentAverages(students, assignments)
   $scope.studentLabels = _.map(averages, 'name');
   $scope.studentData = [_.map(averages, function(student){
-    return student.average.toFixed(2);
+    return student.percent.toFixed(2);
   })];
 
   $scope.assignmentLabels = _.map(assignments, 'title');
@@ -19,7 +19,19 @@ Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments",
     return VisualService.assignmentAvg(assignment).toFixed(2);
   })];
 
-  $scope.opts = {
+  var courseDistribution = VisualService.gradeDistribution(averages)
+  $scope.courseLabels = _.map(courseDistribution, function(amount, grade){return grade});
+  $scope.courseData = _.map(courseDistribution, function(amount, grade){return amount});
+  $scope.colors = ['#4caf50', '#81c784', '#c8e6c9', '#ef9a9a', '#f44336']
+
+  this.closed = false;
+
+  this.closeModal = function () {
+    close(null, 200);
+    this.closed = true;
+  }
+
+  $scope.barOpts = {
     scales: {
       yAxes: [
         {ticks: {
@@ -31,5 +43,10 @@ Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments",
       ]
     }
   }
+
+  $scope.pieOpts = {
+    legend: { display: true },
+    showTooltips: true,
+  };
 
 }])

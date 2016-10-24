@@ -1,7 +1,5 @@
 <button ng-click="showNewCourseModal()">Add Course</button>
 
-<!-- <a ui-sref="gradebook.dataVisuals">Compare your students' GPAs by course</a> -->
-
 <div class='row'>
   <h1>Your courses</h1>
   <div class="col-xs-4" ng-repeat="course in courses">
@@ -15,5 +13,12 @@
     <div class="new-course" ng-click="showNewCourseModal()">
     <p>Create new course..</p>
     </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12" ng-repeat="course in coursesData">
+  <p>{{courses[$index].title}}</p>
+    <div d3-line index="{{$index}}"></div>
   </div>
 </div>

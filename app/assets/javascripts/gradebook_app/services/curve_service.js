@@ -2,8 +2,14 @@ Gradebook.factory("CurveService", ["Restangular", function(Restangular) {
 
   var stub = {}
 
+
+
   var _restangularizeFlatCurve = function(assignment) {
     return Restangular.restangularizeElement(null, assignment.flat_curve, 'flat_curves')
+  }
+
+  stub.linearFormula = function(input, rawPercent) {
+    return input.curvedA + (((input.curvedB - input.curvedA)/(input.rawB - input.rawA)) * (rawPercent - input.rawA));
   }
 
   stub.applyFlatCurve = function(flatRate, assignmentId) {

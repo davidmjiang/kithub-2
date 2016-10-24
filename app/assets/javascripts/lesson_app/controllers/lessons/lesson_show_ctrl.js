@@ -80,6 +80,12 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     LessonService.create(newLesson);
   };
 
+  $scope.validateTitle = function(data) {
+    if (data && data.length < 2) {
+      return "Title must be at least 2 characters.";
+    }
+  };
+
   // turns on and off spinning save image
   var toggleSaving = function(toggle) {
     $scope.saving = toggle;

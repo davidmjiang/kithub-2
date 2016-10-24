@@ -2,6 +2,8 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
 
   var StudentService = {}
 
+
+
   StudentService.sortStudents = function(students) {
     var students = students.sort(function(a,b) {
       var lastNameA = a.last_name
@@ -22,8 +24,8 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   StudentService.sortSubmissions = function(students) {
     for(var i = 0; i < students.length; i++) {
       students[i].submissions.sort(function(a,b) {
-        var createdAtA = a.id
-        var createdAtB = b.id
+        var createdAtA = a.id;
+        var createdAtB = b.id;
         if(createdAtA < createdAtB) {
           return -1;
         }
@@ -47,14 +49,19 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
     })
   }
 
+
+  function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+  }
+
   StudentService.studentData = function(createStudent) {
     var response = [];
     response.push(createStudent.id);
-    response.push(createStudent.first_name);
-    response.push(createStudent.last_name);
+    response.push(capitalize(createStudent.first_name));
+    response.push(capitalize(createStudent.last_name));
     response.push(createStudent.email);
     for(var i = 0; i < createStudent.submissions.length; i ++) {
-      response.push(createStudent.submissions[i].raw_score);
+      response.push(createStudent.submissions[i].raw_score); // maybe add a filter here to get curved score (via submission.assignment.flat_curve or linear_curve)
     }
     return response;
   };
@@ -76,7 +83,7 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   }
 
   StudentService.createSubmissions = function(id) {
-  	console.log(id)
+  	console.log(id);
   }
 
   StudentService.updateStudent = function(params, student) {
@@ -85,8 +92,8 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   }
 
   StudentService.removeStudent = function(student) {
-    console.log(student)
-    return Restangular.one("students", student.id).remove()
+    console.log(student);
+    return Restangular.one("students", student.id).remove();
   }
 
   return StudentService

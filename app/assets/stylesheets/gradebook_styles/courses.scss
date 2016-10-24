@@ -45,3 +45,14 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
 .sh-btn {
   margin-bottom: 5px;
 }
+
+.editable-buttons button {
+  color:red;
+}
+
+/* for line graphs */
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
