@@ -4,7 +4,7 @@
     display: inline-block;
   }
   .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
-    width: 150px;
+    width: 110px;
     .btn.dropdown-toggle.btn-default{
       background-color: $blue-sky-color;
       color: white;
