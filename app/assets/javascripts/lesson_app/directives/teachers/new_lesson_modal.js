@@ -78,7 +78,7 @@ angular.module('Lesson').directive("newLessonModal",  ['LessonService', '$state'
         // wait for modal to close
         setTimeout(function() { 
           $state.go("main.lessons.show", {id: lesson.id}); }, 300);
-        };
+      };
 
       scope.clearFile = function() {
         scope.file = undefined;

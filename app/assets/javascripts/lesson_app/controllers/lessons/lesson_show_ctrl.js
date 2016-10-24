@@ -1,7 +1,7 @@
 "use strict";
 
-Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http', 'LessonStarService', 'currentTeacher', 'flash', '$timeout', "_",
-  function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http, LessonStarService, currentTeacher, flash, $timeout, _) {
+Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http', 'LessonStarService', 'currentTeacher', 'flash', '$timeout', "_", "$state",
+  function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http, LessonStarService, currentTeacher, flash, $timeout, _, $state) {
 
   $scope.lesson = lesson;
   $scope.owner = owner;
@@ -101,16 +101,28 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     LessonService.save($scope.lesson).then(
       function() {
         $scope.saved_title = $scope.lesson.title;
-        LessonService.setFlash('alert-success', 'Lesson saved!')
+        LessonService.setFlash('alert-success', 'Lesson saved!');
         toggleSaving(false);
       },
       function() {
-        LessonService.setFlash('alert-danger', 'Could not save lesson')
+        LessonService.setFlash('alert-danger', 'Could not save lesson');
         $scope.lesson.title = oldTitle;
       });
     // $scope.toggleEditing();
   };
 
+  $scope.deleteLesson = function() {
+    LessonService.delete($scope.lesson).then(
+      function() {
+        angular.element(document.querySelector('#deleteModal')).modal('hide');
+
+        // wait for modal to close
+        setTimeout(function() { 
+            $state.go("main.redirect");
+          }, 300);
+      }
+    );
+  };
 
   // switch from editing to preview mode
   $scope.toggleEditing = function() {

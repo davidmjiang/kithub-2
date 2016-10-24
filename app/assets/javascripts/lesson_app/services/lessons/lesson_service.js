@@ -18,6 +18,11 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
     teacher.lesson_plans.push(lesson);
   };
 
+  var removeFromUserLessons = function(lesson) {
+    var teacher = TeacherService.getTeacher(lesson.teacher_id);
+    _.remove(teacher.lesson_plans, function(n) { return (n.id === lesson.id); } );
+  };
+
   // takes in the lesson (from an update action response)
   // updates the teacher's lesson plan in memory
   var updateUserLesson = function(lesson) {
@@ -64,6 +69,7 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
               url: '/api/v1/lesson_plans.json',
               data: { file: file, lesson_plan: lesson }
       }).then( function(response) {
+        // var newLesson = Restangular.restangularizeElement(null, response, 'lesson_plans');
         pushToUserLessons(response.data);
 
         // returns lesson object
@@ -81,6 +87,14 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
         return response;
       });
 
+  };
+
+  lessonService.delete = function(lesson) {
+    return lesson.remove().then(
+      function() {
+        removeFromUserLessons(lesson);
+      }
+    );
   };
 
   lessonService.getLesson = function(lesson_id) {
