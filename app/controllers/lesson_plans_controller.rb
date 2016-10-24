@@ -56,6 +56,21 @@ class LessonPlansController < ApplicationController
     end
   end
 
+  def destroy
+    @lesson = current_teacher.lesson_plans.find(params[:id])
+
+    respond_to do |format|
+      if @lesson.destroy
+        format.json{render "show.json.jbuilder"}
+      else
+        format.json { render json: {
+                                    errors: @lesson.errors.full_messages },
+                                    :status => 422
+                                   }
+      end
+    end
+  end
+
   private
 
     def lesson_plan_params
