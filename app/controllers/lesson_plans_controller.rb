@@ -1,3 +1,5 @@
+require 'doc_convert'
+
 class LessonPlansController < ApplicationController
 
   # Gets all lesson plans for all teachers and returns them in JSON object
@@ -36,6 +38,11 @@ class LessonPlansController < ApplicationController
   def create
     @lesson = current_teacher.lesson_plans.build(lesson_plan_params)
 
+    if params[:file]
+      file = params[:file]
+      @lesson.content = DocConvert.docx_to_markdown(file.tempfile.path)
+    end
+
     respond_to do |format|
       if @lesson.save
         format.json{render "show.json.jbuilder"}
@@ -47,6 +54,27 @@ class LessonPlansController < ApplicationController
                                    }
       end
     end
+  end
+
+  def destroy
+    @lesson = current_teacher.lesson_plans.find(params[:id])
+
+    respond_to do |format|
+      if @lesson.destroy
+        format.json{render "show.json.jbuilder"}
+      else
+        format.json { render json: {
+                                    errors: @lesson.errors.full_messages },
+                                    :status => 422
+                                   }
+      end
+    end
+  end
+
+  def export
+    @lesson = current_teacher.lesson_plans.find(params[:id])
+    content_with_headers = DocConvert.add_headers_to_markdown(@lesson)
+    DocConvert.markdown_to_rtf(content_with_headers)
   end
 
   private
