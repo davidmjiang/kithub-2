@@ -8,7 +8,7 @@ class CoursesController < ApplicationController
   end
 
   def show
-    @course = Course.includes( { :students => :submissions}, { :assignments => :submissions }, { :assignments => :flat_curve }, { :assignments => :linear_curve }).find(params[:id])
+    @course = Course.includes( { :students => :submissions}, { :assignments => [:submissions, :flat_curve, :linear_curve] }).find(params[:id])
   end
 
   def create
