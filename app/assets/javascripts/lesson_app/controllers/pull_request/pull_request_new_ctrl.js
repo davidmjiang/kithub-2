@@ -1,10 +1,11 @@
-angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$stateParams', "pullRequestService", "LessonService", "lesson", "currentUser", "teacher", "DiffService", 'owner', function($scope, $stateParams, pullRequestService, LessonService, lesson, currentUser, teacher, DiffService, owner){
+angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$stateParams', "pullRequestService", "LessonService", "lesson", "currentUser", "teacher", "DiffService", 'owner', '_',
+ function($scope, $stateParams, pullRequestService, LessonService, lesson, currentUser, teacher, DiffService, owner, _){
 
   $scope.newPR = pullRequestService.getNewPullRequest($stateParams.id);
   $scope.forkedLesson = lesson;
   $scope.owner = owner;
 
-  $scope.prSent = $scope.forkedLesson.pull_requests_sent
+  $scope.prSent = _.filter($scope.forkedLesson.pull_requests_sent, { 'status': undefined });
 
   LessonService.getLesson($stateParams.id).then(function(response){
     if(response.parent_plan_id) {
