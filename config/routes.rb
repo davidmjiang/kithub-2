@@ -27,7 +27,6 @@ Rails.application.routes.draw do
     end
  	end
 
-
   get '/gradebook', to: "gradebooks#index"
 
 

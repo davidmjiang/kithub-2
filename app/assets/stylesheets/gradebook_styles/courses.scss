@@ -53,3 +53,10 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
 .styling-grades {
   padding: 5px 12px !important;
 }
+
+/* for line graphs */
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}

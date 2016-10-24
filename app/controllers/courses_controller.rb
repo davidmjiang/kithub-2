@@ -1,10 +1,9 @@
 class CoursesController < ApplicationController
 
   def index
-    @courses = current_teacher.courses
-    respond_to do |format|
-      format.json {render json: @courses}
-    end
+    @courses = Course.includes(
+      {:assignments => [:submissions, :flat_curve, :linear_curve]}
+      ).where("teacher_id = ?", current_teacher.id)
   end
 
   def show
