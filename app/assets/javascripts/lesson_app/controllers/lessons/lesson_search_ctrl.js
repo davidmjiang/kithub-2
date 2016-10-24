@@ -3,10 +3,6 @@
 Lesson.controller('SearchCtrl', ['$scope', '$state', 'currentUser', '$stateParams', 'Restangular', 'LessonService', 
   function($scope, $state, currentUser, $stateParams, Restangular, LessonService) {
 
-    // if ($stateParams.searchTerm == null) {
-    //   $state.go('main.teachers.overview', {id: currentUser.id})
-    // }
-
     $scope.searchType = $stateParams.searchType;
     if ($stateParams.searchType === "name") {
       $scope.teachers = Restangular.all('searches').getList({q: $stateParams}).$object;
