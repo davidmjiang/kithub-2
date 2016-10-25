@@ -1,7 +1,7 @@
 Lesson.directive("pullRequestShow",  [ "pullRequestService", "DiffService", 'LessonService', "$stateParams", "Restangular", "Auth", "$window", function(pullRequestService, DiffService, LessonService, $stateParams, Restangular, Auth, $window) {
   return {
     templateUrl:"lesson_templates/pull_requests/show.html",
-    scope: { pullRequest: "=", pendingPrs: "="},
+    scope: { pullRequest: "=", pendingPrs: "=", lesson: "="},
     restrict: "E",
     link: function(scope) {
       scope.comments = scope.pullRequest.comments;
@@ -19,8 +19,9 @@ Lesson.directive("pullRequestShow",  [ "pullRequestService", "DiffService", 'Les
 
       //Porbably need to update version, make pull requests as accepted somehow.
       scope.acceptChanges = function() {
+        var newContent = DiffService.acceptChanges(scope.diffs);
         angular.element(".modal-backdrop").remove();
-        scope.pullRequest.parent_plan.content = DiffService.acceptChanges(scope.diffs);
+        scope.pullRequest.parent_plan.content = newContent;
         scope.pullRequest.parent_plan = Restangular.restangularizeElement(null, scope.pullRequest.parent_plan, "lesson_plans");
 
         contributorData = { teacher_id: scope.pullRequest.forked_plan.teacher_id,
@@ -28,6 +29,7 @@ Lesson.directive("pullRequestShow",  [ "pullRequestService", "DiffService", 'Les
 
         LessonService.save(scope.pullRequest.parent_plan).then(function() {
           pullRequestService.acceptChanges(scope.pullRequest, contributorData, $stateParams.id);
+          scope.lesson.content = newContent;
         });
         $window.location.reload();
       };
