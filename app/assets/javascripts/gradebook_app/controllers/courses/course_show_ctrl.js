@@ -35,7 +35,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
   $scope.percentScore = function(item, index) {
     if(index > 3 && index < $scope.colCount - 1 && $scope.assignments[index - 4]) {
-      return ((item / $scope.assignments[index - 4].possible_score * 100).toFixed(2) + "%");
+      return ((item / $scope.assignments[index - 4].possible_score * 100).toFixed(1) + "%");
     }
   }
 
