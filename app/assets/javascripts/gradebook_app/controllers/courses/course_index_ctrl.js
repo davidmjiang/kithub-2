@@ -1,4 +1,4 @@
-Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList", "CourseService", "NgTableParams", "VisualService", function($scope, ModalService, courseList, CourseService, NgTableParams, VisualService) {
+Gradebook.controller("CourseIndexCtrl", ["$scope", "$sce", "ModalService", "courseList", "CourseService", "NgTableParams", "VisualService", function($scope, $sce, ModalService, courseList, CourseService, NgTableParams, VisualService) {
 
   $scope.courses = courseList;
 
@@ -11,21 +11,6 @@ Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList",
     })
   }
 
-  $scope.showInfoModal = function(course) {
-    ModalService.showModal({
-      templateUrl: "gradebook_templates/courses/info.html",
-      controller: "CourseInfoModalCtrl",
-      inputs: {
-        course: course
-      }
-    }).then(function(modal) {
-      modal.element.modal();
-      modal.element.one('hidden.bs.modal', function () {
-        if (!modal.controller.closed) {
-            modal.controller.closeModal();
-        }
-      })
-    })
-  }
+  $scope.popoverTemplateUrl =  'gradebook_templates/courses/info_popover.html'
 
 }])
