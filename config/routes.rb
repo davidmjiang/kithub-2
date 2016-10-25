@@ -17,6 +17,7 @@ Rails.application.routes.draw do
         resources :pull_requests, only: [:index, :create, :update]
         resources :additional_materials, only: [:index, :create]
         resources :lesson_plan_stars, only: [:create, :destroy]
+        get "/export", to: "lesson_plans#export"
       end
       resources :flat_curves, only: [:create, :update, :destroy]
       resources :linear_curves, only: [:create, :update, :destroy]
