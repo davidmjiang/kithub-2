@@ -73,6 +73,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
             });
           }],
       currentTeacher: ['currentUser', 'TeacherService', function(currentUser, TeacherService) {
+        console.log(currentUser)
         return TeacherService.getTeacher(currentUser.id)
       }]
     }

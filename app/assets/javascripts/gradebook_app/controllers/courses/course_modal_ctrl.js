@@ -1,4 +1,4 @@
-Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments", "gpa", "students", "close", "VisualService", function($scope, _, course, assignments, gpa, students, close, VisualService) {
+Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments", "gpa", "students", "close", "VisualService", "GPAService", function($scope, _, course, assignments, gpa, students, close, VisualService, GPAService) {
 
   $scope.course = course;
   $scope.gpa = gpa;
@@ -16,10 +16,14 @@ Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments",
 
   $scope.assignmentLabels = _.map(assignments, 'title');
   $scope.assignmentData = [_.map(assignments, function(assignment) {
-    return VisualService.assignmentAvg(assignment).toFixed(2);
+    return GPAService.getAverages($scope.course, assignment).toFixed(2);
   })];
 
-  var courseDistribution = VisualService.gradeDistribution(averages)
+  var pieScores = _.map(averages, function(student){
+    return student.percent;
+  });
+
+  var courseDistribution = VisualService.gradeDistribution(pieScores)
   $scope.courseLabels = _.map(courseDistribution, function(amount, grade){return grade});
   $scope.courseData = _.map(courseDistribution, function(amount, grade){return amount});
   $scope.colors = ['#4caf50', '#81c784', '#c8e6c9', '#ef9a9a', '#f44336']
@@ -37,8 +41,7 @@ Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments",
         {ticks: {
           beginAtZero: true,
           steps: 10,
-          stepValue: 10,
-          max: 100
+          stepValue: 10
         }}
       ]
     }
