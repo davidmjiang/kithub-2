@@ -27,6 +27,8 @@ class LessonPlansController < ApplicationController
 
     respond_to do |format|
       if @lesson.update(lesson_plan_params)
+        @lesson.version += 0.1
+        @lesson.save
         format.json{render "show.json.jbuilder"}
       else
         format.json { render json: {

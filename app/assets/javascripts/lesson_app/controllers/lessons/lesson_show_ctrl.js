@@ -10,7 +10,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   $scope.owner = owner;
   $scope.currentUser = currentUser;
   $scope.draftTitle = $scope.lesson.title;
-
+console.log($scope.lesson.version)
   $scope.pendingPRs = _.remove($scope.lesson.pull_requests_received, function (pr) {
     return pr.status === "pending";
   }).length;
