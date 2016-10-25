@@ -1,4 +1,7 @@
+require 'securerandom'
+
 class Course < ApplicationRecord
+  before_save :create_identifier
 
   validates :title, presence: true
 
@@ -24,6 +27,10 @@ class Course < ApplicationRecord
 
   def assignment_ids
     self.assignments.map{|assignment|assignment.id}.join(", ")
+  end
+
+  def create_identifier
+    self.identifier = SecureRandom.hex(4) + self.id.to_s
   end
 
 end
