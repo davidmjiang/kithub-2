@@ -1,9 +1,17 @@
 <div ng-if="currentUserLesson === true" >
 
-  <button class="btn btn-secondary" ng-click="export()">Export to Word document*</button>
-  *You may need to turn off pop-up blockers
-
-  <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete Lesson</button>
+  <div class="row">
+    <div class="col-md-4">
+     <button class="btn btn-secondary setting-btn helptip" ng-click="export()" ng-if="!exporting">Download lesson&nbsp<i class="fa fa-question-circle-o"></i></button>
+      <div class="helptext">Download lesson as a .docx file. Check your pop-up blocker if having trouble with the download.</div>
+      <button class="btn btn-secondary setting-btn" ng-if="exporting" ng-disabled="true"><i class="fa fa-spinner fa-spin fa-fw"></i>Downloading...</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <button class="btn btn-danger setting-btn" data-toggle="modal" data-target="#deleteModal">Delete Lesson</button>
+    </div>
+  </div>
 
   <div class="modal fade" id="deleteModal">
     <div class="modal-dialog" role="document">
