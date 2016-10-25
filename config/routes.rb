@@ -29,6 +29,7 @@ Rails.application.routes.draw do
  	end
 
   get '/gradebook', to: "gradebooks#index"
+  get '/syllabi', to: 'syllabi#index'
 
 
 end
