@@ -124,11 +124,9 @@
         margin: 8px 0;
         box-sizing: border-box;
     }
-/*    input {
-      border-bottom: 5px solid green;
-      height: 50px;
-      width: 500px;
-    }*/
+    .remember-me {
+      width: 2%;
+    }
   }
 
   .nav-item {
@@ -138,6 +136,33 @@
 
   .nav-link {
     height: 60px;
+
+  }
+
+  .btn-signup {
+    background-color:#B7B8B6;
+    display: inline-block;
+    width: 25%;
+  }
+
+  .fb-btn {
+    background-color: #3b5998;
+    color: white;
+    display: inline-block;
+    width: 25%;
+  }
+
+  .nav-tabs .nav-link.active {
+    background-color: $primary-color;
+  }
+
+  .nav-tabs .nav-link {
+    background-color: #dee884;
+;
+  }
+
+  ul[role="tablist"] {
+    background-color: #dee884;
 
   }
 }

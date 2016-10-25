@@ -49,5 +49,6 @@
 //= require plane
 //= require paper
 //= require tracking
+//= require debug.addIndicators
 
 //= require_tree .
