@@ -236,6 +236,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
           for(var j = 0; j < $scope.students[i].submissions.length; j++) {
             if($scope.students[i].submissions[j].assignment_id == assignmentId) {
               var submission = $scope.students[i].submissions[j]
+              $scope.allRows[i][j + 4] = parseInt(item);
             }
           }
           
