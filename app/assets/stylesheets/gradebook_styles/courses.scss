@@ -47,7 +47,15 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
 }
 
 .editable-buttons button {
-  color:red;
+
+}
+
+.failing-students .notify-parents {
+  float:left;
+}
+
+.exceptional-students .notify-parents {
+  float:left;
 }
 
 .styling-grades {
@@ -73,4 +81,8 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
     font-size: 1.3em;
   }
 
+}
+
+.styling-grades {
+  
 }

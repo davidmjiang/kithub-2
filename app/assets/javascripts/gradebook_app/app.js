@@ -11,6 +11,13 @@ Gradebook.config([
   }
   ]);
 
+angular.module('Gradebook').run(['editableOptions', 'editableThemes', function(editableOptions, editableThemes) {
+  editableOptions.theme = 'default'; // bootstrap3 theme. Can be also 'bs2', 'default'
+  editableThemes['default'].submitTpl = '<button type="submit" class="btn btn-success btn-sm"><i class="fa fa-check" aria-hidden="true"></i></button>';
+  editableThemes['default'].cancelTpl = '<button type="button" ng-click="$form.$cancel()" class="btn btn-danger btn-sm"><i class="fa fa-times" aria-hidden="true"></i></button>';
+
+}]);
+
 Gradebook.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
   $urlRouterProvider.otherwise("/");

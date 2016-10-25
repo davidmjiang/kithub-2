@@ -60,6 +60,15 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.curve.curvedB = 100;
   }
 
+  $scope.removeAssignment = function(assignment) {
+    if(confirm('Are you sure you want to remove that assignment? Each student\'s submissions will also be deleted.')) {
+      AssignmentService.removeAssignment(assignment).then(function(removedAssignment) {
+        $rootScope.$broadcast("assignment.deleted", removedAssignment);
+        $scope.close();
+      })
+    }
+  }
+
   var _fillFlatRateEditInput = function() {
     var curve = {}
     angular.copy($scope.assignment.flat_curve, curve)

@@ -31,6 +31,15 @@ class AssignmentsController < ApplicationController
     end
   end
 
+  def destroy
+    @assignment = Assignment.find_by_id(params[:id])
+    if @assignment.destroy
+      respond_to do |format|
+        format.json { render json: @assignment, status: 200 }
+      end
+    end
+  end
+
 
 
   private

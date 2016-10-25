@@ -37,6 +37,7 @@ t = Teacher.create(email: person,
                    state: Faker::Address.state)
   2.times do
     c = t.courses.create(title: Faker::Educator.course)
+    c.identifier = SecureRandom.hex(4) + c.id.to_s
     15.times do
       assignment = c.assignments.create(title: Faker::Space.star,
                            assignment_type: assignment_type.sample,

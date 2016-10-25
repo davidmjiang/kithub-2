@@ -1,0 +1,12 @@
+<p>
+	<h3>Dear <%=@student.first_name %>,</h3>
+	<p>I would like to inform you of <%= @student.first_name %>'s current progress in my class. With the most recent grades, <%= @student.first_name %> has an overall score of <%= @score %>%.</p>
+
+	<p>I am very concerned with the current path of <%= @student.first_name %>. If you would like to talk further, you can reach me through my email at: <%= @teacher.email %>.</p>
+
+	<p>Thank you for your time. </p>
+
+	<p>Best,</p>
+
+	<p><%= @teacher.first_name + " " + @teacher.last_name %>
+</p>
