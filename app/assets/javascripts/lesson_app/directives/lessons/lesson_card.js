@@ -4,7 +4,8 @@ Lesson.directive('lessonCard', [
       restrict: 'A',
       templateUrl: "lesson_templates/directives/lesson_card.html",
       scope: {
-        lesson: "="
+        lesson: "=",
+        notTeacherShow: "="
       }
     };
   }
