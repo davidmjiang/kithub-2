@@ -22,14 +22,14 @@
 <p>The following students are failing (under 60%) your class:</p>
   <p ng-repeat="(failingStudent, score) in failingStudents" class="col-md-4">
   {{failingStudent}} : {{score}}%</br>
-  <button ng-click="notifyParent(failingStudent, score)" class="btn btn-primary notify-parents">Notify {{failingStudent}}'s parent/guardian</button>
+  <button ng-click="notifyParent(failingStudent, score)" class="btn btn-primary notify-parents">Notify {{failingStudent}}</button>
   </p>
 </div>
 
 <div ng-if="anyExceptionalStudents" class="exceptional-students row">
 <p>The following students are doing exceptionally well (over 90%) in your class:</p>
   <p ng-repeat="(exceptionalStudent, score) in exceptionalStudents" class="col-md-4">{{exceptionalStudent}} : {{score}}%</br>
-    <button ng-click="notifyParent(exceptionalStudent, score)" class="btn btn-primary notify-parents">Notify {{exceptionalStudent}}'s parent/guardian</button>
+    <button ng-click="notifyParent(exceptionalStudent, score)" class="btn btn-primary notify-parents">Notify {{exceptionalStudent}}</button>
   </p>
 </div>
 
