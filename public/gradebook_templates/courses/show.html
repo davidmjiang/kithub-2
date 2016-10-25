@@ -18,30 +18,17 @@
     </h1>
   </div>
 </div>
-<div ng-if="anyFailingStudents" class="failing-students row">
-<p>The following students are failing (under 60%) your class:</p>
-  <p ng-repeat="(failingStudent, score) in failingStudents" class="col-md-4">
-  {{failingStudent}} : {{score}}%</br>
-  <button ng-click="notifyParent(failingStudent, score)" class="btn btn-primary notify-parents">Notify {{failingStudent}}</button>
-  </p>
-</div>
-
-<div ng-if="anyExceptionalStudents" class="exceptional-students row">
-<p>The following students are doing exceptionally well (over 90%) in your class:</p>
-  <p ng-repeat="(exceptionalStudent, score) in exceptionalStudents" class="col-md-4">{{exceptionalStudent}} : {{score}}%</br>
-    <button ng-click="notifyParent(exceptionalStudent, score)" class="btn btn-primary notify-parents">Notify {{exceptionalStudent}}</button>
-  </p>
-</div>
 
 <p>Average GPA by raw score: <span>{{rawGPA | number:2}}%</span></p>
 <p ng-show="{{curvedGPA}}">GPA with curve: <span>{{curvedGPA}}% </span></p>
 <p><strong>Note</strong>: Adding a '-1' to a score DOES NOT include the score in the student's overall GPA for the course.
 This feature is useful incase a student has not yet handed in an assignment or is excused from an assignment</p>
-<div class="overflow-x-auto">
+<div>
   <button class="btn btn-success sh-btn" ng-click="addStudentModal(course)">Add Student</button>
   <button class="btn btn-success sh-btn" ng-click="addAssignmentModal(course)">Add Assignment</button>
   <button class="btn btn-danger sh-btn" ng-click="removeStudentModal(course)">Remove Student</button>
   <button class="btn btn-outline-danger sh-btn" ng-click="deleteCourse()">Delete this course</button>
+  <button class="btn btn-primary" ng-click="showNotifications(failingStudents, exceptionalStudents)">Notifications</button>
   <div fixed-first-column>
   <scrollable-table>
   
@@ -73,4 +60,3 @@ This feature is useful incase a student has not yet handed in an assignment or i
   </scrollable-table>
   </div>
 </div>
-
