@@ -186,7 +186,12 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   };
 
   $scope.export = function() {
-    LessonService.export($scope.lesson);
+    LessonService.export($scope.lesson).then(function(){
+      var hiddenElement = document.createElement('a');
+      hiddenElement.href = "localhost:3000/api/v1/lesson_plans/"+$scope.lesson.id+"/export";
+      hiddenElement.target = "_blank";
+      hiddenElement.click();
+    });
   };
 
 

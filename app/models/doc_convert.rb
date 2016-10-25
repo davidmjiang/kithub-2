@@ -1,4 +1,5 @@
 require 'pandoc-ruby'
+require 'tempfile'
 
 class DocConvert
 
@@ -6,9 +7,12 @@ class DocConvert
     PandocRuby.convert([ filename ], from: :docx, to: :markdown )
   end
 
-  def self.markdown_to_rtf( markdown_string )
-    puts markdown_string
-    PandocRuby.convert(markdown_string, :s, {from: :markdown, to: :rtf, o: 'output.rtf'})
+  def self.markdown_to_rtf( markdown_string, title )
+    f = PandocRuby.convert(markdown_string, :s, {from: :markdown, to: :docx, o: 'output.docx'})
+    file = Tempfile.new(["#{title}", ".doc"])
+    File.open(file.path, 'wb'){|file| file.write(f)}
+    file.rewind
+    file.path
   end
 
   def self.add_headers_to_markdown(lesson)

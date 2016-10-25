@@ -72,9 +72,10 @@ class LessonPlansController < ApplicationController
   end
 
   def export
-    @lesson = current_teacher.lesson_plans.find(params[:id])
+    @lesson = current_teacher.lesson_plans.find(params[:lesson_plan_id])
     content_with_headers = DocConvert.add_headers_to_markdown(@lesson)
-    DocConvert.markdown_to_rtf(content_with_headers)
+    path = DocConvert.markdown_to_rtf(content_with_headers, @lesson.title)
+    send_file path, :disposition => 'attachment'
   end
 
   private
