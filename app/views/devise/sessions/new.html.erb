@@ -1,8 +1,3 @@
-<h4>Are you a parent? Sign in by <%= link_to "clicking here", new_parent_session_path %></h4>
-<h4>Or register <%= link_to "here.", new_parent_registration_path %></h4></br>
-<h4>Are you a teacher? Sign in by <%= link_to "clicking here", new_teacher_session_path %></h4>
-<h4>Or register <%= link_to "here.", new_teacher_registration_path %></h4>
-
 <h2>Log in</h2>
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
