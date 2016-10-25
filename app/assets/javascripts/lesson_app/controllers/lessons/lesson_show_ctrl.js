@@ -3,17 +3,21 @@
 Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http', 'LessonStarService', 'currentTeacher', 'flash', '$timeout', "_", "$state",
   function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http, LessonStarService, currentTeacher, flash, $timeout, _, $state) {
 
+  $scope.changeToIndexState = function(){
+    console.log("changing...")
+  };  
   $scope.lesson = lesson;
   $scope.owner = owner;
+  $scope.currentUser = currentUser;
   $scope.draftTitle = $scope.lesson.title;
 
   $scope.pendingPRs = _.remove($scope.lesson.pull_requests_received, function (pr) {
-    return pr.status === "pending"
+    return pr.status === "pending";
   }).length;
 
   // Searches the starred lesson_plans array for lesson plans that have already been starred.
   var has_starred = function(current_user, lesson) {
-    var starred = current_user.starred_lesson_plans
+    var starred = current_user.starred_lesson_plans;
 
     for (var i = 0; i < starred.length; i++) {
       if (starred[i].id === lesson.id) {
@@ -68,7 +72,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   // belongs to the current user, and sets
   // currentUserLesson accordingly
   var checkCurrentUser = function() {
-    if (currentUser.id === $scope.lesson.teacher_id) {
+    if ($scope.currentUser.id === $scope.lesson.teacher_id) {
       $scope.currentUserLesson = true;
     } else {
       $scope.currentUserLesson = false;
