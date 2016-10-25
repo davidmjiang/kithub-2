@@ -8,7 +8,9 @@ class LessonPlan < ApplicationRecord
   validates :lesson_type, inclusion: {in: LESSON_TYPES}, allow_nil: true
   # validates :grade, inclusion: {in: GRADES}, allow_nil: true
 
-
+  def self.searchable_columns
+    [:title, :content]
+  end
 
   belongs_to :teacher
 

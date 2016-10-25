@@ -1,5 +1,10 @@
 Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", "ModalService", "$state", "CourseService", "SubmissionService", "CurveService", function($scope, course, StudentService, AssignmentService, GPAService, ModalService, $state, CourseService, SubmissionService, CurveService){
 
+angular.element('#gradebook').DataTable( {
+    fixedColumns: {
+        leftColumns: 2
+    }
+} );
 
   var cols =[];
   var allRows= [];
@@ -185,7 +190,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
         var possibleScore = assignment.possible_score;
         var curvedPoints = curvedPercent / 100 * possibleScore;
         //Put default value here;
-        if(rawScore === -1) {
+        if(curvedPoints === -1) {
         }
         else {
           rawTotal += curvedPoints;

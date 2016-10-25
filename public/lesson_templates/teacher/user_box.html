@@ -1,17 +1,19 @@
-<div class="col-md-12 user-box">
-	<div class="col-md-1">
-		<a ui-sref="main.teachers.overview({id: teacher.id})">
-			<img class="small-photo" ng-src="{{profile_photo}}">
-		</a>
-	</div>
-	<div class="col-md-9">
-		<a ui-sref="main.teachers.overview({id: teacher.id})">
-			<span>{{teacher.first_name}} {{teacher.last_name}}</span>
-		</a>
-		<p><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp{{teacher.state}}</p>
-	</div>
-	<div class="col-md-2">
-		<button ng-if="!following && !isCurrentUser" class="btn btn-primary btn-sm follow-btn" ng-click="follow()">Follow</button>
-		<button ng-if="following && !isCurrentUser" class="btn btn-primary btn-sm follow-btn" ng-click="unfollow()">Unfollow</button>
+<div class="col-md-11 user-box">
+	<div class="row">
+		<div class="col-md-1">
+			<a ui-sref="main.teachers.overview({id: teacher.id})">
+				<img class="small-photo" ng-src="{{profile_photo}}">
+			</a>
+		</div>
+		<div class="col-md-9">
+			<a ui-sref="main.teachers.overview({id: teacher.id})">
+				<span>{{teacher.first_name}} {{teacher.last_name}}</span>
+			</a>  | {{teacher.email}}
+			<p><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp{{teacher.state}} | Joined on: {{teacher.created_at | date}}</p> 
+		</div>
+		<div class="col-md-2">
+			<button ng-if="!following && !isCurrentUser" class="btn btn-primary btn-sm follow-btn" ng-click="follow()">Follow</button>
+			<button ng-if="following && !isCurrentUser" class="btn btn-primary btn-sm follow-btn" ng-click="unfollow()">Unfollow</button>
+		</div>
 	</div>
 </div>
