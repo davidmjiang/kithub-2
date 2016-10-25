@@ -43,6 +43,10 @@ class LessonPlan < ApplicationRecord
   has_many :lesson_plan_contributors
   has_many :contributors, through: :lesson_plan_contributors, class_name: "Teacher", source: :teacher
 
+  #many to many relationshipw with courses
+  has_many :lesson_plan_days
+  has_many :course_days, through: :lesson_plan_days
+
   #Validations
   validates_presence_of :title #, :content
   validates :title, length: { minimum: 2, maximum: 200 }

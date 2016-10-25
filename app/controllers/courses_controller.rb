@@ -47,7 +47,7 @@ class CoursesController < ApplicationController
   private
 
   def course_params
-    params.require(:course).permit(:title, :start_date, :end_date)
+    params.require(:course).permit(:title, :start_date, :end_date, :meeting_days)
   end
 
 end
