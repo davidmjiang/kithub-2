@@ -3,160 +3,34 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <div ng-submit="editAssignment(assignment)">
+        <h4 class="modal-title">Assignment Details</h4>
+        <!-- <div ng-submit="editAssignment(assignment)">
           Assignment Title: <h4 editable-text="assignment.title">{{assignment.title}}</h4>
           Assignment Type: <h4 editable-text="assignment.assignment_type">{{assignment.assignment_type}}</h4>
           Assignment Score: <h4 editable-text="assignment.possible_score">{{assignment.possible_score}}</h4>
-        </div>
+        </div> -->
 
       </div>
       <div class="modal-body clearfix">
+        <h2 editable-text="assignment.title">{{assignment.title}}</h2>
+        <p>
+          <span>Overall Class Average: {{gpa.real | number:2}}%</span>
+        </p>
 
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item">
             <a class="nav-link active" href="#student" role="tab" data-toggle="tab" target="_self"><small>Student Scores</small></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#stat" role="tab" data-toggle="tab" target="_self"><small>Assignment Stats</small></a>
+            <a class="nav-link" href="#grade" role="tab" data-toggle="tab" target="_self"><small>Grade Distribution</small></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#grade" role="tab" data-toggle="tab" target="_self"><small>Grade Distribution</small></a>
+            <a class="nav-link" href="#stat" role="tab" data-toggle="tab" target="_self"><small>Assignment Stats</small></a>
           </li>
         </ul>
 
         <div class="tab-content">
-          <div role="tabpanel" class="tab-pane fade" id="stat">
-            <div class="row">
-              <div class="col-sm-6">  
-                <h4>{{assignment.assignment_type | capitalize }}</h4>
 
-                <p>Average score: {{gpa.raw | number:2 }}%</p>
-                
-                <p>Average curved score: {{gpa.real | number:2 }}%</p>
-
-                <p>
-                  Points possible: {{assignment.possible_score}}
-                </p>
-                <p>
-                  Last Updated: {{assignment.updated_at | date:'medium'}}
-                </p>
-
-                <p>Submissions: {{numSubmissions}} / {{numStudents}}</p>
-
-              </div>
-              <div class="col-sm-6">
-                <button ng-hide="addingCurve" ng-click="addCurve()" class="btn btn-outline-warning">Add/Edit Curve</button>
-
-              <!-- upon clicking "Add/Edit Curve" -->
-                <div ng-show="modifyingCurve">
-
-                  <!-- if assignment currently has no curve -->
-                  <div ng-hide="hasCurve">
-                    <label>Type:</label>
-                    <select ng-model="curveType">
-                      <option value="Flat">Flat</option>
-                      <option value="Linear">Linear</option>
-                    </select>
-               
-                    <div ng-if="curveType==='Flat'">
-                      <label>By what percent would you like to increase scores?</label>
-                      <input type="number" max="100" min="0" ng-model="curve.flatRate">
-                      &nbsp; %
-                      <button ng-click="applyFlatCurve(); updateData()">Apply Curve</button>
-                      <button ng-click="resetCurve()">
-                        Remove Curve
-                      </button>
-                    </div>
-
-                    <div ng-if="curveType==='Linear'">
-                      <p>Pick two raw score percent values (for example, the mean score and the lowest score), then choose what you'd like those values to become. </p>
-                      <label>Score A (original):</label>
-                      <input class="float-right" 
-                              type="number" 
-                              max="100" 
-                              min="0" 
-                              ng-model="curve.rawA">
-                      <label>Score A (curved):</label>
-                      <input class="float-right" 
-                              type="number" 
-                              max="100" 
-                              min="0" 
-                              ng-model="curve.curvedA">
-                      <label>Score B (original):</label>
-                      <input class="float-right" 
-                              type="number" 
-                              max="100" 
-                              min="0" 
-                              ng-model="curve.rawB">
-                      <label>Score B (curved):</label>
-                      <input class="float-right" 
-                              type="number" 
-                              max="100" 
-                              min="0" 
-                              ng-model="curve.curvedB">
-                      <button ng-click="applyLinearCurve()">
-                        Apply Curve
-                      </button>
-                      <button ng-click="resetCurve()">
-                        Remove Curve
-                      </button>
-
-                    </div>
-                  </div>
-
-
-                  <!-- if assignment already has a saved curve -->
-                  <div ng-show="hasCurve">
-               
-                    <div ng-if="assignment.flat_curve">
-                      <label>By what percent would you like to increase scores?</label>
-                      <input type="number" max="100" ng-model="curve.flatRate">
-                      &nbsp; %
-                      <button ng-click="applyFlatCurve()">Apply Curve</button>
-                      <button ng-click="resetCurve()">
-                        Remove Curve
-                      </button>
-                    </div>
-
-                    <div ng-if="assignment.linear_curve">
-                      <p>Pick two raw score percent values (for example, the mean score and the lowest score), then choose what you'd like those values to become. </p>
-                      <label>Score A (original):</label>
-                      <input class="float-right" 
-                              type="number" 
-                              max="100" 
-                              min="0" 
-                              ng-model="curve.rawA">
-                      <label>Score A (curved):</label>
-                      <input class="float-right" 
-                              type="number" 
-                              max="100" 
-                              min="0" 
-                              ng-model="curve.curvedA">
-                      <label>Score B (original):</label>
-                      <input class="float-right" 
-                              type="number" 
-                              max="100" 
-                              min="0" 
-                              ng-model="curve.rawB">
-                      <label>Score B (curved):</label>
-                      <input class="float-right" 
-                              type="number" 
-                              max="100" 
-                              min="0" 
-                              ng-model="curve.curvedB">
-                      <button ng-click="applyLinearCurve()">
-                        Apply Curve
-                      </button>
-                      <button ng-click="resetCurve()">
-                        Remove Curve
-                      </button>
-                    </div>
-                      
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
           <div role="tabpanel" class="tab-pane fade in active" id="student">
 
             <div class="row">
@@ -235,6 +109,25 @@
           <div role="tabpanel" class="tab-pane fade" id="grade">
             <canvas id="pie" class="chart chart-pie" chart-data="assignData" chart-labels="assignLabels" chart-options="pieOpts" chart-colors="colors"> chart-series="series"
             </canvas>
+          </div>
+
+          <div role="tabpanel" class="tab-pane fade" id="stat">
+            <div class="row">
+              <div class="col-sm-11 offset-sm-1">
+                <h4 style="margin-top: 10px" editable-text="assignment.assignment_type">{{assignment.assignment_type | capitalize }}</h4>
+                
+                <p>Overall Average: {{gpa.real | number:2 }}%</p>
+
+                <p editable-text="assignment.possible_score">
+                  Points possible: {{assignment.possible_score}}
+                </p>
+                <p>
+                  Last Updated: {{assignment.updated_at | date:'medium'}}
+                </p>
+
+                <p>Submissions: {{numSubmissions}} / {{numStudents}}</p>
+              </div>
+            </div>
           </div>
 
         </div>

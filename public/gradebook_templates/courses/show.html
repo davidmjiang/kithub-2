@@ -7,8 +7,7 @@
   <div class="col-xs-12">
     <h1>
       <div ng-submit="update(course.title)">
-        <span editable-text="course.title" e-form="textBtnForm">
-        </span>
+        <span editable-text="course.title" e-form="textBtnForm"></span>
       </div>
 
       <a ng-click="courseDetailModal(rawGPA)" ng-hide="textBtnForm.$visible">{{course.title}}</a>
