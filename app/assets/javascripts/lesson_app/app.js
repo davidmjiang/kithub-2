@@ -147,7 +147,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
     })
 
     .state('main.lessons.show.contributors', {
-      url: '/settings',
+      url: '/contributors',
       views: {
         "mainContainer@main.lessons.show": {
           templateUrl:  "lesson_templates/lessons/contributors.html",
