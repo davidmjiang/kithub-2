@@ -93,7 +93,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 		})
 
     .state('main.search', {
-      url: '/search',
+      url: '/search/?type=:searchType&params=:searchTerm',
       params: {
         searchType: null,
         searchTerm: null
@@ -154,6 +154,16 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
               }]
           }
         },
+      }
+    })
+
+    .state('main.lessons.show.contributors', {
+      url: '/contributors',
+      views: {
+        "mainContainer@main.lessons.show": {
+          templateUrl:  "lesson_templates/lessons/contributors.html",
+          controller: "LessonShowCtrl"
+        }
       }
     })
 
