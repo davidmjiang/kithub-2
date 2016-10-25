@@ -1,4 +1,4 @@
-Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList", "CourseService", "NgTableParams", "VisualService", function($scope, ModalService, courseList, CourseService, NgTableParams, VisualService) {
+Gradebook.controller("CourseIndexCtrl", ["$scope", "$sce", "ModalService", "courseList", "CourseService", "NgTableParams", "VisualService", function($scope, $sce, ModalService, courseList, CourseService, NgTableParams, VisualService) {
 
   $scope.courses = courseList;
 
@@ -8,19 +8,9 @@ Gradebook.controller("CourseIndexCtrl", ["$scope", "ModalService", "courseList",
       controller: "NewCourseCtrl"
     }).then(function(modal) {
       modal.element.modal();
-      modal.close.then(function(newCourse) {
-        if (newCourse) {
-          // add the new class to the scope, or get all classes
-        }
-          // remove leftover modal DOM elements if necessary
-        })
     })
   }
 
-  // is this used?
-  $scope.kids = [{firstName: "Moroni", lastName: "Wilks", email: "foobar1@gmail.com", assignments: [{type: "homework", score: 50}]}];
-  $scope.tableParams = new NgTableParams({page: 1, count: 10}, { dataset: $scope.kids});
-
-  $scope.coursesData = VisualService.coursesPerformanceOverTime($scope.courses)
+  $scope.popoverTemplateUrl =  'gradebook_templates/courses/info_popover.html'
 
 }])

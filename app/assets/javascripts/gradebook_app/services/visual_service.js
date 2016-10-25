@@ -114,19 +114,15 @@ Gradebook.factory("VisualService", ["Restangular", "_", "CurveService", "GPAServ
     return classPointsEarned / classPointsPossible * 100
   }
 
-  VisualService.coursesPerformanceOverTime = function(courses) {
-    var coursesData = []
-    _.each(courses, function(course) {
-      var courseData = []
-      _.each(course.assignments, function(assignment) {
-        var assignmentData = {}
-        assignmentData.date = assignment.created_at
-        assignmentData.class_performance = VisualService.classAvgPerformanceToDate(course, assignment.created_at)
-        courseData.push(assignmentData)
-      })
-      coursesData.push(courseData)
+  VisualService.coursePerformanceOverTime = function(course) {
+    var courseData = []
+    _.each(course.assignments, function(assignment) {
+      var assignmentData = {}
+      assignmentData.date = assignment.created_at
+      assignmentData.class_performance = VisualService.classAvgPerformanceToDate(course, assignment.created_at)
+      courseData.push(assignmentData)
     })
-    return coursesData
+    return courseData
   }
 
   VisualService.gradeDistribution = function(scores) {
