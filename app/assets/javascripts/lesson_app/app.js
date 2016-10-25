@@ -93,7 +93,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 		})
 
     .state('main.search', {
-      url: '/search',
+      url: '/search/?type=:searchType&params=:searchTerm',
       params: {
         searchType: null,
         searchTerm: null
