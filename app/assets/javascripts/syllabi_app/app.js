@@ -1,6 +1,6 @@
 "use strict";
 
-var Syllabi = angular.module('Syllabi', ["ui.router", "restangular", "Devise", 'ngFileUpload', "xeditable", 'angularUtils.directives.dirPagination', 'rzModule', 'flash']);
+var Syllabi = angular.module('Syllabi', ["ui.router", "restangular", "Devise", 'ngFileUpload', "xeditable", 'angularUtils.directives.dirPagination', 'rzModule', 'flash', 'ngDragDrop']);
 
 angular.module('Syllabi').factory('_', ['$window', function($window) {
   return $window._;
@@ -50,13 +50,13 @@ angular.module('Syllabi')
 //routes
 angular.module('Syllabi').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 
-  $urlRouterProvider.otherwise('/courses');
+  $urlRouterProvider.otherwise('/courses/index');
 
   $stateProvider
    .state('courses',{
     url: '/courses',
-    templateUrl: "syllabi_templates/courses.html",
-    controller: 'SyllabiCoursesCtrl',
+    template: '<div ui-view></div>',
+    abstract: true,
     resolve: {
       currentUser: ['Auth', function(Auth){
             return Auth.currentUser()
@@ -69,6 +69,27 @@ angular.module('Syllabi').config(['$stateProvider', '$urlRouterProvider', functi
       }]
       }  
     })
+
+   .state('courses.index', {
+    url: '/index',
+    templateUrl: "syllabi_templates/courses.html",
+    controller: 'SyllabiCoursesCtrl'
+   })
+
+   .state('courses.show', {
+    url: '/:id',
+    templateUrl: "syllabi_templates/courses_show.html",
+    controller: 'SyllabiCoursesShowCtrl',
+    resolve: {
+      course: ['$stateParams', 'SyllabiCourseService', function($stateParams, SyllabiCourseService){
+        return SyllabiCourseService.getCourse($stateParams.id)
+      }],
+      teacher: ['currentUser', 'SyllabiTeacherService', function(
+        currentUser, SyllabiTeacherService){
+        return SyllabiTeacherService.getTeacher(currentUser.id);
+      }]
+    }
+   })
 
 
 }]);

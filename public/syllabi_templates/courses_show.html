@@ -1,0 +1,35 @@
+<h1>{{course.title}}</h1>
+<h3>Start Date: {{course.start_date | date}} | End Date: {{ course.end_date | date}} | Meets on <span ng-repeat="day in meeting_days">{{findDay(day)}}, </span></h3>
+
+<div class="col-sm-4">
+  <div dir-paginate="lesson in teacher.lesson_plans | orderBy: '-created_at' | filter: {title: titleFilter} | filter: between('grade', filters.gradeMin, filters.gradeMax) | filter: {lesson_type: filters.lessonType} | filter: {subject: filters.subject} | filter: between('hours', filters.hourMin, filters.hourMax) | itemsPerPage: 10">
+    <div class="row">
+      <div data-drag="true" data-jqyoui-options="{revert: true}" jqyoui-draggable="{placeholder: true, onStart:'setDragParams(lesson)'}" class="col-md-10 md-offset-1">
+        <div class="card listed-lesson-plan">
+          <h4 class="card-header " ng-class="{group: lesson.lesson_type === 'Group', individual: lesson.lesson_type === 'Individual', teacher: lesson.lesson_type === 'Teacher-led'}">
+            <a ui-sref="main.lessons.show({id: {{lesson.id}}})">
+              {{lesson.title}}
+            </a>
+          </h4>
+          <div class="card-block">
+            <p> Subject: {{lesson.subject}} <strong>|</strong> Grade: {{lesson.grade}} <strong>|</strong> Hours: {{lesson.hours}}</p>
+            <p>Lesson type: {{lesson.lesson_type}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 pagination-holder">
+      <dir-pagination-controls></dir-pagination-controls>
+    </div>
+  </div>
+</div>
+
+
+<div class="col-sm-8">
+  <div data-drop="true" jqyoui-droppable="{placeholder: true, onDrop: 'addLessonPlan(courseDay)'}" class="col-sm-6 course-day" ng-repeat="courseDay in course.course_days" courseDay="courseDay">
+    <h4>{{courseDay.date | date}}</h4>
+    <p ng-repeat="lesson in courseDay.lesson_plans" lesson="lesson">{{lesson.title}}</p>
+  </div>
+</div>

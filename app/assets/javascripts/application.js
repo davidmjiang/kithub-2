@@ -40,5 +40,6 @@
 //= require rzslider.min
 //= require angular-flash
 //= require bootstrap-select.min
+//= require angular-dragdrop
 
 //= require_tree .
