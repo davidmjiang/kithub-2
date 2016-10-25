@@ -29,9 +29,7 @@ Gradebook.factory('CourseService', ['Restangular', '$rootScope', function(Restan
     return students;
   }
 
-  
-
-  var populateCourses = function() {
+  stub.populateCourses = function() {
     return Restangular.all('courses').getList().then(function(courses) {
       return angular.copy(courses, _courses);
     })
@@ -41,17 +39,18 @@ Gradebook.factory('CourseService', ['Restangular', '$rootScope', function(Restan
     if (_courses.length) {
       return _courses;
     } else {
-      return populateCourses();
+      return stub.populateCourses();
     }
   };
 
   stub.getCourse = function(id) {
-    return Restangular.one('courses', id).get();
+    return Restangular.one('courses', id).get().then(function(response) {
+      return response
+    });
   };
 
   stub.addCourse = function(params) {
     return Restangular.all('courses').post(params).then(function(response){
-      // angular.copy(populateCourses(), _courses);
       _courses.push(response)
       return response;
     })

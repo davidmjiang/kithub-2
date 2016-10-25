@@ -42,25 +42,15 @@ This feature is useful incase a student has not yet handed in an assignment or i
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="row in allRows track by $index | limitTo: rowCount">
+          <tr title="{{row[1] + ' ' + row[2]}}" data-toggle="tooltip" data-placement="top" tool-tip ng-repeat="row in allRows track by $index | limitTo: rowCount">
           <td nowrap class="styling-grades" ng-submit="submitEdit(row, item, $index)" ng-repeat="item in row track by $index | limitTo: colCount ">
              {{percentScore(item, $index)}}<a href="#" onbeforesave="checkItem($index, $data)" editable-text="item"> {{isItemScore(item, $index)}}</a>
           </td>
           <td class="styling-grades">{{showScore(allRows.indexOf(row))}}%</td>
           <td class="styling-grades"><a ng-click="studentDetailModal(row[3], row[row.length - 1])">Details</a></td>
         </tr>
-      </thead>
-        <tbody>
-          <tr title="{{row[1] + ' ' + row[2]}}" data-toggle="tooltip" data-placement="top" tool-tip ng-repeat="row in allRows track by $index | limitTo: rowCount">
-              <td class="styling-grades test-header" ng-submit="submitEdit(row, item, $index)" ng-repeat="item in row track by $index | limitTo: colCount ">
-
-               {{percentScore(item, $index)}}<a href="#" onbeforesave="checkItem($index, $data)" editable-text="item"> {{isItemScore(item, $index)}}</a>
-            </td>
-            <td>{{showScore(allRows.indexOf(row))}}%</td>
-            <td><a ng-click="studentDetailModal(row[3], row[row.length - 1])">Details</a></td>
-          </tr>
-        </tbody>
-      </table>
+      </tbody>
+    </table>
   </scrollable-table>
   </div>
 </div>
