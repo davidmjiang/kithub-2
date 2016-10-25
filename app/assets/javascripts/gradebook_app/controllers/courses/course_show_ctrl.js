@@ -23,7 +23,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
   $scope.course = course;
 
-  $scope.rawGPA = GPAService.rawGPA(course);
+  $scope.rawGPA = GPAService.rawGPA($scope.course);
   $scope.students = $scope.course.students;
 
   
@@ -251,7 +251,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
         if($scope.students[i].id == row[0]) {
           for(var j = 0; j < $scope.students[i].submissions.length; j++) {
             if($scope.students[i].submissions[j].assignment_id == assignmentId) {
-              var submission = $scope.students[i].submissions[j]
+              submission = $scope.students[i].submissions[j]
               $scope.allRows[i][j + 4] = parseInt(item);
             }
           }
@@ -260,6 +260,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       }
       submission.raw_score = parseInt(item);
       SubmissionService.editSubmission(submission);
+      CourseService.populateCourses()
     }
     $scope.rawGPA = GPAService.rawGPA(course);
   }
