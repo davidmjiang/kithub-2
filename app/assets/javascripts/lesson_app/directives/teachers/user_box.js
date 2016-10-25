@@ -14,7 +14,7 @@ angular.module('Lesson').directive("userBox",  ["FollowingService", "$rootScope"
         if(scope.teacher.id === scope.user.id){
             scope.isCurrentUser = true;
         }
-        console.log(scope.teacher)
+
         //check for profile photo
         if(scope.teacher.avatar_file_name){
             scope.profile_photo = scope.teacher.image;
