@@ -5,21 +5,27 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     this.closed = true;
   }
 
-  $scope.$watch('curve.slideA', function (newValue) {
-    $scope.curve.slideA = Number(newValue);
-    $scope.curve.curvedA = $scope.curve.slideA + $scope.curve.rawA;
-    $scope.applyLinearCurve();
+  $scope.$watch('curve.slideA', function (newValue, oldValue) {
+    if (newValue !== oldValue) {
+      $scope.curve.slideA = Number(newValue);
+      $scope.curve.curvedA = $scope.curve.slideA + $scope.curve.rawA;
+      $scope.applyLinearCurve();
+    }
   });
 
-  $scope.$watch('curve.slideB', function (newValue) {
-    $scope.curve.slideB = Number(newValue);
-    $scope.curve.curvedB = $scope.curve.slideB + $scope.curve.rawB;
-    $scope.applyLinearCurve();
+  $scope.$watch('curve.slideB', function (newValue, oldValue) {
+    if (newValue !== oldValue) {
+      $scope.curve.slideB = Number(newValue);
+      $scope.curve.curvedB = $scope.curve.slideB + $scope.curve.rawB;
+      $scope.applyLinearCurve();
+    }
   });
 
-  $scope.$watch('curve.flatRate', function (newValue) {
-    $scope.curve.flatRate = Number(newValue);
-    $scope.updateData();
+  $scope.$watch('curve.flatRate', function (newValue, oldValue) {
+    if (newValue !== oldValue) {
+      $scope.curve.flatRate = Number(newValue);
+      $scope.updateData();
+    }
   });
 
   $scope.closed = false;
@@ -35,6 +41,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   $scope.numStudents = course.students.length
   $scope.students = students;
   $scope.curveAlert = false;
+  $scope.initializing = true;
 
   if ($scope.assignment.flat_curve) {
     $scope.curve.flatRate = $scope.assignment.flat_curve.flat_rate;
@@ -49,6 +56,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.curve.rawB = 100;
     $scope.curve.slideA = 0;
     $scope.curve.slideB = 0;
+    $scope.curve.curvedA = 0;
+    $scope.curve.curvedB = 100;
   }
 
   var _fillFlatRateEditInput = function() {
@@ -389,6 +398,12 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     } else {
       return "None"
     }
+  }
+
+  if ($scope.assignment.flat_curve) {
+    $scope.updateData();
+  } else if ($scope.assignment.linear_curve) {
+    $scope.applyLinearCurve();
   }
 
   $scope.failingStudents = function() {
