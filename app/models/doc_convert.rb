@@ -8,7 +8,6 @@ class DocConvert
   end
 
   def self.markdown_to_rtf( markdown_string, title )
-    puts markdown_string
     f = PandocRuby.convert(markdown_string, :s, {from: :markdown, to: :docx, o: 'output.docx'})
     file = Tempfile.new(["#{title}", ".doc"])
     File.open(file.path, 'wb'){|file| file.write(f)}
@@ -24,4 +23,3 @@ class DocConvert
   end
 
 end
-
