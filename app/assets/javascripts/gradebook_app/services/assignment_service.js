@@ -11,6 +11,10 @@ Gradebook.factory('AssignmentService', ['Restangular', function(Restangular){
     Restangular.one("assignments").customPUT(assignment, assignment.id)
   }
 
+  stub.removeAssignment = function(assignment) {
+    return Restangular.one("assignments", assignment.id).remove();
+  }
+
 	Restangular.extendModel("assignments", function(model) {
     model.edit = function(data) {
       model.patch({assignment: data});

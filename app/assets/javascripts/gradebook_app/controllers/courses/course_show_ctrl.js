@@ -388,6 +388,19 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     }
   })
 
+  $scope.$on("assignment.deleted", function(event, data) {
+    console.log("DELETED")
+    for(var i = 0; i < $scope.assignments.length; i++) {
+      if($scope.assignments[i].id === data.id) {
+        $scope.cols.splice(i,1)
+        $scope.assignments.splice($scope.course.assignments.indexOf($scope.assignments[i]), 1);
+        for(var j = 0; j < $scope.allRows.length; j++) {
+          $scope.allRows[j].splice(i + 4, 1);
+        }
+      }
+    }
+  })
+
   $scope.deleteCourse = function() {
     if (confirm('Are you sure?')) {
       CourseService.deleteCourse($scope.course).then(function(response) {
