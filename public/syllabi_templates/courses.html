@@ -2,5 +2,9 @@
 
 <div ng-repeat="course in courses" course="course">
   <p>{{course.title}} | Start Date: <span ng-if="course.start_date">{{course.start_date | date}}</span>
-  <input type="date" ng-model="course.newStartDate"> | End Date: <span ng-if="course.end_date">{{course.end_date | date}}</span><input type="date" ng-model="course.newEndDate"> <button class="btn btn-primary" ng-click="updateCourse(course)">Update Course</button></p>
+  <input type="date" ng-model="course.newStartDate"> | End Date: <span ng-if="course.end_date">{{course.end_date | date}}</span><input type="date" ng-model="course.newEndDate"> | 
+  Meets on: <select multiple ng-model="course.selectedDays">
+   <option ng-repeat="day in days" value="{{$index}}">{{day}}</option>
+   </select>
+   <button class="btn btn-primary" ng-click="updateCourse(course)">Update Course</button></p>
 </div>

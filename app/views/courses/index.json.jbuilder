@@ -6,6 +6,10 @@ json.array! @courses do |course|
   json.updated_at course.updated_at
   json.start_date course.start_date
   json.end_date course.end_date
+  json.meeting_days course.meeting_days
+  json.course_days course.course_days do |course_day|
+    json.date course_day.date
+  end
 
   json.assignments course.assignments do |assignment|
     json.title assignment.title
