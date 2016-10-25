@@ -27,13 +27,13 @@ Lesson.directive("forkLessonPlan",  [ "LessonService", "$stateParams", "Auth", "
 
           .then(function(newLesson) {
             newLesson.parent_plan_title = newLesson.title;
-            $state.go("main.lessons.show", {id: newLesson.id})
+            $state.go("main.lessons.show", {id: newLesson.id});
             $timeout(function(){
-              flash('alert-success', 'Lesson plan forked!') 
-            }, 500)
-            })
-          })
-        })
+              flash('alert-success', 'Lesson plan forked!') ;
+            }, 500);
+            });
+          });
+        });
 
       }
     }

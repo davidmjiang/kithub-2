@@ -10,7 +10,6 @@ Gradebook.controller("StudentNewCtrl", ["$scope", "course", "StudentService", "_
 
 	$scope.addStudent = function(student) {
 		if($scope.course.students.length) {
-			console.log("IS")
 			for(var i = 0; i < $scope.course.students.length; i++) {
 				if($scope.course.students[i].email === student.email) {
 					alert("Someone in this course has that email. Try again")
@@ -29,7 +28,6 @@ Gradebook.controller("StudentNewCtrl", ["$scope", "course", "StudentService", "_
 			}
 		}
 		else {
-					console.log("Is not")
 			student.course_ids = [course.id];
 			student.first_name = $scope.capitalize(student.first_name);
 			student.last_name = $scope.capitalize(student.last_name);
