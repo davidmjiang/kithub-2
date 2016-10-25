@@ -1,5 +1,5 @@
 <div class="front-page">
-<div  >
+<div>
     <div id="example-wrapper">
 
       <div class="scrollContent">
@@ -18,59 +18,6 @@
 
               <h2 class="subtitle">Version Control for Lesson Plans</h2>
                 <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus iure dicta laudantium voluptas asperiores nulla, dolores architecto libero iste, vitae perspiciatis, sapiente ipsam. Nemo tenetur atque vitae sed voluptate, magnam.</h4>
-
-<!--
-                  <section class="no-padding" id="portfolio">
-            <div class="container-fluid">
-                <div class="row no-gutter popup-gallery">
-                    <div class="col-lg-4 col-sm-6">
-                            <img src="img/portfolio/thumbnails/1.jpg" class="img-responsive" alt="">
-                            <div class="portfolio-box-caption">
-                                <div class="portfolio-box-caption-content">
-                                    <div class="project-category text-faded">
-                                        Category
-                                    </div>
-                                    <div class="project-name">
-                                        Project Name
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                       <img src="img/portfolio/thumbnails/2.jpg" class="img-responsive" alt="">
-                          <div class="portfolio-box-caption">
-                              <div class="portfolio-box-caption-content">
-                                  <div class="project-category text-faded">
-                                    Upload your own lesson plans so other teachers can give you advice.
-                                  </div>
-                                  <div class="project-name">
-                                      Project Name
-                                  </div>
-                              </div>
-                          </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <a href="img/portfolio/fullsize/3.jpg" class="portfolio-box">
-                           <%= image_tag "collaboration.png", class: "icon img-responsive" %>
-
-                            <div class="portfolio-box-caption">
-                                <div class="portfolio-box-caption-content">
-                                    <div class="project-category text-faded">
-                                        Collaborate with other teachers by editing their lesson plans.
-                                    </div>
-
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-
-                </div>
-            </div>
-        </section> -->
-
-
-
 
 
               <%= image_tag "example_bezier.png", id: "plane" %>
@@ -99,10 +46,10 @@
 
           <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" href="#sign-up-tab" role="tab" data-toggle="tab">Sign Up</a>
+              <a class="nav-link active" href="#sign-up-tab" role="tab" data-toggle="tab"><h3>Sign Up</h3></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#sign-in-tab" role="tab" data-toggle="tab">Sign In</a>
+              <a class="nav-link" href="#sign-in-tab" role="tab" data-toggle="tab"><h3>Login</h3></a>
             </li>
 
           </ul>
@@ -144,7 +91,9 @@
               </div>
 
               <div class="actions">
-                <%= f.submit "Sign up" %>
+                <%= render "devise/shared/links" %>
+                <%= f.submit "Sign up", class: "btn btn-signup" %>
+
               </div>
             <% end %>
             </div>
