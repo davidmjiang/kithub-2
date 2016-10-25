@@ -10,10 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20161024183757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_trgm"
 
   create_table "add_notes_to_student_models", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -108,6 +110,8 @@ ActiveRecord::Schema.define(version: 20161024183757) do
     t.integer  "parent_plan_id"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.index "to_tsvector('english'::regconfig, (title)::text)", name: "lesson_plans_to_tsvector_idx", using: :gin
+    t.index "to_tsvector('english'::regconfig, content)", name: "lesson_plans_to_tsvector_idx1", using: :gin
     t.index ["parent_plan_id"], name: "index_lesson_plans_on_parent_plan_id", using: :btree
     t.index ["teacher_id"], name: "index_lesson_plans_on_teacher_id", using: :btree
   end
@@ -248,6 +252,9 @@ ActiveRecord::Schema.define(version: 20161024183757) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.index "to_tsvector('english'::regconfig, (email)::text)", name: "teachers_to_tsvector_idx2", using: :gin
+    t.index "to_tsvector('english'::regconfig, (first_name)::text)", name: "teachers_to_tsvector_idx", using: :gin
+    t.index "to_tsvector('english'::regconfig, (last_name)::text)", name: "teachers_to_tsvector_idx1", using: :gin
     t.index ["email"], name: "index_teachers_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_teachers_on_reset_password_token", unique: true, using: :btree
   end

@@ -39,5 +39,8 @@
 //= require dirPagination
 //= require rzslider.min
 //= require angular-flash
+//= require bootstrap-select.min
+//= require datatables.min
+//= require dataTables.fixedColumns.min
 
 //= require_tree .
