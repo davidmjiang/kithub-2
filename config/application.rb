@@ -13,6 +13,7 @@ module KitHub
     # -- all .rb files in that directory are automatically loaded.
 
     # Allow Devis to respond with JSON
+    config.active_record.schema_format = :sql
     config.to_prepare do
       DeviseController.respond_to :html, :json
     end
