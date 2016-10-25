@@ -66,7 +66,7 @@ Gradebook.factory("VisualService", ["Restangular", "_", "CurveService", function
     return scoreArray
   }
 
-  var _applyLinearCurve = function(assignment, rawPercent) {
+  var _applyFlatCurve = function(assignment, rawPercent) {
     return assignment.flat_curve.flat_rate + rawPercent
   }
   var _applyLinearCurve = function(assignment, rawPercent) {
