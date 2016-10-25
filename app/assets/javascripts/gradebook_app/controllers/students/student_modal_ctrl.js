@@ -1,4 +1,4 @@
-Gradebook.controller("StudentModalCtrl", ["$scope", "students", "email", "assignments", "overall", "_", "StudentService", "VisualService", function($scope, students, email, assignments, overall, _, StudentService, VisualService) {
+Gradebook.controller("StudentModalCtrl", ["$scope", "students", "email", "assignments", "overall", "_", "StudentService", "VisualService", "CurveService", function($scope, students, email, assignments, overall, _, StudentService, VisualService, CurveService) {
 
   $scope.student = _.find(students, {'email':email})
   $scope.assignments = assignments;
@@ -10,16 +10,26 @@ Gradebook.controller("StudentModalCtrl", ["$scope", "students", "email", "assign
       {ticks: {
         beginAtZero: true,
         steps: 10,
-        stepValue: 10,
-        max: 100
+        stepValue: 10
       }}]
+    }
+  }
+
+  var _applyCurve = function(assignment, rawPercent) {
+    if (assignment.flat_curve) {
+      return rawPercent + assignment.flat_curve.flat_rate
+    } else if (assignment.linear_curve) {
+      return CurveService.linearFormula(assignment.linear_curve, rawPercent)
+    } else {
+      return rawPercent
     }
   }
 
   $scope.data = [_.map($scope.student.submissions, function(submission) {
     var assignment = _.find(assignments, {'id':submission.assignment_id})
     var possible = assignment.possible_score
-    return (((submission.raw_score / possible)*100).toFixed(2));
+    var rawScore = (submission.raw_score / possible)*100
+    return (_applyCurve(assignment, rawScore).toFixed(2));
   })];
 
   $scope.update = function(notes) {

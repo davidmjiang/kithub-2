@@ -49,15 +49,6 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.curve.flatRate = 0;
   }
 
-  $scope.removeAssignment = function(assignment) {
-    if(confirm('Are you sure you want to remove that assignment? Each student\'s submissions will also be deleted.')) {
-      AssignmentService.removeAssignment(assignment).then(function(removedAssignment) {
-        $rootScope.$broadcast("assignment.deleted", removedAssignment);
-        $scope.close();
-      })
-    }
-  }
-  
   if ($scope.assignment.linear_curve) {
     _fillLinearCurveEditInputs;
   } else {
@@ -67,6 +58,15 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.curve.slideB = 0;
     $scope.curve.curvedA = 0;
     $scope.curve.curvedB = 100;
+  }
+
+  $scope.removeAssignment = function(assignment) {
+    if(confirm('Are you sure you want to remove that assignment? Each student\'s submissions will also be deleted.')) {
+      AssignmentService.removeAssignment(assignment).then(function(removedAssignment) {
+        $rootScope.$broadcast("assignment.deleted", removedAssignment);
+        $scope.close();
+      })
+    }
   }
 
 
@@ -359,15 +359,16 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   }
 
   var _scores = VisualService.studentScores(students, assignment)
+  var pieScores = _.map(_scores, function(score){return score.percent});
   $scope.scoreLabels = _.map(_scores, 'name');
   $scope.scoreData = [_.map(_scores, function(score){
     return score.percent.toFixed(2);
   })];
 
-  var assignDist = VisualService.gradeDistribution(_scores)
+  $scope.pieDist = VisualService.gradeDistribution(pieScores)
   $scope.colors = ['#4caf50', '#81c784', '#c8e6c9', '#ef9a9a', '#f44336']
-  $scope.assignLabels = _.map(assignDist, function(amount, grade){return grade});
-  $scope.assignData = _.map(assignDist, function(amount, grade){return amount});
+  $scope.assignLabels = _.map($scope.pieDist, function(amount, grade){return grade});
+  $scope.assignData = _.map($scope.pieDist, function(amount, grade){return amount});
 
   $scope.pieOpts = {
     legend: { display: true },
@@ -375,13 +376,22 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   };
 
   $scope.updateData = function() {
+    var pieScores = _.map(_scores, function(score){
+      return score.percent + $scope.curve.flatRate
+    })
     angular.copy([_.map(_scores, function(score){
       var updatedScore = score.percent + $scope.curve.flatRate;
       return updatedScore.toFixed(2);
     })], $scope.scoreData)
+    $scope.pieDist = VisualService.gradeDistribution(pieScores)
+    $scope.assignData = _.map($scope.pieDist, function(amount, grade){return amount})
   }
 
   var _simulateLinearCurve = function() {
+    var pieScores = _.map(_scores, function(score){
+      var updatedScore = CurveService.linearFormula($scope.curve, score.percent);
+      return updatedScore
+    })
     angular.copy([_.map(_scores, function(score){
       var updatedScore = CurveService.linearFormula($scope.curve, score.percent);
       return updatedScore.toFixed(2);
@@ -389,6 +399,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     var _simulatedAssignment = {}
     angular.copy($scope.assignment, _simulatedAssignment)
     _simulatedAssignment.linear_curve = $scope.curve
+    $scope.pieDist = VisualService.gradeDistribution(pieScores)
+    $scope.assignData = _.map($scope.pieDist, function(amount, grade){return amount})
     return GPAService.realGPA(course, _simulatedAssignment)
   }
 
