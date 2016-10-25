@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :parents
+  # devise_for :parents
   devise_for :teachers
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'kithub#index'
@@ -17,6 +17,7 @@ Rails.application.routes.draw do
         resources :pull_requests, only: [:index, :create, :update]
         resources :additional_materials, only: [:index, :create]
         resources :lesson_plan_stars, only: [:create, :destroy]
+        get "/export", to: "lesson_plans#export"
       end
       resources :flat_curves, only: [:create, :update, :destroy]
       resources :linear_curves, only: [:create, :update, :destroy]
@@ -28,7 +29,7 @@ Rails.application.routes.draw do
       post "student_progress/fail/", to: "student_progress#fail"
       post "student_progress/exceptional/", to: "student_progress#exceptional"
       post "student_progress/notification/", to: "student_progress#notification"
-      
+
       get "/gpas", to: "gpas_controller#index"
     end
  	end

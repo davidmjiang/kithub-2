@@ -27,6 +27,9 @@
           <li class="nav-item">
             <a class="nav-link" href="#stat" role="tab" data-toggle="tab" target="_self"><small>Assignment Stats</small></a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#notification" role="tab" data-toggle="tab" target="_self"><small>Notify Students</small></a>
+          </li>
         </ul>
 
         <div class="tab-content">
@@ -198,8 +201,12 @@
             </div>
           </div>
 
-        </div>
-      </div>
+          <div role="tabpanel" class="tab-pane fade" id="notification">
+            <div class="row">
+<!--               <p>{{assignment.submissions}}</p>
+ -->              <p>{{assignment.has_curve}}</p>
+            </div>
+          </div>
 
       
 
