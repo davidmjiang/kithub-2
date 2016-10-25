@@ -69,6 +69,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     }
   }
 
+
   var _fillFlatRateEditInput = function() {
     var curve = {}
     angular.copy($scope.assignment.flat_curve, curve)
