@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :parents
+  # devise_for :parents
   devise_for :teachers
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'kithub#index'
@@ -29,7 +29,7 @@ Rails.application.routes.draw do
       post "student_progress/fail/", to: "student_progress#fail"
       post "student_progress/exceptional/", to: "student_progress#exceptional"
       post "student_progress/notification/", to: "student_progress#notification"
-      
+
       get "/gpas", to: "gpas_controller#index"
     end
  	end
