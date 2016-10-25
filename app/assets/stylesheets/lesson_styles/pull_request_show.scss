@@ -22,4 +22,19 @@
     height: 400px;
     overflow-y: auto;
   }
+
+  .ng-invalid.ng-dirty {
+    border-color: red;
+  }
+
+  .error {
+    border-color: red;
+  }
+}
+
+.diff {
+  .popover {
+    position: absolute;
+    z-index: 100;
+  }
 }

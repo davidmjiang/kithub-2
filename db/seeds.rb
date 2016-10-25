@@ -200,6 +200,7 @@ class Gradebook
           norm = Rubystats::NormalDistribution.new(mean, deviation)
           raw_percent = norm.rng
           raw_percent = 100 if raw_percent > 100
+          raw_percent = 0 if raw_percent < 0
           raw_score = (raw_percent/100 * assignment.possible_score).floor
           student.submissions.create(assignment_id: assignment.id,
                       raw_score: raw_score)
