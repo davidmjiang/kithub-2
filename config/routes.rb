@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       resources :teacher_followings, only: [:index, :create, :destroy]
       resources :lesson_plan_contributors, only: [:index, :create]
       resources :lesson_plan_stars, only: [:index]
+      resources :lesson_plan_days, only: [:create, :destroy]
       get "/gpas", to: "gpas_controller#index"
     end
  	end

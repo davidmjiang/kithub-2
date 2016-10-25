@@ -28,8 +28,8 @@
 
 
 <div class="col-sm-8">
-  <div data-drop="true" jqyoui-droppable="{placeholder: true, onDrop: 'addLessonPlan(courseDay)'}" class="col-sm-6 course-day" ng-repeat="courseDay in course.course_days" courseDay="courseDay">
+  <div data-drop="true" jqyoui-droppable="{placeholder: true, onDrop: 'addLessonPlan(courseDay)'}" class="col-sm-6 course-day" ng-repeat="courseDay in course.course_days | orderBy: 'date'" courseDay="courseDay">
     <h4>{{courseDay.date | date}}</h4>
-    <p ng-repeat="lesson in courseDay.lesson_plans" lesson="lesson">{{lesson.title}}</p>
+    <p ng-repeat="lesson in courseDay.lesson_plans" lesson="lesson">{{lesson.title}} <span class="pull-right" ng-click="deleteLessonPlan(lesson, courseDay)">Delete</span></p>
   </div>
 </div>

@@ -9,6 +9,12 @@ json.array! @courses do |course|
   json.meeting_days course.meeting_days
   json.course_days course.course_days do |course_day|
     json.date course_day.date
+    json.id course_day.id
+    json.lesson_plans course_day.lesson_plans do |lesson_plan|
+      json.id lesson_plan.id
+      json.title lesson_plan.title
+      json.subject lesson_plan.subject
+    end
   end
 
   json.assignments course.assignments do |assignment|

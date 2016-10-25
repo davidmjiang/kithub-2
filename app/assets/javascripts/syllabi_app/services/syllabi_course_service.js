@@ -25,12 +25,24 @@ angular.module('Syllabi').factory('SyllabiCourseService', ['Restangular',  '_', 
   }
 
   courseService.addLessonPlanDay = function(courseDayId, lessonPlanId) {
-    params = {courseDayId: courseDayId, lessonPlanId: lessonPlanId}
+    params = {course_day_id: courseDayId, lesson_plan_id: lessonPlanId}
     return Restangular.all('lesson_plan_days').post(params)
       .then(function(response){
         return response;
       })
-  } 
+  }
+
+  courseService.removeLessonPlanDay = function(courseDayId, lessonPlanId) {
+    params = {course_day_id: courseDayId, lesson_plan_id: lessonPlanId}
+    return Restangular.one('lesson_plan_days', 1).remove(params)
+      .then(function(response){
+        return response;
+      })
+  }
+
+  courseService.updateCourses = function(){
+    return populateCourses();
+  }  
 
 
   var populateCourses = function() {
@@ -38,6 +50,8 @@ angular.module('Syllabi').factory('SyllabiCourseService', ['Restangular',  '_', 
       return angular.copy(courses, _courses);
     })
   };
+
+
 
   return courseService;
 

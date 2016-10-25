@@ -20,7 +20,9 @@ Syllabi.controller('SyllabiCoursesCtrl', ['$scope', '$state', 'currentUser', 'Sy
       if (course.selectedDays) {
         updateObj.meeting_days = JSON.stringify(course.selectedDays)
       }
-      course.patch(updateObj);
+      course.patch(updateObj).then(function(response){
+        SyllabiCourseService.updateCourses();
+      });
     };
 
 
