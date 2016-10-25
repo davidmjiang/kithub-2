@@ -9,7 +9,8 @@ class Teacher < ApplicationRecord
 
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, omniauth_providers: [:facebook]
 
   has_many :lesson_plans
 
@@ -37,7 +38,16 @@ class Teacher < ApplicationRecord
   has_many :courses
 
   #paperclip for photo attachment
-  has_attached_file :avatar, 
+  has_attached_file :avatar,
                     :styles => {profile: "300 x300"}
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
+
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |teacher|
+        teacher.provider = auth.provider
+        teacher.uid = auth.uid
+        teacher.email = auth.info.email
+        teacher.password = Devise.friendly_token[0,20]
+      end
+  end
 end
