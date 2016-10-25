@@ -24,8 +24,12 @@ class CoursesController < ApplicationController
 
   def update
     @course = Course.find(params[:id])
+    delete_all = false
     respond_to do |format|
       if @course.update(course_params)
+        if @course.meeting_days && @course.start_date && @course.end_date
+          @course.update_course_days
+        end
         format.json {render json: @course, include: [{students: {include: :submissions}}, {assignments: {include: :submissions}}]}
       else
         format.json { render json: {errors: @course.errors.full_messages },

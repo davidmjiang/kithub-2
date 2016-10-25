@@ -53,7 +53,12 @@ class Course < ApplicationRecord
       end
       current_date += (7 * daySec)
     end
-
+    self.course_days.each do |course_day|
+      if course_day.date > self.end_date || course_day.date < self.start_date || !meeting_days.include?(course_day.date.wday.to_s)
+        puts course_day.date.wday.to_s
+        course_day.delete
+      end
+    end
   end
 
 end

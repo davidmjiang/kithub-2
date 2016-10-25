@@ -8,10 +8,8 @@ Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser',
     $scope.courses = courses;
     $scope.course = course;
     $scope.teacher = teacher;
-    console.log($scope.teacher);
 
     $scope.meeting_days = JSON.parse($scope.course.meeting_days)
-    console.log($scope.course);
 
     $scope.days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -26,7 +24,15 @@ Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser',
 
     $scope.addLessonPlan =function(event, ui, courseDay){
       courseDay.lesson_plans.push($scope.draggedLesson);
-      
+      console.log(courseDay);
+      SyllabiCourseService.addLessonPlanDay(courseDay.id, $scope.draggedLesson.id);
+    }
+
+    $scope.deleteLessonPlan = function(lesson_plan, courseDay) {
+      _.remove(courseDay.lesson_plans, function(lp){
+        return lesson_plan.id == lp.id
+      });
+      SyllabiCourseService.removeLessonPlanDay(courseDay.id, lesson_plan.id);
     }
 
 
