@@ -18,6 +18,11 @@
       <div ng-if="editing === false && currentUserLesson === true">
         <button class="btn btn-primary" ng-click="toggleEditing()">Edit</button>
       </div>
+      <div ng-if="currentUserLesson === false">
+        <button class="btn btn-secondary setting-btn helptip" ng-click="export()" ng-if="!exporting">Download lesson&nbsp<i class="fa fa-question-circle-o"></i></button>
+        <div class="helptext">Download lesson as a .docx file. Check your pop-up blocker if having trouble with the download.</div>
+        <button class="btn btn-secondary setting-btn" ng-if="exporting" ng-disabled="true"><i class="fa fa-spinner fa-spin fa-fw"></i>Downloading...</button>
+      </div>
     </div>
     <div class="col-md-4">
       <flash:messages></flash:messages>

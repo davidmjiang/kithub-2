@@ -189,8 +189,20 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     });
   };
 
+  // Exporting to word
+
+  $scope.exporting = false;
+
   $scope.export = function() {
-    LessonService.export($scope.lesson);
+    $scope.exporting = true;
+    LessonService.export($scope.lesson).then(function(){
+      var hiddenElement = document.createElement('a');
+      hiddenElement.href = "localhost:3000/api/v1/lesson_plans/"+$scope.lesson.id+"/export";
+      hiddenElement.target = "_blank";
+      hiddenElement.click();
+      LessonService.setFlash('alert-success', 'Lesson downloaded!');
+      $scope.exporting = false;
+    });
   };
 
 
