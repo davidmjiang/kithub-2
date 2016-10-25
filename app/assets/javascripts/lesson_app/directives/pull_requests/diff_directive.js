@@ -22,6 +22,18 @@ Lesson.directive("diff",  [ "pullRequestService", "DiffService", "LessonService"
         scope.hidePopover = function () {
           scope.popoverIsVisible = false;
         };
+
+        scope.clearAllChanges = function () {
+          scope.diffs.forEach(function(element) {
+            element.accepted = false;
+          });
+        };
+
+        scope.addAllChanges = function () {
+          scope.diffs.forEach(function(element) {
+            element.accepted = true;
+          });
+        };
       }
     };
 

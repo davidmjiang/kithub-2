@@ -89,4 +89,10 @@
   .helptip:hover + .helptext{
     display: block;
   }
+
+  .diffs {
+    button {
+      // margin-left: -15px;
+    }
+  }
 }
