@@ -9,13 +9,11 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
   $scope.prSent = _.filter($scope.forkedLesson.pull_requests_sent, [ 'status', 'pending' ]);
 
   LessonService.getLesson($stateParams.id).then(function(response){
-    console.log($scope.forkedLesson)
     if(response.parent_plan_id) {
       $scope.newPR = pullRequestService.getNewPullRequest($stateParams.id, response.parent_plan_id);
 
       LessonService.getLesson($scope.newPR.parent_plan_id).then(function(parent) {
         $scope.newPR.parent_plan = parent;
-    console.log($scope.newPR.parent_plan.version)
         if ($scope.newPR.parent_plan.version > $scope.forkedLesson.parent_version) {
           $scope.upToDate = false;
           console.log("Out of date")
