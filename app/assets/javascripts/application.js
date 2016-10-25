@@ -39,5 +39,6 @@
 //= require dirPagination
 //= require rzslider.min
 //= require angular-flash
+//= require ui-bootstrap-tpls-2.2.0.min
 
 //= require_tree .
