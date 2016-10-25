@@ -20,7 +20,8 @@
   <div class="card">
     <div class="card-block">
       <h4 class="card-title">Changes</h4>
-      <pre><span ng-repeat="diff in diffs" ng-class="{ added: diff.added, removed: diff.removed }">{{ diff.value }}</span></pre>
+      <pre><span ng-repeat="diff in diffs" ng-class="{ added: diff.added, removed: diff.removed }">{{ diff.value }}<button class="pull-right" ng-if="diff.added || diff.removed" href="#" ng-click="diff.accepted = !diff.accepted">{{ diff.accepted ? 'Keeping' : 'Ignoring' }}</button></span></pre>
     </div>
+    <p>{{diffs}}</p>
   </div>
 </div>
