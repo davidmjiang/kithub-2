@@ -19,11 +19,8 @@ Lesson.directive("pullRequestShow",  [ "pullRequestService", "DiffService", 'Les
 
       //Porbably need to update version, make pull requests as accepted somehow.
       scope.acceptChanges = function() {
-        console.log(scope.diffs)
-        console.log( DiffService.acceptChanges(scope.diffs) );
-        return
         angular.element(".modal-backdrop").remove();
-        scope.pullRequest.parent_plan.content = scope.pullRequest.forked_plan.content;
+        scope.pullRequest.parent_plan.content = DiffService.acceptChanges(scope.diffs);
         scope.pullRequest.parent_plan = Restangular.restangularizeElement(null, scope.pullRequest.parent_plan, "lesson_plans");
 
         contributorData = { teacher_id: scope.pullRequest.forked_plan.teacher_id,
