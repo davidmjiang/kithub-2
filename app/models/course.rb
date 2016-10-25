@@ -44,10 +44,10 @@ class Course < ApplicationRecord
       end
     end
     current_date = self.start_date
-    while current_date < self.end_date
+    while current_date <= self.end_date
       days_to_add.each do |days_ahead|
         new_date = current_date + (daySec * days_ahead)
-        if new_date < self.end_date && !course_day_hash[new_date]
+        if new_date <= self.end_date && !course_day_hash[new_date]
           self.course_days.create(date: (new_date))
         end
       end

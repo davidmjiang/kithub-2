@@ -7,4 +7,7 @@
    <option ng-repeat="day in days" value="{{$index}}">{{day}}</option>
    </select>
    <button class="btn btn-primary" ng-click="updateCourse(course)">Update Course</button></p>
+   <a ui-sref="courses.show({id: course.id})">
+   <button class="btn btn-default btn-outline">Add Lesson Plans</button></a>
+   </p>
 </div>

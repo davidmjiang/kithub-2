@@ -330,7 +330,7 @@ ALTER SEQUENCE lesson_plan_contributors_id_seq OWNED BY lesson_plan_contributors
 CREATE TABLE lesson_plan_days (
     id integer NOT NULL,
     lesson_plan_id integer,
-    course_id integer,
+    course_day_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -1203,10 +1203,10 @@ CREATE UNIQUE INDEX index_lesson_plan_contributors_on_teacher_id_and_lesson_plan
 
 
 --
--- Name: index_lesson_plan_days_on_course_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_lesson_plan_days_on_course_day_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_lesson_plan_days_on_course_id ON lesson_plan_days USING btree (course_id);
+CREATE INDEX index_lesson_plan_days_on_course_day_id ON lesson_plan_days USING btree (course_day_id);
 
 
 --
