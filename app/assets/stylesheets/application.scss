@@ -79,10 +79,14 @@ font-family: 'Roboto', sans-serif;
   border-color: $blue-sky-color;
 }
 
+/* fixes cursors broken by angular ui.bootstrap */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+
  @import "bootstrap";
  @import "xeditable";
  @import "font-awesome";
- // @import "font-awesome-sprockets";
+ /*@import "font-awesome-sprockets";*/
  @import "simplemde.min";
  @import "lesson_styles/lesson_show";
  @import "lesson_styles/teachers";
