@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :teachers
+  devise_for :teachers, :controllers => { omniauth_callbacks: "callbacks" }
 
   devise_scope :teacher do
     unauthenticated do
