@@ -109,17 +109,85 @@
           <div role="tabpanel" class="tab-pane fade" id="grade">
             <canvas id="pie" class="chart chart-pie" chart-data="assignData" chart-labels="assignLabels" chart-options="pieOpts" chart-colors="colors"> chart-series="series"
             </canvas>
+
+            <div class="row">
+              <div class="col-xs-12">
+
+                <label style="font-size: 20px">Apply Curve: </label>
+                <select ng-model="curveType">
+                  <option ng-hide="assignment.linear_curve" value="Flat">Flat</option>
+                  <option ng-hide="assignment.flat_curve" value="Linear">Linear</option>
+                </select>
+
+                <span ng-show="curveAlert">Curve has been applied.</span>
+                <span ng-hide="curveAlert">Current Curve: {{setNotice()}}</span>
+
+                <div ng-if="curveType==='Flat'">
+                  <label>By what percent would you like to increase scores?</label>
+                  <input type="range" max="100" min="0" ng-model="curve.flatRate">
+                  <span> {{curve.flatRate}}%</span>
+                  <div style="text-align: center">
+                    <button class="btn btn-success" ng-click="saveChanges(); alertShow()">Apply Curve</button>
+                    <button class="btn btn-danger" ng-click="resetCurve(); resetData()">Remove Curve</button>
+                  </div>
+                </div>
+
+                <div ng-if="curveType==='Linear'">
+                  <p>Pick two raw score percent values (for example, the highest and lowest scores), then choose how much to increase those scores.</p>
+                  <form name="linearForm">
+                    <label>Low Score (original):</label>
+                    <input  type="number"
+                            max="100"
+                            min="0"
+                            ng-model="curve.rawA"
+                            required>
+                    <label>Low Score (curved):</label>
+                    <input  type="range"
+                            max="100" 
+                            min="0"
+                            ng-show="curve.rawA >= 0 ? true : false"
+                            ng-model="curve.slideA"
+                            required><span> {{curve.slideA}}%</span><br>
+                    <label>High Score (original):</label>
+                    <input  type="number"
+                            max="100" 
+                            min="0" 
+                            ng-model="curve.rawB"
+                            required>
+                    <label>High Score (curved):</label>
+                    <input  type="range"
+                            max="100" 
+                            min="0"
+                            ng-show="curve.rawB >= 0 ? true : false"
+                            ng-model="curve.slideB"
+                            required><span> {{curve.slideB}}%</span><br>
+                    <div style="text-align: center">
+                      <button class="btn btn-success" ng-disabled="linearForm.$invalid" ng-click="saveChanges(); alertShow()">
+                        Apply Curve
+                      </button>
+                      <button class="btn btn-danger" ng-click="resetCurve()">
+                        Remove Curve
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+            </div>
+            
           </div>
 
           <div role="tabpanel" class="tab-pane fade" id="stat">
             <div class="row">
               <div class="col-sm-11 offset-sm-1">
-                <h4 style="margin-top: 10px" editable-text="assignment.assignment_type">{{assignment.assignment_type | capitalize }}</h4>
-                
+                <p style="margin-top: 10px">
+                  Assignment Type: <span editable-text="assignment.assignment_type">{{assignment.assignment_type | capitalize }}</span>
+                </p>
+
                 <p>Overall Average: {{gpa.real | number:2 }}%</p>
 
-                <p editable-text="assignment.possible_score">
-                  Points possible: {{assignment.possible_score}}
+                <p >
+                  Points possible: <span editable-text="assignment.possible_score">{{assignment.possible_score}}</span>
                 </p>
                 <p>
                   Last Updated: {{assignment.updated_at | date:'medium'}}
