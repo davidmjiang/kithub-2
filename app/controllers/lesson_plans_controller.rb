@@ -24,17 +24,19 @@ class LessonPlansController < ApplicationController
 
   def update
     @lesson = current_teacher.lesson_plans.find(params[:id])
+    old_version = @lesson.version
 
     respond_to do |format|
       if @lesson.update(lesson_plan_params)
-        @lesson.version += 0.1
-        @lesson.save
-        format.json{render "show.json.jbuilder"}
-      else
-        format.json { render json: {
+        @lesson.version =  (old_version + 0.1).round(1)  # round because of floating point inprecision
+        if @lesson.save
+          format.json{render "show.json.jbuilder"}
+         else
+          format.json { render json: {
                                     errors: @lesson.errors.full_messages },
                                     :status => 422
                                    }
+        end
       end
     end
   end

@@ -1,8 +1,10 @@
 <fork-lesson-plan owner="owner" ng-if="lessonBelongsToCurrentUser === false && alreadyForked !== true"></fork-lesson-plan>
 
-<button ui-sref="main.lessons.show.pullRequests({id: newPR.parent_plan_id})" ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length > 0" class="btn btn-warning pull-right">Pending Pull Request</button>
+<button ui-sref="main.lessons.show.pullRequests({id: newPR.parent_plan_id})" ng-if="!upToDate" class="btn btn-primary pull-right">Update Lesson</button>
 
-<button ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length === 0"
+<button ui-sref="main.lessons.show.pullRequests({id: newPR.parent_plan_id})" ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length > 0 && upToDate" class="btn btn-warning pull-right">Pending Pull Request</button>
+
+<button ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length === 0 && upToDate"
         ng-click="getDiffInfo()"
         type="button"
         class="btn btn-info pull-right"
