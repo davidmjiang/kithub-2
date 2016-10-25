@@ -1,5 +1,6 @@
-Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherService', '_', 'flash', '$timeout', 'Upload',
-  function(Restangular, pullRequestService, TeacherService, _, flash, $timeout, Upload) {
+"use strict";
+Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherService', '_', 'flash', '$timeout', 'Upload', '$http',
+  function(Restangular, pullRequestService, TeacherService, _, flash, $timeout, Upload, $http) {
 
   var lessonService = {};
 
@@ -112,6 +113,10 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
 
   lessonService.export = function(lesson) {
     // calls api/v1/lesson_plans/:id/export 
+    return $http({
+      method: 'GET',
+      url: '/api/v1/lesson_plans/'+lesson.id+'/export',
+    });
   };
 
 

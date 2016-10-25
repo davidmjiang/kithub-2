@@ -370,7 +370,8 @@ CREATE TABLE lesson_plans (
     lesson_type character varying,
     parent_plan_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    parent_version double precision DEFAULT 0.0
 );
 
 
@@ -426,48 +427,6 @@ CREATE SEQUENCE linear_curves_id_seq
 --
 
 ALTER SEQUENCE linear_curves_id_seq OWNED BY linear_curves.id;
-
-
---
--- Name: parents; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE parents (
-    id integer NOT NULL,
-    email character varying DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
-    first_name character varying,
-    last_name character varying,
-    reset_password_token character varying,
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
-    sign_in_count integer DEFAULT 0 NOT NULL,
-    current_sign_in_at timestamp without time zone,
-    last_sign_in_at timestamp without time zone,
-    current_sign_in_ip inet,
-    last_sign_in_ip inet,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: parents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE parents_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: parents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE parents_id_seq OWNED BY parents.id;
 
 
 --
@@ -578,38 +537,6 @@ CREATE SEQUENCE student_courses_id_seq
 --
 
 ALTER SEQUENCE student_courses_id_seq OWNED BY student_courses.id;
-
-
---
--- Name: student_parents; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE student_parents (
-    id integer NOT NULL,
-    parent_id integer,
-    student_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: student_parents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE student_parents_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: student_parents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE student_parents_id_seq OWNED BY student_parents.id;
 
 
 --
@@ -823,6 +750,40 @@ ALTER SEQUENCE teachers_id_seq OWNED BY teachers.id;
 
 
 --
+-- Name: testers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE testers (
+    id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    avatar_file_name character varying,
+    avatar_content_type character varying,
+    avatar_file_size integer,
+    avatar_updated_at timestamp without time zone
+);
+
+
+--
+-- Name: testers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE testers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: testers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE testers_id_seq OWNED BY testers.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -945,13 +906,6 @@ ALTER TABLE ONLY linear_curves ALTER COLUMN id SET DEFAULT nextval('linear_curve
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY parents ALTER COLUMN id SET DEFAULT nextval('parents_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY pull_requests ALTER COLUMN id SET DEFAULT nextval('pull_requests_id_seq'::regclass);
 
 
@@ -967,13 +921,6 @@ ALTER TABLE ONLY standards ALTER COLUMN id SET DEFAULT nextval('standards_id_seq
 --
 
 ALTER TABLE ONLY student_courses ALTER COLUMN id SET DEFAULT nextval('student_courses_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY student_parents ALTER COLUMN id SET DEFAULT nextval('student_parents_id_seq'::regclass);
 
 
 --
@@ -1016,6 +963,13 @@ ALTER TABLE ONLY teacher_followings ALTER COLUMN id SET DEFAULT nextval('teacher
 --
 
 ALTER TABLE ONLY teachers ALTER COLUMN id SET DEFAULT nextval('teachers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY testers ALTER COLUMN id SET DEFAULT nextval('testers_id_seq'::regclass);
 
 
 --
@@ -1122,14 +1076,6 @@ ALTER TABLE ONLY linear_curves
 
 
 --
--- Name: parents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY parents
-    ADD CONSTRAINT parents_pkey PRIMARY KEY (id);
-
-
---
 -- Name: pull_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1159,14 +1105,6 @@ ALTER TABLE ONLY standards
 
 ALTER TABLE ONLY student_courses
     ADD CONSTRAINT student_courses_pkey PRIMARY KEY (id);
-
-
---
--- Name: student_parents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY student_parents
-    ADD CONSTRAINT student_parents_pkey PRIMARY KEY (id);
 
 
 --
@@ -1215,6 +1153,14 @@ ALTER TABLE ONLY teacher_followings
 
 ALTER TABLE ONLY teachers
     ADD CONSTRAINT teachers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: testers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY testers
+    ADD CONSTRAINT testers_pkey PRIMARY KEY (id);
 
 
 --
@@ -1324,20 +1270,6 @@ CREATE INDEX index_linear_curves_on_assignment_id ON linear_curves USING btree (
 
 
 --
--- Name: index_parents_on_email; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_parents_on_email ON parents USING btree (email);
-
-
---
--- Name: index_parents_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_parents_on_reset_password_token ON parents USING btree (reset_password_token);
-
-
---
 -- Name: index_pull_requests_on_forked_plan_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1370,20 +1302,6 @@ CREATE INDEX index_student_courses_on_course_id ON student_courses USING btree (
 --
 
 CREATE INDEX index_student_courses_on_student_id ON student_courses USING btree (student_id);
-
-
---
--- Name: index_student_parents_on_parent_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_student_parents_on_parent_id ON student_parents USING btree (parent_id);
-
-
---
--- Name: index_student_parents_on_student_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_student_parents_on_student_id ON student_parents USING btree (student_id);
 
 
 --
@@ -1513,27 +1431,11 @@ CREATE INDEX teachers_to_tsvector_idx2 ON teachers USING gin (to_tsvector('engli
 
 
 --
--- Name: fk_rails_afd7c836fb; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY student_parents
-    ADD CONSTRAINT fk_rails_afd7c836fb FOREIGN KEY (student_id) REFERENCES students(id);
-
-
---
--- Name: fk_rails_b71b2c6962; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY student_parents
-    ADD CONSTRAINT fk_rails_b71b2c6962 FOREIGN KEY (parent_id) REFERENCES parents(id);
-
-
---
 -- PostgreSQL database dump complete
 --
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('20161014132221'), ('20161014132811'), ('20161014133102'), ('20161014140357'), ('20161014141614'), ('20161014141647'), ('20161014142046'), ('20161014142139'), ('20161014143029'), ('20161014144025'), ('20161014145229'), ('20161014150854'), ('20161014153722'), ('20161014154048'), ('20161014154425'), ('20161014154536'), ('20161014154647'), ('20161014164623'), ('20161018160504'), ('20161018211932'), ('20161018213940'), ('20161018214907'), ('20161018225025'), ('20161019155147'), ('20161019204921'), ('20161019210654'), ('20161024160525'), ('20161024174203'), ('20161024183757'), ('20161024213845'), ('20161024220555'), ('20161024220706');
+INSERT INTO schema_migrations (version) VALUES ('20161014024103'), ('20161014024243'), ('20161014132221'), ('20161014132811'), ('20161014133102'), ('20161014140357'), ('20161014141614'), ('20161014141647'), ('20161014142046'), ('20161014142139'), ('20161014143029'), ('20161014144025'), ('20161014145229'), ('20161014150854'), ('20161014153722'), ('20161014154048'), ('20161014154425'), ('20161014154536'), ('20161014154647'), ('20161014164623'), ('20161018160504'), ('20161018211932'), ('20161018213940'), ('20161018214907'), ('20161018225025'), ('20161019155147'), ('20161019204921'), ('20161019210654'), ('20161024160525'), ('20161024174203'), ('20161024183757'), ('20161024213845'), ('20161024220555'), ('20161024220706'), ('20161025181659'), ('20161025223101');
 
 

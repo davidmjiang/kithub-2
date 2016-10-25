@@ -24,15 +24,19 @@ class LessonPlansController < ApplicationController
 
   def update
     @lesson = current_teacher.lesson_plans.find(params[:id])
+    old_version = @lesson.version
 
     respond_to do |format|
       if @lesson.update(lesson_plan_params)
-        format.json{render "show.json.jbuilder"}
-      else
-        format.json { render json: {
+        @lesson.version =  (old_version + 0.1).round(1)  # round because of floating point inprecision
+        if @lesson.save
+          format.json{render "show.json.jbuilder"}
+         else
+          format.json { render json: {
                                     errors: @lesson.errors.full_messages },
                                     :status => 422
                                    }
+        end
       end
     end
   end
@@ -75,9 +79,10 @@ class LessonPlansController < ApplicationController
   end
 
   def export
-    @lesson = current_teacher.lesson_plans.find(params[:id])
+    @lesson = LessonPlan.find(params[:lesson_plan_id])
     content_with_headers = DocConvert.add_headers_to_markdown(@lesson)
-    DocConvert.markdown_to_rtf(content_with_headers)
+    path = DocConvert.markdown_to_rtf(content_with_headers, @lesson.title)
+    send_file path, :disposition => 'attachment'
   end
 
   private
@@ -85,7 +90,8 @@ class LessonPlansController < ApplicationController
     def lesson_plan_params
       params.require(:lesson_plan).permit(:title, :content, :hours,
                                           :version, :state, :grade,
-                                          :subject, :lesson_type, :parent_plan_id)
+                                          :subject, :lesson_type, :parent_plan_id,
+                                          :parent_version)
     end
 
 end
