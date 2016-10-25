@@ -14,7 +14,7 @@ class SearchesController < ApplicationController
       if parsed_params["searchType"] == "title"
         @lesson_plans = LessonPlan.includes([:lesson_plan_stars, :teacher, :teachers_who_starred, :forked_plans]).fuzzy_search(title: term)
       else
-        @lesson_plans = LessonPlan.includes([:lesson_plan_stars, :teacher, :teachers_who_starred, :forked_plans]).fuzzy_search(content: term)
+        @lesson_plans = LessonPlan.includes([:lesson_plan_stars, :teacher, :teachers_who_starred, :forked_plans]).basic_search(content: term)
       end
       respond_to do |format|
         format.json {render "lesson_plan_stars/lesson_plans.json.jbuilder"}
