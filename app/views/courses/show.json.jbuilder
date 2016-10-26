@@ -1,5 +1,6 @@
 json.(@course, :id, :title, :teacher_id, :points_possible, :start_date, :end_date, :meeting_days)
 
+
 json.students @course.students do |student|
   json.id student.id
   json.first_name student.first_name
@@ -17,7 +18,6 @@ json.course_days @course.course_days do |course_day|
     json.id lesson_plan.id
     json.title lesson_plan.title
     json.subject lesson_plan.subject
-    json.used lesson_plan.used
     json.lesson_type lesson_plan.lesson_type
     json.subject lesson_plan.subject
     json.grade lesson_plan.grade

@@ -8,6 +8,14 @@ Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser',
     $scope.courses = courses;
     $scope.course = course;
     $scope.teacher = teacher;
+    $scope.lessonPlanIDs = [];
+    _.forEach($scope.course.course_days, function(courseDay){
+      _.forEach(courseDay.lesson_plans, function(lessonPlan){
+        $scope.lessonPlanIDs.push(lessonPlan.id)
+      })
+    });
+    console.log($scope.lessonPlanIDs);
+
 
     $scope.meeting_days = JSON.parse($scope.course.meeting_days)
 
@@ -24,9 +32,8 @@ Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser',
 
     $scope.addLessonPlan =function(event, ui, courseDay){
       courseDay.lesson_plans.push($scope.draggedLesson);
-      $scope.draggedLesson.used = true;
-      Restangular.restangularizeElement(null, $scope.draggedLesson, 'lesson_plans')
-      $scope.draggedLesson.patch({used: true})
+      $scope.lessonPlanIDs.push($scope.draggedLesson.id);
+      console.log($scope.lessonPlanIDs);
       SyllabiCourseService.addLessonPlanDay(courseDay.id, $scope.draggedLesson.id);
     };
 
@@ -34,10 +41,18 @@ Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser',
       _.remove(courseDay.lesson_plans, function(lp){
         return lesson_plan.id == lp.id
       });
-      Restangular.restangularizeElement(null, lesson_plan, 'lesson_plans')
-      lesson_plan.used = false;
-      lesson_plan.patch({used: false});
+      _.remove($scope.lessonPlanIDs, function(lpID){
+        return lesson_plan.id == lpID;
+      })
+      console.log($scope.lessonPlanIDs);
       SyllabiCourseService.removeLessonPlanDay(courseDay.id, lesson_plan.id);
+    }
+
+    $scope.isUsed = function() {
+      return function(item) {
+        console.log(item.id);
+        return !_.includes($scope.lessonPlanIDs, item.id)
+      }
     }
 
     $scope.filters = {
