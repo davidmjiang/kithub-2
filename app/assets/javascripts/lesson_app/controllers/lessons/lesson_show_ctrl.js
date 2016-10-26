@@ -5,18 +5,19 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
 
   $scope.changeToIndexState = function(){
     console.log("changing...")
-  };  
+  };
   $scope.lesson = lesson;
   $scope.owner = owner;
+  $scope.currentUser = currentUser;
   $scope.draftTitle = $scope.lesson.title;
 
   $scope.pendingPRs = _.remove($scope.lesson.pull_requests_received, function (pr) {
-    return pr.status === "pending"
+    return pr.status === "pending";
   }).length;
 
   // Searches the starred lesson_plans array for lesson plans that have already been starred.
   var has_starred = function(current_user, lesson) {
-    var starred = current_user.starred_lesson_plans
+    var starred = current_user.starred_lesson_plans;
 
     for (var i = 0; i < starred.length; i++) {
       if (starred[i].id === lesson.id) {
@@ -71,7 +72,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   // belongs to the current user, and sets
   // currentUserLesson accordingly
   var checkCurrentUser = function() {
-    if (currentUser.id === $scope.lesson.teacher_id) {
+    if ($scope.currentUser.id === $scope.lesson.teacher_id) {
       $scope.currentUserLesson = true;
     } else {
       $scope.currentUserLesson = false;
@@ -120,7 +121,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
         angular.element(document.querySelector('#deleteModal')).modal('hide');
 
         // wait for modal to close
-        setTimeout(function() { 
+        setTimeout(function() {
             $state.go("main.redirect");
           }, 300);
       }
@@ -188,8 +189,20 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     });
   };
 
+  // Exporting to word
+
+  $scope.exporting = false;
+
   $scope.export = function() {
-    LessonService.export($scope.lesson);
+    $scope.exporting = true;
+    LessonService.export($scope.lesson).then(function(){
+      var hiddenElement = document.createElement('a');
+      hiddenElement.href = "https://gentle-retreat-33093.herokuapp.com/api/v1/lesson_plans/"+$scope.lesson.id+"/export";
+      hiddenElement.target = "_blank";
+      hiddenElement.click();
+      LessonService.setFlash('alert-success', 'Lesson downloaded!');
+      $scope.exporting = false;
+    });
   };
 
 

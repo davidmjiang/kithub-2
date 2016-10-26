@@ -51,7 +51,8 @@ Gradebook.factory('CourseService', ['Restangular', '$rootScope', function(Restan
 
   stub.addCourse = function(params) {
     return Restangular.all('courses').post(params).then(function(response){
-      angular.copy(populateCourses(), _courses);
+      // angular.copy(populateCourses(), _courses);
+      _courses.push(response)
       return response;
     })
   };

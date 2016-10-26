@@ -73,7 +73,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
             });
           }],
       currentTeacher: ['currentUser', 'TeacherService', function(currentUser, TeacherService) {
-        return TeacherService.getTeacher(currentUser.id)
+        return TeacherService.getTeacher(currentUser.id);
       }]
     }
 	})
@@ -153,6 +153,16 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
               }]
           }
         },
+      }
+    })
+
+    .state('main.lessons.show.contributors', {
+      url: '/contributors',
+      views: {
+        "mainContainer@main.lessons.show": {
+          templateUrl:  "lesson_templates/lessons/contributors.html",
+          controller: "LessonShowCtrl"
+        }
       }
     })
 

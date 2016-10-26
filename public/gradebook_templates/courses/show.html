@@ -7,8 +7,7 @@
   <div class="col-xs-12">
     <h1>
       <div ng-submit="update(course.title)">
-        <span editable-text="course.title" e-form="textBtnForm">
-        </span>
+        <span editable-text="course.title" e-form="textBtnForm"></span>
       </div>
 
       <a ng-click="courseDetailModal(rawGPA)" ng-hide="textBtnForm.$visible">{{course.title}}</a>
@@ -16,62 +15,43 @@
       <button class="btn btn-secondary btn-sm" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
       edit title</button>
     </h1>
-
-    <!-- {{course}} -->
   </div>
-</div>
-<p>The following students are failing (under 60%) your class:</p>
-<div class="failing-students">
-  <ul>
-    <li ng-repeat="(failingStudent, score) in failingStudents">{{failingStudent}} : {{score}}%
-    <button class="btn btn-primary">Notify Parent</button></li></ul>
-    </li></br>
-  </ul>
-</div>
-<p>The following students are doing exceptionally well(over 90%) in your class:</p>
-<div class="passing-students">
-  <ul>
-    <li ng-repeat="(exceptionalStudent, score) in exceptionalStudents">{{exceptionalStudent}} : {{score}}%
-    <button class="btn btn-primary">Notify Parent</button></li></ul>
-    </li></br>
-  </ul>
 </div>
 
 <p>Average GPA by raw score: <span>{{rawGPA | number:2}}%</span></p>
-<p>GPA with curve: <span>{{curvedGPA}}% </span></p>
+<p ng-show="{{curvedGPA}}">GPA with curve: <span>{{curvedGPA}}% </span></p>
 <p><strong>Note</strong>: Adding a '-1' to a score DOES NOT include the score in the student's overall GPA for the course.
 This feature is useful incase a student has not yet handed in an assignment or is excused from an assignment</p>
-<div class="overflow-x-auto">
+<div>
   <button class="btn btn-success sh-btn" ng-click="addStudentModal(course)">Add Student</button>
   <button class="btn btn-success sh-btn" ng-click="addAssignmentModal(course)">Add Assignment</button>
   <button class="btn btn-danger sh-btn" ng-click="removeStudentModal(course)">Remove Student</button>
   <button class="btn btn-outline-danger sh-btn" ng-click="deleteCourse()">Delete this course</button>
+  <button class="btn btn-primary" ng-click="showNotifications(failingStudents, exceptionalStudents)">Notifications</button>
+  <div fixed-first-column>
   <scrollable-table>
-   <table class="table table-striped table-bordered table-hover">
-    <thead>
-      <tr>
-        <th sortable-header col="Student ID">ID</th>
-        <th sortable-header col="First Name">First</th>
-        <th sortable-header col="Last Name">Last</th>
-        <th sortable-header col="Email">Email</th>
-
-        <th sortable-header col="{{col}}" sortable-header ng-repeat="col in cols track by $index | limitTo: colCount - 4" ng-click="showAssignmentModal(assignments[$index])">{{col}}</th>
-        <th>Overall</th>
-        <!-- <th>Details</th> -->
-
-      </tr>
-    </thead>
-      <tbody>
-        <tr ng-repeat="row in allRows track by $index | limitTo: rowCount">
-            <td nowrap class="styling-grades" ng-submit="submitEdit(row, item, $index)" ng-repeat="item in row track by $index | limitTo: colCount ">
-
-             {{percentScore(item, $index)}}<a href="#" onbeforesave="checkItem($index, $data)" editable-text="item"> {{isItemScore(item, $index)}}</a>
-          </td>
-          <td class="styling-grades">{{showScore(allRows.indexOf(row))}}%</td>
-          <td class="styling-grades"><a ng-click="studentDetailModal(row[3], row[row.length - 1])">Details</a></td>
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr>
+          <th sortable-header col="Student ID">ID</th>
+          <th sortable-header col="First Name">First</th>
+          <th sortable-header col="Last Name">Last</th>
+          <th sortable-header col="Email">Email</th>
+          <th sortable-header col="{{col}}" sortable-header ng-repeat="col in cols track by $index | limitTo: colCount - 4" ng-click="showAssignmentModal(assignments[$index])">{{col}}</th>
+          <th>Overall</th>
         </tr>
-      </table>
-    </tbody>
-  </scrollable-table>
-</div>
+      </thead>
+        <tbody>
+          <tr title="{{row[1] + ' ' + row[2]}}" data-toggle="tooltip" data-placement="top" tool-tip ng-repeat="row in allRows track by $index | limitTo: rowCount">
+              <td nowrap class="styling-grades" ng-submit="submitEdit(row, item, $index)" ng-repeat="item in row track by $index | limitTo: colCount ">
 
+               {{percentScore(item, $index)}}<a href="#" onbeforesave="checkItem($index, $data)" editable-text="item"> {{isItemScore(item, $index)}}</a>
+            </td>
+            <td>{{showScore(allRows.indexOf(row))}}%</td>
+            <td><a ng-click="studentDetailModal(row[3], row[row.length - 1])">Details</a></td>
+          </tr>
+        </tbody>
+      </table>
+  </scrollable-table>
+  </div>
+</div>

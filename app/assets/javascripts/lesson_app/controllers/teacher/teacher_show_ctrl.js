@@ -16,7 +16,6 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
     console.log("changing...")
   }; 
 
-  $scope.test = "Hello!" 
 	//show profile photo if there is one
 	if(teacher.avatar_file_name){
 		$scope.profile_photo = teacher.image;
@@ -45,15 +44,15 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 
 	$scope.cancelUpdate = function(){
 		$scope.teacherEditing = !$scope.teacherEditing;
-		$scope.teacher.first_name = $scope.tempFirst
-		$scope.teacher.last_name = $scope.tempLast
-		$scope.teacher.state = $scope.tempState
-	}
+		$scope.teacher.first_name = $scope.tempFirst;
+		$scope.teacher.last_name = $scope.tempLast;
+		$scope.teacher.state = $scope.tempState;
+	};
 
 	$scope.updateTeacher = function(){
 		$scope.teacherEditing = !$scope.teacherEditing;
 		$scope.teacher.patch();
-	}
+	};
 
 	// toggle between showing and editing user's state
 	$scope.editState = function(){

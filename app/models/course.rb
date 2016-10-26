@@ -1,4 +1,7 @@
+require 'securerandom'
+
 class Course < ApplicationRecord
+  before_save :create_identifier
 
   validates :title, presence: true
 
@@ -60,6 +63,9 @@ class Course < ApplicationRecord
         course_day.delete
       end
     end
+
+  def create_identifier
+    self.identifier = SecureRandom.hex(4) + self.id.to_s
   end
 
 end
