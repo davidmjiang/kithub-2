@@ -1,20 +1,40 @@
 <div class="row">
     <div class="col-md-11">
       <div class="card listed-lesson-plan">
-        <h4 class="card-header " ng-class="{group: lesson.lesson_type === 'Group', individual: lesson.lesson_type === 'Individual', teacher: lesson.lesson_type === 'Teacher-led'}">
+
           <a ui-sref="main.lessons.show({id: {{lesson.id}}})">
-            {{lesson.title}}
+            <h4 class="card-header"><span class="secondary-color">{{lesson.title}}</span></h4>
           </a>
-        </h4>
+
         <div class="card-block">
+
         <p ng-if="notTeacherShow">Creator: {{lesson.first_name || lesson.teacher.first_name}} {{lesson.last_name || lesson.teacher.last_name}}</p>
-          <p>Created: {{lesson.created_at | date}}</p>
-          <p>Last updated: {{lesson.updated_at | date}}</p>
-          <p> Subject: {{lesson.subject}} <strong>|</strong> Grade: {{lesson.grade}} <strong>|</strong> Hours: {{lesson.hours}}</p>
-          <p>Lesson type: {{lesson.lesson_type}}
-          <p><span class="fa fa-star" aria-hidden="true"></span> {{lesson.stars}} <span class="fa fa-code-fork" aria-hidden="true"></span> {{lesson.forks}}</p>
-          <div ng-if="lesson.parent_plan_id">
-            <p>Forked from <a ui-sref="main.lessons.show({id: {{lesson.parent_plan_id }}})">{{lesson.parent_plan_title}}</a></p>
+          <div class="row">
+            <div class="col-xs-4">
+
+              <p><span class="ternary-color"><i class="fa fa-book" aria-hidden="true"></i> <b>Subject:</b></span> {{lesson.subject}} <i class="fa fa-graduation-cap" aria-hidden="true"></i> Grade: {{lesson.grade}} <i class="fa fa-hourglass-o" aria-hidden="true"></i>
+ Hours: {{lesson.hours}}</p>
+              <p>Lesson type: {{lesson.lesson_type}}</p>
+              <div ng-if="lesson.parent_plan_id">
+                <p><i class="fa fa-arrow-right" aria-hidden="true"></i> Forked from <a ui-sref="main.lessons.show({id: {{lesson.parent_plan_id }}})">{{lesson.parent_plan_title}}</a></p>
+
+            </div>
+
+            </div>
+
+            <div class="col-xs-4">
+
+              <p><i class="fa fa-clock-o" aria-hidden="true"></i> Created: {{lesson.created_at | date}}</p>
+
+              <p><i class="fa fa-wrench" aria-hidden="true"></i> Last updated: {{lesson.updated_at | date}}</p>
+
+            </div>
+
+            <div class="col-xs-2">
+              <p class="pull-right"><span class="fa fa-star" aria-hidden="true"></span> {{lesson.stars}} <span class="fa fa-code-fork" aria-hidden="true"></span> {{lesson.forks}}</p>
+
+          </div>
+
           </div>
         </div>
       </div>
