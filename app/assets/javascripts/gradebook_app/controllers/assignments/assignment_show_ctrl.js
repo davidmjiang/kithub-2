@@ -5,7 +5,103 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     this.closed = true;
   }
 
-  $scope.submissions = course.submissions
+   $scope.$on("submission.edit", function(event, data) {
+    console.log("WORK?")
+    $scope.percentScore();
+    $scope.anyFailingStudents = $scope.getLengthFailing();
+    $scope.anyExceptionalStudents = $scope.getLengthPassing();
+  })
+
+  $scope.failingStudents = {};
+  $scope.exceptionalStudents = {};
+  $scope.course = course;
+  $scope.students = students;
+  $scope.assignment = assignment;
+
+
+  $scope.removePassingStudents = function(passingStudent) {
+    for(key in $scope.failingStudents) {
+      if (key === passingStudent) {
+        delete $scope.failingStudents[key];
+      }
+    }
+  }
+  //Go through exceptional students and remove any that are not doing exceptional anymore
+  $scope.removeExceptionalStudents = function(notExceptionalStudent) {
+    for(key in $scope.exceptionalStudents) {
+      if (key === notExceptionalStudent) {
+        delete $scope.exceptionalStudents[key];
+      }
+    }
+  }
+
+  $scope.getLengthFailing = function() {
+    count = 0;
+    for(key in $scope.failingStudents) {
+      count ++
+    }
+    return count;
+  }
+
+  $scope.getLengthPassing = function() {
+    count = 0;
+    for(key in $scope.exceptionalStudents) {
+      count ++
+    }
+    return count;
+  }
+
+  $scope.percentScore = function() {
+    var percentScore;
+    for(var i = 0; i < $scope.assignment.submissions.length; i++) {
+      var student;
+      var submission = $scope.assignment.submissions[i];
+      var rawPercent = (submission.raw_score / assignment.possible_score * 100);
+      if(submission.raw_score > -1) {
+        if(assignment.flat_curve) {
+          percentScore = ((rawPercent + assignment.flat_curve.flat_rate).toFixed(2));
+        }
+        else if(assignment.linear_curve) {
+          percentScore = ((CurveService.linearFormula(assignment.linear_curve, rawPercent)).toFixed(2));
+        }
+        else {
+          percentScore = (rawPercent.toFixed(2));
+        }
+        for(var j = 0; j < students.length; j ++) {
+          if(students[j].id === assignment.submissions[i].student_id) {
+            student = students[j];
+          }
+        }
+        var studentName = student.first_name + " " + student.last_name;
+        if(percentScore > 90) {
+          $scope.exceptionalStudents[studentName] = percentScore + "%";
+          $scope.removePassingStudents(studentName);
+        }
+        else if(percentScore < 90 && percentScore > 60) {
+          $scope.removeExceptionalStudents(studentName);
+          $scope.removePassingStudents(studentName)
+        }
+        else if(percentScore < 60 ) {
+          $scope.failingStudents[studentName] = percentScore + "%"; 
+          $scope.removeExceptionalStudents(studentName)
+        }
+      }
+    }
+    
+  }
+
+  $scope.notifyParent = function(student, score) {
+    for(key in $scope.students) {
+      if ($scope.students[key].first_name + $scope.students[key].last_name  === 
+        student.split(" ").slice(0)[0] + student.split(" ").slice(1)[0]) {
+        StudentService.sendMail($scope.students[key].id, $scope.course.teacher_id, score)
+      }
+    }
+  }
+
+  $scope.percentScore();
+  $scope.anyFailingStudents = $scope.getLengthFailing();
+  $scope.anyExceptionalStudents = $scope.getLengthPassing();
 
   $scope.$watch('curve.slideA', function (newValue, oldValue) {
     if (newValue !== oldValue) {
@@ -137,6 +233,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
         assignment.linear_curve = null
         $scope.assignment.updated_at = response.assignment.updated_at
         assignment.updated_at = response.assignment.updated_at
+        $scope.percentScore();
+        $scope.anyFailingStudents = $scope.getLengthFailing();
+        $scope.anyExceptionalStudents = $scope.getLengthPassing();
       })
     }
   }
@@ -290,6 +389,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
         assignment.linear_curve = response // ?
         $scope.assignment.updated_at = response.assignment.updated_at
         assignment.updated_at = response.assignment.updated_at
+        $scope.percentScore();
+        $scope.anyFailingStudents = $scope.getLengthFailing();
+        $scope.anyExceptionalStudents = $scope.getLengthPassing();
       })
     }
   }
@@ -304,6 +406,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     // assignment.flat_curve = response
     $scope.assignment.updated_at = response.assignment.updated_at
     assignment.updated_at = response.assignment.updated_at
+    $scope.percentScore();
+    $scope.anyFailingStudents = $scope.getLengthFailing();
+    $scope.anyExceptionalStudents = $scope.getLengthPassing();
   };
 
   var _applyFlatCurve = function() {
@@ -333,6 +438,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       $scope.assignment.updated_at = response.assignment.updated_at
       assignment.updated_at = response.assignment.updated_at
     })
+    $scope.percentScore();
+    $scope.anyFailingStudents = $scope.getLengthFailing();
+    $scope.anyExceptionalStudents = $scope.getLengthPassing();
   }
 
   var _linearFormula = function(input, rawPercent) {
@@ -413,6 +521,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   }
 
   $scope.alertShow = function() {
+    $scope.percentScore();
+    $scope.anyFailingStudents = $scope.getLengthFailing();
+    $scope.anyExceptionalStudents = $scope.getLengthPassing();
     $scope.curveAlert = true;
     $timeout(function() {
       $scope.curveAlert = false;
@@ -434,10 +545,6 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.updateData();
   } else if ($scope.assignment.linear_curve) {
     $scope.applyLinearCurve();
-  }
-
-  $scope.failingStudents = function() {
-    
   }
 
 }])
