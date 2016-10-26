@@ -2,8 +2,6 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
 
   var StudentService = {}
 
-
-
   StudentService.sortStudents = function(students) {
     var students = students.sort(function(a,b) {
       var lastNameA = a.last_name
