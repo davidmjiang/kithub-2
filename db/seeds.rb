@@ -94,6 +94,21 @@ t = Teacher.create(email: person,
   end
 end
 
+productive_teacher = Teacher.first
+#creating fake dates
+productive_teacher.lesson_plans.each_with_index do |item, index|
+  if index < 4
+    item.created_at = 30.days.ago
+  elsif index < 7
+    item.created_at = 2.days.ago
+  elsif index < 9
+    item.created_at = 3.days.ago
+  else
+    item.created_at = 5.days.ago
+  end
+  item.save
+end
+
 puts 'creating follows'
 15.times do
   t1 = Teacher.all.sample
@@ -127,10 +142,13 @@ end
 
 # pull request
 puts 'creating pull requests'
-5.times do
+15.times do
   l = LessonPlan.all.sample
   l2 = LessonPlan.all.sample
-  pr = PullRequest.create(title: Faker::Hipster.word, parent_plan_id: l.id, forked_plan_id: l2.id)
+  pr = PullRequest.create(title: Faker::Hipster.word, parent_plan_id: l.id, forked_plan_id: l2.id, status: "accepted")
+  #creating fake dates
+  pr.created_at = (rand*30).days.ago
+  pr.save
   t = Teacher.all.sample
   pr.comments.create(body: Faker::Company.catch_phrase, teacher_id: t.id)
 end

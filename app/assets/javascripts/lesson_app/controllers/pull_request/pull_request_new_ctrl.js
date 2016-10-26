@@ -4,6 +4,7 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
   $scope.newPR = pullRequestService.getNewPullRequest($stateParams.id);
   $scope.forkedLesson = lesson;
   $scope.owner = owner;
+  $scope.currentUser = currentUser;
   $scope.upToDate = true; // determines if there's a newer version of parent plan
 
   $scope.prSent = _.filter($scope.forkedLesson.pull_requests_sent, [ 'status', 'pending' ]);
@@ -16,6 +17,7 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
         $scope.newPR.parent_plan = parent;
         if ($scope.newPR.parent_plan.version > $scope.forkedLesson.parent_version) {
           $scope.upToDate = false;
+          $scope.updateDiffs = DiffService.getDiffs($scope.forkedLesson.content, $scope.newPR.parent_plan.content);
         }
       });
     }

@@ -15,20 +15,22 @@ Lesson.directive("diff",  [ "pullRequestService", "DiffService", "LessonService"
           scope.diffs = DiffService.getDiffs(scope.pullRequest.parent_plan.content, scope.pullRequest.forked_plan.content);
         }
 
-        scope.showPopover = function() {
-          scope.popoverIsVisible = true;
-        };
+        // scope.showPopover = function() {
+        //   scope.popoverIsVisible = true;
+        // };
 
-        scope.hidePopover = function () {
-          scope.popoverIsVisible = false;
-        };
+        // scope.hidePopover = function () {
+        //   scope.popoverIsVisible = false;
+        // };
 
+        // sets all diffs shown in window to unaccepted
         scope.clearAllChanges = function () {
           scope.diffs.forEach(function(element) {
             element.accepted = false;
           });
         };
 
+        // sets all diffs shown in window to accepted
         scope.addAllChanges = function () {
           scope.diffs.forEach(function(element) {
             element.accepted = true;
