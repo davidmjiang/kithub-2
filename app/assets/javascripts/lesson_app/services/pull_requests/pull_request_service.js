@@ -96,6 +96,7 @@ Lesson.factory("pullRequestService", ["Restangular",
     // console.log(contributorData);
     Restangular.all("lesson_plan_contributors").post(contributorData);
     return Restangular.one("lesson_plans", lessonId).one("pull_requests", pullRequest.id).patch(pullRequest).then(function(response) {
+        LessonService.setFlash('alert-success', 'Changes accepted!');
         removePR(response.id);
         return response;
     });
@@ -105,6 +106,7 @@ Lesson.factory("pullRequestService", ["Restangular",
     pullRequest.status = 'rejected';
     pullRequest.accept_reject_time = Date.now();
     return Restangular.one("lesson_plans", lessonId).one("pull_requests", pullRequest.id).patch(pullRequest).then(function(response) {
+        LessonService.setFlash('alert-success', 'Changes rejected!');
         removePR(response.id);
         return response;
     });
