@@ -34,6 +34,7 @@ Rails.application.routes.draw do
       resources :teacher_followings, only: [:index, :create, :destroy]
       resources :lesson_plan_contributors, only: [:index, :create]
       resources :lesson_plan_stars, only: [:index]
+      resources :lesson_plan_days, only: [:create, :destroy]
 
 
       post "student_progress/fail/", to: "student_progress#fail"
@@ -45,6 +46,7 @@ Rails.application.routes.draw do
  	end
 
   get '/gradebook', to: "gradebooks#index"
+  get '/syllabi', to: 'syllabi#index'
 
 
 end

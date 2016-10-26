@@ -4,6 +4,22 @@ json.array! @courses do |course|
   json.teacher_id course.teacher_id
   json.created_at course.created_at
   json.updated_at course.updated_at
+  json.start_date course.start_date
+  json.end_date course.end_date
+  json.meeting_days course.meeting_days
+  json.course_days course.course_days do |course_day|
+    json.date course_day.date
+    json.id course_day.id
+    json.lesson_plans course_day.lesson_plans do |lesson_plan|
+      json.id lesson_plan.id
+      json.title lesson_plan.title
+      json.subject lesson_plan.subject
+      json.lesson_type lesson_plan.lesson_type
+      json.subject lesson_plan.subject
+      json.grade lesson_plan.grade
+      json.hours lesson_plan.hours
+    end
+  end
 
   json.assignments course.assignments do |assignment|
     json.title assignment.title
