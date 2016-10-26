@@ -244,6 +244,10 @@ Devise.setup do |config|
   # config.navigational_formats = ['*/*', :html]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
+  config.warden do |manager|
+    manager.failure_app = CustomFailure
+  end
+
   config.sign_out_via = :delete
 
   # ==> OmniAuth
