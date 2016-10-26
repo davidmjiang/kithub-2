@@ -25,7 +25,7 @@ angular.module("Lesson").directive('calendarColumn', function(){
 				var days = [];
 				days.push(scope.start);
 				var copy = new Date(scope.start.valueOf());
-				for(var i = 0; i < 7; i++){
+				for(var i = 0; i < 6; i++){
 					var newDay = new Date(copy.setDate(copy.getDate() + 1));
 					days.push(newDay);
 				}
