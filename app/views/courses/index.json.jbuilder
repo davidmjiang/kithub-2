@@ -14,6 +14,7 @@ json.array! @courses do |course|
       json.id lesson_plan.id
       json.title lesson_plan.title
       json.subject lesson_plan.subject
+      json.used lesson_plan.used
     end
   end
 

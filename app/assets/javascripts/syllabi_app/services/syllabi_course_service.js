@@ -42,6 +42,10 @@ angular.module('Syllabi').factory('SyllabiCourseService', ['Restangular',  '_', 
 
   courseService.updateCourses = function(){
     return populateCourses();
+  }
+
+  courseService.updateLessonPlan = function(){
+    
   }  
 
 
