@@ -1,28 +1,25 @@
-Lesson.directive("updateLessonModal",  [ "DiffService", 'LessonService', "Restangular", "$window", function(DiffService, LessonService, Restangular, $window) {
+Lesson.directive("updateLessonModal",  [ "DiffService", 'LessonService', function(DiffService, LessonService) {
   return {
     templateUrl:"lesson_templates/lessons/update_lesson_modal.html",
-    scope: { lesson: "=", currentUser: "=", diffs: "=", parent: "=" },
+    scope: { lesson: "=", currentUser: "=", diffs: "=", parent: "=", current: "=" },
     restrict: "E",
     link: function(scope) {
       scope.lessonBelongsToCurrentUser = (scope.currentUser.id === scope.lesson.teacher_id) ? true : false;
-      console.log(scope.lesson)
-      setTimeout(function() {console.log(scope.parent)}, 500)
 
-      //Porbably need to update version, make pull requests as accepted somehow.
       scope.acceptChanges = function() {
         var oldContent = scope.lesson.content;
         var oldVersion = scope.lesson.parent_version;
         scope.lesson.content = DiffService.acceptChanges(scope.diffs);
-        // angular.element(".modal-backdrop").remove();
         
         scope.lesson.parent_version = scope.parent.version;
-        console.log(oldVersion + " -> " + scope.lesson.parent_version)
+
         LessonService.save(scope.lesson).then(
           function() {
-            LessonService.setFlash('alert-success', 'Lesson updated!');
+            scope.current = true;
+            LessonService.setFlash('alert-success', 'Changes accepted!');
           },
           function() {
-            LessonService.setFlash('alert-danger', 'Could not update lesson');
+            LessonService.setFlash('alert-danger', 'Could not accept changes');
             scope.lesson.content = oldContent;
             scope.lesson.parent_version = oldVersion;
         });
@@ -30,16 +27,16 @@ Lesson.directive("updateLessonModal",  [ "DiffService", 'LessonService', "Restan
 
       scope.rejectChanges = function() {
         var oldVersion = scope.lesson.parent_version;
-        // angular.element(".modal-backdrop").remove();
         
         scope.lesson.parent_version = scope.parent.version;
-        console.log(oldVersion + " -> " + scope.lesson.parent_version)
+
         LessonService.save(scope.lesson).then(
           function() {
-            LessonService.setFlash('alert-success', 'Lesson updated!');
+            scope.current = true;
+            LessonService.setFlash('alert-success', 'Changes rejected!');
           },
           function() {
-            LessonService.setFlash('alert-danger', 'Could not update lesson');
+            LessonService.setFlash('alert-danger', 'Could not reject changes');
             scope.lesson.parent_version = oldVersion;
         });
       };

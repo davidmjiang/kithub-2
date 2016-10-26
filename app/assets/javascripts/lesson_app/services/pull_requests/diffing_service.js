@@ -2,8 +2,11 @@ angular.module('Lesson').factory('DiffService', ['JsDiff', function(JsDiff) {
 
   var DiffS = {};
 
-  DiffS.getDiffs = function(parent, forked) {
-    var diffs = JsDiff.diffTrimmedLines(parent, forked);
+  // given two strings, returns a diffs object
+  // that shows the changes made, and each object
+  // has an 'accepted' trait
+  DiffS.getDiffs = function(old, current) {
+    var diffs = JsDiff.diffTrimmedLines(old, current);
 
     diffs.forEach(function(element) {
       element.accepted = true;
@@ -12,11 +15,13 @@ angular.module('Lesson').factory('DiffService', ['JsDiff', function(JsDiff) {
     return diffs;
   };
 
+  // given a diffs object, creates a new string
+  // based on whether changes were accepted or rejected
+  // Returns new string
   DiffS.acceptChanges = function(diffs) {
     var result = "";
 
     diffs.forEach(function(element, index) {
-      // console.log(element)
       if (element.added) {
         if (element.accepted)
           result += element.value;
@@ -28,7 +33,6 @@ angular.module('Lesson').factory('DiffService', ['JsDiff', function(JsDiff) {
       }
     });
 
-    console.log(result);
     return result;
   };
 
