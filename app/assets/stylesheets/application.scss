@@ -81,6 +81,20 @@ font-family: 'Roboto', sans-serif;
   border-color: $blue-sky-color;
 }
 
+.plane-bg-image {
+  position: fixed;
+  top: 10px;
+  z-index: -100;
+  display: inline-block;
+}
+
+footer {
+   position:absolute;
+   bottom:0;
+   width:100%;
+   height:60px;   /* Height of the footer */
+}
+
 /* fixes cursors broken by angular ui.bootstrap */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
@@ -96,7 +110,14 @@ font-family: 'Roboto', sans-serif;
  @import "gradebook_styles/courses";
  @import "gradebook_styles/assignments";
  @import "lesson_styles/pull_request_show";
+ @import "lesson_styles/front_page";
+ @import "examples";
  @import 'navbar';
  @import 'rzslider.min';
  @import 'lesson_styles/search';
  @import 'bootstrap-select.min';
+ @import 'material-kit';
+
+.nav-link.active {
+  background-color: $primary-color !important;
+}

@@ -13,8 +13,8 @@
             <div class="col-sm-2">
               <h6>Grade:</h6> <rzslider rz-slider-options="filter.options" rz-slider-model="filters.gradeMin" rz-slider-high="filters.gradeMax"></rzslider>
             </div>
-            <div class="col-sm-2"> 
-              <h6>Hours:</h6> {{filters.hour}} <rzslider  rz-slider-options="filter.options" rz-slider-model="filters.hourMin" rz-slider-high="filters.hourMax"></rzslider>  
+            <div class="col-sm-2">
+              <h6>Hours:</h6> {{filters.hour}} <rzslider  rz-slider-options="filter.options" rz-slider-model="filters.hourMin" rz-slider-high="filters.hourMax"></rzslider>
             </div>
             <div class="col-sm-4 select-container">
               <h6>Lesson Type:</h6> <select ng-model="filters.lessonType">
@@ -22,7 +22,7 @@
                 <option ng-repeat="lessontype in lessonTypes" value="{{lessontype}}">{{lessontype}}</option>
               </select>
             </div>
-            <div class="col-sm-4 select-container"> 
+            <div class="col-sm-4 select-container">
               <h6>Subject:</h6> <select ng-model="filters.subject">
                 <option value=""></option>
                 <option ng-repeat="subject in subjects" value="{{subject}}">{{subject}}</option>
@@ -31,6 +31,7 @@
           </div>
         </div>
       </div>
+
       <div class="lesson-container">
         <div class="list-group row">
           <div dir-paginate="lesson in lessons | orderBy: '-created_at' | filter: {title: titleFilter} | filter: between('grade', filters.gradeMin, filters.gradeMax) | filter: {lesson_type: filters.lessonType} | filter: {subject: filters.subject} | filter: between('hours', filters.hourMin, filters.hourMax) | itemsPerPage: 10">
