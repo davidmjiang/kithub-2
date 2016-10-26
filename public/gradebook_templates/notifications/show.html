@@ -15,7 +15,7 @@
 
 				<div ng-if="anyExceptionalStudents" class="exceptional-students row">
 				  <p class="text-center">The following students are doing exceptionally well (over 90%) in your class:</p>
-				  <p ng-repeat="(exceptionalStudent, score) in exceptionalStudents" class="col-md-4">{{exceptionalStudent}} : {{score}}%</br>
+				  <p ng-repeat="(exceptionalStudent, score) in exceptionalStudents" class="col-md-6">{{exceptionalStudent}} : {{score}}%</br>
 				    <button ng-click="notifyParent(exceptionalStudent, score)" class="btn btn-primary notify-parents">Notify {{exceptionalStudent}}</button>
 				  </p>
 				</div>
