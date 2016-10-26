@@ -14,7 +14,6 @@ Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser',
         $scope.lessonPlanIDs.push(lessonPlan.id)
       })
     });
-    console.log($scope.lessonPlanIDs);
 
 
     $scope.meeting_days = JSON.parse($scope.course.meeting_days)
@@ -33,7 +32,6 @@ Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser',
     $scope.addLessonPlan =function(event, ui, courseDay){
       courseDay.lesson_plans.push($scope.draggedLesson);
       $scope.lessonPlanIDs.push($scope.draggedLesson.id);
-      console.log($scope.lessonPlanIDs);
       SyllabiCourseService.addLessonPlanDay(courseDay.id, $scope.draggedLesson.id);
     };
 
@@ -44,13 +42,11 @@ Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser',
       _.remove($scope.lessonPlanIDs, function(lpID){
         return lesson_plan.id == lpID;
       })
-      console.log($scope.lessonPlanIDs);
       SyllabiCourseService.removeLessonPlanDay(courseDay.id, lesson_plan.id);
     }
 
     $scope.isUsed = function() {
       return function(item) {
-        console.log(item.id);
         return !_.includes($scope.lessonPlanIDs, item.id)
       }
     }

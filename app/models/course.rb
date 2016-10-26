@@ -63,6 +63,7 @@ class Course < ApplicationRecord
         course_day.delete
       end
     end
+  end
 
   def create_identifier
     self.identifier = SecureRandom.hex(4) + self.id.to_s

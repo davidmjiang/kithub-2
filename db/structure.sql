@@ -193,7 +193,6 @@ ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
 
 
 --
-<<<<<<< HEAD
 -- Name: course_days; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -237,8 +236,8 @@ CREATE TABLE courses (
     updated_at timestamp without time zone NOT NULL,
     start_date timestamp without time zone,
     end_date timestamp without time zone,
-    meeting_days character varying
-    updated_at timestamp without time zone NOT NULL
+    meeting_days character varying,
+    identifier character varying
 );
 
 
@@ -438,7 +437,8 @@ CREATE TABLE lesson_plans (
     lesson_type character varying,
     parent_plan_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    parent_version double precision DEFAULT 0.0
 );
 
 
@@ -793,7 +793,9 @@ CREATE TABLE teachers (
     avatar_file_name character varying,
     avatar_content_type character varying,
     avatar_file_size integer,
-    avatar_updated_at timestamp without time zone
+    avatar_updated_at timestamp without time zone,
+    provider character varying,
+    uid character varying
 );
 
 
@@ -814,6 +816,48 @@ CREATE SEQUENCE teachers_id_seq
 --
 
 ALTER SEQUENCE teachers_id_seq OWNED BY teachers.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip inet,
+    last_sign_in_ip inet,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    meta_id integer,
+    meta_type character varying
+);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
@@ -968,6 +1012,13 @@ ALTER TABLE ONLY teacher_followings ALTER COLUMN id SET DEFAULT nextval('teacher
 --
 
 ALTER TABLE ONLY teachers ALTER COLUMN id SET DEFAULT nextval('teachers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
@@ -1160,6 +1211,14 @@ ALTER TABLE ONLY teacher_followings
 
 ALTER TABLE ONLY teachers
     ADD CONSTRAINT teachers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
 --
@@ -1387,6 +1446,27 @@ CREATE UNIQUE INDEX index_teachers_on_reset_password_token ON teachers USING btr
 
 
 --
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+
+
+--
+-- Name: index_users_on_meta_id_and_meta_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_meta_id_and_meta_type ON users USING btree (meta_id, meta_type);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
 -- Name: lesson_plans_to_tsvector_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1427,7 +1507,6 @@ CREATE INDEX teachers_to_tsvector_idx2 ON teachers USING gin (to_tsvector('engli
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('20161014132221'), ('20161014132811'), ('20161014133102'), ('20161014140357'), ('20161014141614'), ('20161014141647'), ('20161014142046'), ('20161014142139'), ('20161014143029'), ('20161014144025'), ('20161014145229'), ('20161014150854'), ('20161014153722'), ('20161014154048'), ('20161014154425'), ('20161014154536'), ('20161014154647'), ('20161014164623'), ('20161018160504'), ('20161018211932'), ('20161018213940'), ('20161018214907'), ('20161018225025'), ('20161019155147'), ('20161019204921'), ('20161019210654'), ('20161024160525'), ('20161024213845'), ('20161025155337'), ('20161025182121'), ('20161025184208'), ('20161025184358');
-
+INSERT INTO schema_migrations (version) VALUES ('20161014132221'), ('20161014132811'), ('20161014133102'), ('20161014140357'), ('20161014141614'), ('20161014141647'), ('20161014142046'), ('20161014142139'), ('20161014143029'), ('20161014144025'), ('20161014145229'), ('20161014150854'), ('20161014153722'), ('20161014154048'), ('20161014154425'), ('20161014154536'), ('20161014154647'), ('20161014164623'), ('20161018160504'), ('20161018211932'), ('20161018213940'), ('20161018214907'), ('20161018225025'), ('20161019155147'), ('20161019204921'), ('20161019210654'), ('20161024160525'), ('20161024174203'), ('20161024183757'), ('20161024213845'), ('20161024220555'), ('20161024220706'), ('20161025155337'), ('20161025163826'), ('20161025181659'), ('20161025182121'), ('20161025184208'), ('20161025184358'), ('20161025223101');
 
 
