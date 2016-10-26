@@ -86,3 +86,8 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
 .popover {
     max-width: 950px;
 }
+
+div.tooltip-inner {
+  max-width:300px;
+  color:red;
+}
