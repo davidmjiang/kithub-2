@@ -1,0 +1,42 @@
+#search-results{
+  h3{
+    margin-top: 20px;
+    text-align: center;
+  }
+  .filters{
+      position: fixed;
+      width: inherit;
+      margin-top: 25px;
+      h3 {
+        margin-top: 0px;
+      }
+      h6{
+        display: inline-block;
+        font-size: 14px;
+      }
+      .rzslider {
+      width: 50%;
+      .rz-pointer {
+        height: 12px;
+        width: 12px;
+      }
+      .rz-bar-wrapper {
+        padding-top: 6px;
+      }
+    }
+    #clear-filters{
+      margin-top: 20px;
+    }
+  }
+  .btn-block {
+    margin-top: 10px;
+  }
+
+  #last-choice {
+    margin-bottom: 20px;
+  }
+
+  #reset-choice {
+    text-align: center;
+  }
+}

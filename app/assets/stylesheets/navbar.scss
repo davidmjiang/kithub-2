@@ -1,0 +1,16 @@
+.navbar {
+  .center-form {
+    margin-left: 10%;
+    display: inline-block;
+  }
+  .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+    width: 110px;
+    .btn.dropdown-toggle.btn-default{
+      background-color: $blue-sky-color;
+      color: white;
+    }
+  }
+  input.form-control{
+    width: 300px;
+  }
+}
