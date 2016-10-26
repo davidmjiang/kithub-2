@@ -196,7 +196,6 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   _fillCurveEditInputs;
 
   if ($scope.assignment.has_curve ) {
-    console.log("assignment has curve!")
     _fillCurveEditInputs()
     $scope.gpa.real = GPAService.realGPA(course, $scope.assignment)
     $scope.curveApplied = true 
