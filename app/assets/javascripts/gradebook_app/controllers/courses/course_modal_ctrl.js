@@ -1,21 +1,39 @@
 Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments", "gpa", "students", "close", "VisualService", "GPAService", "CourseService", "$state", function($scope, _, course, assignments, gpa, students, close, VisualService, GPAService, CourseService, $state) {
 
   $scope.course = course;
-  $scope.gpa = gpa;
+  $scope.gpa = GPAService.rawGPA(course);
   $scope.close = function() {
     angular.element('body').removeClass('modal-open');
     angular.element(".modal-backdrop").remove();
     close();
   };
 
-  var averages = VisualService.studentAverages(students, assignments)
+  var filteredStudents = _.filter(students, function(student){
+    for (var i = 0; i < student.submissions.length; i++) {
+      if (student.submissions[i].raw_score !== -1) {
+        return true;
+      }
+    }
+    return false;
+  })
+
+  var averages = VisualService.studentAverages(filteredStudents, assignments)
   $scope.studentLabels = _.map(averages, 'name');
   $scope.studentData = [_.map(averages, function(student){
     return student.percent.toFixed(2);
   })];
 
-  $scope.assignmentLabels = _.map(assignments, 'title');
-  $scope.assignmentData = [_.map(assignments, function(assignment) {
+  var filteredAssignments = _.filter(assignments, function(assignment){
+    for (var i = 0; i < assignment.submissions.length; i++) {
+      if (assignment.submissions[i].raw_score !== -1) {
+        return true;
+      }
+    }
+    return false;
+  })
+
+  $scope.assignmentLabels = _.map(filteredAssignments, 'title');
+  $scope.assignmentData = [_.map(filteredAssignments, function(assignment) {
     return GPAService.getAverages($scope.course, assignment).toFixed(2);
   })];
 
