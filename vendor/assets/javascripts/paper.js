@@ -1,5 +1,4 @@
 $(function () { // wait for document ready
-    console.log($(window).width())
     var flightpath = {
       leave : {
         curviness: 1.25,
