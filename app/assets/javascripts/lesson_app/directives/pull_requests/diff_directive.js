@@ -2,17 +2,17 @@ Lesson.directive("diff",  [ "pullRequestService", "DiffService", "LessonService"
   function(pullRequestService, DiffService, LessonService) {
     return {
       templateUrl:"lesson_templates/pull_requests/diff.html",
-      scope: { pullRequest: "=" },
+      scope: { pullRequest: "=", diffs: "=" },
       restrict: "E",
 
       link: function(scope) {
         if (!scope.pullRequest.parent_plan) {
           LessonService.getLesson(scope.pullRequest.parent_plan_id).then(function(response) {
-            pullRequest.parent_plan = response
-            scope.diffs = DiffService(scope.pullRequest.parent_plan.content, scope.pullRequest.forked_plan.content);
-          })
+            pullRequest.parent_plan = response;
+            scope.diffs = DiffService.getDiffs(scope.pullRequest.parent_plan.content, scope.pullRequest.forked_plan.content);
+          });
         } else {
-          scope.diffs = DiffService(scope.pullRequest.parent_plan.content, scope.pullRequest.forked_plan.content);
+          scope.diffs = DiffService.getDiffs(scope.pullRequest.parent_plan.content, scope.pullRequest.forked_plan.content);
         }
 
         scope.showPopover = function() {
@@ -21,6 +21,18 @@ Lesson.directive("diff",  [ "pullRequestService", "DiffService", "LessonService"
 
         scope.hidePopover = function () {
           scope.popoverIsVisible = false;
+        };
+
+        scope.clearAllChanges = function () {
+          scope.diffs.forEach(function(element) {
+            element.accepted = false;
+          });
+        };
+
+        scope.addAllChanges = function () {
+          scope.diffs.forEach(function(element) {
+            element.accepted = true;
+          });
         };
       }
     };
