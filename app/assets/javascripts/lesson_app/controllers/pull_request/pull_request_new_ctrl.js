@@ -16,8 +16,10 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
     LessonService.getLesson($scope.newPR.parent_plan_id).then(function(parent) {
       $scope.newPR.parent_plan = parent;
       if ($scope.newPR.parent_plan.version > $scope.forkedLesson.parent_version) {
-        $scope.upToDate = false;
         $scope.updateDiffs = DiffService.getDiffs($scope.forkedLesson.content, $scope.newPR.parent_plan.content);
+        if ($scope.updateDiffs.length > 1) {
+          $scope.upToDate = false;
+        }
       }
     });
   }
