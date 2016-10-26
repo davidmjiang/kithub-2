@@ -18,7 +18,7 @@ module KitHub
       DeviseController.respond_to :html, :json
     end
 
-    config.assets.precompile += %w(vendor/assets/images/*)
+    config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
 
     config.generators do |g|
       g.test_framework  nil #to skip test framework
