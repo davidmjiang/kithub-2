@@ -1,4 +1,4 @@
-Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "close", "AssignmentService", "CurveService", "$rootScope", "students", "VisualService", "$timeout", function($scope, course, assignment, GPAService, close, AssignmentService, CurveService, $rootScope, students, VisualService, $timeout) {
+Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "close", "AssignmentService", "CurveService", "$rootScope", "students", "VisualService", "CourseService", "$timeout", function($scope, course, assignment, GPAService, close, AssignmentService, CurveService, $rootScope, students, VisualService, CourseService, $timeout) {
 
   this.closeModal = function () {
     close(null, 200);
@@ -163,6 +163,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       AssignmentService.removeAssignment(assignment).then(function(removedAssignment) {
         $rootScope.$broadcast("assignment.deleted", removedAssignment);
         $scope.close();
+        CourseService.populateCourses();
       })
     }
   }
@@ -196,7 +197,6 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   _fillCurveEditInputs;
 
   if ($scope.assignment.has_curve ) {
-    console.log("assignment has curve!")
     _fillCurveEditInputs()
     $scope.gpa.real = GPAService.realGPA(course, $scope.assignment)
     $scope.curveApplied = true 
@@ -486,6 +486,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   };
 
   $scope.updateData = function() {
+    $scope.curveApplied = true
     var pieScores = _.map(_scores, function(score){
       return score.percent + $scope.curve.flatRate
     })
@@ -495,6 +496,11 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     })], $scope.scoreData)
     $scope.pieDist = VisualService.gradeDistribution(pieScores)
     $scope.assignData = _.map($scope.pieDist, function(amount, grade){return amount})
+    var _simulatedAssignment = {}
+    angular.copy($scope.assignment, _simulatedAssignment)
+    _simulatedAssignment.flat_curve = $scope.curve
+    _simulatedAssignment.flat_curve.flat_rate = $scope.curve.flatRate
+    $scope.gpa.real = GPAService.realGPA(course, _simulatedAssignment)
   }
 
   var _simulateLinearCurve = function() {
