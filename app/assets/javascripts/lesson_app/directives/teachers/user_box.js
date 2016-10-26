@@ -7,8 +7,8 @@ angular.module('Lesson').directive("userBox",  ["FollowingService", "$rootScope"
             },
     restrict: "E",
     link: function(scope){
-        FollowingService.populate(scope.teacher.id).then(function(){
-            scope.following = FollowingService.checkFollowing(scope.user, scope.teacher); 
+        FollowingService.populate(scope.teacher.id).then(function(response){
+            scope.following = FollowingService.checkFollowing(scope.user, scope.teacher);
         });
         //no button if it's the current user
         if(scope.teacher.id === scope.user.id){
@@ -25,7 +25,7 @@ angular.module('Lesson').directive("userBox",  ["FollowingService", "$rootScope"
 
         scope.follow = function(){
             FollowingService.create(scope.user, scope.teacher).then(function(){
-                scope.following = true;  
+                scope.following = true;
                 $rootScope.$broadcast('follow:new', scope.user);
             });
         };

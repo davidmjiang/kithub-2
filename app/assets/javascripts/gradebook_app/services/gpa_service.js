@@ -6,38 +6,50 @@ Gradebook.factory("GPAService", function() {
   // if assignment argument is passed in, 
   // calculates assignment average raw GPA
   GPAService.rawGPA = function(course, assignment) {
-    var pointsEarned = 0
+    var pointsEarned = 0;
+    var pointsPossible = 0;
     _.each(course.students, function(student) {
       _.each(student.submissions, function(submission) {
-        if (assignment) {
-          if (submission.assignment_id === assignment.id) {
-            pointsEarned += submission.raw_score
-          }
+        if (submission.raw_score === -1) {
         } else {
-          pointsEarned += submission.raw_score
+          if (assignment) {
+            if (submission.assignment_id === assignment.id) {
+              pointsEarned += _realScore(submission.raw_score, assignment)
+              pointsPossible += assignment.possible_score
+            }
+          } else {
+            var correct = _.find(course.assignments, {'id': submission.assignment_id})
+            pointsEarned += _realScore(submission.raw_score, correct)
+            pointsPossible += correct.possible_score
+          }
         }
       })
     })
     if (assignment) {
-      return (pointsEarned / course.students.length) / assignment.possible_score * 100
+      return (pointsEarned / pointsPossible) * 100
     } else {
-      return (pointsEarned / course.students.length) / course.points_possible * 100
+      return (pointsEarned / pointsPossible) * 100
     }
   }
 
   // calculates an assignment's average grade after the curve 
   GPAService.realGPA = function(course, assignment) {
-    var pointsEarned = 0
+    var pointsEarned = 0;
+    var studentCount = 0;
     _.each(course.students, function(student) {
       _.each(student.submissions, function(submission) {
         if (submission.assignment_id === assignment.id) {
-          var rawPercent = submission.raw_score/assignment.possible_score * 100
-          var curvedPercent = GPAService.applyCurve(assignment, rawPercent)
-          pointsEarned += (curvedPercent/100 * assignment.possible_score)
+          if (submission.raw_score === -1) {
+          } else {
+            var rawPercent = submission.raw_score/assignment.possible_score * 100
+            var curvedPercent = GPAService.applyCurve(assignment, rawPercent)
+            pointsEarned += (curvedPercent/100 * assignment.possible_score)
+            studentCount += 1
+          } 
         }
       })
     })
-    var gpa = (pointsEarned / course.students.length) / assignment.possible_score * 100
+    var gpa = (pointsEarned / studentCount) / assignment.possible_score * 100
     return gpa
   }
 
@@ -55,6 +67,8 @@ Gradebook.factory("GPAService", function() {
       return _applyFlatCurve(assignment, rawPercent)
     } else if (assignment.linear_curve) {
       return _applyLinearCurve(assignment, rawPercent)
+    } else {
+      return rawPercent
     }
   }
 
@@ -70,6 +84,12 @@ Gradebook.factory("GPAService", function() {
 
   var _linearFormula = function(input, rawPercent) {
     return input.curvedA + (((input.curvedB - input.curvedA)/(input.rawB - input.rawA)) * (rawPercent - input.rawA));
+  }
+
+  var _realScore = function(rawScore, assignment) {
+    var rawPercent = rawScore/assignment.possible_score * 100
+    var curvedPercent = GPAService.applyCurve(assignment, rawPercent)
+    return (curvedPercent/100 * assignment.possible_score)
   }
 
   return GPAService
