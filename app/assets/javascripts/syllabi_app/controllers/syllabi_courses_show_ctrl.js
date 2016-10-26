@@ -34,6 +34,9 @@ Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser',
       _.remove(courseDay.lesson_plans, function(lp){
         return lesson_plan.id == lp.id
       });
+      Restangular.restangularizeElement(null, lesson_plan, 'lesson_plans')
+      lesson_plan.used = false;
+      lesson_plan.patch({used: false});
       SyllabiCourseService.removeLessonPlanDay(courseDay.id, lesson_plan.id);
     }
 
