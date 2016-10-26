@@ -1,4 +1,4 @@
-Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "close", "AssignmentService", "CurveService", "$rootScope", "students", "VisualService", "$timeout", function($scope, course, assignment, GPAService, close, AssignmentService, CurveService, $rootScope, students, VisualService, $timeout) {
+Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "close", "AssignmentService", "CurveService", "$rootScope", "students", "VisualService", "CourseService", "$timeout", function($scope, course, assignment, GPAService, close, AssignmentService, CurveService, $rootScope, students, VisualService, CourseService, $timeout) {
 
   this.closeModal = function () {
     close(null, 200);
@@ -163,6 +163,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       AssignmentService.removeAssignment(assignment).then(function(removedAssignment) {
         $rootScope.$broadcast("assignment.deleted", removedAssignment);
         $scope.close();
+        CourseService.populateCourses();
       })
     }
   }
