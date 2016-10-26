@@ -187,6 +187,9 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 	      }],
          populate: ["$stateParams", "FollowingService", function($stateParams, FollowingService){
             FollowingService.populate($stateParams.id);
+        }],
+        getCalendarInfo: ["$stateParams", "ContributionsService", function($stateParams, ContributionsService){
+          return ContributionsService.populate($stateParams.id);
         }]
 			}
 		})
