@@ -109,7 +109,6 @@ section#titlechart #description ol {
 section.demo {
 	font-size: 0;
 	text-align: center;
-	background-image: url("../img/example_bg_v.png");
 }
 section.demo.fullheight {
 	min-height: 100%;
