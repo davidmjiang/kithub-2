@@ -53,7 +53,10 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     if(index > 3 && index < $scope.colCount - 1 && $scope.assignments[index - 4]) {
       var assignment = $scope.assignments[index - 4];
       var rawPercent = (item / assignment.possible_score * 100);
-      if(assignment.flat_curve) {
+      if(rawPercent < 0) {
+        return "No Score"
+      }
+      else if(assignment.flat_curve) {
         return ((rawPercent + assignment.flat_curve.flat_rate).toFixed(2) + "%");
       }
       else if(assignment.linear_curve) {
@@ -183,7 +186,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   $scope.showScore = function(j) {
     //Get the overall score of all the students
     $scope.students = StudentService.sortStudents($scope.course.students);
-    if (j > -1) {
+    if (j >= 0) {
       var rawTotal = 0;
       var possibleTotal = 0;
       for (var i = 0; i < $scope.assignments.length; i++) {
@@ -202,33 +205,37 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
         var possibleScore = assignment.possible_score;
         var curvedPoints = curvedPercent / 100 * possibleScore;
         //Put default value here;
-        if(curvedPoints === -1) {
+        if(curvedPoints < 0) {
         }
         else {
           rawTotal += curvedPoints;
           possibleTotal += possibleScore;
         }
       } 
+      var score = (Number(rawTotal / possibleTotal * 100).toFixed(2))
       //Get all of the failing students and put it in an object for display to the teacher
-      if((Number(rawTotal / possibleTotal * 100).toFixed(2)) < 60) {
+      if(score >= 0 && score < 60) {
         var failingStudent = $scope.students[j].first_name + " " + $scope.students[j].last_name;
-        $scope.failingStudents[failingStudent] = Number(rawTotal / possibleTotal * 100).toFixed(2);
+        $scope.failingStudents[failingStudent] = score;
         $scope.removeExceptionalStudents(failingStudent);
       }
       //Remove students who were failing and are no longer failing
-      else if((Number(rawTotal / possibleTotal * 100) > 60) && (Number(rawTotal / possibleTotal * 100) < 90)) {
+      else if(score > 60 && score < 90) {
         var passingStudent = $scope.students[j].first_name + " " + $scope.students[j].last_name;
         $scope.removePassingStudents(passingStudent);
       }
       //Get all exceptional students and put them in an object to display to the teacher
-      else if((Number(rawTotal / possibleTotal * 100)) > 90) {
+      else if(score > 90) {
         var exceptionalStudent = $scope.students[j].first_name + " " + $scope.students[j].last_name;
-        $scope.exceptionalStudents[exceptionalStudent] = Number(rawTotal / possibleTotal * 100).toFixed(2);
+        $scope.exceptionalStudents[exceptionalStudent] = score;
         $scope.removePassingStudents(exceptionalStudent);
+      }
+      else {
+        score = 0;
       }
     $scope.anyFailingStudents = $scope.getLengthFailing();
     $scope.anyExceptionalStudents = $scope.getLengthPassing();
-    return Number(rawTotal / possibleTotal * 100).toFixed(2);
+    return score;
     }
   }
       
