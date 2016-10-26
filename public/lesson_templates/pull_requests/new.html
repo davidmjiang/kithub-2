@@ -16,7 +16,7 @@
   <update-lesson-modal lesson="lesson" current-user="currentUser" diffs="updateDiffs" parent="newPR.parent_plan" current="upToDate"></update-lesson-modal>
 </div>
 
-<button ui-sref="main.lessons.show.pullRequests({id: newPR.parent_plan_id})" ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length > 0 && upToDate" class="btn btn-warning pull-right">Pending Pull Request</button>
+<button ui-sref="main.lessons.show.pullRequests({id: newPR.parent_plan_id})" ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length > 0 && upToDate" class="btn btn-warning">Pending Pull Request</button>
 
 <button ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length === 0 && upToDate"
         ng-click="getDiffInfo()"
@@ -79,7 +79,7 @@
       <div class="modal-footer">
 
         <button type="button"
-                class="btn btn-secondary"
+                class="btn btn-secondary position-higher"
                 data-dismiss="modal">
 
                Cancel
@@ -87,7 +87,7 @@
 
 
         <button type="button"
-                class="btn btn-secondary"
+                class="btn btn-secondary position-higher"
                 ng-click="createNewPullRequest(newPRForm.title.$valid)">
                 Create New Pull Request
         </button>
