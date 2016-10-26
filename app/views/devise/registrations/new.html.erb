@@ -1,38 +1,113 @@
-<h2>Sign up</h2>
+<div class="front-page">
+<div>
+    <div id="example-wrapper">
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+      <div class="scrollContent">
+        <section id="titlechart">
+          <div id="description">
+            <h1 id="title">KitHub</h1>
+          </div>
+        </section>
 
-  <div class="field">
-    <%= f.label :first_name %><br />
-    <%= f.text_field :first_name, autofocus: true %>
+
+        <section class="demo" id="bezier">
+         <div class="spacer s0" id="trigger"></div>
+          <div id="section1">
+            <div id="plane-target">
+              <%= image_tag "classroom.png", class: "front-page-icon" %>
+
+              <h2 class="subtitle">Version Control for Lesson Plans</h2>
+                <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus iure dicta laudantium voluptas asperiores nulla, dolores architecto libero iste, vitae perspiciatis, sapiente ipsam. Nemo tenetur atque vitae sed voluptate, magnam.</h4>
+
+              <%= image_tag "example_bezier.png", id: "plane" %>
+
+            </div>
+          </div>
+
+
+         <div class="spacer s0" id="paper-trigger"></div>
+
+          <div id="paper-target">
+           <%= image_tag "paper.jpeg", id: "paper" %>
+
+           <%= image_tag "gradebook.png", class: "front-page-icon" %>
+
+            <h2>Gradebook Organizer</h2>
+            <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus iure dicta laudantium voluptas asperiores nulla, dolores architecto libero iste, vitae perspiciatis, sapiente ipsam. Nemo tenetur atque vitae sed voluptate, magnam.</h4>
+          </div>
+
+        </section>
+
+        <div id="signin" class="spacer s_viewport">
+          <!-- Bootstrap CSS -->
+          <!-- jQuery first, then Bootstrap JS. -->
+          <!-- Nav tabs -->
+
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" href="#sign-up-tab" role="tab" data-toggle="tab"><h3>Sign Up</h3></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#sign-in-tab" role="tab" data-toggle="tab"><h3>Login</h3></a>
+            </li>
+
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="sign-up-tab">
+              <h2>Sign up</h2>
+
+            <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+              <%= devise_error_messages! %>
+
+              <div class="field">
+                <%= f.label :first_name %><br />
+                <%= f.text_field :first_name, autofocus: true %>
+              </div>
+
+              <div class="field">
+                <%= f.label :last_name %><br />
+                <%= f.text_field :last_name %>
+              </div>
+
+              <div class="field">
+                <%= f.label :email %><br />
+                <%= f.email_field :email %>
+              </div>
+
+              <div class="field">
+                <%= f.label :password %>
+                <% if @minimum_password_length %>
+                <em>(<%= @minimum_password_length %> characters minimum)</em>
+                <% end %><br />
+                <%= f.password_field :password, autocomplete: "off" %>
+              </div>
+
+              <div class="field">
+                <%= f.label :password_confirmation %><br />
+                <%= f.password_field :password_confirmation, autocomplete: "off" %>
+              </div>
+
+              <div class="actions">
+                <%= f.submit "Sign up", class: "btn btn-signup" %>
+
+              </div>
+            <% end %>
+          <%= render "devise/shared/links" %>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="sign-in-tab"><%= render "devise/sessions/new" %></div>
+          </div>
+
+
+        </div>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :last_name %><br />
-    <%= f.text_field :last_name %>
-  </div>
+</div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email %>
-  </div>
+</div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-<%= render "devise/shared/links" %>
+

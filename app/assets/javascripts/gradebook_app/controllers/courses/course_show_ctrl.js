@@ -1,10 +1,5 @@
 Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", "ModalService", "$state", "CourseService", "SubmissionService", "CurveService", function($scope, course, StudentService, AssignmentService, GPAService, ModalService, $state, CourseService, SubmissionService, CurveService){
 
-angular.element('#gradebook').DataTable( {
-    fixedColumns: {
-        leftColumns: 2
-    }
-} );
 
   var cols =[];
   var allRows= [];
@@ -76,6 +71,22 @@ angular.element('#gradebook').DataTable( {
     else {
       return item;
     }
+  }
+
+  $scope.showNotifications = function(failingStudents, exceptionalStudents) {
+    ModalService.showModal({
+      templateUrl: '/gradebook_templates/notifications/show.html',
+      controller: 'NotificationsShowCtrl',
+      inputs: {
+        exceptionalStudents: exceptionalStudents,
+        failingStudents: failingStudents,
+        students: $scope.students,
+        course: $scope.course
+      }
+    }).then(function(modal) {
+      modal.element.modal();
+      modal.close;
+    })
   }
 
   $scope.studentDetailModal = function(email, overall) {
@@ -414,15 +425,6 @@ angular.element('#gradebook').DataTable( {
       })
     }
   };
-
-  $scope.notifyParent = function(student, score) {
-    for(key in $scope.students) {
-      if ($scope.students[key].first_name + $scope.students[key].last_name  === 
-        student.split(" ").slice(0)[0] + student.split(" ").slice(1)[0]) {
-        StudentService.sendMail($scope.students[key].id, $scope.course.teacher_id, score)
-      }
-    }
-  }
 
 
   $scope.cols = cols;

@@ -1,0 +1,25 @@
+<div class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+				 <h4 class="modal-title">Notify Students</h4>
+      </div>
+      <div class="modal-body">   
+				<div ng-if="anyFailingStudents" class="failing-students row">
+				  <p class="text-center">The following students are failing (under 60%) your class:</p>
+				  <p ng-repeat="(failingStudent, score) in failingStudents" class="col-md-6">
+				  {{failingStudent}} : {{score}}%</br>
+				  <button ng-click="notifyParent(failingStudent, score)" class="btn btn-primary notify-parents">Notify {{failingStudent}}</button>
+				  </p>
+				</div>
+
+				<div ng-if="anyExceptionalStudents" class="exceptional-students row">
+				  <p class="text-center">The following students are doing exceptionally well (over 90%) in your class:</p>
+				  <p ng-repeat="(exceptionalStudent, score) in exceptionalStudents" class="col-md-4">{{exceptionalStudent}} : {{score}}%</br>
+				    <button ng-click="notifyParent(exceptionalStudent, score)" class="btn btn-primary notify-parents">Notify {{exceptionalStudent}}</button>
+				  </p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

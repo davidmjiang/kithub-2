@@ -4,6 +4,7 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
   $scope.newPR = pullRequestService.getNewPullRequest($stateParams.id);
   $scope.forkedLesson = lesson;
   $scope.owner = owner;
+  $scope.upToDate = true; // determines if there's a newer version of parent plan
 
   $scope.prSent = _.filter($scope.forkedLesson.pull_requests_sent, [ 'status', 'pending' ]);
 
@@ -12,7 +13,10 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
       $scope.newPR = pullRequestService.getNewPullRequest($stateParams.id, response.parent_plan_id);
 
       LessonService.getLesson($scope.newPR.parent_plan_id).then(function(parent) {
-         $scope.newPR.parent_plan = parent;
+        $scope.newPR.parent_plan = parent;
+        if ($scope.newPR.parent_plan.version > $scope.forkedLesson.parent_version) {
+          $scope.upToDate = false;
+        }
       });
     }
 
@@ -33,7 +37,7 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
   $scope.getDiffInfo = function() {
       LessonService.getLesson($scope.newPR.forked_plan_id).then(function(forked) {
        $scope.newPR.forked_plan = forked;
-       $scope.diffs = DiffService($scope.newPR.parent_plan.content, $scope.newPR.forked_plan.content);
+       $scope.diffs = DiffService.getDiffs($scope.newPR.parent_plan.content, $scope.newPR.forked_plan.content);
       });
   };
 
