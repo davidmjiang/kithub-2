@@ -1843,7 +1843,7 @@ select.form-control[multiple], .form-group.is-focused select.form-control[multip
 .pagination > .active > span:focus,
 .pagination > .active > span:hover {
   color: #FFFFFF;
-  box-shadow: 0 4px 5px 0 rgba(156, 39, 176, 0.14), 0 1px 10px 0 rgba(156, 39, 176, 0.12), 0 2px 4px -1px rgba(156, 39, 176, 0.2);
+
 }
 .pagination.pagination-info > .active > a, .pagination.pagination-info > .active > a:focus, .pagination.pagination-info > .active > a:hover,
 .pagination.pagination-info > .active > span,

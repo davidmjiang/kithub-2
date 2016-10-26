@@ -23,7 +23,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
   $scope.course = course;
 
-  $scope.rawGPA = GPAService.rawGPA(course);
+  $scope.rawGPA = GPAService.rawGPA($scope.course);
   $scope.students = $scope.course.students;
 
   
