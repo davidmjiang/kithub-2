@@ -5,12 +5,6 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     this.closed = true;
   }
 
-   $scope.$on("submission.edit", function(event, data) {
-    console.log("WORK?")
-    $scope.percentScore();
-    $scope.anyFailingStudents = $scope.getLengthFailing();
-    $scope.anyExceptionalStudents = $scope.getLengthPassing();
-  })
 
   $scope.failingStudents = {};
   $scope.exceptionalStudents = {};
@@ -243,7 +237,6 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   $scope.editAssignment = function(assignment) {
     AssignmentService.editAssignment(assignment)
     $rootScope.$broadcast('assignment.edit', assignment);
-    
   }
 
   $scope.editTitle = function() {

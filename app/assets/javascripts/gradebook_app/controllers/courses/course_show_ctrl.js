@@ -1,6 +1,5 @@
 Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", "ModalService", "$state", "CourseService", "SubmissionService", "CurveService", "$rootScope", function($scope, course, StudentService, AssignmentService, GPAService, ModalService, $state, CourseService, SubmissionService, CurveService, $rootScope){
-
-
+  
   var cols =[];
   var allRows= [];
   $scope.failingStudents = {};
@@ -245,6 +244,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
   $scope.submitEdit = function(row, item, index) {
     var student;
+    var submission;
     $rootScope.$broadcast("submission.edit");
     var assignmentId = $scope.assignments[index - 4].id
     var rowIndex = $scope.allRows.indexOf(row);
@@ -253,30 +253,53 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
       StudentService.editStudent(student, index, item);
     }
     else if (index > 3 && index < row.length) {
-      var submission;
-      for(var i = 0; i < $scope.students.length; i ++) {
-        if($scope.students[i].id == row[0]) {
-          for(var j = 0; j < $scope.students[i].submissions.length; j++) {
-            if($scope.students[i].submissions[j].assignment_id == assignmentId) {
-              var submission = $scope.students[i].submissions[j]
-              submission.raw_score = parseInt(item);
-              $scope.students[i].submissions[j].raw_score = parseInt(item);
-              $scope.course.students[i].submissions[j].raw_score = parseInt(item);
-              for(var k = 0; k < $scope.assignments[index - 4].submissions.length; k++) {
-                if($scope.assignments[index - 4].submissions[k].student_id === $scope.students[i].id) {
-                  $scope.assignments[index - 4].submissions[k].raw_score = parseInt(item);
-                }
-              }
-              //$scope.assignments[index - 4].raw_score = parseInt(item);
-              $scope.allRows[i][j + 4] = parseInt(item);
-            }
-          }
+      var student;
+      for(var i = 0; i < $scope.students.length; i++) {
+        if($scope.students[i].id === row[0]) {
+          $scope.allRows[i][index] = parseInt(item);
+          student = $scope.students[i];
         }
       }
-      SubmissionService.editSubmission(submission);
+      submission = student.submissions[index - 4]
+      submission.raw_score = parseInt(item)
     }
+    SubmissionService.editSubmission(submission);
+    //}
     $scope.rawGPA = GPAService.rawGPA(course);
   }
+
+
+
+    //   else if (index > 3 && index < row.length) {
+    //   var submission;
+    //   for(var i = 0; i < $scope.students.length; i ++) {
+    //     if($scope.students[i].id == row[0]) {
+    //       for(var j = 0; j < $scope.students[i].submissions.length; j++) {
+    //         if($scope.students[i].submissions[j].assignment_id == assignmentId) {
+    //           //console.log(submission)
+    //           submission = $scope.students[i].submissions[j]
+    //           console.log(submission)
+    //           submission.raw_score = parseInt(item);
+    //           $scope.students[i].submissions[j].raw_score = parseInt(item);
+    //           $scope.course.students[i].submissions[j].raw_score = parseInt(item);
+    //           for(var k = 0; k < $scope.assignments[index - 4].submissions.length; k++) {
+    //             if($scope.assignments[index - 4].submissions[k].student_id === $scope.students[i].id) {
+    //               console.log($scope.assignments[index - 4].submissions[k])
+    //               $scope.assignments[index - 4].submissions[k].raw_score = parseInt(item);
+    //             }
+    //           }
+    //           //$scope.assignments[index - 4].raw_score = parseInt(item);
+    //           // console.log(submission.assignment_id)
+    //           // console.log(assignmentId)
+    //           // console.log(j + 4)
+    //           // console.log($scope.allRows[i])
+    //           $scope.allRows[i][j + 4] = parseInt(item);
+    //         }
+    //       }
+    //     }
+    //   }
+    //   SubmissionService.editSubmission(submission);
+    // }
 
   $scope.checkItem = function(index, item) {
     if (index === 0) {

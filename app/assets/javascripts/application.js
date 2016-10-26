@@ -54,5 +54,6 @@
 //= require bootstrap-select.min
 //= require datatables.min
 //= require dataTables.fixedColumns.min
+//= require angular-elastic-input.min.js
 
 //= require_tree .
