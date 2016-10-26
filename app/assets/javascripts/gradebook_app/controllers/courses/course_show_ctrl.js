@@ -193,21 +193,18 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
         var assignment = $scope.assignments[i];
         var rawPercent = $scope.students[j].submissions[i].raw_score / assignment.possible_score * 100
         var curvedPercent;
-        if(assignment.flat_curve) {
-           curvedPercent = rawPercent + assignment.flat_curve.flat_rate;
-        }
-        else if(assignment.linear_curve) {
-          curvedPercent = CurveService.linearFormula(assignment.linear_curve, rawPercent)
-        }
-        else {
-          curvedPercent = rawPercent
-        }
-        var possibleScore = assignment.possible_score;
-        var curvedPoints = curvedPercent / 100 * possibleScore;
-        //Put default value here;
-        if(curvedPoints < 0) {
-        }
-        else {
+        if(rawPercent >= 0) {
+          if(assignment.flat_curve) {
+             curvedPercent = rawPercent + assignment.flat_curve.flat_rate;
+          }
+          else if(assignment.linear_curve) {
+            curvedPercent = CurveService.linearFormula(assignment.linear_curve, rawPercent)
+          }
+          else {
+            curvedPercent = rawPercent
+          }
+          var possibleScore = assignment.possible_score;
+          var curvedPoints = curvedPercent / 100 * possibleScore;
           rawTotal += curvedPoints;
           possibleTotal += possibleScore;
         }
