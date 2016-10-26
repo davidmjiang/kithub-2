@@ -1,7 +1,7 @@
 "use strict";
 
-Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser', 'SyllabiCourseService', "courses", 'course', 'teacher',
-  function($scope, $state, currentUser, SyllabiCourseService, courses, course, teacher) {
+Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser', 'SyllabiCourseService', "courses", 'course', 'teacher', 'Restangular',
+  function($scope, $state, currentUser, SyllabiCourseService, courses, course, teacher, Restangular) {
 
 
     $scope.currentUser = currentUser;
@@ -24,9 +24,11 @@ Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser',
 
     $scope.addLessonPlan =function(event, ui, courseDay){
       courseDay.lesson_plans.push($scope.draggedLesson);
-      console.log(courseDay);
+      $scope.draggedLesson.used = true;
+      Restangular.restangularizeElement(null, $scope.draggedLesson, 'lesson_plans')
+      $scope.draggedLesson.patch({used: true})
       SyllabiCourseService.addLessonPlanDay(courseDay.id, $scope.draggedLesson.id);
-    }
+    };
 
     $scope.deleteLessonPlan = function(lesson_plan, courseDay) {
       _.remove(courseDay.lesson_plans, function(lp){

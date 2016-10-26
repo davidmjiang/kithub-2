@@ -85,7 +85,7 @@ class LessonPlansController < ApplicationController
     def lesson_plan_params
       params.require(:lesson_plan).permit(:title, :content, :hours,
                                           :version, :state, :grade,
-                                          :subject, :lesson_type, :parent_plan_id)
+                                          :subject, :lesson_type, :parent_plan_id, :used)
     end
 
 end
