@@ -101,10 +101,10 @@ end
 
 # pull request
 puts 'creating pull requests'
-5.times do
+15.times do
   l = LessonPlan.all.sample
   l2 = LessonPlan.all.sample
-  pr = PullRequest.create(title: Faker::Hipster.word, parent_plan_id: l.id, forked_plan_id: l2.id)
+  pr = PullRequest.create(title: Faker::Hipster.word, parent_plan_id: l.id, forked_plan_id: l2.id, status: "accepted")
   t = Teacher.all.sample
   pr.comments.create(body: Faker::Company.catch_phrase, teacher_id: t.id)
 end
