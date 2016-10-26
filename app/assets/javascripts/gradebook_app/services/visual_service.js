@@ -94,29 +94,38 @@ Gradebook.factory("VisualService", ["Restangular", "_", "CurveService", "GPAServ
   // assignment average curved % scores, not student average scores)
   VisualService.classAvgPerformanceToDate = function(course, date) {
     var classPointsEarned = 0,
-        classPointsPossible = 0
+        classPointsPossible = 0;
     _.each(course.assignments, function(assignment) {
-      var scores = []
       if (assignment.created_at <= date) {
+        // get class average points earned (after curve)
+        var scores = []
         _.each(assignment.submissions, function(submission) {
           var rawPercent = (submission.raw_score / assignment.possible_score) * 100 
           var realPercent = assignment.has_curve ? _applyCurve(assignment, rawPercent) : rawPercent
+          // console.log(realPercent)
           scores.push(realPercent)
         })
         var curvedAvgPerformance = _.reduce(scores, function(sum, n) {
           return sum + n
-        }, 0) / scores.length
+        }, 0) / scores.length;
+        // console.log("curvedAvgPerformance: " + curvedAvgPerformance)
         var curvedAvgPoints = curvedAvgPerformance/100 * assignment.possible_score
+        // console.log("curvedAvgPoints: " + curvedAvgPoints)
         classPointsEarned += curvedAvgPoints
         classPointsPossible += assignment.possible_score
-      }
+      } 
     })
     return classPointsEarned / classPointsPossible * 100
   }
 
   VisualService.coursePerformanceOverTime = function(course) {
     var courseData = []
-    _.each(course.assignments, function(assignment) {
+    // console.log("unsorted: ")
+    // console.log(course.assignments)
+    // console.log("sorted: ")
+    var sortedAssignments = _.sortBy(course.assignments, [function(a) {return a.created_at }])
+    // console.log(sortedAssignments)
+    _.each(sortedAssignments, function(assignment) {
       var assignmentData = {}
       assignmentData.date = assignment.created_at
       assignmentData.class_performance = VisualService.classAvgPerformanceToDate(course, assignment.created_at)
