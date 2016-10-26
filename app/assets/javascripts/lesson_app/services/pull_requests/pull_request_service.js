@@ -4,6 +4,7 @@ Lesson.factory("pullRequestService", ["Restangular",
                                   function(Restangular, $state, Auth) {
   // array of all pull requests with their
   var _pullRequests = [];
+  var _pendingPRs = [];
 
   // all copies a json object of all the pull requests and their respective '
   // comments for the teachers page you are on and angular.copies them locally
@@ -11,6 +12,14 @@ Lesson.factory("pullRequestService", ["Restangular",
     return Restangular.one("lesson_plans", lesson_id).all("pull_requests").getList().then(function(response) {
         return angular.copy(response, _pullRequests);
     });
+  };
+
+  // returns all pending requests stored in the service for the current lesson in _pullRequests
+  var getPendingPRs = function() {
+    var pendingPRs = _.filter(_pullRequests, function (pr) {
+      return pr.status === "pending";
+    });
+    return pendingPRs;
   };
 
   // getPullRequests retrieves the _pullRequests array which has all the
@@ -93,6 +102,7 @@ Lesson.factory("pullRequestService", ["Restangular",
     removeComment: removeComment,
     pullRequestMade: pullRequestMade,
     acceptChanges: acceptChanges,
-    rejectChanges: rejectChanges
+    rejectChanges: rejectChanges,
+    getPendingPRs: getPendingPRs
   };
 }]);
