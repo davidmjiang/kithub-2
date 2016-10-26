@@ -115,6 +115,12 @@ angular.module('Lesson').controller('TeacherShowCtrl', ['$scope', 'currentUser',
 		}
 	});
 
+	$scope.activeTab = "overview";
+	//determine active tab
+	$scope.$on('on:page', function(event, args){
+		$scope.activeTab = args;
+	});
+
 	//upload profile photo
 	$scope.upload = function(file){
 		$scope.saving = true;
