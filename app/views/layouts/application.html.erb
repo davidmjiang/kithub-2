@@ -18,9 +18,9 @@
 
   </head>
 
-  <body <%= content_for :angular_app %> >
+  <body <%= content_for :angular_app %> class="container-fluid">
     <nav class="navbar navbar-light bg-faded">
-      <a class="navbar-brand" href="#">KitHub</a>
+      <a class="navbar-brand cabin-sketch-font" href="#" >KitHub</a>
       <% if teacher_signed_in? %>
         <ul class="nav navbar-nav">
           <li class="nav-item">
@@ -56,5 +56,11 @@
     <div class="container-fluid">
       <%= yield %>
     </div>
+
+
   </body>
+<!--   <footer class="text-xs-center">
+  <hr>
+    Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by Team Kithub. © 2016.
+  </footer> -->
 </html>
