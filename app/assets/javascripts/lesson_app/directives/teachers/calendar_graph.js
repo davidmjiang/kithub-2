@@ -10,6 +10,19 @@ angular.module("Lesson").directive('calendarGraph', ['ContributionsService', fun
 			var c = ContributionsService.getAll();
 			scope.all = c[scope.teacher.id];
 
+			scope.total = ContributionsService.getTotal(scope.teacher.id);
+
+			if(scope.total === 0){
+				scope.header = "No contributions";
+			}
+			else if(scope.total === 1){
+				scope.header = "1 contribution";
+			}
+			else{
+				scope.header = scope.total.toString() + " contributions";
+			}
+			scope.header += " this year";
+
 			scope.getWeeks = function(){
 				//first Monday of the year
 				var startingDate = new Date("January 4, 2016");
@@ -18,12 +31,18 @@ angular.module("Lesson").directive('calendarGraph', ['ContributionsService', fun
 				var copy = new Date(startingDate.valueOf());
 				for(var i = 0; i < 52; i++){
 					var newDay = new Date(copy.setDate(copy.getDate() + 7));
+					if(newDay.getFullYear() === 2017){
+						break;
+					}
 					starting_days.push(newDay);
 				}
 				return starting_days;
 			};
 
 			scope.weeks = scope.getWeeks();
+
+			//headers
+			scope.months = ["Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 		}
 	};
 }]);
