@@ -18,6 +18,10 @@ json.course_days @course.course_days do |course_day|
     json.title lesson_plan.title
     json.subject lesson_plan.subject
     json.used lesson_plan.used
+    json.lesson_type lesson_plan.lesson_type
+    json.subject lesson_plan.subject
+    json.grade lesson_plan.grade
+    json.hours lesson_plan.hours
   end
 end
 

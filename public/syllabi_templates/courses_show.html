@@ -1,7 +1,34 @@
-<h1>{{course.title}}</h1>
-<h3>Start Date: {{course.start_date | date}} | End Date: {{ course.end_date | date}} | Meets on <span ng-repeat="day in meeting_days">{{findDay(day)}}, </span></h3>
+<h2>{{course.title}}<small>Start Date: {{course.start_date | date}} | End Date: {{ course.end_date | date}} | Meets on <span ng-repeat="day in meeting_days">{{findDay(day)}}, </span></small></h2>
 
-<div class="col-sm-4">
+
+<div class="col-sm-4 lesson-filters">
+  <h4>Your Lesson Plans</h4>
+  <div class="row">
+    <div class='col-xs-10'>
+      <input type="text" ng-model="titleFilter" placeholder="Filter by title..." class=" form-control lesson-plan-filter" >
+    </div>
+  </div>
+  <div class="col-sm-12">
+    <h6>Grade:</h6> <rzslider rz-slider-options="filter.options" rz-slider-model="filters.gradeMin" rz-slider-high="filters.gradeMax"></rzslider>
+  </div>
+  <div class="col-sm-12"> 
+    <h6>Hours:</h6> {{filters.hour}} <rzslider  rz-slider-options="filter.options" rz-slider-model="filters.hourMin" rz-slider-high="filters.hourMax"></rzslider>  
+  </div>
+  <div class="col-sm-12">
+    <h6>Lesson Type:</h6> <select ng-model="filters.lessonType">
+      <option value=""></option>
+      <option ng-repeat="lessontype in lessonTypes" value="{{lessontype}}">{{lessontype}}</option>
+    </select>
+  </div>
+  <div class="col-sm-12"> 
+    <h6>Subject:</h6> <select ng-model="filters.subject">
+      <option value=""></option>
+      <option ng-repeat="subject in subjects" value="{{subject}}">{{subject}}</option>
+    </select>
+  </div>
+  <div class="col-sm-12">
+    <button  class="btn btn-outline-primary" id="clear-filters" ng-click="resetFilters()">Clear Filters</button>
+  </div>
   <div dir-paginate="lesson in teacher.lesson_plans | orderBy: '-created_at' | filter: {title: titleFilter} | filter: between('grade', filters.gradeMin, filters.gradeMax) | filter: {lesson_type: filters.lessonType} | filter: {subject: filters.subject} | filter: between('hours', filters.hourMin, filters.hourMax) | filter: {used: false} | itemsPerPage: 10">
     <div class="row">
       <div data-drag="true" data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{placeholder: true, onStart:'setDragParams(lesson)'}" class="col-md-10 md-offset-1">
@@ -28,8 +55,21 @@
 
 
 <div class="col-sm-8">
-  <div data-drop="true" jqyoui-droppable="{placeholder: true, onDrop: 'addLessonPlan(courseDay)'}" class="col-sm-6 course-day" ng-repeat="courseDay in course.course_days | orderBy: 'date'" courseDay="courseDay">
-    <h4>{{courseDay.date | date}}</h4>
-    <p ng-repeat="lesson in courseDay.lesson_plans" lesson="lesson">{{lesson.title}} <span class="pull-right" ng-click="deleteLessonPlan(lesson, courseDay)">Delete</span></p>
+  <div class="row">
+  <div ng-repeat="courseDay in course.course_days | orderBy: 'date'" courseDay="courseDay">
+    <div class="clearfix" ng-if="$index % 2 == 0"></div>
+    <div class="col-sm-6">
+      <div data-drop="true" jqyoui-droppable="{placeholder: true, onDrop: 'addLessonPlan(courseDay)'}" class="col-xs-11 course-day">
+        <h4>{{courseDay.date | date}}</h4>
+        <div ng-repeat="lesson in courseDay.lesson_plans" class="card listed-lesson-plan">
+          <div class="card-header " ng-class="{group: lesson.lesson_type === 'Group', individual: lesson.lesson_type === 'Individual', teacher: lesson.lesson_type === 'Teacher-led'}">
+            <h4><a ui-sref="main.lessons.show({id: {{lesson.id}}})">
+              {{lesson.title}}
+            </a></h4>
+            <span class="pull-right" ng-click="deleteLessonPlan(lesson, courseDay)">Delete</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
