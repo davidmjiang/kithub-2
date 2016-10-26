@@ -1,0 +1,100 @@
+#lesson-show {
+
+  #profile-img {
+    height: 1.75em;
+    width: 1.75em;
+    vertical-align: middle;
+    border-radius: 0.25rem;
+    display: inline-block;
+    background-size: contain;
+    background-position: 50% 50%;
+  }
+
+  .CodeMirror, .CodeMirror-scroll {
+    min-height: 450px;
+  }
+
+  .editable {
+    i {
+      display: none;
+      font-size: 50%;
+      vertical-align: middle;
+    }
+
+    &:hover {
+      i {
+        display: inline;
+      }
+    }
+  }
+
+  #main-content {
+    margin-top: 35px;
+  }
+
+  #file-upload{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .upload-btn{
+    cursor: pointer;
+  }
+
+  .am-btn{
+    margin-left: 10px;
+  }
+  .lesson-star {
+    font-size: 35px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  #flash-messages {
+    .alert {
+      padding: .38rem;
+      width: 200px;
+      text-align: center;
+      margin: 0 auto;
+    }
+  }
+
+  .setting-btn{
+    margin: 10px;
+  }
+
+  .helptip{
+    position: relative;
+  }
+
+  .helptext{
+    display: none;
+    width: 200px;
+    background-color: $ternary-color;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    font-size: 12px;
+    position: absolute;
+    z-index: 100;
+    bottom: 100%;
+    left: 50%;
+  }
+
+  .helptip:hover + .helptext{
+    display: block;
+  }
+
+  .diffs {
+    button {
+      // margin-left: -15px;
+    }
+  }
+}
+
+
