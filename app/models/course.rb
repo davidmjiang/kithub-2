@@ -20,7 +20,12 @@ class Course < ApplicationRecord
   def points_possible
     points = 0
     self.assignments.each do |assignment|
-      points += assignment.possible_score
+      sub_exist = assignment.submissions.any? do |submission|
+        submission.raw_score != -1
+      end
+      if sub_exist then
+        points += assignment.possible_score
+      end
     end
     points
   end
