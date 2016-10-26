@@ -64,6 +64,9 @@ t = Teacher.create(email: person,
                           subject: SUBJECTS.sample,
                           lesson_type: LESSON_TYPES.sample
                           )
+    #creating fake dates
+    l.created_at = (rand*30).days.ago
+    l.save
     l.taggings(tag_id: Tag.all.sample.id )
   end
 end
@@ -105,6 +108,9 @@ puts 'creating pull requests'
   l = LessonPlan.all.sample
   l2 = LessonPlan.all.sample
   pr = PullRequest.create(title: Faker::Hipster.word, parent_plan_id: l.id, forked_plan_id: l2.id, status: "accepted")
+  #creating fake dates
+  pr.created_at = (rand*30).days.ago
+  pr.save
   t = Teacher.all.sample
   pr.comments.create(body: Faker::Company.catch_phrase, teacher_id: t.id)
 end

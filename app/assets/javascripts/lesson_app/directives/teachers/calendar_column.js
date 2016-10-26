@@ -5,12 +5,16 @@ angular.module("Lesson").directive('calendarColumn', function(){
 		restrict: "E",
 		scope: {
 			start: "=",
-			contributions: "="
+			contributions: "=",
+			teacher: "="
 		},
 		link: function(scope){
+			scope.tId = scope.teacher.id;
+
 			scope.getData = function(date){
-				if(scope.contributions[date]){
-					return scope.contributions[date];
+				var hours = date.setHours(0,0,0,0);
+				if(scope.contributions[hours]){
+					return scope.contributions[hours];
 				}
 				else{
 					return 0;

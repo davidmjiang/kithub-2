@@ -1,1 +1,20 @@
-<calendar-column ng-repeat="week in weeks track by $index" start="week" contributions="all"></calendar-column>
+<h4>{{header}}</h4>
+<div class="calendar-box">
+	<div class="calendar-body">
+		<div>
+			<p class="month-header" ng-repeat="month in months">{{month}}</p>
+		</div>
+		<calendar-column ng-repeat="week in weeks track by $index" start="week" contributions="all" teacher="teacher"></calendar-column>
+		<div class="legend-box">
+		Less
+			<ul class="legend">
+				<li style="background-color: rgb(224,224,224)"></li>
+				<li style="background-color: rgb(214, 230, 133)"></li>
+				<li style="background-color: rgb(140, 198, 101)"></li>
+				<li style="background-color: rgb(68, 163, 64)"></li>
+				<li style="background-color: rgb(30, 104, 35)"></li>
+			</ul>
+		More
+		</div>
+	</div>
+</div>
