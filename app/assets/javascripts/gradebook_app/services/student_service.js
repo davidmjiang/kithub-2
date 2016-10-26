@@ -18,6 +18,7 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
         return 0;
       }
     })
+    // StudentService.sortSubmissions(students);
     return students;
   }
 
@@ -30,8 +31,8 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   StudentService.sortSubmissions = function(students) {
     for(var i = 0; i < students.length; i++) {
       students[i].submissions.sort(function(a,b) {
-        var createdAtA = a.id;
-        var createdAtB = b.id;
+        var createdAtA = a.created_at;
+        var createdAtB = b.created_at;
         if(createdAtA < createdAtB) {
           return -1;
         }

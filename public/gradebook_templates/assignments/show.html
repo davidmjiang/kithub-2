@@ -12,7 +12,7 @@
 
       </div>
       <div class="modal-body clearfix">
-        <h2 editable-text="assignment.title">{{assignment.title}}</h2>
+        <div ng-submit="editAssignment(assignment)"><h2 editable-text="assignment.title">{{assignment.title}}</h2></div>
         <p>
           <span>Overall Class Average: {{gpa.real | number:2}}%</span>
         </p>
@@ -184,13 +184,13 @@
             <div class="row">
               <div class="col-sm-11 offset-sm-1">
                 <p style="margin-top: 10px">
-                  Assignment Type: <span editable-text="assignment.assignment_type">{{assignment.assignment_type | capitalize }}</span>
+                    Assignment Type: <div ng-submit="editAssignment(assignment)"><span editable-text="assignment.assignment_type">{{assignment.assignment_type | capitalize }}</span></div>
                 </p>
 
                 <p>Overall Average: {{gpa.real | number:2 }}%</p>
 
                 <p >
-                  Points possible: <span editable-text="assignment.possible_score">{{assignment.possible_score}}</span>
+                  Points possible:<div ng-submit="editAssignment(assignment)"> <span editable-text="assignment.possible_score">{{assignment.possible_score}}</span></div>
                 </p>
                 <p>
                   Last Updated: {{assignment.updated_at | date:'medium'}}
@@ -200,6 +200,7 @@
               </div>
             </div>
           </div>
+
         <div role="tabpanel" class="tab-pane fade" id="notification">
           <div class="row">
             <div class="col-sm-11 offset-sm-1">
