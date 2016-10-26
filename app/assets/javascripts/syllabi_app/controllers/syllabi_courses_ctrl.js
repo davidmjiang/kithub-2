@@ -9,7 +9,6 @@ Syllabi.controller('SyllabiCoursesCtrl', ['$scope', '$state', 'currentUser', 'Sy
     $scope.courses = courses;
 
     $scope.updateCourse = function(course){
-      console.log(course);
       var updateObj = {};
       if (course.newStartDate) {
         updateObj.start_date = course.newStartDate.toString()

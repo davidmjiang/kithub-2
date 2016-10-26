@@ -39,7 +39,6 @@
 //= require dirPagination
 //= require rzslider.min
 //= require angular-flash
-//= require jquery.min
 //= require highlight.pack
 //= require modernizr.custom.min
 //= require examples
