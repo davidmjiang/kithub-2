@@ -198,10 +198,10 @@ ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
 
 CREATE TABLE courses (
     id integer NOT NULL,
-    title character varying,
-    teacher_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
+    title character varying,
+    teacher_id integer,
     identifier character varying
 );
 
@@ -726,7 +726,9 @@ CREATE TABLE teachers (
     avatar_file_name character varying,
     avatar_content_type character varying,
     avatar_file_size integer,
-    avatar_updated_at timestamp without time zone
+    avatar_updated_at timestamp without time zone,
+    provider character varying,
+    uid character varying
 );
 
 
@@ -747,40 +749,6 @@ CREATE SEQUENCE teachers_id_seq
 --
 
 ALTER SEQUENCE teachers_id_seq OWNED BY teachers.id;
-
-
---
--- Name: testers; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE testers (
-    id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    avatar_file_name character varying,
-    avatar_content_type character varying,
-    avatar_file_size integer,
-    avatar_updated_at timestamp without time zone
-);
-
-
---
--- Name: testers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE testers_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: testers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE testers_id_seq OWNED BY testers.id;
 
 
 --
@@ -969,13 +937,6 @@ ALTER TABLE ONLY teachers ALTER COLUMN id SET DEFAULT nextval('teachers_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY testers ALTER COLUMN id SET DEFAULT nextval('testers_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -1153,14 +1114,6 @@ ALTER TABLE ONLY teacher_followings
 
 ALTER TABLE ONLY teachers
     ADD CONSTRAINT teachers_pkey PRIMARY KEY (id);
-
-
---
--- Name: testers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY testers
-    ADD CONSTRAINT testers_pkey PRIMARY KEY (id);
 
 
 --
@@ -1436,6 +1389,6 @@ CREATE INDEX teachers_to_tsvector_idx2 ON teachers USING gin (to_tsvector('engli
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('20161014024103'), ('20161014024243'), ('20161014132221'), ('20161014132811'), ('20161014133102'), ('20161014140357'), ('20161014141614'), ('20161014141647'), ('20161014142046'), ('20161014142139'), ('20161014143029'), ('20161014144025'), ('20161014145229'), ('20161014150854'), ('20161014153722'), ('20161014154048'), ('20161014154425'), ('20161014154536'), ('20161014154647'), ('20161014164623'), ('20161018160504'), ('20161018211932'), ('20161018213940'), ('20161018214907'), ('20161018225025'), ('20161019155147'), ('20161019204921'), ('20161019210654'), ('20161024160525'), ('20161024174203'), ('20161024183757'), ('20161024213845'), ('20161024220555'), ('20161024220706'), ('20161025181659'), ('20161025223101');
+INSERT INTO schema_migrations (version) VALUES ('20161014132221'), ('20161014132811'), ('20161014133102'), ('20161014140357'), ('20161014141614'), ('20161014141647'), ('20161014142046'), ('20161014142139'), ('20161014143029'), ('20161014144025'), ('20161014145229'), ('20161014150854'), ('20161014153722'), ('20161014154048'), ('20161014154425'), ('20161014154536'), ('20161014154647'), ('20161014164623'), ('20161018160504'), ('20161018211932'), ('20161018213940'), ('20161018214907'), ('20161018225025'), ('20161019155147'), ('20161019204921'), ('20161019210654'), ('20161024160525'), ('20161024174203'), ('20161024183757'), ('20161024213845'), ('20161024220555'), ('20161024220706'), ('20161025163826'), ('20161025181659'), ('20161025223101');
 
 
