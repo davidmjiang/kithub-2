@@ -1,9 +1,14 @@
+require 'doc_convert'
+
 class LessonPlansController < ApplicationController
 
   # Gets all lesson plans for all teachers and returns them in JSON object
   def index
-    @lessons = LessonPlan.all
-
+    if params[:q]
+      
+    else
+      @lessons = LessonPlan.all
+    end
     respond_to do |format|
       format.json { render json: @lessons }
     end
@@ -19,15 +24,19 @@ class LessonPlansController < ApplicationController
 
   def update
     @lesson = current_teacher.lesson_plans.find(params[:id])
+    old_version = @lesson.version
 
     respond_to do |format|
       if @lesson.update(lesson_plan_params)
-        format.json{render "show.json.jbuilder"}
-      else
-        format.json { render json: {
+        @lesson.version =  (old_version + 0.1).round(1)  # round because of floating point inprecision
+        if @lesson.save
+          format.json{render "show.json.jbuilder"}
+         else
+          format.json { render json: {
                                     errors: @lesson.errors.full_messages },
                                     :status => 422
                                    }
+        end
       end
     end
   end
@@ -35,6 +44,11 @@ class LessonPlansController < ApplicationController
   # Creates a new lesson based on API call from App. Responds with the newly created lesson if successful, responds with error message and status if not.
   def create
     @lesson = current_teacher.lesson_plans.build(lesson_plan_params)
+
+    if params[:file]
+      file = params[:file]
+      @lesson.content = DocConvert.docx_to_markdown(file.tempfile.path)
+    end
 
     respond_to do |format|
       if @lesson.save
@@ -49,12 +63,35 @@ class LessonPlansController < ApplicationController
     end
   end
 
+  def destroy
+    @lesson = current_teacher.lesson_plans.find(params[:id])
+
+    respond_to do |format|
+      if @lesson.destroy
+        format.json{render "show.json.jbuilder"}
+      else
+        format.json { render json: {
+                                    errors: @lesson.errors.full_messages },
+                                    :status => 422
+                                   }
+      end
+    end
+  end
+
+  def export
+    @lesson = LessonPlan.find(params[:lesson_plan_id])
+    content_with_headers = DocConvert.add_headers_to_markdown(@lesson)
+    path = DocConvert.markdown_to_rtf(content_with_headers, @lesson.title)
+    send_file path, :disposition => 'attachment'
+  end
+
   private
 
     def lesson_plan_params
       params.require(:lesson_plan).permit(:title, :content, :hours,
                                           :version, :state, :grade,
-                                          :subject, :lesson_type, :parent_plan_id)
+                                          :subject, :lesson_type, :parent_plan_id,
+                                          :parent_version)
     end
 
 end

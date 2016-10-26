@@ -2,14 +2,16 @@ Gradebook.factory("CurveService", ["Restangular", function(Restangular) {
 
   var stub = {}
 
-
-
   var _restangularizeFlatCurve = function(assignment) {
     return Restangular.restangularizeElement(null, assignment.flat_curve, 'flat_curves')
   }
 
   stub.linearFormula = function(input, rawPercent) {
-    return input.curvedA + (((input.curvedB - input.curvedA)/(input.rawB - input.rawA)) * (rawPercent - input.rawA));
+    if (input.rawB - input.rawA === 0) {
+      return rawPercent;
+    } else {
+      return input.curvedA + (((input.curvedB - input.curvedA)/(input.rawB - input.rawA)) * (rawPercent - input.rawA));
+    }
   }
 
   stub.applyFlatCurve = function(flatRate, assignmentId) {
@@ -63,6 +65,16 @@ Gradebook.factory("CurveService", ["Restangular", function(Restangular) {
       Restangular.restangularizeElement(null, assignment.linear_curve, 'linear_curves')
       return assignment.linear_curve.remove()
     }
+  }
+
+  stub.removeFlat = function(assignment) {
+    Restangular.restangularizeElement(null, assignment.flat_curve, 'flat_curves')
+    return assignment.flat_curve.remove()
+  }
+
+  stub.removeLinear = function(assignment) {
+    Restangular.restangularizeElement(null, assignment.linear_curve, 'linear_curves')
+    return assignment.linear_curve.remove()
   }
 
   return stub

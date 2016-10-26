@@ -1,0 +1,36 @@
+<div ng-if="currentUserLesson === true" >
+
+  <div class="row">
+    <div class="col-md-4">
+     <button class="btn btn-secondary setting-btn helptip" ng-click="export()" ng-if="!exporting">Download lesson&nbsp<i class="fa fa-question-circle-o"></i></button>
+      <div class="helptext">Download lesson as a .docx file. Check your pop-up blocker if having trouble with the download.</div>
+      <button class="btn btn-secondary setting-btn" ng-if="exporting" ng-disabled="true"><i class="fa fa-spinner fa-spin fa-fw"></i>Downloading...</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <button class="btn btn-danger setting-btn" data-toggle="modal" data-target="#deleteModal">Delete Lesson</button>
+    </div>
+  </div>
+
+  <div class="modal fade" id="deleteModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Delete Lesson</h4>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete <strong>{{ lesson.title }}</strong>?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" ng-click="deleteLesson()">Delete</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+</div>

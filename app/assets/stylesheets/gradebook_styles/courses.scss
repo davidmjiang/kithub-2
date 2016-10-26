@@ -47,7 +47,19 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
 }
 
 .editable-buttons button {
-  color:red;
+
+}
+
+.failing-students .notify-parents {
+  float:left;
+}
+
+.exceptional-students .notify-parents {
+  float:left;
+}
+
+.styling-grades {
+  padding: 5px 12px !important;
 }
 
 /* for line graphs */
@@ -55,4 +67,22 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
   fill: none;
   stroke: steelblue;
   stroke-width: 2px;
+}
+
+#course-index-graphs {
+  margin-top: 40px;
+
+  .course-graph {
+    margin-bottom: 30px;
+  }
+
+  .graph-title {
+    text-align: center;
+    font-size: 1.3em;
+  }
+
+}
+
+.popover {
+    max-width: 950px;
 }

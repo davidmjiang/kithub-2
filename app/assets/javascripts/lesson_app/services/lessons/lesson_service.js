@@ -1,5 +1,6 @@
-Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherService', '_', 'flash', '$timeout',
-  function(Restangular, pullRequestService, TeacherService, _, flash, $timeout) {
+"use strict";
+Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherService', '_', 'flash', '$timeout', 'Upload', '$http',
+  function(Restangular, pullRequestService, TeacherService, _, flash, $timeout, Upload, $http) {
 
   var lessonService = {};
 
@@ -16,6 +17,11 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
   var pushToUserLessons = function(lesson) {
     var teacher = TeacherService.getTeacher(lesson.teacher_id);
     teacher.lesson_plans.push(lesson);
+  };
+
+  var removeFromUserLessons = function(lesson) {
+    var teacher = TeacherService.getTeacher(lesson.teacher_id);
+    _.remove(teacher.lesson_plans, function(n) { return (n.id === lesson.id); } );
   };
 
   // takes in the lesson (from an update action response)
@@ -48,13 +54,27 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
 
   lessonService.create = function(newLesson) {
     return Restangular.all('lesson_plans').post(newLesson).then(function(response) {
-        // sets initial value for stars and forks
-        // response.stars = 0;
-        // response.forks = 0;
 
         pushToUserLessons(response);
+
         // returns lesson object
         return response;
+
+    });
+  };
+
+  // same as create, but sends along a file to convert
+  lessonService.upload = function (lesson, file) {
+
+    return Upload.upload({
+              url: '/api/v1/lesson_plans.json',
+              data: { file: file, lesson_plan: lesson }
+      }).then( function(response) {
+        // var newLesson = Restangular.restangularizeElement(null, response, 'lesson_plans');
+        pushToUserLessons(response.data);
+
+        // returns lesson object
+        return response.data;
 
     });
   };
@@ -70,6 +90,14 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
 
   };
 
+  lessonService.delete = function(lesson) {
+    return lesson.remove().then(
+      function() {
+        removeFromUserLessons(lesson);
+      }
+    );
+  };
+
   lessonService.getLesson = function(lesson_id) {
     return Restangular.one('lesson_plans', Number(lesson_id) ).get().then(function(response) {
         return response;
@@ -77,12 +105,19 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
   };
 
   lessonService.setFlash = function(className, message) {
-    flash(className, message)
-        $timeout(function(){
-          $('.alert').fadeOut(500);
-        }, 2000)
+    flash(className, message);
+    $timeout(function(){
+      $('.alert').fadeOut(500);
+    }, 2000);
   };
 
+  lessonService.export = function(lesson) {
+    // calls api/v1/lesson_plans/:id/export 
+    return $http({
+      method: 'GET',
+      url: '/api/v1/lesson_plans/'+lesson.id+'/export',
+    });
+  };
 
 
   return lessonService;
