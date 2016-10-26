@@ -52,7 +52,14 @@ font-family: 'Roboto', sans-serif;
   background-color: $primary-color;
 }
 
+/*body {
+    background: url(http://cdn.wallpapersafari.com/58/89/7s5y6o.jpg);
+    background-repeat: repeat;
 
+}*/
+.btn {
+  vertical-align: middle !important;
+}
 .secondary-bg-color {
   background-color: $secondary-color;
 }
@@ -86,6 +93,10 @@ font-family: 'Roboto', sans-serif;
   top: 10px;
   z-index: -100;
   display: inline-block;
+}
+
+.position-higher {
+  margin-top: 0px;
 }
 
 footer {
