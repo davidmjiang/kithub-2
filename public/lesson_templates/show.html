@@ -26,8 +26,7 @@
           Pull Requests <span class="tag tag-default">{{ pendingPRs }}</span>
         <span class="tag tag-pill tag-default">{{teacher.starred_lesson_plans}}</span>
 
-          Pull Requests <span class="tag tag-pill tag-default">{{ pendingPRs }}</span>
-        <!-- <span class="tag tag-pill tag-info">{{teacher.starred_lesson_plans}}</span> -->
+
       </a>
     </li>
 
@@ -36,7 +35,7 @@
       <a class="nav-link"
         ui-sref="main.lessons.show.contributors"
         data-toggle="tab">
-        Contributors <span class="tag tag-pill tag-info">{{ lesson.contributors.length }}</span>
+        Contributors <span class="tag tag-default">{{ lesson.contributors.length }}</span>
       </a>
     </li>
 
