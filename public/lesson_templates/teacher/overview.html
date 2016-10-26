@@ -14,6 +14,7 @@
 
 <div class="tab-content" ui-view>
   <div class="tab-pane active" id="main" role="tabpanel">
+  <calendar-graph teacher="teacher"></calendar-graph>
       <div class="list-group row">
         <div ng-repeat="lesson in lessons | orderBy: '-created_at' | limitTo: 6">
           <div class="clearfix" ng-if="$index % 3 == 0"></div>
