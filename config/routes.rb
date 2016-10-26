@@ -13,7 +13,9 @@ Rails.application.routes.draw do
 
   scope :api do
   	scope :v1 do
-  		resources :teachers
+  		resources :teachers do 
+        resources :contributions, only: [:index]
+      end
       resources :students
       resources :courses
       resources :searches, only: [:index]
@@ -33,6 +35,7 @@ Rails.application.routes.draw do
       resources :lesson_plan_contributors, only: [:index, :create]
       resources :lesson_plan_stars, only: [:index]
       resources :lesson_plan_days, only: [:create, :destroy]
+
 
       post "student_progress/fail/", to: "student_progress#fail"
       post "student_progress/exceptional/", to: "student_progress#exceptional"

@@ -1,5 +1,7 @@
 "use strict";
-angular.module('Lesson').controller('LessonPlanCtrl', ['$scope', 'currentUser', 'teacher',  function($scope, currentUser, teacher){
+angular.module('Lesson').controller('LessonPlanCtrl', ['$scope', 'currentUser', 'teacher', '$rootScope',  function($scope, currentUser, teacher, $rootScope){
+
+  $rootScope.$broadcast("on:page", "lessons");
 
   $scope.isCurrentUser = currentUser.id === teacher.id;
   $scope.teacher = teacher;
@@ -46,6 +48,7 @@ angular.module('Lesson').controller('LessonPlanCtrl', ['$scope', 'currentUser', 
     $scope.filters.subject = "";
     $scope.filters.lessonType = "";
   }
+
 
 
 }]);

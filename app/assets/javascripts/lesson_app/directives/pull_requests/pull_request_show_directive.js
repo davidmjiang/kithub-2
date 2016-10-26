@@ -1,7 +1,7 @@
 Lesson.directive("pullRequestShow",  [ "pullRequestService", "DiffService", 'LessonService', "$stateParams", "Restangular", "Auth", "$window", function(pullRequestService, DiffService, LessonService, $stateParams, Restangular, Auth, $window) {
   return {
     templateUrl:"lesson_templates/pull_requests/show.html",
-    scope: { pullRequest: "=", pendingPrs: "=", lesson: "="},
+    scope: { pullRequest: "=", lesson: "="},
     restrict: "E",
     link: function(scope) {
       scope.comments = scope.pullRequest.comments;
@@ -31,13 +31,13 @@ Lesson.directive("pullRequestShow",  [ "pullRequestService", "DiffService", 'Les
           pullRequestService.acceptChanges(scope.pullRequest, contributorData, $stateParams.id);
           scope.lesson.content = newContent;
         });
-        $window.location.reload();
+        // $window.location.reload();
       };
 
       scope.rejectChanges = function() {
         angular.element(".modal-backdrop").remove();
         pullRequestService.rejectChanges(scope.pullRequest, $stateParams.id);
-        $window.location.reload();
+        // $window.location.reload();
       };
     }
   };

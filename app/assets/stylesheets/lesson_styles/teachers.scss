@@ -48,6 +48,8 @@
 .listed-lesson-plan{
 	border-radius: .25rem;
 	margin-top: 25px;
+	marign-right: 15px;
+	margin-left: 15px;
 
 	p {
 		margin-bottom: 5px;
@@ -165,3 +167,78 @@
 	font-size: 18px;
 }
 
+calendar-graph{
+	cursor: default;
+}
+
+.calendar-box{
+	border: 1px solid #dee884;
+	border-radius: 4px;
+}
+
+.calendar-body{
+	text-align: center;
+}
+
+calendar-square div{
+	width: 10px;
+	height: 10px;
+	background-color: rgb(224, 224, 224);
+	margin: 1px;
+}
+
+calendar-column{
+	display:inline-block;
+}
+
+.helptip{
+  position: relative;
+}
+
+.popbox{
+  display: none;
+  width: 200px;
+  height: 25px;
+  background-color: $ternary-color;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  font-size: 10px;
+  position: absolute;
+  z-index: 100;
+}
+
+.helptip:hover + .popbox{
+  display: block;
+}
+
+.legend{
+	display: inline-block;
+	list-style: none;
+	margin: 0 5px;
+	padding-left: 0px;
+}
+
+.legend li{
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+}
+
+.month-header{
+	display: inline-block;
+	margin-bottom: 0px;
+	margin-right: 37px;
+	font-size: 12px;
+}
+
+days-column{
+	display: inline-block;
+}
+
+.day-block{
+	height: 10px;
+	font-size: 12px;
+	margin: 0px;
+}

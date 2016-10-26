@@ -1,11 +1,18 @@
-<h1 ng-hide="pullRequests.length === 0">Pull Requests</h1>
+<h2 ng-hide="pullRequests.length === 0"><i class="fa fa-arrow-right" aria-hidden="true"></i>
+ Pull Requests</h2>
 <h2 ng-if="pendingPRs === undefined || pendingPRs.length === 0" class="text-xs-center cabin-sketch-font"><br>
   This lesson plan has no pull requests!
 </h2>
 
-<div class="card" ng-repeat="pr in pullRequests | filter:{ status: 'pending' }">
-  <h2>Title: {{ pr.title }}</h2>
-  <h6>Description: {{ pr.description }}</h6>
-  <p>Status: {{ pr.status }}</p>
-  <pull-request-show pull-request="pr" pending-prs="prendingPRs" lesson="lesson"></pull-request-show>
+
+
+<div  class="col-xs-6" ng-repeat="pr in pendingPRs">
+  <div class="card">
+    <div class="card-block">
+      <h4 class="card-title">{{pr.title}}</h4>
+      <p class="card-text">Description: {{ pr.description }}</p>
+      <p class="card-text">Status: {{ pr.status }}</p>
+       <pull-request-show pull-request="pr" lesson="lesson"></pull-request-show>
+    </div>
+  </div>
 </div>

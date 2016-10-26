@@ -108,7 +108,7 @@ Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherSe
     flash(className, message);
     $timeout(function(){
       $('.alert').fadeOut(500);
-    }, 2000);
+    }, 1300);
   };
 
   lessonService.export = function(lesson) {

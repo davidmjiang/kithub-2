@@ -1,17 +1,46 @@
 <fork-lesson-plan owner="owner" ng-if="lessonBelongsToCurrentUser === false && alreadyForked !== true"></fork-lesson-plan>
 
-<button ui-sref="main.lessons.show({id: newPR.parent_plan_id})" ng-if="!upToDate && lessonBelongsToCurrentUser" class="btn btn-success pull-right">Update Lesson</button>
+{{}}
+<!-- Button trigger modal -->
+<div class="row">
+  <div class="pull-right" style="margin-right: 15px;">
+    <button ng-if="!upToDate && lessonBelongsToCurrentUser"
+            class="btn btn-success"
+            data-toggle="modal"
+            data-target="#updateModal"
+            ng-class="{ 'disabled' : editing }">
 
-<button ui-sref="main.lessons.show.pullRequests({id: newPR.parent_plan_id})" ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length > 0 && upToDate" class="btn btn-warning pull-right">Pending Pull Request</button>
+      Update Lesson
+    </button>
+  </div>
+</div>
 
-<button ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length === 0 && upToDate"
-        ng-click="getDiffInfo()"
-        type="button"
-        class="btn btn-info pull-right"
-        data-toggle="modal"
-        data-target="#newPRModal{{ newPR.forked_plan_id }}">
-  New Pull Request</button>
+<div class="modal fade pull-request-modal"
+     id="updateModal"
+     tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <update-lesson-modal lesson="lesson" current-user="currentUser" diffs="updateDiffs" parent="newPR.parent_plan" current="upToDate"></update-lesson-modal>
+</div>
+<div class="row">
+  <div class="pull-right" style="margin-right: 15px;">
 
+    <button ui-sref="main.lessons.show.pullRequests({id: newPR.parent_plan_id})" ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length > 0 && upToDate" class="btn btn-warning">Pending Pull Request</button>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="pull-right" style="margin-right: 15px;">
+    <button ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length === 0 && upToDate"
+            ng-click="getDiffInfo()"
+            type="button"
+            class="btn btn-info"
+            data-toggle="modal"
+            data-target="#newPRModal{{ newPR.forked_plan_id }}">
+      New Pull Request</button>
+ </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade large pull-request-modal"
@@ -29,14 +58,16 @@
           <span aria-hidden="true">&times;</span>
         </button>
 
-        <h4 class="modal-title" id="myModalLabel">
-          New Pull Request
-        </h4>
+        <h3 class="modal-title" id="myModalLabel">
+          <i class="fa fa-plus" aria-hidden="true"></i> New Pull Request
+        </h3>
+
+
       </div>
 
       <div class="modal-body">
-          <form name="newPRForm">
-            <h2>Title:</h2>
+          <form name="newPRForm" class="form">
+            <label><h6>Title</h6></label>
             <h2><input class="form-control"
                        id="newPRTitleInput"
                        name="title"
@@ -44,17 +75,17 @@
                        ng-model="newPR.title"
                        ng-required="true"
                        placeholder="Title Required" ></h2>
-
-            <h2>Description:</h2>
+            <br>
+            <label><h6>Description</h6></label>
             <textarea class="form-control" ng-model="newPR.description"></textarea>
 
 
           </form>
           <br>
           <div>
+                <label><h6>Changes</h6></label>
             <div class="card">
               <div class="card-block">
-                <h4 class="card-title">Changes</h4>
                 <pre><span ng-repeat="diff in diffs" ng-class="{ added: diff.added, removed: diff.removed }">{{ diff.value }}</span></pre>
               </div>
             </div>
@@ -65,7 +96,7 @@
       <div class="modal-footer">
 
         <button type="button"
-                class="btn btn-secondary"
+                class="btn btn-secondary position-higher"
                 data-dismiss="modal">
 
                Cancel
@@ -73,7 +104,7 @@
 
 
         <button type="button"
-                class="btn btn-secondary"
+                class="btn btn-success position-higher"
                 ng-click="createNewPullRequest(newPRForm.title.$valid)">
                 Create New Pull Request
         </button>
