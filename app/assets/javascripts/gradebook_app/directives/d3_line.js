@@ -5,8 +5,6 @@ Gradebook.directive('d3Line', ['$window', 'VisualService', function($window, Vis
     link: function(scope, element, attrs) {
 
       scope.$watch('course', function(newCourseVal) {
-        console.log(newCourseVal)
-        console.log(scope)
         if (newCourseVal.assignments) {
           var d3 = $window.d3
 
@@ -35,8 +33,13 @@ Gradebook.directive('d3Line', ['$window', 'VisualService', function($window, Vis
             data[i].class_performance = +data[i].class_performance
           }
 
-          x.domain([0, data.length])
-          y.domain([40, 100])
+          x.domain([1, data.length + 1])
+          if (d3.min(data, function(d) {return d.class_performance}) < 40) {
+            y.domain(d3.extent(data, function(d, i) {return i}))
+          } else {
+            y.domain([40, 100])
+          }
+          console.log(data)
 
           svg.append("path")
             .data([data])
