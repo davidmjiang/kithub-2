@@ -18,10 +18,23 @@ PullRequest.destroy_all
 LessonPlanStandard.destroy_all
 
 teachers = ['mike@gmail.com', 'matt@gmail.com', 'graham@gmail.com', 'david@gmail.com', 'hannah@gmail.com', 'alex@gmail.com', 'dylan@gmail.com', 'leo@gmail.com', 'phil@gmail.com']
-assignment_type = ['test', 'quiz', 'homework', 'project']
+assignment_type = ['Test', 'Quiz', 'Homework', 'Project', 'Essay']
 subjects = ['Geometry', 'Home Economics', 'English', 'Spanish', 'Physics', 'Chemistry', 'Trigonometry', 'Art', 'Computer Science']
 
-
+assignments = [
+  {title: 'Homework #1', type: 'Homework', score: 20},
+  {title: 'Pop Quiz', type: 'Quiz', score: 50},
+  {title: 'Homework #2', type: 'Homework', score: 20},
+  {title: 'Quiz #1', type: 'Quiz', score: 50},
+  {title: 'Homework #3', type: 'Homework', score: 20},
+  {title: 'Class Essay', type: 'Essay', score: 100},
+  {title: 'Midterm Exam', type: 'Test', score: 100},
+  {title: 'Homework #4', type: 'Homework', score: 20},
+  {title: 'Quiz #2', type: 'Quiz', score: 50},
+  {title: 'Homework #5', type: 'Homework', score: 20},
+  {title: 'Class Project', type: 'Project', score: 100},
+  {title: 'Final Exam', type: 'Test', score: 100}
+]
 
 puts 'creating tags'
 5.times do
@@ -38,10 +51,10 @@ t = Teacher.create(email: person,
   2.times do
     c = t.courses.create(title: Faker::Educator.course)
     c.identifier = SecureRandom.hex(4) + c.id.to_s
-    15.times do
-      assignment = c.assignments.create(title: Faker::Space.star,
-                           assignment_type: assignment_type.sample,
-                           possible_score: rand(10..100))
+    12.times do |i|
+      assignment = c.assignments.create(title: assignments[i][:title],
+                           assignment_type: assignments[i][:type],
+                           possible_score: assignments[i][:score])
     end
     15.times do |i|
       s = Student.create(first_name: Faker::Name.first_name,
@@ -49,8 +62,20 @@ t = Teacher.create(email: person,
                          email: Faker::Internet.safe_email)
       s.courses << c;
       c.assignments.each do |assignment| 
-        s.submissions.create(assignment_id: assignment.id,
-                            raw_score: rand(0..assignment.possible_score))
+        mean = rand(50..100)
+        deviation = 101 - mean
+        norm = Rubystats::NormalDistribution.new(mean, deviation)
+        raw_percent = norm.rng
+        raw_percent = 100 if raw_percent > 100
+        raw_percent = 0 if raw_percent < 0
+        raw_score = (raw_percent/100 * assignment.possible_score).floor
+        if assignment.title == "Pop Quiz" then
+          s.submissions.create(assignment_id: assignment.id,
+                            raw_score: (raw_score/2))
+        else
+          s.submissions.create(assignment_id: assignment.id,
+                            raw_score: raw_score)
+        end
       end
     end
   end

@@ -22,16 +22,17 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-
+        <h3 class="modal-title" id="myModalLabel">
+          <i class="fa fa-arrow-right" aria-hidden="true"></i> Title: {{ pullRequest.title }}
+        </h3>
         <h4 class="modal-title" id="myModalLabel">
-          Pull Request: {{ pullRequest.title }}
+
         </h4>
       </div>
 
       <div class="modal-body">
-
-          <h5>Description: {{ pullRequest.description }}</h5>
-          <h5>Status: {{ pullRequest.status }}</h5>
+          <label ng-if="pullRequest.description"><h6>Description: {{ pullRequest.description }}</h6></label>
+          <label><h6>Status: {{ pullRequest.status }}</h6></label>
 
           <diff pull-request="pullRequest" diffs="diffs"></diff>
 
@@ -55,14 +56,14 @@
         </button>
 
         <span ng-if="lessonBelongsToCurrentUser === true">
-          <button class="btn btn-danger"
+          <button class="btn btn-danger position-higher"
                   ng-click='rejectChanges()'
                   data-dismiss="modal"
                   type="button">
               Reject All Changes
           </button>
 
-          <button class="btn btn-success"
+          <button class="btn btn-success position-higher"
                   ng-click='acceptChanges()'
                   data-dismiss="modal"
                   type="button">

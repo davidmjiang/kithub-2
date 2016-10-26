@@ -4,7 +4,6 @@ angular.module('Lesson').controller('TeacherFollowingCtrl', ['$scope', 'currentU
 	$rootScope.$broadcast("on:page", "following");
 
 	$scope.following = FollowingService.getFollowedBy()[$stateParams.id];
-
   $scope.currentUser = currentUser;
 
 }]);

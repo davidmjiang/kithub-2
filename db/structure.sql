@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 9.5.3
--- Dumped by pg_dump version 9.5.2
+-- Dumped by pg_dump version 9.5.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -230,10 +230,10 @@ ALTER SEQUENCE contributions_id_seq OWNED BY contributions.id;
 
 CREATE TABLE courses (
     id integer NOT NULL,
-    title character varying,
-    teacher_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
+    title character varying,
+    teacher_id integer,
     identifier character varying
 );
 

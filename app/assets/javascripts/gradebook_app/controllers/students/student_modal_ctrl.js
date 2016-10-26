@@ -3,17 +3,6 @@ Gradebook.controller("StudentModalCtrl", ["$scope", "students", "email", "assign
   $scope.student = _.find(students, {'email':email})
   $scope.assignments = assignments;
   $scope.overall = VisualService.studentAvg($scope.student, assignments);
-  $scope.labels = _.map(assignments, 'title');
-  $scope.opts = {
-  scales: {
-    yAxes: [
-      {ticks: {
-        beginAtZero: true,
-        steps: 10,
-        stepValue: 10
-      }}]
-    }
-  }
 
   var _applyCurve = function(assignment, rawPercent) {
     if (assignment.flat_curve) {
@@ -25,15 +14,38 @@ Gradebook.controller("StudentModalCtrl", ["$scope", "students", "email", "assign
     }
   }
 
-  $scope.data = [_.map($scope.student.submissions, function(submission) {
-    var assignment = _.find(assignments, {'id':submission.assignment_id})
-    var possible = assignment.possible_score
-    var rawScore = (submission.raw_score / possible)*100
-    return (_applyCurve(assignment, rawScore).toFixed(2));
+  var filteredSubs = _.filter($scope.student.submissions, function(submission){
+    return submission.raw_score !== -1
+  })
+
+  var scores = _.map(filteredSubs, function(submission) {
+    var assignment = _.find(assignments, {'id':submission.assignment_id});
+    var rawPercent = VisualService.getPercent(assignment, submission.raw_score);
+    var percent = _applyCurve(assignment, rawPercent);
+    return {
+      'title': assignment.title,
+      'percent': percent
+    }
+  });
+
+  $scope.labels = _.map(scores, 'title');
+  $scope.data = [_.map(scores, function(score) {
+    return score.percent.toFixed(2);
   })];
 
   $scope.update = function(notes) {
     StudentService.updateStudent({student: {notes: notes}}, $scope.student)
+  }
+
+  $scope.opts = {
+  scales: {
+    yAxes: [
+      {ticks: {
+        beginAtZero: true,
+        steps: 10,
+        stepValue: 10
+      }}]
+    }
   }
 
 }])
