@@ -39,7 +39,6 @@
 //= require dirPagination
 //= require rzslider.min
 //= require angular-flash
-//= require jquery.min
 //= require highlight.pack
 //= require modernizr.custom.min
 //= require examples
@@ -52,6 +51,7 @@
 //= require debug.addIndicators
 //= require ui-bootstrap-tpls-2.2.0.min
 //= require bootstrap-select.min
+//= require angular-dragdrop
 //= require datatables.min
 //= require dataTables.fixedColumns.min
 
