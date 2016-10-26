@@ -1,0 +1,51 @@
+<!-- Modal -->
+
+
+  <div class="modal-admin" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <!-- x button -->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+        <h4 class="modal-title" id="myModalLabel">
+          Updates from {{ parent.title }}
+        </h4>
+      </div>
+
+      <div class="modal-body">
+
+          <h5>Changes from {{ currentUser.first_name + " " + currentUser.last_name }}</h5>
+
+          <update-diffs diffs="diffs" lesson="lesson"></update-diffs>
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal">
+
+                Close
+        </button>
+
+        <button class="btn btn-danger position-higher"
+                ng-click='rejectChanges()'
+                data-dismiss="modal"
+                type="button">
+            Reject All Changes
+        </button>
+
+        <button class="btn btn-success position-higher"
+                    ng-click='acceptChanges()'
+                    data-dismiss="modal"
+                    type="button">
+            Accept Changes
+        </button>
+
+
+      </div>
+    </div>
+  </div>
