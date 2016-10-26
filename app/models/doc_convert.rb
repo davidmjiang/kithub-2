@@ -23,4 +23,3 @@ class DocConvert
   end
 
 end
-

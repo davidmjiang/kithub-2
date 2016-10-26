@@ -26,8 +26,8 @@ Lesson.factory("pullRequestService", ["Restangular",
       forked_plan_id: lessonId,
       status: "pending",
       parent_plan_id: parentId
-    }
-  }
+    };
+  };
 
   // sends restangular post request and adds the response to the front end
   // pull request model
@@ -36,8 +36,8 @@ Lesson.factory("pullRequestService", ["Restangular",
       pull_request: data
     }).then(function(response){
       _pullRequests.push(response);
-    })
-  }
+    });
+  };
 
   // sends restangular post request to create a new comment and returns the
   // response
@@ -51,7 +51,7 @@ Lesson.factory("pullRequestService", ["Restangular",
 
   // deletes a comment and returns restangular response
   var removeComment = function(id) {
-    return Restangular.one("comments", Number(id)).remove()
+    return Restangular.one("comments", Number(id)).remove();
   };
 
   var pullRequestMade = function(forked_id) {
@@ -63,26 +63,26 @@ Lesson.factory("pullRequestService", ["Restangular",
         }
       }
       return false;
-    })
-  }
+    });
+  };
 
   var acceptChanges = function(pullRequest, contributorData, lessonId) {
     pullRequest.status = 'accepted';
     pullRequest.accept_reject_time = Date.now();
-    console.log(contributorData)
-    Restangular.all("lesson_plan_contributors").post(contributorData)
+    // console.log(contributorData);
+    Restangular.all("lesson_plan_contributors").post(contributorData);
     return Restangular.one("lesson_plans", lessonId).one("pull_requests", pullRequest.id).patch(pullRequest).then(function(response) {
-      return response
+      return response;
     });
-  }
+  };
 
   var rejectChanges = function(pullRequest, lessonId) {
     pullRequest.status = 'rejected';
     pullRequest.accept_reject_time = Date.now();
     return Restangular.one("lesson_plans", lessonId).one("pull_requests", pullRequest.id).patch(pullRequest).then(function(response) {
-      return response
+      return response;
     });
-  }
+  };
 
   return {
     all: all,
@@ -94,5 +94,5 @@ Lesson.factory("pullRequestService", ["Restangular",
     pullRequestMade: pullRequestMade,
     acceptChanges: acceptChanges,
     rejectChanges: rejectChanges
-  }
+  };
 }]);

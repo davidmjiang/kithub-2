@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
-  devise_for :teachers
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  devise_for :teachers, :controllers => { omniauth_callbacks: "callbacks" }
+
+  devise_scope :teacher do
+    unauthenticated do
+      root 'devise/registrations#new'
+    end
+  end
+
 
   root to: 'kithub#index'
 
@@ -13,7 +20,7 @@ Rails.application.routes.draw do
       resources :courses
       resources :searches, only: [:index]
       resources :comments, only: [:create, :destroy]
-      resources :assignments, only: [:create, :update]
+      resources :assignments, only: [:create, :update, :destroy]
       resources :submissions, only: [:create, :index, :update]
       resources :lesson_plans, only: [:index, :create, :show, :update, :destroy] do
         resources :pull_requests, only: [:index, :create, :update]
@@ -27,7 +34,12 @@ Rails.application.routes.draw do
       resources :teacher_followings, only: [:index, :create, :destroy]
       resources :lesson_plan_contributors, only: [:index, :create]
       resources :lesson_plan_stars, only: [:index]
-      
+
+
+      post "student_progress/fail/", to: "student_progress#fail"
+      post "student_progress/exceptional/", to: "student_progress#exceptional"
+      post "student_progress/notification/", to: "student_progress#notification"
+
       get "/gpas", to: "gpas_controller#index"
     end
  	end
