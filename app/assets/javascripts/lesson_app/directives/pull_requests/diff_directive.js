@@ -23,6 +23,11 @@ Lesson.directive("diff",  [ "pullRequestService", "DiffService", "LessonService"
         //   scope.popoverIsVisible = false;
         // };
 
+        // flips accepted status
+        scope.toggle = function(diff) {
+          diff.accepted = !diff.accepted;
+        };
+
         // sets all diffs shown in window to unaccepted
         scope.clearAllChanges = function () {
           scope.diffs.forEach(function(element) {
