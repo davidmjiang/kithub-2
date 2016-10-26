@@ -29,21 +29,6 @@
       </div>
 
       <div class="modal-body">
-          <div class="pull-right" ng-if="lessonBelongsToCurrentUser === true">
-            <button class="btn btn-success"
-                    ng-click='acceptChanges()'
-                    data-dismiss="modal"
-                    type="button">
-                Accept Changes
-            </button>
-
-            <button class="btn btn-danger"
-                    ng-click='rejectChanges()'
-                    data-dismiss="modal"
-                    type="button">
-                Reject All Changes
-            </button>
-          </div>
 
           <h5>Description: {{ pullRequest.description }}</h5>
           <h5>Status: {{ pullRequest.status }}</h5>
@@ -63,11 +48,27 @@
       <div class="modal-footer">
 
         <button type="button"
-                class="btn btn-secondary"
+                class="btn btn-secondary "
                 data-dismiss="modal">
 
                 Close
         </button>
+
+        <span ng-if="lessonBelongsToCurrentUser === true">
+          <button class="btn btn-danger"
+                  ng-click='rejectChanges()'
+                  data-dismiss="modal"
+                  type="button">
+              Reject All Changes
+          </button>
+
+          <button class="btn btn-success"
+                  ng-click='acceptChanges()'
+                  data-dismiss="modal"
+                  type="button">
+              Accept Changes
+          </button>
+        </span>
 
 
       </div>

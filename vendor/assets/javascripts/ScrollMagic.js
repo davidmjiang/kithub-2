@@ -3,7 +3,7 @@
  * The javascript library for magical scroll interactions.
  * (c) 2015 Jan Paepke (@janpaepke)
  * Project Website: http://scrollmagic.io
- * 
+ *
  * @version 2.0.5
  * @license Dual licensed under MIT license and GPL.
  * @author Jan Paepke - e-mail@janpaepke.de
@@ -60,8 +60,8 @@
 	 ** `1` => errors
 	 ** `2` => errors, warnings
 	 ** `3` => errors, warnings, debuginfo
-	 * @param {boolean} [options.refreshInterval=100] - Some changes don't call events by default, like changing the container size or moving a scene trigger element.  
-	 This interval polls these parameters to fire the necessary events.  
+	 * @param {boolean} [options.refreshInterval=100] - Some changes don't call events by default, like changing the container size or moving a scene trigger element.
+	 This interval polls these parameters to fire the necessary events.
 	 If you don't use custom containers, trigger elements or have static layouts, where the positions of the trigger elements don't change, you can set this to 0 disable interval checking and improve performance.
 	 *
 	 */
@@ -307,7 +307,7 @@
 		 */
 
 		/**
-		 * Add one ore more scene(s) to the controller.  
+		 * Add one ore more scene(s) to the controller.
 		 * This is the equivalent to `Scene.addTo(controller)`.
 		 * @public
 		 * @example
@@ -353,7 +353,7 @@
 		};
 
 		/**
-		 * Remove one ore more scene(s) from the controller.  
+		 * Remove one ore more scene(s) from the controller.
 		 * This is the equivalent to `Scene.remove()`.
 		 * @public
 		 * @example
@@ -384,10 +384,10 @@
 		};
 
 		/**
-		 * Update one ore more scene(s) according to the scroll position of the container.  
-		 * This is the equivalent to `Scene.update()`.  
-		 * The update method calculates the scene's start and end position (based on the trigger element, trigger hook, duration and offset) and checks it against the current scroll position of the container.  
-		 * It then updates the current scene state accordingly (or does nothing, if the state is already correct) – Pins will be set to their correct position and tweens will be updated to their correct progress.  
+		 * Update one ore more scene(s) according to the scroll position of the container.
+		 * This is the equivalent to `Scene.update()`.
+		 * The update method calculates the scene's start and end position (based on the trigger element, trigger hook, duration and offset) and checks it against the current scroll position of the container.
+		 * It then updates the current scene state accordingly (or does nothing, if the state is already correct) – Pins will be set to their correct position and tweens will be updated to their correct progress.
 		 * _**Note:** This method gets called constantly whenever Controller detects a change. The only application for you is if you change something outside of the realm of ScrollMagic, like moving the trigger or changing tween parameters._
 		 * @public
 		 * @example
@@ -401,7 +401,7 @@
 		 * controller.updateScene([scene1, scene2, scene3]);
 		 *
 		 * @param {ScrollMagic.Scene} Scene - ScrollMagic Scene or Array of Scenes that is/are supposed to be updated.
-		 * @param {boolean} [immediately=false] - If `true` the update will be instant, if `false` it will wait until next update cycle.  
+		 * @param {boolean} [immediately=false] - If `true` the update will be instant, if `false` it will wait until next update cycle.
 		 This is useful when changing multiple properties of the scene - this way it will only be updated once all new properties are set (updateScenes).
 		 * @return {Controller} Parent object for chaining.
 		 */
@@ -427,10 +427,10 @@
 		};
 
 		/**
-		 * Updates the controller params and calls updateScene on every scene, that is attached to the controller.  
-		 * See `Controller.updateScene()` for more information about what this means.  
-		 * In most cases you will not need this function, as it is called constantly, whenever ScrollMagic detects a state change event, like resize or scroll.  
-		 * The only application for this method is when ScrollMagic fails to detect these events.  
+		 * Updates the controller params and calls updateScene on every scene, that is attached to the controller.
+		 * See `Controller.updateScene()` for more information about what this means.
+		 * In most cases you will not need this function, as it is called constantly, whenever ScrollMagic detects a state change event, like resize or scroll.
+		 * The only application for this method is when ScrollMagic fails to detect these events.
 		 * One application is with some external scroll libraries (like iScroll) that move an internal container to a negative offset instead of actually scrolling. In this case the update on the controller needs to be called whenever the child container's position changes.
 		 * For this case there will also be the need to provide a custom function to calculate the correct scroll position. See `Controller.scrollPos()` for details.
 		 * @public
@@ -455,7 +455,7 @@
 		};
 
 		/**
-		 * Scroll to a numeric scroll offset, a DOM element, the start of a scene or provide an alternate method for scrolling.  
+		 * Scroll to a numeric scroll offset, a DOM element, the start of a scene or provide an alternate method for scrolling.
 		 * For vertical controllers it will change the top scroll offset and for horizontal applications it will change the left offset.
 		 * @public
 		 *
@@ -504,13 +504,13 @@
 		 *
 		 * @param {mixed} scrollTarget - The supplied argument can be one of these types:
 		 * 1. `number` -> The container will scroll to this new scroll offset.
-		 * 2. `string` or `object` -> Can be a selector or a DOM object.  
+		 * 2. `string` or `object` -> Can be a selector or a DOM object.
 		 *  The container will scroll to the position of this element.
 		 * 3. `ScrollMagic Scene` -> The container will scroll to the start of this scene.
-		 * 4. `function` -> This function will be used for future scroll position modifications.  
-		 *  This provides a way for you to change the behaviour of scrolling and adding new behaviour like animation. The function receives the new scroll position as a parameter and a reference to the container element using `this`.  
-		 *  It may also optionally receive an optional additional parameter (see below)  
-		 *  _**NOTE:**  
+		 * 4. `function` -> This function will be used for future scroll position modifications.
+		 *  This provides a way for you to change the behaviour of scrolling and adding new behaviour like animation. The function receives the new scroll position as a parameter and a reference to the container element using `this`.
+		 *  It may also optionally receive an optional additional parameter (see below)
+		 *  _**NOTE:**
 		 *  All other options will still work as expected, using the new function to scroll._
 		 * @param {mixed} [additionalParameter] - If a custom scroll function was defined (see above 4.), you may want to supply additional parameters to it, when calling it. You can do this using this parameter – see examples for details. Please note, that this parameter will have no effect, if you use the default scrolling function.
 		 * @returns {Controller} Parent object for chaining.
@@ -554,17 +554,17 @@
 		};
 
 		/**
-		 * **Get** the current scrollPosition or **Set** a new method to calculate it.  
+		 * **Get** the current scrollPosition or **Set** a new method to calculate it.
 		 * -> **GET**:
-		 * When used as a getter this function will return the current scroll position.  
-		 * To get a cached value use Controller.info("scrollPos"), which will be updated in the update cycle.  
+		 * When used as a getter this function will return the current scroll position.
+		 * To get a cached value use Controller.info("scrollPos"), which will be updated in the update cycle.
 		 * For vertical controllers it will return the top scroll offset and for horizontal applications it will return the left offset.
 		 *
 		 * -> **SET**:
-		 * When used as a setter this method prodes a way to permanently overwrite the controller's scroll position calculation.  
-		 * A typical usecase is when the scroll position is not reflected by the containers scrollTop or scrollLeft values, but for example by the inner offset of a child container.  
-		 * Moving a child container inside a parent is a commonly used method for several scrolling frameworks, including iScroll.  
-		 * By providing an alternate calculation function you can make sure ScrollMagic receives the correct scroll position.  
+		 * When used as a setter this method prodes a way to permanently overwrite the controller's scroll position calculation.
+		 * A typical usecase is when the scroll position is not reflected by the containers scrollTop or scrollLeft values, but for example by the inner offset of a child container.
+		 * Moving a child container inside a parent is a commonly used method for several scrolling frameworks, including iScroll.
+		 * By providing an alternate calculation function you can make sure ScrollMagic receives the correct scroll position.
 		 * Please also bear in mind that your function should return y values for vertical scrolls an x for horizontals.
 		 *
 		 * To change the current scroll position please use `Controller.scrollTo()`.
@@ -605,7 +605,7 @@
 		 * // returns all infos as an object
 		 * var infos = controller.info();
 		 *
-		 * @param {string} [about] - If passed only this info will be returned instead of an object containing all.  
+		 * @param {string} [about] - If passed only this info will be returned instead of an object containing all.
 		 Valid options are:
 		 ** `"size"` => the current viewport size of the container
 		 ** `"vertical"` => true if vertical scrolling, otherwise false
@@ -659,7 +659,7 @@
 		};
 
 		/**
-		 * **Get** or **Set** the current enabled state of the controller.  
+		 * **Get** or **Set** the current enabled state of the controller.
 		 * This can be used to disable all Scenes connected to the controller without destroying or removing them.
 		 * @public
 		 *
@@ -763,15 +763,15 @@
 	 *		reverse: false
 	 * });
 	 *
-	 * @param {object} [options] - Options for the Scene. The options can be updated at any time.  
-	 Instead of setting the options for each scene individually you can also set them globally in the controller as the controllers `globalSceneOptions` option. The object accepts the same properties as the ones below.  
+	 * @param {object} [options] - Options for the Scene. The options can be updated at any time.
+	 Instead of setting the options for each scene individually you can also set them globally in the controller as the controllers `globalSceneOptions` option. The object accepts the same properties as the ones below.
 	 When a scene is added to the controller the options defined using the Scene constructor will be overwritten by those set in `globalSceneOptions`.
-	 * @param {(number|function)} [options.duration=0] - The duration of the scene. 
-	 If `0` tweens will auto-play when reaching the scene start point, pins will be pinned indefinetly starting at the start position.  
+	 * @param {(number|function)} [options.duration=0] - The duration of the scene.
+	 If `0` tweens will auto-play when reaching the scene start point, pins will be pinned indefinetly starting at the start position.
 	 A function retuning the duration value is also supported. Please see `Scene.duration()` for details.
 	 * @param {number} [options.offset=0] - Offset Value for the Trigger Position. If no triggerElement is defined this will be the scroll distance from the start of the page, after which the scene will start.
 	 * @param {(string|object)} [options.triggerElement=null] - Selector or DOM object that defines the start of the scene. If undefined the scene will start right at the start of the page (unless an offset is set).
-	 * @param {(number|string)} [options.triggerHook="onCenter"] - Can be a number between 0 and 1 defining the position of the trigger Hook in relation to the viewport.  
+	 * @param {(number|string)} [options.triggerHook="onCenter"] - Can be a number between 0 and 1 defining the position of the trigger Hook in relation to the viewport.
 	 Can also be defined using a string:
 	 ** `"onEnter"` => `1`
 	 ** `"onCenter"` => `0.5`
@@ -782,7 +782,7 @@
 	 ** `1` => errors
 	 ** `2` => errors, warnings
 	 ** `3` => errors, warnings, debuginfo
-	 * 
+	 *
 	 */
 	ScrollMagic.Scene = function (options) {
 
@@ -846,8 +846,8 @@
 
 		var _listeners = {};
 		/**
-		 * Scene start event.  
-		 * Fires whenever the scroll position its the starting point of the scene.  
+		 * Scene start event.
+		 * Fires whenever the scroll position its the starting point of the scene.
 		 * It will also fire when scrolling back up going over the start position of the scene. If you want something to happen only when scrolling down/right, use the scrollDirection parameter passed to the callback.
 		 *
 		 * For details on this event and the order in which it is fired, please review the {@link Scene.progress} method.
@@ -867,8 +867,8 @@
 		 * @property {string} event.scrollDirection - Indicates which way we are scrolling `"PAUSED"`, `"FORWARD"` or `"REVERSE"`
 		 */
 		/**
-		 * Scene end event.  
-		 * Fires whenever the scroll position its the ending point of the scene.  
+		 * Scene end event.
+		 * Fires whenever the scroll position its the ending point of the scene.
 		 * It will also fire when scrolling back up from after the scene and going over its end position. If you want something to happen only when scrolling down/right, use the scrollDirection parameter passed to the callback.
 		 *
 		 * For details on this event and the order in which it is fired, please review the {@link Scene.progress} method.
@@ -888,8 +888,8 @@
 		 * @property {string} event.scrollDirection - Indicates which way we are scrolling `"PAUSED"`, `"FORWARD"` or `"REVERSE"`
 		 */
 		/**
-		 * Scene enter event.  
-		 * Fires whenever the scene enters the "DURING" state.  
+		 * Scene enter event.
+		 * Fires whenever the scene enters the "DURING" state.
 		 * Keep in mind that it doesn't matter if the scene plays forward or backward: This event always fires when the scene enters its active scroll timeframe, regardless of the scroll-direction.
 		 *
 		 * For details on this event and the order in which it is fired, please review the {@link Scene.progress} method.
@@ -909,8 +909,8 @@
 		 * @property {string} event.scrollDirection - Indicates which way we are scrolling `"PAUSED"`, `"FORWARD"` or `"REVERSE"`
 		 */
 		/**
-		 * Scene leave event.  
-		 * Fires whenever the scene's state goes from "DURING" to either "BEFORE" or "AFTER".  
+		 * Scene leave event.
+		 * Fires whenever the scene's state goes from "DURING" to either "BEFORE" or "AFTER".
 		 * Keep in mind that it doesn't matter if the scene plays forward or backward: This event always fires when the scene leaves its active scroll timeframe, regardless of the scroll-direction.
 		 *
 		 * For details on this event and the order in which it is fired, please review the {@link Scene.progress} method.
@@ -930,7 +930,7 @@
 		 * @property {string} event.scrollDirection - Indicates which way we are scrolling `"PAUSED"`, `"FORWARD"` or `"REVERSE"`
 		 */
 		/**
-		 * Scene update event.  
+		 * Scene update event.
 		 * Fires whenever the scene is updated (but not necessarily changes the progress).
 		 *
 		 * @event ScrollMagic.Scene#update
@@ -948,7 +948,7 @@
 		 * @property {number} event.scrollPos - The current scroll position of the container
 		 */
 		/**
-		 * Scene progress event.  
+		 * Scene progress event.
 		 * Fires whenever the progress of the scene changes.
 		 *
 		 * For details on this event and the order in which it is fired, please review the {@link Scene.progress} method.
@@ -968,7 +968,7 @@
 		 * @property {string} event.scrollDirection - Indicates which way we are scrolling `"PAUSED"`, `"FORWARD"` or `"REVERSE"`
 		 */
 		/**
-		 * Scene change event.  
+		 * Scene change event.
 		 * Fires whenvever a property of the scene is changed.
 		 *
 		 * @event ScrollMagic.Scene#change
@@ -985,7 +985,7 @@
 		 * @property {mixed} event.newval - The new value of the changed property
 		 */
 		/**
-		 * Scene shift event.  
+		 * Scene shift event.
 		 * Fires whenvever the start or end **scroll offset** of the scene change.
 		 * This happens explicitely, when one of these values change: `offset`, `duration` or `triggerHook`.
 		 * It will fire implicitly when the `triggerElement` changes, if the new element has a different position (most cases).
@@ -1005,7 +1005,7 @@
 		 * @property {string} event.reason - Indicates why the scene has shifted
 		 */
 		/**
-		 * Scene destroy event.  
+		 * Scene destroy event.
 		 * Fires whenvever the scene is destroyed.
 		 * This can be used to tidy up custom behaviour used in events.
 		 *
@@ -1030,7 +1030,7 @@
 		 * @property {boolean} event.reset - Indicates if the destroy method was called with reset `true` or `false`.
 		 */
 		/**
-		 * Scene add event.  
+		 * Scene add event.
 		 * Fires when the scene is added to a controller.
 		 * This is mostly used by plugins to know that change might be due.
 		 *
@@ -1048,7 +1048,7 @@
 		 * @property {boolean} event.controller - The controller object the scene was added to.
 		 */
 		/**
-		 * Scene remove event.  
+		 * Scene remove event.
 		 * Fires when the scene is removed from a controller.
 		 * This is mostly used by plugins to know that change might be due.
 		 *
@@ -1066,7 +1066,7 @@
 		 */
 
 		/**
-		 * Add one ore more event listener.  
+		 * Add one ore more event listener.
 		 * The callback function will be fired at the respective event, and an object containing relevant data will be passed to the callback.
 		 * @method ScrollMagic.Scene#on
 		 *
@@ -1214,7 +1214,7 @@
 		};
 
 		/**
-		 * Add the scene to a controller.  
+		 * Add the scene to a controller.
 		 * This is the equivalent to `Controller.addScene(scene)`.
 		 * @method ScrollMagic.Scene#addTo
 		 *
@@ -1250,7 +1250,7 @@
 		};
 
 		/**
-		 * **Get** or **Set** the current enabled state of the scene.  
+		 * **Get** or **Set** the current enabled state of the scene.
 		 * This can be used to disable this scene without removing or destroying it.
 		 * @method ScrollMagic.Scene#enabled
 		 *
@@ -1275,7 +1275,7 @@
 		};
 
 		/**
-		 * Remove the scene from the controller.  
+		 * Remove the scene from the controller.
 		 * This is the equivalent to `Controller.removeScene(scene)`.
 		 * The scene will not be updated anymore until you readd it to a controller.
 		 * To remove the pin or the tween you need to call removeTween() or removePin() respectively.
@@ -1323,11 +1323,11 @@
 
 
 		/**
-		 * Updates the Scene to reflect the current state.  
-		 * This is the equivalent to `Controller.updateScene(scene, immediately)`.  
-		 * The update method calculates the scene's start and end position (based on the trigger element, trigger hook, duration and offset) and checks it against the current scroll position of the container.  
+		 * Updates the Scene to reflect the current state.
+		 * This is the equivalent to `Controller.updateScene(scene, immediately)`.
+		 * The update method calculates the scene's start and end position (based on the trigger element, trigger hook, duration and offset) and checks it against the current scroll position of the container.
 		 * It then updates the current scene state accordingly (or does nothing, if the state is already correct) – Pins will be set to their correct position and tweens will be updated to their correct progress.
-		 * This means an update doesn't necessarily result in a progress change. The `progress` event will be fired if the progress has indeed changed between this update and the last.  
+		 * This means an update doesn't necessarily result in a progress change. The `progress` event will be fired if the progress has indeed changed between this update and the last.
 		 * _**NOTE:** This method gets called constantly whenever ScrollMagic detects a change. The only application for you is if you change something outside of the realm of ScrollMagic, like moving the trigger or changing tween parameters._
 		 * @method ScrollMagic.Scene#update
 		 * @example
@@ -1376,7 +1376,7 @@
 		/**
 		 * Updates dynamic scene variables like the trigger element position or the duration.
 		 * This method is automatically called in regular intervals from the controller. See {@link ScrollMagic.Controller} option `refreshInterval`.
-		 * 
+		 *
 		 * You can call it to minimize lag, for example when you intentionally change the position of the triggerElement.
 		 * If you don't it will simply be updated in the next refresh interval of the container, which is usually sufficient.
 		 *
@@ -1384,7 +1384,7 @@
 		 * @since 1.1.0
 		 * @example
 		 * scene = new ScrollMagic.Scene({triggerElement: "#trigger"});
-		 * 
+		 *
 		 * // change the position of the trigger
 		 * $("#trigger").css("top", 500);
 		 * // immediately let the scene know of this change
@@ -1403,33 +1403,33 @@
 		};
 
 		/**
-		 * **Get** or **Set** the scene's progress.  
-		 * Usually it shouldn't be necessary to use this as a setter, as it is set automatically by scene.update().  
+		 * **Get** or **Set** the scene's progress.
+		 * Usually it shouldn't be necessary to use this as a setter, as it is set automatically by scene.update().
 		 * The order in which the events are fired depends on the duration of the scene:
-		 *  1. Scenes with `duration == 0`:  
-		 *  Scenes that have no duration by definition have no ending. Thus the `end` event will never be fired.  
-		 *  When the trigger position of the scene is passed the events are always fired in this order:  
-		 *  `enter`, `start`, `progress` when scrolling forward  
-		 *  and  
+		 *  1. Scenes with `duration == 0`:
+		 *  Scenes that have no duration by definition have no ending. Thus the `end` event will never be fired.
+		 *  When the trigger position of the scene is passed the events are always fired in this order:
+		 *  `enter`, `start`, `progress` when scrolling forward
+		 *  and
 		 *  `progress`, `start`, `leave` when scrolling in reverse
-		 *  2. Scenes with `duration > 0`:  
-		 *  Scenes with a set duration have a defined start and end point.  
-		 *  When scrolling past the start position of the scene it will fire these events in this order:  
-		 *  `enter`, `start`, `progress`  
-		 *  When continuing to scroll and passing the end point it will fire these events:  
-		 *  `progress`, `end`, `leave`  
-		 *  When reversing through the end point these events are fired:  
-		 *  `enter`, `end`, `progress`  
-		 *  And when continuing to scroll past the start position in reverse it will fire:  
-		 *  `progress`, `start`, `leave`  
+		 *  2. Scenes with `duration > 0`:
+		 *  Scenes with a set duration have a defined start and end point.
+		 *  When scrolling past the start position of the scene it will fire these events in this order:
+		 *  `enter`, `start`, `progress`
+		 *  When continuing to scroll and passing the end point it will fire these events:
+		 *  `progress`, `end`, `leave`
+		 *  When reversing through the end point these events are fired:
+		 *  `enter`, `end`, `progress`
+		 *  And when continuing to scroll past the start position in reverse it will fire:
+		 *  `progress`, `start`, `leave`
 		 *  In between start and end the `progress` event will be called constantly, whenever the progress changes.
-		 * 
-		 * In short:  
-		 * `enter` events will always trigger **before** the progress update and `leave` envents will trigger **after** the progress update.  
+		 *
+		 * In short:
+		 * `enter` events will always trigger **before** the progress update and `leave` envents will trigger **after** the progress update.
 		 * `start` and `end` will always trigger at their respective position.
-		 * 
+		 *
 		 * Please review the event descriptions for details on the events and the event object that is passed to the callback.
-		 * 
+		 *
 		 * @method ScrollMagic.Scene#progress
 		 * @example
 		 * // get the current scene progress
@@ -1519,7 +1519,7 @@
 		 * Update the start and end scrollOffset of the container.
 		 * The positions reflect what the controller's scroll position will be at the start and end respectively.
 		 * Is called, when:
-		 *   - Scene event "change" is called with: offset, triggerHook, duration 
+		 *   - Scene event "change" is called with: offset, triggerHook, duration
 		 *   - scroll container event "resize" is called
 		 *   - the position of the triggerElement changes
 		 *   - the controller changes -> addTo()
@@ -1539,7 +1539,7 @@
 		/**
 		 * Updates the duration if set to a dynamic function.
 		 * This method is called when the scene is added to a controller and in regular intervals from the controller through scene.refresh().
-		 * 
+		 *
 		 * @fires {@link Scene.change}, if the duration changed
 		 * @fires {@link Scene.shift}, if the duration changed
 		 *
@@ -1568,7 +1568,7 @@
 		 *  - ... when the triggerElement is changed
 		 *  - ... when the scene is added to a (new) controller
 		 *  - ... in regular intervals from the controller through scene.refresh().
-		 * 
+		 *
 		 * @fires {@link Scene.shift}, if the position changed
 		 *
 		 * @param {boolean} [suppressEvents=false] - If true the shift event will be suppressed.
@@ -1724,12 +1724,12 @@
 
 		/**
 		 * **Get** or **Set** the duration option value.
-		 * As a setter it also accepts a function returning a numeric value.  
+		 * As a setter it also accepts a function returning a numeric value.
 		 * This is particularly useful for responsive setups.
 		 *
-		 * The duration is updated using the supplied function every time `Scene.refresh()` is called, which happens periodically from the controller (see ScrollMagic.Controller option `refreshInterval`).  
-		 * _**NOTE:** Be aware that it's an easy way to kill performance, if you supply a function that has high CPU demand.  
-		 * Even for size and position calculations it is recommended to use a variable to cache the value. (see example)  
+		 * The duration is updated using the supplied function every time `Scene.refresh()` is called, which happens periodically from the controller (see ScrollMagic.Controller option `refreshInterval`).
+		 * _**NOTE:** Be aware that it's an easy way to kill performance, if you supply a function that has high CPU demand.
+		 * Even for size and position calculations it is recommended to use a variable to cache the value. (see example)
 		 * This counts double if you use the same function for multiple scenes._
 		 *
 		 * @method ScrollMagic.Scene#duration
@@ -1873,8 +1873,8 @@
 		};
 
 		/**
-		 * **Get** the current scroll offset for the start of the scene.  
-		 * Mind, that the scrollOffset is related to the size of the container, if `triggerHook` is bigger than `0` (or `"onLeave"`).  
+		 * **Get** the current scroll offset for the start of the scene.
+		 * Mind, that the scrollOffset is related to the size of the container, if `triggerHook` is bigger than `0` (or `"onLeave"`).
 		 * This means, that resizing the container or changing the `triggerHook` will influence the scene's start offset.
 		 * @method ScrollMagic.Scene#scrollOffset
 		 * @example
@@ -1890,7 +1890,7 @@
 		};
 
 		/**
-		 * **Get** the trigger position of the scene (including the value of the `offset` option).  
+		 * **Get** the trigger position of the scene (including the value of the `offset` option).
 		 * @method ScrollMagic.Scene#triggerPosition
 		 * @example
 		 * // get the scene's trigger position
@@ -2094,8 +2094,8 @@
 		};
 
 		/**
-		 * Pin an element for the duration of the tween.  
-		 * If the scene duration is 0 the element will only be unpinned, if the user scrolls back past the start position.  
+		 * Pin an element for the duration of the tween.
+		 * If the scene duration is 0 the element will only be unpinned, if the user scrolls back past the start position.
 		 * Make sure only one pin is applied to an element at the same time.
 		 * An element can be pinned multiple times, but only successively.
 		 * _**NOTE:** The option `pushFollowers` has no effect, when the scene duration is 0._
@@ -2109,7 +2109,7 @@
 		 *
 		 * @param {(string|object)} element - A Selector targeting an element or a DOM object that is supposed to be pinned.
 		 * @param {object} [settings] - settings for the pin
-		 * @param {boolean} [settings.pushFollowers=true] - If `true` following elements will be "pushed" down for the duration of the pin, if `false` the pinned element will just scroll past them.  
+		 * @param {boolean} [settings.pushFollowers=true] - If `true` following elements will be "pushed" down for the duration of the pin, if `false` the pinned element will just scroll past them.
 		 Ignored, when duration is `0`.
 		 * @param {string} [settings.spacerClass="scrollmagic-pin-spacer"] - Classname of the pin spacer element, which is used to replace the element.
 		 *
@@ -2218,7 +2218,7 @@
 				});
 			}
 
-			// now place the pin element inside the spacer	
+			// now place the pin element inside the spacer
 			spacer.appendChild(_pin);
 			// and set new css
 			_util.css(_pin, {
@@ -2311,7 +2311,7 @@
 			Scene.removeClassToggle(e.reset);
 		});
 		/**
-		 * Define a css class modification while the scene is active.  
+		 * Define a css class modification while the scene is active.
 		 * When the scene triggers the classes will be added to the supplied element and removed, when the scene is over.
 		 * If the scene duration is 0 the classes will only be removed if the user scrolls back past the start position.
 		 * @method ScrollMagic.Scene#setClassToggle
