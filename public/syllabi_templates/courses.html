@@ -1,13 +1,28 @@
-<h1>Hello!</h1>
-
-<div ng-repeat="course in courses | orderBy: '-created_at'" course="course">
-  <p>{{course.title}} | Start Date: <span ng-if="course.start_date">{{course.start_date | date}}</span>
-  <input type="date" ng-model="course.newStartDate"> | End Date: <span ng-if="course.end_date">{{course.end_date | date}}</span><input type="date" ng-model="course.newEndDate"> | 
-  Meets on: <select multiple ng-model="course.selectedDays">
-   <option ng-repeat="day in days" value="{{$index}}">{{day}}</option>
-   </select>
-   <button class="btn btn-primary" ng-click="updateCourse(course)">Update Course</button></p>
-   <a ui-sref="courses.show({id: course.id})">
-   <button class="btn btn-default btn-outline">Add Lesson Plans</button></a>
-   </p>
+<div class="row course-index-container">
+  <div class="col-xs-12">
+    <h1>Your courses</h1>
+  </div>
+  <div class="col-xs-10 offset-xs-1">
+    <div ng-repeat="course in courses | orderBy: '-created_at'" course="course" class="syllabi-course-container">
+      <h3>{{course.title}}</h3>
+      <p>Start Date: <span ng-if="course.start_date">{{course.start_date | date}}</span> | End Date: <span ng-if="course.end_date">{{course.end_date | date}}</span> | 
+      Meets on: <span ng-repeat="day in dayArray(course.meeting_days)">{{findDay(day)}}{{$last ? '' : ', ' }}</span></p>
+      <div ng-if="course.editingCourse">
+        <p>Edit start date: <input type="date" ng-model="course.newStartDate">
+        Edit end date: <input type="date" ng-model="course.newEndDate">
+        Days course meets: <select class="day-select" multiple ng-model="course.selectedDays">
+        <option ng-repeat="day in days" value="{{$index}}">{{day}}</option>
+        </select>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button ng-if="!course.editingCourse" class="btn btn-primary" ng-click="toggleEditCourse(course)">Edit Course Days</button>
+          <button ng-if="course.editingCourse" class="btn btn-danger" ng-click="toggleEditCourse(course)">Cancel</button>
+          <button ng-if="course.editingCourse" class="btn btn-warning" ng-click="updateCourse(course)">Save Changes</button>
+          <a ng-if="!course.editingCourse" ui-sref="courses.show({id: course.id})">
+          <button class="btn btn-default btn-outline">Add Lesson Plans</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
