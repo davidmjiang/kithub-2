@@ -193,16 +193,6 @@ ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
 
 
 --
--- Name: course_days; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE course_days (
-    id integer NOT NULL,
-    date timestamp without time zone,
-    course_id integer
-}
-
---
 -- Name: contributions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -216,11 +206,6 @@ CREATE TABLE contributions (
 
 
 --
--- Name: course_days_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE course_days_id_seq
-
 -- Name: contributions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -233,14 +218,42 @@ CREATE SEQUENCE contributions_id_seq
 
 
 --
--- Name: course_days_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE course_days_id_seq OWNED BY course_days.id;
 -- Name: contributions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE contributions_id_seq OWNED BY contributions.id;
+
+
+--
+-- Name: course_days; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE course_days (
+    id integer NOT NULL,
+    date timestamp without time zone,
+    course_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: course_days_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE course_days_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: course_days_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE course_days_id_seq OWNED BY course_days.id;
 
 
 --
@@ -344,7 +357,6 @@ ALTER SEQUENCE lesson_plan_contributors_id_seq OWNED BY lesson_plan_contributors
 
 
 --
-<<<<<<< HEAD
 -- Name: lesson_plan_days; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -912,11 +924,14 @@ ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-
-ALTER TABLE ONLY course_days ALTER COLUMN id SET DEFAULT nextval('course_days_id_seq'::regclass);
-
 ALTER TABLE ONLY contributions ALTER COLUMN id SET DEFAULT nextval('contributions_id_seq'::regclass);
 
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY course_days ALTER COLUMN id SET DEFAULT nextval('course_days_id_seq'::regclass);
 
 
 --
@@ -943,7 +958,6 @@ ALTER TABLE ONLY lesson_plan_contributors ALTER COLUMN id SET DEFAULT nextval('l
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
-
 
 ALTER TABLE ONLY lesson_plan_days ALTER COLUMN id SET DEFAULT nextval('lesson_plan_days_id_seq'::regclass);
 
@@ -1087,18 +1101,19 @@ ALTER TABLE ONLY comments
 
 
 --
-
--- Name: course_days_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY course_days
-    ADD CONSTRAINT course_days_pkey PRIMARY KEY (id);
-
 -- Name: contributions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY contributions
     ADD CONSTRAINT contributions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: course_days_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY course_days
+    ADD CONSTRAINT course_days_pkey PRIMARY KEY (id);
 
 
 --
@@ -1539,7 +1554,6 @@ CREATE INDEX teachers_to_tsvector_idx2 ON teachers USING gin (to_tsvector('engli
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('20161014132221'), ('20161014132811'), ('20161014133102'), ('20161014140357'), ('20161014141614'), ('20161014141647'), ('20161014142046'), ('20161014142139'), ('20161014143029'), ('20161014144025'), ('20161014145229'), ('20161014150854'), ('20161014153722'), ('20161014154048'), ('20161014154425'), ('20161014154536'), ('20161014154647'), ('20161014164623'), ('20161018160504'), ('20161018211932'), ('20161018213940'), ('20161018214907'), ('20161018225025'), ('20161019155147'), ('20161019204921'), ('20161019210654'), ('20161024160525'), ('20161024174203'), ('20161024183757'), ('20161024213845'), ('20161024220555'), ('20161024220706'), ('20161025155337'), ('20161025163826'), ('20161025181659'), ('20161025182121'), ('20161025184208'), ('20161025184358'), ('20161025223101');
-
+INSERT INTO schema_migrations (version) VALUES ('20161014132221'), ('20161014132811'), ('20161014133102'), ('20161014140357'), ('20161014141614'), ('20161014141647'), ('20161014142046'), ('20161014142139'), ('20161014143029'), ('20161014144025'), ('20161014145229'), ('20161014150854'), ('20161014153722'), ('20161014154048'), ('20161014154425'), ('20161014154536'), ('20161014154647'), ('20161014164623'), ('20161018160504'), ('20161018211932'), ('20161018213940'), ('20161018214907'), ('20161018225025'), ('20161019155147'), ('20161019204921'), ('20161019210654'), ('20161024160525'), ('20161024174203'), ('20161024183757'), ('20161024213845'), ('20161024220555'), ('20161024220706'), ('20161025155337'), ('20161025163826'), ('20161025181659'), ('20161025182121'), ('20161025184208'), ('20161025184358'), ('20161025212945'), ('20161025223101');
 
 
