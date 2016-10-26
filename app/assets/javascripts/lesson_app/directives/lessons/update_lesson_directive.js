@@ -6,6 +6,11 @@ Lesson.directive("updateLessonModal",  [ "DiffService", 'LessonService', functio
     link: function(scope) {
       scope.lessonBelongsToCurrentUser = (scope.currentUser.id === scope.lesson.teacher_id) ? true : false;
 
+      angular.element('#updateModal').on('show.bs.modal', function(e) {
+        console.log("Update diffs here");
+        angular.copy(DiffService.getDiffs(scope.lesson.content, scope.parent.content), scope.diffs);
+      });
+
       scope.acceptChanges = function() {
         var oldContent = scope.lesson.content;
         var oldVersion = scope.lesson.parent_version;
