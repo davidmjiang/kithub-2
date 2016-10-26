@@ -1,4 +1,28 @@
 .course-day{
-  height: 200px;
-  border: 1px solid black;
+  min-height: 200px;
+  margin-bottom: 10px;
+  border: 2px solid $blue-sky-color;
+  border-radius: 2px;
+  h4{
+    display: inline-block;
+  }
+  p {
+    vertical-align: middle;
+  }
 }
+
+
+.lesson-filters{ 
+  .rzslider {
+    width: 50%;
+  }
+  .rz-pointer {
+    height: 12px;
+    width: 12px;
+  }
+  .rz-bar-wrapper {
+    padding-top: 6px;
+  }
+}
+
+
