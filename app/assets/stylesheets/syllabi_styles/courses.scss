@@ -4,25 +4,79 @@
   border: 2px solid $blue-sky-color;
   border-radius: 2px;
   h4{
+    text-align: center;
+    padding-top: 10px;
+  }
+  h5{
     display: inline-block;
+    margin-bottom: 0px;
   }
   p {
     vertical-align: middle;
   }
 }
 
-
-.lesson-filters{ 
-  .rzslider {
-    width: 50%;
+.course-show-header {
+  h2{
+    margin-top: 15px;
   }
-  .rz-pointer {
-    height: 12px;
-    width: 12px;
-  }
-  .rz-bar-wrapper {
-    padding-top: 6px;
+  button {
+    margin-top: 18px;
+    font-size: 10px;
   }
 }
 
 
+
+.day-select{
+  height: 150px;
+  width: 100px;
+  vertical-align: middle;
+}
+
+.course-index-container {
+  h1 {
+    text-align: center;
+    margin: 15px auto;
+  }
+  .syllabi-course-container {
+    border: 1px solid black;
+    margin-bottom: 10px;
+    text-align: center;
+    h3 {
+      margin-top: 10px;
+    }
+  }
+}
+
+.course-day-container {
+  margin-top: 20px;
+  h4 {
+    text-align: center;
+    margin-top: 10px;
+  }
+  .lesson-filters{
+    border-right: 1px solid gray;
+    .toggle-filter-text {
+      margin-bottom: 10px;
+      padding-top: 6px;
+    }
+    .form-control{
+      margin-left: 10px;
+      width: 80%;
+    } 
+    .rzslider {
+      width: 50%;
+    }
+    .rz-pointer {
+      height: 12px;
+      width: 12px;
+    }
+    .rz-bar-wrapper {
+      padding-top: 6px;
+    }
+    .syl-filter-container{
+      text-align: center;
+    }
+  }
+}

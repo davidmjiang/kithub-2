@@ -15,7 +15,7 @@ Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser',
       })
     });
 
-
+    $scope.showFilters = false;
     $scope.meeting_days = JSON.parse($scope.course.meeting_days)
 
     $scope.days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
