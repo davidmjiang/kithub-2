@@ -52,7 +52,14 @@ font-family: 'Roboto', sans-serif;
   background-color: $primary-color;
 }
 
+/*body {
+    background: url(http://cdn.wallpapersafari.com/58/89/7s5y6o.jpg);
+    background-repeat: repeat;
 
+}*/
+.btn {
+  vertical-align: middle !important;
+}
 .secondary-bg-color {
   background-color: $secondary-color;
 }
@@ -81,10 +88,29 @@ font-family: 'Roboto', sans-serif;
   border-color: $blue-sky-color;
 }
 
+.plane-bg-image {
+  position: fixed;
+  top: 10px;
+  z-index: -100;
+  display: inline-block;
+}
+
+.position-higher {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+footer {
+   position:absolute;
+   bottom:0;
+   width:100%;
+   height:60px;   /* Height of the footer */
+}
+
 /* fixes cursors broken by angular ui.bootstrap */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
-
+ @import 'material-kit';
  @import "bootstrap";
  @import "xeditable";
  @import "font-awesome";
@@ -96,7 +122,13 @@ font-family: 'Roboto', sans-serif;
  @import "gradebook_styles/courses";
  @import "gradebook_styles/assignments";
  @import "lesson_styles/pull_request_show";
+ @import "lesson_styles/front_page";
+ @import "examples";
  @import 'navbar';
  @import 'rzslider.min';
  @import 'lesson_styles/search';
  @import 'bootstrap-select.min';
+
+.nav-link.active {
+  background-color: $primary-color !important;
+}

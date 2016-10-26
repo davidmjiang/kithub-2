@@ -41,14 +41,14 @@
                     ng-click='rejectChanges()'
                     data-dismiss="modal"
                     type="button">
-                Reject Changes
+                Reject All Changes
             </button>
           </div>
 
           <h5>Description: {{ pullRequest.description }}</h5>
           <h5>Status: {{ pullRequest.status }}</h5>
 
-          <diff pull-request="pullRequest"></diff>
+          <diff pull-request="pullRequest" diffs="diffs"></diff>
 
           <h2>Comments</h2>
           <div class="container-fluid">
@@ -63,7 +63,7 @@
       <div class="modal-footer">
 
         <button type="button"
-                class="btn btn-secondary"
+                class="btn btn-secondary "
                 data-dismiss="modal">
 
                 Close

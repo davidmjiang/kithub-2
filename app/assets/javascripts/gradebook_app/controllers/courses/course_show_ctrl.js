@@ -1,10 +1,11 @@
-Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", "ModalService", "$state", "CourseService", "SubmissionService", "CurveService", function($scope, course, StudentService, AssignmentService, GPAService, ModalService, $state, CourseService, SubmissionService, CurveService){
+Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", "ModalService", "$state", "CourseService", "SubmissionService", "CurveService", "$rootScope", function($scope, course, StudentService, AssignmentService, GPAService, ModalService, $state, CourseService, SubmissionService, CurveService, $rootScope){
 
 
   var cols =[];
   var allRows= [];
   $scope.failingStudents = {};
   $scope.exceptionalStudents = {};
+
   $scope.getLengthFailing = function() {
     count = 0;
     for(key in $scope.failingStudents) {
@@ -239,10 +240,12 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
 
   $scope.submitEdit = function(row, item, index) {
+    var student;
+    $rootScope.$broadcast("submission.edit");
     var assignmentId = $scope.assignments[index - 4].id
     var rowIndex = $scope.allRows.indexOf(row);
     if(index > 0 && index < 4) {
-      var student = $scope.students[rowIndex];
+      student = $scope.students[rowIndex];
       StudentService.editStudent(student, index, item);
     }
     else if (index > 3 && index < row.length) {
@@ -252,19 +255,25 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
           for(var j = 0; j < $scope.students[i].submissions.length; j++) {
             if($scope.students[i].submissions[j].assignment_id == assignmentId) {
               submission = $scope.students[i].submissions[j]
+              submission.raw_score = parseInt(item);
+              $scope.students[i].submissions[j].raw_score = parseInt(item);
+              $scope.course.students[i].submissions[j].raw_score = parseInt(item);
+              for(var k = 0; k < $scope.assignments[index - 4].submissions.length; k++) {
+                if($scope.assignments[index - 4].submissions[k].student_id === $scope.students[i].id) {
+                  $scope.assignments[index - 4].submissions[k].raw_score = parseInt(item);
+                }
+              }
+              //$scope.assignments[index - 4].raw_score = parseInt(item);
               $scope.allRows[i][j + 4] = parseInt(item);
             }
           }
-          
         }
       }
-      submission.raw_score = parseInt(item);
       SubmissionService.editSubmission(submission);
       CourseService.populateCourses()
     }
     $scope.rawGPA = GPAService.rawGPA(course);
   }
-
 
   $scope.checkItem = function(index, item) {
     if (index === 0) {

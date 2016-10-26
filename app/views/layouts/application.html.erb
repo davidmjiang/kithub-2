@@ -8,7 +8,10 @@
     <!-- d3 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.8/d3.min.js"></script>
 
+    <link href="https://fonts.googleapis.com/css?family=Cutive+Mono" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch" rel="stylesheet">
+
+
     <%= stylesheet_link_tag    'application' %>
     <%= javascript_include_tag 'application' %>
 
@@ -17,7 +20,7 @@
 
   <body <%= content_for :angular_app %> >
     <nav class="navbar navbar-light bg-faded">
-      <a class="navbar-brand" href="#">KitHub</a>
+      <a class="navbar-brand cabin-sketch-font" href="#" >KitHub</a>
       <% if teacher_signed_in? %>
         <ul class="nav navbar-nav">
           <li class="nav-item">
@@ -30,8 +33,8 @@
       <% end %>
       <% if controller_name == 'kithub' %>
         <div class="form-inline center-form" ng-controller="NavCtrl">
-          <input class="form-control" type="text" ng-model="term" placeholder="Search">
-          <select id="search-type-select" ng-model="searchType" class="selectpicker">
+          <input class="form-control position-higher" type="text" ng-model="term" placeholder="Search">
+          <select id="search-type-select" ng-model="searchType" class="selectpicker position-higher">
             <option value="title">Title</option>
             <option value="content">Content</option>
             <option value="name">User</option>
@@ -58,5 +61,11 @@
     <div class="container-fluid">
       <%= yield %>
     </div>
+
+
   </body>
+<!--   <footer class="text-xs-center">
+  <hr>
+    Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by Team Kithub. © 2016.
+  </footer> -->
 </html>

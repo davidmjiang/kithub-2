@@ -16,7 +16,6 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
         $scope.newPR.parent_plan = parent;
         if ($scope.newPR.parent_plan.version > $scope.forkedLesson.parent_version) {
           $scope.upToDate = false;
-          console.log("Out of date")
         }
       });
     }
@@ -38,7 +37,7 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
   $scope.getDiffInfo = function() {
       LessonService.getLesson($scope.newPR.forked_plan_id).then(function(forked) {
        $scope.newPR.forked_plan = forked;
-       $scope.diffs = DiffService($scope.newPR.parent_plan.content, $scope.newPR.forked_plan.content);
+       $scope.diffs = DiffService.getDiffs($scope.newPR.parent_plan.content, $scope.newPR.forked_plan.content);
       });
   };
 
