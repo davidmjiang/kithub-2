@@ -1,7 +1,14 @@
 Rails.application.routes.draw do
-  # devise_for :parents
-  devise_for :teachers
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  devise_for :teachers, :controllers => { omniauth_callbacks: "callbacks" }
+
+  devise_scope :teacher do
+    unauthenticated do
+      root 'devise/registrations#new'
+    end
+  end
+
+
   root to: 'kithub#index'
 
   scope :api do

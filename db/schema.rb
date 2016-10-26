@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+ActiveRecord::Schema.define(version: 20161025163826) do
 
-ActiveRecord::Schema.define(version: 20161024183757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -252,6 +252,9 @@ ActiveRecord::Schema.define(version: 20161024183757) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string   "provider"
+    t.string   "uid"
+
     t.index "to_tsvector('english'::regconfig, (email)::text)", name: "teachers_to_tsvector_idx2", using: :gin
     t.index "to_tsvector('english'::regconfig, (first_name)::text)", name: "teachers_to_tsvector_idx", using: :gin
     t.index "to_tsvector('english'::regconfig, (last_name)::text)", name: "teachers_to_tsvector_idx1", using: :gin
