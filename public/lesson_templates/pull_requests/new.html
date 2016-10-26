@@ -1,13 +1,14 @@
 <fork-lesson-plan owner="owner" ng-if="lessonBelongsToCurrentUser === false && alreadyForked !== true"></fork-lesson-plan>
 
-
+{{}}
 <!-- Button trigger modal -->
 <div class="row">
   <div class="pull-right" style="margin-right: 15px;">
     <button ng-if="!upToDate && lessonBelongsToCurrentUser"
             class="btn btn-success"
             data-toggle="modal"
-            data-target="#updateModal">
+            data-target="#updateModal"
+            ng-class="{ 'disabled' : editing }">
 
       Update Lesson
     </button>
