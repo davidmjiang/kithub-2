@@ -13,7 +13,6 @@ json.lesson_plans @teacher.lesson_plans do |lesson_plan|
   json.grade (lesson_plan.grade)
   json.lesson_type (lesson_plan.lesson_type)
   json.stars (lesson_plan.teachers_who_starred.length)
-  json.used (lesson_plan.used)
   if lesson_plan.parent_plan
     json.parent_plan_id (lesson_plan.parent_plan_id)
     json.parent_plan_title (lesson_plan.parent_plan.title)

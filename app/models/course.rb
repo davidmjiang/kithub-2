@@ -12,6 +12,7 @@ class Course < ApplicationRecord
   has_many :students, through: :student_courses
 
   has_many :course_days
+  has_many :lesson_plans, through: :course_days, class_name: "LessonPlan", source: :lesson_plans
 
 
 
