@@ -31,14 +31,17 @@ Gradebook.factory("VisualService", ["Restangular", "_", "CurveService", "GPAServ
     for (var i = 0; i < student.submissions.length; i++) {
       var submission = student.submissions[i]
       var assignment = _.find(assignments, {'id': submission.assignment_id});
-      if (assignment.has_curve) {
-        var rawPercent = submission.raw_score/assignment.possible_score * 100
-        var curvedPercent = GPAService.applyCurve(assignment, rawPercent)
-        sum += (curvedPercent/100 * assignment.possible_score)
+      if (submission.raw_score === -1) {
       } else {
-        sum += submission.raw_score
+        if (assignment.has_curve) {
+          var rawPercent = submission.raw_score/assignment.possible_score * 100
+          var curvedPercent = GPAService.applyCurve(assignment, rawPercent)
+          sum += (curvedPercent/100 * assignment.possible_score)
+        } else {
+          sum += submission.raw_score
+        }
+        possible += assignment.possible_score
       }
-      possible += assignment.possible_score
     }
     return (sum / possible)*100
   };
@@ -61,10 +64,13 @@ Gradebook.factory("VisualService", ["Restangular", "_", "CurveService", "GPAServ
     angular.forEach(students, function(student) {
       var submission = _.find(student.submissions,
        {'assignment_id': assignment.id});
-      var score = VisualService.getPercent(assignment, submission.raw_score)
-      scoreArray.push({
-        'name': student.first_name + " " + student.last_name[0] + ".",
-        'percent': score})
+      if (submission.raw_score === -1) {
+      } else {
+        var score = VisualService.getPercent(assignment, submission.raw_score)
+        scoreArray.push({
+          'name': student.first_name + " " + student.last_name[0] + ".",
+          'percent': score})
+      }
     })
     scoreArray.sort(function(a, b){
       return a.percent-b.percent

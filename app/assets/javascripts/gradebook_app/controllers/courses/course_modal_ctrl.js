@@ -1,4 +1,4 @@
-Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments", "gpa", "students", "close", "VisualService", "GPAService", function($scope, _, course, assignments, gpa, students, close, VisualService, GPAService) {
+Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments", "gpa", "students", "close", "VisualService", "GPAService", "CourseService", "$state", function($scope, _, course, assignments, gpa, students, close, VisualService, GPAService, CourseService, $state) {
 
   $scope.course = course;
   $scope.gpa = gpa;
@@ -41,7 +41,8 @@ Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments",
         {ticks: {
           beginAtZero: true,
           steps: 10,
-          stepValue: 10
+          stepValue: 10,
+          max: 100
         }}
       ]
     }
@@ -50,6 +51,16 @@ Gradebook.controller("CourseModalCtrl", ["$scope", "_", "course", "assignments",
   $scope.pieOpts = {
     legend: { display: true },
     showTooltips: true,
+  };
+
+  $scope.deleteCourse = function() {
+    if (confirm('Are you sure?')) {
+      CourseService.deleteCourse($scope.course).then(function(response) {
+        $state.go("gradebook.courseIndex");
+        angular.element('body').removeClass('modal-open');
+        angular.element(".modal-backdrop").remove();
+      })
+    }
   };
 
 }])
