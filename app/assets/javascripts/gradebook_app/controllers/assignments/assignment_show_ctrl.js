@@ -5,6 +5,104 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     this.closed = true;
   }
 
+   $scope.$on("submission.edit", function(event, data) {
+    console.log("WORK?")
+    $scope.percentScore();
+    $scope.anyFailingStudents = $scope.getLengthFailing();
+    $scope.anyExceptionalStudents = $scope.getLengthPassing();
+  })
+
+  $scope.failingStudents = {};
+  $scope.exceptionalStudents = {};
+  $scope.course = course;
+  $scope.students = students;
+  $scope.assignment = assignment;
+
+
+  $scope.removePassingStudents = function(passingStudent) {
+    for(key in $scope.failingStudents) {
+      if (key === passingStudent) {
+        delete $scope.failingStudents[key];
+      }
+    }
+  }
+  //Go through exceptional students and remove any that are not doing exceptional anymore
+  $scope.removeExceptionalStudents = function(notExceptionalStudent) {
+    for(key in $scope.exceptionalStudents) {
+      if (key === notExceptionalStudent) {
+        delete $scope.exceptionalStudents[key];
+      }
+    }
+  }
+
+  $scope.getLengthFailing = function() {
+    count = 0;
+    for(key in $scope.failingStudents) {
+      count ++
+    }
+    return count;
+  }
+
+  $scope.getLengthPassing = function() {
+    count = 0;
+    for(key in $scope.exceptionalStudents) {
+      count ++
+    }
+    return count;
+  }
+
+  $scope.percentScore = function() {
+    var percentScore;
+    for(var i = 0; i < $scope.assignment.submissions.length; i++) {
+      var student;
+      var submission = $scope.assignment.submissions[i];
+      var rawPercent = (submission.raw_score / assignment.possible_score * 100);
+      if(submission.raw_score > -1) {
+        if(assignment.flat_curve) {
+          percentScore = ((rawPercent + assignment.flat_curve.flat_rate).toFixed(2));
+        }
+        else if(assignment.linear_curve) {
+          percentScore = ((CurveService.linearFormula(assignment.linear_curve, rawPercent)).toFixed(2));
+        }
+        else {
+          percentScore = (rawPercent.toFixed(2));
+        }
+        for(var j = 0; j < students.length; j ++) {
+          if(students[j].id === assignment.submissions[i].student_id) {
+            student = students[j];
+          }
+        }
+        var studentName = student.first_name + " " + student.last_name;
+        if(percentScore > 90) {
+          $scope.exceptionalStudents[studentName] = percentScore + "%";
+          $scope.removePassingStudents(studentName);
+        }
+        else if(percentScore < 90 && percentScore > 60) {
+          $scope.removeExceptionalStudents(studentName);
+          $scope.removePassingStudents(studentName)
+        }
+        else if(percentScore < 60 ) {
+          $scope.failingStudents[studentName] = percentScore + "%"; 
+          $scope.removeExceptionalStudents(studentName)
+        }
+      }
+    }
+    
+  }
+
+  $scope.notifyParent = function(student, score) {
+    for(key in $scope.students) {
+      if ($scope.students[key].first_name + $scope.students[key].last_name  === 
+        student.split(" ").slice(0)[0] + student.split(" ").slice(1)[0]) {
+        StudentService.sendMail($scope.students[key].id, $scope.course.teacher_id, score)
+      }
+    }
+  }
+
+  $scope.percentScore();
+  $scope.anyFailingStudents = $scope.getLengthFailing();
+  $scope.anyExceptionalStudents = $scope.getLengthPassing();
+
   $scope.$watch('curve.slideA', function (newValue, oldValue) {
     if (newValue !== oldValue) {
       $scope.curve.slideA = Number(newValue);
@@ -59,6 +157,16 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.curve.curvedA = 0;
     $scope.curve.curvedB = 100;
   }
+
+  $scope.removeAssignment = function(assignment) {
+    if(confirm('Are you sure you want to remove that assignment? Each student\'s submissions will also be deleted.')) {
+      AssignmentService.removeAssignment(assignment).then(function(removedAssignment) {
+        $rootScope.$broadcast("assignment.deleted", removedAssignment);
+        $scope.close();
+      })
+    }
+  }
+
 
   var _fillFlatRateEditInput = function() {
     var curve = {}
@@ -125,6 +233,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
         assignment.linear_curve = null
         $scope.assignment.updated_at = response.assignment.updated_at
         assignment.updated_at = response.assignment.updated_at
+        $scope.percentScore();
+        $scope.anyFailingStudents = $scope.getLengthFailing();
+        $scope.anyExceptionalStudents = $scope.getLengthPassing();
       })
     }
   }
@@ -278,6 +389,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
         assignment.linear_curve = response // ?
         $scope.assignment.updated_at = response.assignment.updated_at
         assignment.updated_at = response.assignment.updated_at
+        $scope.percentScore();
+        $scope.anyFailingStudents = $scope.getLengthFailing();
+        $scope.anyExceptionalStudents = $scope.getLengthPassing();
       })
     }
   }
@@ -292,6 +406,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     // assignment.flat_curve = response
     $scope.assignment.updated_at = response.assignment.updated_at
     assignment.updated_at = response.assignment.updated_at
+    $scope.percentScore();
+    $scope.anyFailingStudents = $scope.getLengthFailing();
+    $scope.anyExceptionalStudents = $scope.getLengthPassing();
   };
 
   var _applyFlatCurve = function() {
@@ -321,6 +438,9 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       $scope.assignment.updated_at = response.assignment.updated_at
       assignment.updated_at = response.assignment.updated_at
     })
+    $scope.percentScore();
+    $scope.anyFailingStudents = $scope.getLengthFailing();
+    $scope.anyExceptionalStudents = $scope.getLengthPassing();
   }
 
   var _linearFormula = function(input, rawPercent) {
@@ -349,15 +469,16 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   }
 
   var _scores = VisualService.studentScores(students, assignment)
+  var pieScores = _.map(_scores, function(score){return score.percent});
   $scope.scoreLabels = _.map(_scores, 'name');
   $scope.scoreData = [_.map(_scores, function(score){
     return score.percent.toFixed(2);
   })];
 
-  var assignDist = VisualService.gradeDistribution(_scores)
+  $scope.pieDist = VisualService.gradeDistribution(pieScores)
   $scope.colors = ['#4caf50', '#81c784', '#c8e6c9', '#ef9a9a', '#f44336']
-  $scope.assignLabels = _.map(assignDist, function(amount, grade){return grade});
-  $scope.assignData = _.map(assignDist, function(amount, grade){return amount});
+  $scope.assignLabels = _.map($scope.pieDist, function(amount, grade){return grade});
+  $scope.assignData = _.map($scope.pieDist, function(amount, grade){return amount});
 
   $scope.pieOpts = {
     legend: { display: true },
@@ -365,13 +486,22 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   };
 
   $scope.updateData = function() {
+    var pieScores = _.map(_scores, function(score){
+      return score.percent + $scope.curve.flatRate
+    })
     angular.copy([_.map(_scores, function(score){
       var updatedScore = score.percent + $scope.curve.flatRate;
       return updatedScore.toFixed(2);
     })], $scope.scoreData)
+    $scope.pieDist = VisualService.gradeDistribution(pieScores)
+    $scope.assignData = _.map($scope.pieDist, function(amount, grade){return amount})
   }
 
   var _simulateLinearCurve = function() {
+    var pieScores = _.map(_scores, function(score){
+      var updatedScore = CurveService.linearFormula($scope.curve, score.percent);
+      return updatedScore
+    })
     angular.copy([_.map(_scores, function(score){
       var updatedScore = CurveService.linearFormula($scope.curve, score.percent);
       return updatedScore.toFixed(2);
@@ -379,10 +509,15 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     var _simulatedAssignment = {}
     angular.copy($scope.assignment, _simulatedAssignment)
     _simulatedAssignment.linear_curve = $scope.curve
+    $scope.pieDist = VisualService.gradeDistribution(pieScores)
+    $scope.assignData = _.map($scope.pieDist, function(amount, grade){return amount})
     return GPAService.realGPA(course, _simulatedAssignment)
   }
 
   $scope.alertShow = function() {
+    $scope.percentScore();
+    $scope.anyFailingStudents = $scope.getLengthFailing();
+    $scope.anyExceptionalStudents = $scope.getLengthPassing();
     $scope.curveAlert = true;
     $timeout(function() {
       $scope.curveAlert = false;
@@ -404,10 +539,6 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.updateData();
   } else if ($scope.assignment.linear_curve) {
     $scope.applyLinearCurve();
-  }
-
-  $scope.failingStudents = function() {
-    
   }
 
 }])

@@ -22,8 +22,20 @@
           ui-sref="main.lessons.show.pullRequests"
           data-toggle="tab">
 
+
           Pull Requests <span class="tag tag-default">{{ pendingPRs }}</span>
-        <span class="tag tag-pill tag-info">{{teacher.starred_lesson_plans}}</span>
+        <span class="tag tag-pill tag-default">{{teacher.starred_lesson_plans}}</span>
+
+
+      </a>
+    </li>
+
+    <li class="nav-item">
+
+      <a class="nav-link"
+        ui-sref="main.lessons.show.contributors"
+        data-toggle="tab">
+        Contributors <span class="tag tag-default">{{ lesson.contributors.length }}</span>
       </a>
     </li>
 
@@ -33,6 +45,7 @@
         ui-sref="main.lessons.show.settings"
         data-toggle="tab">
         Settings
+
       </a>
     </li>
 

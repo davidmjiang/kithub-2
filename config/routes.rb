@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
-  devise_for :teachers
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  devise_for :teachers, :controllers => { omniauth_callbacks: "callbacks" }
+
+  devise_scope :teacher do
+    unauthenticated do
+      root 'devise/registrations#new'
+    end
+  end
+
 
   root to: 'kithub#index'
 
@@ -11,12 +18,13 @@ Rails.application.routes.draw do
       resources :courses
       resources :searches, only: [:index]
       resources :comments, only: [:create, :destroy]
-      resources :assignments, only: [:create, :update]
+      resources :assignments, only: [:create, :update, :destroy]
       resources :submissions, only: [:create, :index, :update]
       resources :lesson_plans, only: [:index, :create, :show, :update, :destroy] do
         resources :pull_requests, only: [:index, :create, :update]
         resources :additional_materials, only: [:index, :create]
         resources :lesson_plan_stars, only: [:create, :destroy]
+        get "/export", to: "lesson_plans#export"
       end
       resources :flat_curves, only: [:create, :update, :destroy]
       resources :linear_curves, only: [:create, :update, :destroy]
@@ -25,6 +33,11 @@ Rails.application.routes.draw do
       resources :lesson_plan_contributors, only: [:index, :create]
       resources :lesson_plan_stars, only: [:index]
       resources :lesson_plan_days, only: [:create, :destroy]
+
+      post "student_progress/fail/", to: "student_progress#fail"
+      post "student_progress/exceptional/", to: "student_progress#exceptional"
+      post "student_progress/notification/", to: "student_progress#notification"
+
       get "/gpas", to: "gpas_controller#index"
     end
  	end
