@@ -10,7 +10,7 @@
 
         <p ng-if="notTeacherShow" >Creator: {{lesson.first_name || lesson.teacher.first_name}} {{lesson.last_name || lesson.teacher.last_name}}</p>
           <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-5">
 
               <p><i class="fa fa-book" aria-hidden="true"></i> <b>Subject:</b>{{lesson.subject}} </p><p><i class="fa fa-graduation-cap" aria-hidden="true"></i> Grade: {{lesson.grade}}</p> <p><i class="fa fa-hourglass-o" aria-hidden="true"></i> Hours: {{lesson.hours}}</p>
               <div ng-if="lesson.parent_plan_id">
@@ -20,12 +20,12 @@
 
             </div>
 
-            <div class="col-xs-4">
-              <i class="fa fa-male" aria-hidden="true" ng-if="lesson.lesson_type='=Teacher-led'"></i>
+            <div class="col-xs-5">
+               <p><i class="fa fa-male" aria-hidden="true" ng-if="lesson.lesson_type=='Teacher-led'"></i>
               <i class="fa fa-users" aria-hidden="true" ng-if="lesson.lesson_type=='Group'"></i>
-              <i class="fa fa-user" aria-hidden="true" ng-if="lesson.lesson_type=='Individual"></i>
+              <i class="fa fa-user" aria-hidden="true" ng-if="lesson.lesson_type=='Individual'"></i>
 
-              <p>Lesson type: {{lesson.lesson_type}}</p>
+             Lesson type: {{lesson.lesson_type}}</p>
 
               <p><i class="fa fa-clock-o" aria-hidden="true"></i> Created: {{lesson.created_at | date}}</p>
 
