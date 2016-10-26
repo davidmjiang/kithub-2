@@ -1,17 +1,45 @@
 <fork-lesson-plan owner="owner" ng-if="lessonBelongsToCurrentUser === false && alreadyForked !== true"></fork-lesson-plan>
 
-<button ui-sref="main.lessons.show({id: newPR.parent_plan_id})" ng-if="!upToDate && lessonBelongsToCurrentUser" class="btn btn-success pull-right">Update Lesson</button>
 
-<button ui-sref="main.lessons.show.pullRequests({id: newPR.parent_plan_id})" ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length > 0 && upToDate" class="btn btn-warning">Pending Pull Request</button>
+<!-- Button trigger modal -->
+<div class="row">
+  <div class="pull-right" style="margin-right: 15px;">
+    <button ng-if="!upToDate && lessonBelongsToCurrentUser"
+            class="btn btn-success"
+            data-toggle="modal"
+            data-target="#updateModal">
 
-<button ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length === 0 && upToDate"
-        ng-click="getDiffInfo()"
-        type="button"
-        class="btn btn-info pull-right"
-        data-toggle="modal"
-        data-target="#newPRModal{{ newPR.forked_plan_id }}">
-  New Pull Request</button>
+      Update Lesson
+    </button>
+  </div>
+</div>
 
+<div class="modal fade pull-request-modal"
+     id="updateModal"
+     tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <update-lesson-modal lesson="lesson" current-user="currentUser" diffs="updateDiffs" parent="newPR.parent_plan" current="upToDate"></update-lesson-modal>
+</div>
+<div class="row">
+  <div class="pull-right" style="margin-right: 15px;">
+
+    <button ui-sref="main.lessons.show.pullRequests({id: newPR.parent_plan_id})" ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length > 0 && upToDate" class="btn btn-warning">Pending Pull Request</button>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="pull-right" style="margin-right: 15px;">
+    <button ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length === 0 && upToDate"
+            ng-click="getDiffInfo()"
+            type="button"
+            class="btn btn-info"
+            data-toggle="modal"
+            data-target="#newPRModal{{ newPR.forked_plan_id }}">
+      New Pull Request</button>
+ </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade large pull-request-modal"

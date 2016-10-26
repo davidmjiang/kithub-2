@@ -6,13 +6,13 @@
 
 
 
-<div  class="col-xs-6" ng-repeat="pr in pullRequests | filter:{ status: 'pending' }">
+<div  class="col-xs-6" ng-repeat="pr in pendingPRs">
   <div class="card">
     <div class="card-block">
       <h4 class="card-title">{{pr.title}}</h4>
       <p class="card-text">Description: {{ pr.description }}</p>
       <p class="card-text">Status: {{ pr.status }}</p>
-       <pull-request-show pull-request="pr" pending-prs="prendingPRs" lesson="lesson"></pull-request-show>
+       <pull-request-show pull-request="pr" lesson="lesson"></pull-request-show>
     </div>
   </div>
 </div>

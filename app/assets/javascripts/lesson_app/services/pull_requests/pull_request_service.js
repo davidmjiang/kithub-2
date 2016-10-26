@@ -4,13 +4,37 @@ Lesson.factory("pullRequestService", ["Restangular",
                                   function(Restangular, $state, Auth) {
   // array of all pull requests with their
   var _pullRequests = [];
+  var _pendingPRs = [];
 
   // all copies a json object of all the pull requests and their respective '
   // comments for the teachers page you are on and angular.copies them locally
   var all = function(lesson_id) {
     return Restangular.one("lesson_plans", lesson_id).all("pull_requests").getList().then(function(response) {
-        return angular.copy(response, _pullRequests);
+        angular.copy(response, _pullRequests);
+        resetPendingPRs();
+        return _pullRequests;
     });
+  };
+
+  // resets pending PR variable from _pullRequests array
+  var resetPendingPRs = function() {
+    var pending = _.filter(_pullRequests, function (pr) {
+      return pr.status === "pending";
+    });
+    angular.copy(pending, _pendingPRs);
+  };
+
+  // removes the frontend copy of the PR from _pullRequests
+  var removePR = function(id) {
+    _.remove(_pullRequests, function (pr) {
+      return pr.id === id;
+    });
+    resetPendingPRs();
+  };
+
+  // returns all pending requests stored in the service for the current lesson in _pullRequests
+  var getPendingPRs = function() { 
+    return _pendingPRs;
   };
 
   // getPullRequests retrieves the _pullRequests array which has all the
@@ -72,7 +96,8 @@ Lesson.factory("pullRequestService", ["Restangular",
     // console.log(contributorData);
     Restangular.all("lesson_plan_contributors").post(contributorData);
     return Restangular.one("lesson_plans", lessonId).one("pull_requests", pullRequest.id).patch(pullRequest).then(function(response) {
-      return response;
+        removePR(response.id);
+        return response;
     });
   };
 
@@ -80,7 +105,8 @@ Lesson.factory("pullRequestService", ["Restangular",
     pullRequest.status = 'rejected';
     pullRequest.accept_reject_time = Date.now();
     return Restangular.one("lesson_plans", lessonId).one("pull_requests", pullRequest.id).patch(pullRequest).then(function(response) {
-      return response;
+        removePR(response.id);
+        return response;
     });
   };
 
@@ -93,6 +119,7 @@ Lesson.factory("pullRequestService", ["Restangular",
     removeComment: removeComment,
     pullRequestMade: pullRequestMade,
     acceptChanges: acceptChanges,
-    rejectChanges: rejectChanges
+    rejectChanges: rejectChanges,
+    getPendingPRs: getPendingPRs
   };
 }]);
