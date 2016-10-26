@@ -109,7 +109,7 @@ footer {
 /* fixes cursors broken by angular ui.bootstrap */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
-
+ @import 'material-kit';
  @import "bootstrap";
  @import "xeditable";
  @import "font-awesome";
@@ -127,9 +127,7 @@ footer {
  @import 'rzslider.min';
  @import 'lesson_styles/search';
  @import 'bootstrap-select.min';
- @import 'material-kit.css';
 
 .nav-link.active {
   background-color: $primary-color !important;
 }
-
