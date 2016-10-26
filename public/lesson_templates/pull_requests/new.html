@@ -1,6 +1,20 @@
 <fork-lesson-plan owner="owner" ng-if="lessonBelongsToCurrentUser === false && alreadyForked !== true"></fork-lesson-plan>
 
-<button ui-sref="main.lessons.show({id: newPR.parent_plan_id})" ng-if="!upToDate && lessonBelongsToCurrentUser" class="btn btn-success pull-right">Update Lesson</button>
+<!-- Button trigger modal -->
+<button ng-if="!upToDate && lessonBelongsToCurrentUser"
+        class="btn btn-success pull-right"
+        data-toggle="modal"
+        data-target="#updateModal">
+
+  Update Lesson
+</button>
+<div class="modal fade pull-request-modal"
+     id="updateModal"
+     tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <update-lesson-modal lesson="lesson" current-user="currentUser" diffs="updateDiffs"></update-lesson-modal>
+</div>
 
 <button ui-sref="main.lessons.show.pullRequests({id: newPR.parent_plan_id})" ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length > 0 && upToDate" class="btn btn-warning pull-right">Pending Pull Request</button>
 
