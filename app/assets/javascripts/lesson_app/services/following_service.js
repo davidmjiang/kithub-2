@@ -29,7 +29,7 @@ obj.populate = function(id){
 					}
 				});
 		});
-		return $q.all(promise1, promise2);
+		return $q.all([promise1, promise2]);
 	}
  else{
  	return $q.when([]);
@@ -56,7 +56,7 @@ obj.create = function(t1, t2){
 };
 
 obj.delete = function(t1, t2){
-	return $http.delete('api/v1/teacher_followings/0', 
+	return $http.delete('api/v1/teacher_followings/0',
 			{params: {'follower_id': t1.id, 'followed_id': t2.id}}).then(function(){
 	//then splice from the appropriate array
 	_.remove(_followersOf[t2.id], function(el){
@@ -66,7 +66,7 @@ obj.delete = function(t1, t2){
 		return el.id === t2.id;
 	});
 });
-	
+
 };
 
 obj.getFollowersOf = function(){
