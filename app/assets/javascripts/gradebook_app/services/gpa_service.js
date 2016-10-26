@@ -32,28 +32,33 @@ Gradebook.factory("GPAService", function() {
       _.each(student.submissions, function(submission) {
         if (submission.assignment_id === assignment.id) {
           var rawPercent = submission.raw_score/assignment.possible_score * 100
-          var curvedPercent = _applyCurve(assignment, rawPercent)
+          var curvedPercent = GPAService.applyCurve(assignment, rawPercent)
           pointsEarned += (curvedPercent/100 * assignment.possible_score)
         }
       })
     })
-    console.log("points earned: " + pointsEarned)
     var gpa = (pointsEarned / course.students.length) / assignment.possible_score * 100
-    console.log("gpa: " + gpa)
     return gpa
   }
 
+  // calculates an assignment's average grade curve or no curve
+  GPAService.getAverages = function(course, assignment) {
+    if (assignment.has_curve) {
+      return GPAService.realGPA(course, assignment)
+    } else {
+      return GPAService.rawGPA(course, assignment)
+    }
+  }
 
-
-  // private
-
-  var _applyCurve = function(assignment, rawPercent) {
+  GPAService.applyCurve = function(assignment, rawPercent) {
     if (assignment.flat_curve) {
       return _applyFlatCurve(assignment, rawPercent)
     } else if (assignment.linear_curve) {
       return _applyLinearCurve(assignment, rawPercent)
     }
   }
+
+  // private
 
   var _applyFlatCurve = function(assignment, rawPercent) {
     return assignment.flat_curve.flat_rate + rawPercent

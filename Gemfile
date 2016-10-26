@@ -27,6 +27,10 @@ gem "figaro"
 # Styling and grid system
 gem 'bootstrap', '~> 4.0.0.alpha4'
 # Bootstrap dependency
+
+gem 'textacular', require: 'textacular/rails'
+
+gem 'ransack', github: 'activerecord-hackery/ransack'
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
 end
@@ -38,7 +42,8 @@ gem 'font-awesome-rails'
 gem 'jquery-ui-rails'
 # to be able to user assert_template in controller testing
 gem 'rails-controller-testing'
-
+# pan-doc is for document conversion
+gem 'pandoc-ruby'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'

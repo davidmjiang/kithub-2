@@ -6,6 +6,10 @@ class Teacher < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :state, inclusion: {in: STATES}, allow_nil: true
+  
+  def self.searchable_columns
+    [:first_name, :last_name, :email]
+  end
 
 
   devise :database_authenticatable, :registerable,

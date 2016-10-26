@@ -50,5 +50,9 @@
 //= require paper
 //= require tracking
 //= require debug.addIndicators
+//= require ui-bootstrap-tpls-2.2.0.min
+//= require bootstrap-select.min
+//= require datatables.min
+//= require dataTables.fixedColumns.min
 
 //= require_tree .

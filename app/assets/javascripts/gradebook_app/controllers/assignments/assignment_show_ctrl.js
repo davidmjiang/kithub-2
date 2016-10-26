@@ -5,9 +5,29 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     this.closed = true;
   }
 
-  $scope.$watch('curve.flatRate', function (newValue) {
-    $scope.curve.flatRate = Number(newValue);
-    $scope.updateData();
+  $scope.submissions = course.submissions
+
+  $scope.$watch('curve.slideA', function (newValue, oldValue) {
+    if (newValue !== oldValue) {
+      $scope.curve.slideA = Number(newValue);
+      $scope.curve.curvedA = $scope.curve.slideA + $scope.curve.rawA;
+      $scope.applyLinearCurve();
+    }
+  });
+
+  $scope.$watch('curve.slideB', function (newValue, oldValue) {
+    if (newValue !== oldValue) {
+      $scope.curve.slideB = Number(newValue);
+      $scope.curve.curvedB = $scope.curve.slideB + $scope.curve.rawB;
+      $scope.applyLinearCurve();
+    }
+  });
+
+  $scope.$watch('curve.flatRate', function (newValue, oldValue) {
+    if (newValue !== oldValue) {
+      $scope.curve.flatRate = Number(newValue);
+      $scope.updateData();
+    }
   });
 
   $scope.closed = false;
@@ -23,12 +43,34 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   $scope.numStudents = course.students.length
   $scope.students = students;
   $scope.curveAlert = false;
+  $scope.initializing = true;
 
   if ($scope.assignment.flat_curve) {
     $scope.curve.flatRate = $scope.assignment.flat_curve.flat_rate;
   } else {
     $scope.curve.flatRate = 0;
   }
+
+  if ($scope.assignment.linear_curve) {
+    _fillLinearCurveEditInputs;
+  } else {
+    $scope.curve.rawA = 0;
+    $scope.curve.rawB = 100;
+    $scope.curve.slideA = 0;
+    $scope.curve.slideB = 0;
+    $scope.curve.curvedA = 0;
+    $scope.curve.curvedB = 100;
+  }
+
+  $scope.removeAssignment = function(assignment) {
+    if(confirm('Are you sure you want to remove that assignment? Each student\'s submissions will also be deleted.')) {
+      AssignmentService.removeAssignment(assignment).then(function(removedAssignment) {
+        $rootScope.$broadcast("assignment.deleted", removedAssignment);
+        $scope.close();
+      })
+    }
+  }
+
 
   var _fillFlatRateEditInput = function() {
     var curve = {}
@@ -43,6 +85,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.curve.rawB = curve.rawB
     $scope.curve.curvedA = curve.curvedA
     $scope.curve.curvedB = curve.curvedB
+    $scope.curve.slideA = $scope.curve.curvedA - $scope.curve.rawA;
+    $scope.curve.slideB = $scope.curve.curvedB - $scope.curve.rawB;
   }
 
   var _fillCurveEditInputs = function() {
@@ -52,6 +96,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       _fillLinearCurveEditInputs()
     }
   }
+
+  _fillCurveEditInputs;
 
   if ($scope.assignment.has_curve ) {
     console.log("assignment has curve!")
@@ -78,19 +124,21 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   })()
 
   var _removeCurve = function() {
-    CurveService.removeCurve($scope.assignment)
-    .then(function(response) {
-      console.log("response in controller")
-      console.log(response)
-      $scope.assignment.has_curve = false
-      assignment.has_curve = false
-      $scope.assignment.flat_curve = null
-      assignment.flat_curve = null
-      $scope.assignment.linear_curve = null
-      assignment.linear_curve = null
-      $scope.assignment.updated_at = response.assignment.updated_at
-      assignment.updated_at = response.assignment.updated_at
-    })
+    if (assignment.has_curve) {
+      CurveService.removeCurve($scope.assignment)
+      .then(function(response) {
+        console.log("response in controller")
+        console.log(response)
+        $scope.assignment.has_curve = false
+        assignment.has_curve = false
+        $scope.assignment.flat_curve = null
+        assignment.flat_curve = null
+        $scope.assignment.linear_curve = null
+        assignment.linear_curve = null
+        $scope.assignment.updated_at = response.assignment.updated_at
+        assignment.updated_at = response.assignment.updated_at
+      })
+    }
   }
 
   $scope.editAssignment = function(assignment) {
@@ -142,22 +190,53 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.gpa.real = $scope.gpa.raw
     $scope.curve.flatRate = 0
     $scope.curve.rawA = 0
-    $scope.curve.rawB = 0
-    $scope.curve.curvedA = 0
-    $scope.curve.curvedB = 0
+    $scope.curve.rawB = 100
+    $scope.curve.slideA = 0
+    $scope.curve.slideB = 0
     _removeCurve();
+  }
+
+  var updateFlat = function() {
+    if ($scope.assignment.flat_curve) {
+      _editFlatCurve();
+    } else {
+      _applyFlatCurve();
+    }
+  }
+
+  var updateLinear = function() {
+    if ($scope.assignment.linear_curve) {
+      _editLinearCurve();
+    } else {
+      _applyLinearCurve();
+    }
   }
 
   $scope.saveChanges = function() {
     if ($scope.curveType === "Flat") {
-      if ($scope.assignment.has_curve) {
-        _editFlatCurve();
+      if ($scope.assignment.linear_curve) {
+        CurveService.removeLinear($scope.assignment).then(function(){
+          $scope.curve.rawA = 0
+          $scope.curve.rawB = 100
+          $scope.curve.slideA = 0
+          $scope.curve.slideB = 0
+          $scope.assignment.linear_curve = null
+          updateFlat();
+        })
       } else {
-        _applyFlatCurve();
+        updateFlat();
       }
       $scope.gpa.real = $scope.gpa.raw + $scope.curve.flatRate;
-    } else if ($scope.curveApplied && $scope.curveType === "Linear") {
-      _applyLinearCurve();
+    } else if ($scope.curveType === "Linear") {
+      if ($scope.assignment.flat_curve) {
+        CurveService.removeFlat($scope.assignment).then(function(){
+          $scope.curve.flatRate = 0;
+          $scope.assignment.flat_curve = null
+          updateLinear();
+        })
+      } else {
+        updateLinear();
+      }
     } else if (!$scope.curveApplied && $scope.assignment.has_curve) {
       _removeCurve();
     } else if ($scope.editingCurve && $scope.assignment.flat_curve) {
@@ -177,26 +256,26 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
            $scope.curve.curvedB === $scope.assignment.linear_curve.curvedB
   }
 
-  var _editFlatCurve = function() {
-    // do nothing if flatRate hasn't changed
-    if ($scope.assignment.flat_curve.flat_rate === $scope.curve.flatRate) {
-      return
-    // if flatRate has changed to 0, remove the curve
-    } else if ($scope.curve.flatRate === "0") {
-      _removeCurve();
-    // else, CurveService.editFlatCurve($scope.assignment)
-    } else {
-      CurveService.editFlatCurve($scope.assignment, $scope.curve.flatRate)
-      .then(function(response) {
-        console.log("response in controller")
-        console.log(response)
-        $scope.assignment.flat_curve = response
-        assignment.flat_curve = response // ?
-        $scope.assignment.updated_at = response.assignment.updated_at
-        assignment.updated_at = response.assignment.updated_at
-      })
-    }
-  }
+  // var _editFlatCurve = function() {
+  //   // do nothing if flatRate hasn't changed
+  //   if ($scope.assignment.flat_curve.flat_rate === $scope.curve.flatRate) {
+  //     return
+  //   // if flatRate has changed to 0, remove the curve
+  //   } else if ($scope.curve.flatRate === "0") {
+  //     _removeCurve();
+  //   // else, CurveService.editFlatCurve($scope.assignment)
+  //   } else {
+  //     CurveService.editFlatCurve($scope.assignment, $scope.curve.flatRate)
+  //     .then(function(response) {
+  //       console.log("response in controller")
+  //       console.log(response)
+  //       $scope.assignment.flat_curve = response
+  //       assignment.flat_curve = response // ?
+  //       $scope.assignment.updated_at = response.assignment.updated_at
+  //       assignment.updated_at = response.assignment.updated_at
+  //     })
+  //   }
+  // }
 
   var _editLinearCurve = function() {
     // do nothing if inputs haven't changed
@@ -256,13 +335,6 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     })
   }
 
-  var _simulateLinearCurve = function() {
-    var _simulatedAssignment = {}
-    angular.copy($scope.assignment, _simulatedAssignment)
-    _simulatedAssignment.linear_curve = $scope.curve
-    return GPAService.realGPA(course, _simulatedAssignment)
-  }
-
   var _linearFormula = function(input, rawPercent) {
     return input.curvedA + (((input.curvedB - input.curvedA)/(input.rawB - input.rawA)) * (rawPercent - input.rawA));
   }
@@ -289,15 +361,16 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   }
 
   var _scores = VisualService.studentScores(students, assignment)
+  var pieScores = _.map(_scores, function(score){return score.percent});
   $scope.scoreLabels = _.map(_scores, 'name');
   $scope.scoreData = [_.map(_scores, function(score){
     return score.percent.toFixed(2);
   })];
 
-  var assignmentDistribution = VisualService.gradeDistribution(_scores)
-  $scope.assignmentLabels = _.map(assignmentDistribution, function(amount, grade){return grade});
-  $scope.assignmentData = _.map(assignmentDistribution, function(amount, grade){return amount});
+  $scope.pieDist = VisualService.gradeDistribution(pieScores)
   $scope.colors = ['#4caf50', '#81c784', '#c8e6c9', '#ef9a9a', '#f44336']
+  $scope.assignLabels = _.map($scope.pieDist, function(amount, grade){return grade});
+  $scope.assignData = _.map($scope.pieDist, function(amount, grade){return amount});
 
   $scope.pieOpts = {
     legend: { display: true },
@@ -305,17 +378,56 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   };
 
   $scope.updateData = function() {
+    var pieScores = _.map(_scores, function(score){
+      return score.percent + $scope.curve.flatRate
+    })
     angular.copy([_.map(_scores, function(score){
-    var updatedScore = score.percent + $scope.curve.flatRate;
-    return updatedScore.toFixed(2);
-  })], $scope.scoreData)
+      var updatedScore = score.percent + $scope.curve.flatRate;
+      return updatedScore.toFixed(2);
+    })], $scope.scoreData)
+    $scope.pieDist = VisualService.gradeDistribution(pieScores)
+    $scope.assignData = _.map($scope.pieDist, function(amount, grade){return amount})
+  }
+
+  var _simulateLinearCurve = function() {
+    var pieScores = _.map(_scores, function(score){
+      var updatedScore = CurveService.linearFormula($scope.curve, score.percent);
+      return updatedScore
+    })
+    angular.copy([_.map(_scores, function(score){
+      var updatedScore = CurveService.linearFormula($scope.curve, score.percent);
+      return updatedScore.toFixed(2);
+    })], $scope.scoreData)
+    var _simulatedAssignment = {}
+    angular.copy($scope.assignment, _simulatedAssignment)
+    _simulatedAssignment.linear_curve = $scope.curve
+    $scope.pieDist = VisualService.gradeDistribution(pieScores)
+    $scope.assignData = _.map($scope.pieDist, function(amount, grade){return amount})
+    return GPAService.realGPA(course, _simulatedAssignment)
   }
 
   $scope.alertShow = function() {
     $scope.curveAlert = true;
     $timeout(function() {
       $scope.curveAlert = false;
-    }, 4000)
+    }, 3000)
+  }
+
+  $scope.setNotice = function() {
+    if ($scope.assignment.flat_curve) {
+      return "Flat (" + $scope.assignment.flat_curve.flat_rate + "%)"
+    }
+    else if ($scope.assignment.linear_curve) {
+      return "Linear"
+    } else {
+      return "None"
+    }
+  }
+
+  if ($scope.assignment.flat_curve) {
+    $scope.updateData();
+  } else if ($scope.assignment.linear_curve) {
+    $scope.applyLinearCurve();
   }
 
   $scope.failingStudents = function() {

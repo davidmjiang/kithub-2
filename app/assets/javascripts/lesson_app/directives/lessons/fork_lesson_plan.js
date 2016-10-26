@@ -16,23 +16,24 @@ Lesson.directive("forkLessonPlan",  [ "LessonService", "$stateParams", "Auth", "
                                   content: response.content,
                                   teacher_id: currentUser.id,
                                   hours: response.hours,
-                                  version: response.version + 0.1,
+                                  version: 1.0,
                                   forks: 0,
                                   state: response.state,
                                   lesson_type: response.lesson_type,
                                   parent_plan_id: response.id,
+                                  parent_version: response.version,
                                   subject: response.subject,
                                   grade: response.grade } )
 
           .then(function(newLesson) {
             newLesson.parent_plan_title = newLesson.title;
-            $state.go("main.lessons.show", {id: newLesson.id})
+            $state.go("main.lessons.show", {id: newLesson.id});
             $timeout(function(){
-              flash('alert-success', 'Lesson plan forked!') 
-            }, 500)
-            })
-          })
-        })
+              flash('alert-success', 'Lesson plan forked!') ;
+            }, 500);
+            });
+          });
+        });
 
       }
     }

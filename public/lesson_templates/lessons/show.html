@@ -18,6 +18,11 @@
       <div ng-if="editing === false && currentUserLesson === true">
         <button class="btn btn-primary" ng-click="toggleEditing()">Edit</button>
       </div>
+      <div ng-if="currentUserLesson === false">
+        <button class="btn btn-secondary setting-btn helptip" ng-click="export()" ng-if="!exporting">Download lesson&nbsp<i class="fa fa-question-circle-o"></i></button>
+        <div class="helptext">Download lesson as a .docx file. Check your pop-up blocker if having trouble with the download.</div>
+        <button class="btn btn-secondary setting-btn" ng-if="exporting" ng-disabled="true"><i class="fa fa-spinner fa-spin fa-fw"></i>Downloading...</button>
+      </div>
     </div>
     <div class="col-md-4">
       <flash:messages></flash:messages>
@@ -39,8 +44,8 @@
 
         <div class="card card-block">
           <h4 class="card-title">Additional Materials</h4>
-          <button ng-if="currentUserLesson === true && editing"><i class="fa  {{ saving ? 'fa-spinner fa-spin' : 'fa-upload' }} fa-fw"></i><label for="file-upload" class="upload-btn">Upload</label></button>
-          <input id="file-upload" type="file" ngf-select="upload($file)">
+         <button ng-if="currentUserLesson === true && editing" ng-disabled="saving"> <label for="file-upload" class="upload-btn"><i class="fa  {{ saving ? 'fa-spinner fa-spin' : 'fa-upload' }} fa-fw"></i>Upload</label></button>
+          <input id="file-upload" type="file" ngf-select="upload($file)" ng-disabled="saving" ngf-accept="'.pdf,.doc,.xls,.csv,.docx,.xlsx,audio/*,video/*,image/*'" ng-model="file" multiple>
           <ul>
             <li ng-repeat="m in materials"><a ng-href="{{m.image_url}}" target="_blank">{{m.file_name | limitTo: 30}}
             <a class="fa fa-download am-btn" aria-hidden="true" ng-href="{{m.image_url}}" download></a><a ng-if="currentUserLesson === true" class="fa fa-trash-o am-btn" aria-hidden="true" ng-click="deleteMat(m)"></a></li>

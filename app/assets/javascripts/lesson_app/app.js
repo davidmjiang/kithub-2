@@ -63,8 +63,8 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 	$stateProvider
 	 .state('main',{
     url: '',
-    abstract: true,
     template: "<div ui-view></div>",
+    abstract: true,
 		resolve: {
 			currentUser: ['Auth', function(Auth){
             return Auth.currentUser()
@@ -73,7 +73,7 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
             });
           }],
       currentTeacher: ['currentUser', 'TeacherService', function(currentUser, TeacherService) {
-        return TeacherService.getTeacher(currentUser.id)
+        return TeacherService.getTeacher(currentUser.id);
       }]
     }
 	})
@@ -88,8 +88,18 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 
 		.state('main.lessons', {
       url: '/lessons',
-      abstract: true,
+      abstract: true
 		})
+
+    .state('main.search', {
+      url: '/search/?type=:searchType&params=:searchTerm',
+      params: {
+        searchType: null,
+        searchTerm: null
+      },
+      templateUrl: 'lesson_templates/lessons/search.html',
+      controller: 'SearchCtrl'
+    })
 
 		.state('main.lessons.show', {
       url: '/:id',
@@ -146,6 +156,26 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
       }
     })
 
+    .state('main.lessons.show.contributors', {
+      url: '/contributors',
+      views: {
+        "mainContainer@main.lessons.show": {
+          templateUrl:  "lesson_templates/lessons/contributors.html",
+          controller: "LessonShowCtrl"
+        }
+      }
+    })
+
+    .state('main.lessons.show.settings', {
+      url: '/settings',
+      views: {
+        "mainContainer@main.lessons.show": {
+          templateUrl:  "lesson_templates/lessons/settings.html",
+          controller: "LessonShowCtrl"
+        }
+      }
+    })
+
 		.state('main.teachers', {
 			url: '/teachers/:id',
       abstract: true,
@@ -155,12 +185,8 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
 	      teacher: ["$stateParams", "TeacherService", function($stateParams, TeacherService){
 	        	return TeacherService.getTeacher($stateParams.id);
 	      }],
-         followers: ["$stateParams", 'Restangular', function($stateParams, Restangular){
-          return Restangular.all('teacher_followings').customGET(
-            "", {followed_id: $stateParams.id}
-          ).then(function(response){
-            return response;
-          });
+         populate: ["$stateParams", "FollowingService", function($stateParams, FollowingService){
+            FollowingService.populate($stateParams.id);
         }]
 			}
 		})
@@ -201,15 +227,6 @@ angular.module('Lesson').config(['$stateProvider', '$urlRouterProvider', functio
     .state('main.teachers.following',{
       url: '/following',
       templateUrl: 'lesson_templates/teacher/following.html',
-      resolve: {
-        following: ["$stateParams", 'Restangular', function($stateParams, Restangular){
-          return Restangular.all('teacher_followings').customGET(
-            "", {follower_id: $stateParams.id})
-          .then(function(response){
-            return response;
-          });
-        }]
-      },
       controller: "TeacherFollowingCtrl"
     })
 

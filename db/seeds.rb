@@ -37,6 +37,7 @@ t = Teacher.create(email: person,
                    state: Faker::Address.state)
   2.times do
     c = t.courses.create(title: Faker::Educator.course)
+    c.identifier = SecureRandom.hex(4) + c.id.to_s
     15.times do
       assignment = c.assignments.create(title: Faker::Space.star,
                            assignment_type: assignment_type.sample,
@@ -139,7 +140,6 @@ class Gradebook
   def fake_gradebook_data 
     create_teacher
     create_teacher_courses
-    create_students
     assign_students_to_courses
     create_assignments_for_courses
     create_submissions_for_assignments
@@ -167,19 +167,15 @@ class Gradebook
     @all_courses = [@algebra, @history, @biology, @flight_simulator, @gym]
   end
 
-  def create_students
-    @students = []
-    NUM_STUDENTS.times do |i|
-      student = Student.create(first_name: Faker::Name.first_name,
-                     last_name: Faker::Name.last_name,
-                     email: Faker::Internet.safe_email)    
-      @students.push(student)
-    end
-  end
-
   def assign_students_to_courses
+    @students = []
     @all_courses.each do |course|
-      course.students = @students.dup[0..MAX_CLASS_SIZE]
+      NUM_STUDENTS.times do |i|
+        student = course.students.create(first_name: Faker::Name.first_name,
+                       last_name: Faker::Name.last_name,
+                       email: Faker::Internet.safe_email)    
+        @students.push(student)
+      end
     end
   end
 
@@ -200,11 +196,12 @@ class Gradebook
     @all_courses.each do |course|
       course.assignments.each do |assignment|
         mean = rand(50..100)
+        deviation = 101 - mean
         course.students.each do |student|
-          deviation = 101 - mean
           norm = Rubystats::NormalDistribution.new(mean, deviation)
           raw_percent = norm.rng
           raw_percent = 100 if raw_percent > 100
+          raw_percent = 0 if raw_percent < 0
           raw_score = (raw_percent/100 * assignment.possible_score).floor
           student.submissions.create(assignment_id: assignment.id,
                       raw_score: raw_score)

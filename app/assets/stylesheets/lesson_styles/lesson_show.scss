@@ -62,6 +62,39 @@
       margin: 0 auto;
     }
   }
+
+  .setting-btn{
+    margin: 10px;
+  }
+
+  .helptip{
+    position: relative;
+  }
+
+  .helptext{
+    display: none;
+    width: 200px;
+    background-color: $ternary-color;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    font-size: 12px;
+    position: absolute;
+    z-index: 100;
+    bottom: 100%;
+    left: 50%;
+  }
+
+  .helptip:hover + .helptext{
+    display: block;
+  }
+
+  .diffs {
+    button {
+      // margin-left: -15px;
+    }
+  }
 }
 
 
