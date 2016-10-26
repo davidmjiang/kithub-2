@@ -34,6 +34,9 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  #Prevents email being sent and instead opens in browser
+  config.action_mailer.delivery_method = :letter_opener
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

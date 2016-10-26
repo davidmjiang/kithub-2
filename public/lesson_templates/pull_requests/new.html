@@ -1,16 +1,30 @@
 <fork-lesson-plan owner="owner" ng-if="lessonBelongsToCurrentUser === false && alreadyForked !== true"></fork-lesson-plan>
 
-<button ui-sref="main.lessons.show.pullRequests({id: newPR.parent_plan_id})" ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length > 0" class="btn btn-warning pull-right">Pending Pull Request</button>
+<!-- Button trigger modal -->
+<button ng-if="!upToDate && lessonBelongsToCurrentUser"
+        class="btn btn-success pull-right"
+        data-toggle="modal"
+        data-target="#updateModal">
 
-<button ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length === 0"
+  Update Lesson
+</button>
+<div class="modal fade pull-request-modal"
+     id="updateModal"
+     tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <update-lesson-modal lesson="lesson" current-user="currentUser" diffs="updateDiffs" parent="newPR.parent_plan" current="upToDate"></update-lesson-modal>
+</div>
+
+<button ui-sref="main.lessons.show.pullRequests({id: newPR.parent_plan_id})" ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length > 0 && upToDate" class="btn btn-warning">Pending Pull Request</button>
+
+<button ng-if="lessonBelongsToCurrentUser && forkedLesson.parent_plan_id && prSent.length === 0 && upToDate"
         ng-click="getDiffInfo()"
         type="button"
         class="btn btn-info pull-right"
         data-toggle="modal"
         data-target="#newPRModal{{ newPR.forked_plan_id }}">
   New Pull Request</button>
-</div>
-
 
 
 <!-- Modal -->
@@ -65,7 +79,7 @@
       <div class="modal-footer">
 
         <button type="button"
-                class="btn btn-secondary"
+                class="btn btn-secondary position-higher"
                 data-dismiss="modal">
 
                Cancel
@@ -73,7 +87,7 @@
 
 
         <button type="button"
-                class="btn btn-secondary"
+                class="btn btn-secondary position-higher"
                 ng-click="createNewPullRequest(newPRForm.title.$valid)">
                 Create New Pull Request
         </button>

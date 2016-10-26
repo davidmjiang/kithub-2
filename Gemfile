@@ -10,6 +10,10 @@ gem 'angularjs-rails'
 gem 'angular_rails_csrf'
 # Devise for authentication
 gem 'devise'
+# Omniauth gems
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-github'
 # Adding to devise module for angular
 source "https://rails-assets.org" do
   gem "rails-assets-angular-devise"

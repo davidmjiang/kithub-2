@@ -2,8 +2,6 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
 
   var StudentService = {}
 
-
-
   StudentService.sortStudents = function(students) {
     var students = students.sort(function(a,b) {
       var lastNameA = a.last_name
@@ -19,6 +17,12 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
       }
     })
     return students;
+  }
+
+  StudentService.sendMail = function(student_id, teacher_id, score) {
+    Restangular.one("student_progress/fail").customPOST({student_id: student_id, teacher_id: teacher_id, score: score}).then(function() {
+      console.log("Success")
+    })
   }
 
   StudentService.sortSubmissions = function(students) {
@@ -92,7 +96,6 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
   }
 
   StudentService.removeStudent = function(student) {
-    console.log(student);
     return Restangular.one("students", student.id).remove();
   }
 

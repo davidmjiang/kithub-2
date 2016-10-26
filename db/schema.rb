@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161024213845) do
+ActiveRecord::Schema.define(version: 20161025163826) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,10 +53,11 @@ ActiveRecord::Schema.define(version: 20161024213845) do
   end
 
   create_table "courses", force: :cascade do |t|
-    t.string   "title"
-    t.integer  "teacher_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "title"
+    t.integer  "teacher_id"
+    t.string   "identifier"
   end
 
   create_table "flat_curves", force: :cascade do |t|
@@ -125,6 +127,25 @@ ActiveRecord::Schema.define(version: 20161024213845) do
     t.index ["assignment_id"], name: "index_linear_curves_on_assignment_id", using: :btree
   end
 
+  create_table "parents", force: :cascade do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["email"], name: "index_parents_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_parents_on_reset_password_token", unique: true, using: :btree
+  end
+
   create_table "pull_requests", force: :cascade do |t|
     t.string   "title",              null: false
     t.text     "description"
@@ -154,6 +175,15 @@ ActiveRecord::Schema.define(version: 20161024213845) do
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_student_courses_on_course_id", using: :btree
     t.index ["student_id"], name: "index_student_courses_on_student_id", using: :btree
+  end
+
+  create_table "student_parents", force: :cascade do |t|
+    t.integer  "parent_id"
+    t.integer  "student_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_id"], name: "index_student_parents_on_parent_id", using: :btree
+    t.index ["student_id"], name: "index_student_parents_on_student_id", using: :btree
   end
 
   create_table "students", force: :cascade do |t|
@@ -222,6 +252,9 @@ ActiveRecord::Schema.define(version: 20161024213845) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string   "provider"
+    t.string   "uid"
+
     t.index "to_tsvector('english'::regconfig, (email)::text)", name: "teachers_to_tsvector_idx2", using: :gin
     t.index "to_tsvector('english'::regconfig, (first_name)::text)", name: "teachers_to_tsvector_idx", using: :gin
     t.index "to_tsvector('english'::regconfig, (last_name)::text)", name: "teachers_to_tsvector_idx1", using: :gin
@@ -229,4 +262,6 @@ ActiveRecord::Schema.define(version: 20161024213845) do
     t.index ["reset_password_token"], name: "index_teachers_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "student_parents", "parents"
+  add_foreign_key "student_parents", "students"
 end
