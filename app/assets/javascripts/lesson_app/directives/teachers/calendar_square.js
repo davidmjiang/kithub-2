@@ -25,7 +25,7 @@ angular.module("Lesson").directive('calendarSquare',  ['ContributionsService', f
 				scope.color = ContributionsService.getColor(scope.teacher, scope.data);
 			}
 			else{
-				scope.color = "rgb(224, 224, 224)";
+				scope.color = "rgb(236, 238, 239)";
 			}
 		}
 	};

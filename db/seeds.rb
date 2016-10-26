@@ -65,11 +65,23 @@ t = Teacher.create(email: person,
                           subject: SUBJECTS.sample,
                           lesson_type: LESSON_TYPES.sample
                           )
-    #creating fake dates
-    l.created_at = (rand*30).days.ago
-    l.save
     l.taggings(tag_id: Tag.all.sample.id )
   end
+end
+
+productive_teacher = Teacher.first
+#creating fake dates
+productive_teacher.lesson_plans.each_with_index do |item, index|
+  if index < 4
+    item.created_at = 30.days.ago
+  elsif index < 7
+    item.created_at = 2.days.ago
+  elsif index < 9
+    item.created_at = 3.days.ago
+  else
+    item.created_at = 5.days.ago
+  end
+  item.save
 end
 
 puts 'creating follows'
