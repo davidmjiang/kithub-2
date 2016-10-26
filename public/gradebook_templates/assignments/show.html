@@ -206,13 +206,27 @@
               </div>
             </div>
           </div>
+        <div role="tabpanel" class="tab-pane fade" id="notification">
+          <div class="row">
+            <div class="col-sm-11 offset-sm-1">
+              <div class="modal-body">   
+                <div ng-if="anyFailingStudents" class="failing-students row">
+                  <p class="text-center">The following students failed (under 60%) the {{assignment.name}} assignment:</p>
+                  <p ng-repeat="(failingStudent, score) in failingStudents" class="col-md-6">
+                  {{failingStudent}} : {{score}}</br>
+                  <button ng-click="notifyParent(failingStudent, score)" class="btn btn-primary notify-parents">Notify {{failingStudent}}</button>
+                  </p>
+                </div>
 
-          <div role="tabpanel" class="tab-pane fade" id="notification">
-            <div class="row">
-<!--               <p>{{assignment.submissions}}</p>
- -->              <p>{{assignment.has_curve}}</p>
+              <div ng-if="anyExceptionalStudents" class="exceptional-students row">
+                <p class="text-center">The following students did exceptionally well (over 90%) on the {{assignment.name}} assignment:</p>
+                <p ng-repeat="(exceptionalStudent, score) in exceptionalStudents" class="col-md-6">{{exceptionalStudent}} : {{score}}</br>
+                <button ng-click="notifyParent(exceptionalStudent, score)" class="btn btn-primary notify-parents">Notify {{exceptionalStudent}}</button>
+                </p>
+              </div>
             </div>
           </div>
+        </div>
 
       
 

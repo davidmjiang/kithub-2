@@ -68,7 +68,7 @@ class StudentsController < ApplicationController
     a = Course.find_by_id(course_id).assignments
     a.each do |assignment|
       submission = Submission.create()
-      submission.raw_score = 0
+      submission.raw_score = -1
       submission.assignment_id = assignment.id
       student.submissions << submission
     end
