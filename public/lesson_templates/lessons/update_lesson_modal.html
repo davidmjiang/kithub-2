@@ -11,31 +11,16 @@
         </button>
 
         <h4 class="modal-title" id="myModalLabel">
-          Updates for {{ lesson.title }}
+          Updates from {{ parent.title }}
         </h4>
       </div>
 
       <div class="modal-body">
-          <div class="pull-right">
-            <button class="btn btn-success"
-                    ng-click='acceptChanges()'
-                    data-dismiss="modal"
-                    type="button">
-                Accept Changes
-            </button>
 
-            <button class="btn btn-danger"
-                    ng-click='rejectChanges()'
-                    data-dismiss="modal"
-                    type="button">
-                Reject All Changes
-            </button>
-          </div>
-
-          <h4>User: {{ currentUser.name }}</h4>
+          <h5>Changes from {{ currentUser.first_name + " " + currentUser.last_name }}</h5>
           <small>Date of Change</small>
+
           <update-diffs diffs="diffs" lesson="lesson"></update-diffs>
-          {{diffs}}
       </div>
 
       <div class="modal-footer">
@@ -45,6 +30,20 @@
                 data-dismiss="modal">
 
                 Close
+        </button>
+
+        <button class="btn btn-danger"
+                ng-click='rejectChanges()'
+                data-dismiss="modal"
+                type="button">
+            Reject All Changes
+        </button>
+
+        <button class="btn btn-success"
+                    ng-click='acceptChanges()'
+                    data-dismiss="modal"
+                    type="button">
+            Accept Changes
         </button>
 
 
