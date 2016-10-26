@@ -17,30 +17,17 @@
     </h1>
   </div>
 </div>
-<div ng-if="anyFailingStudents" class="failing-students row">
-<p>The following students are failing (under 60%) your class:</p>
-  <p ng-repeat="(failingStudent, score) in failingStudents" class="col-md-4">
-  {{failingStudent}} : {{score}}%</br>
-  <button ng-click="notifyParent(failingStudent, score)" class="btn btn-primary notify-parents">Notify {{failingStudent}}</button>
-  </p>
-</div>
-
-<div ng-if="anyExceptionalStudents" class="exceptional-students row">
-<p>The following students are doing exceptionally well (over 90%) in your class:</p>
-  <p ng-repeat="(exceptionalStudent, score) in exceptionalStudents" class="col-md-4">{{exceptionalStudent}} : {{score}}%</br>
-    <button ng-click="notifyParent(exceptionalStudent, score)" class="btn btn-primary notify-parents">Notify {{exceptionalStudent}}</button>
-  </p>
-</div>
 
 <p>Average GPA by raw score: <span>{{rawGPA | number:2}}%</span></p>
 <p ng-show="{{curvedGPA}}">GPA with curve: <span>{{curvedGPA}}% </span></p>
 <p><strong>Note</strong>: Adding a '-1' to a score DOES NOT include the score in the student's overall GPA for the course.
 This feature is useful incase a student has not yet handed in an assignment or is excused from an assignment</p>
-<div class="overflow-x-auto">
+<div>
   <button class="btn btn-success sh-btn" ng-click="addStudentModal(course)">Add Student</button>
   <button class="btn btn-success sh-btn" ng-click="addAssignmentModal(course)">Add Assignment</button>
   <button class="btn btn-danger sh-btn" ng-click="removeStudentModal(course)">Remove Student</button>
   <button class="btn btn-outline-danger sh-btn" ng-click="deleteCourse()">Delete this course</button>
+  <button class="btn btn-primary" ng-click="showNotifications(failingStudents, exceptionalStudents)">Notifications</button>
   <div fixed-first-column>
   <scrollable-table>
     <table class="table table-striped table-bordered table-hover">
@@ -54,17 +41,17 @@ This feature is useful incase a student has not yet handed in an assignment or i
           <th>Overall</th>
         </tr>
       </thead>
-      <tbody>
-        <tr ng-repeat="row in allRows track by $index | limitTo: rowCount">
-          <td nowrap class="styling-grades" ng-submit="submitEdit(row, item, $index)" ng-repeat="item in row track by $index | limitTo: colCount ">
-             {{percentScore(item, $index)}}<a href="#" onbeforesave="checkItem($index, $data)" editable-text="item"> {{isItemScore(item, $index)}}</a>
-          </td>
-          <td class="styling-grades">{{showScore(allRows.indexOf(row))}}%</td>
-          <td class="styling-grades"><a ng-click="studentDetailModal(row[3], row[row.length - 1])">Details</a></td>
-        </tr>
-      </tbody>
-    </table>
+        <tbody>
+          <tr title="{{row[1] + ' ' + row[2]}}" data-toggle="tooltip" data-placement="top" tool-tip ng-repeat="row in allRows track by $index | limitTo: rowCount">
+              <td nowrap class="styling-grades" ng-submit="submitEdit(row, item, $index)" ng-repeat="item in row track by $index | limitTo: colCount ">
+
+               {{percentScore(item, $index)}}<a href="#" onbeforesave="checkItem($index, $data)" editable-text="item"> {{isItemScore(item, $index)}}</a>
+            </td>
+            <td>{{showScore(allRows.indexOf(row))}}%</td>
+            <td><a ng-click="studentDetailModal(row[3], row[row.length - 1])">Details</a></td>
+          </tr>
+        </tbody>
+      </table>
   </scrollable-table>
   </div>
 </div>
-

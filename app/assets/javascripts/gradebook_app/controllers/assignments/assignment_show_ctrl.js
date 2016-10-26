@@ -5,6 +5,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     this.closed = true;
   }
 
+  $scope.submissions = course.submissions
+
   $scope.$watch('curve.slideA', function (newValue, oldValue) {
     if (newValue !== oldValue) {
       $scope.curve.slideA = Number(newValue);
@@ -68,6 +70,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       })
     }
   }
+
 
   var _fillFlatRateEditInput = function() {
     var curve = {}
