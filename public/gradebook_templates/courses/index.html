@@ -19,11 +19,13 @@
         <span class="course-index-class-information">{{course.assignments.length}}</span>
         <span class="course-index-class-information students">-Students: </span>
         <span class="course-index-class-information">{{course.students.length}}<span>
-          <span  uib-popover-template="popoverTemplateUrl" 
-        popover-trigger="'mouseenter'"
-        popover-placement="auto bottom"
-        popover-popup-delay="750"
-        class="fa fa-line-chart" aria-hidden="true"></span>
+          <span class="line-graph-icon">
+          <i  uib-popover-template="popoverTemplateUrl" 
+              popover-trigger="'mouseenter'"
+              popover-placement="auto bottom"
+              popover-popup-delay="550"
+              class="fa fa-lg fa-line-chart wiggle-me" aria-hidden="true"></i>
+          </span>
       </div>
     </a>
   </div>
