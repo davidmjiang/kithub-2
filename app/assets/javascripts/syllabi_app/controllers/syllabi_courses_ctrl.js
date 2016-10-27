@@ -30,6 +30,28 @@ Syllabi.controller('SyllabiCoursesCtrl', ['$scope', '$state', 'currentUser', 'Sy
       });
     };
 
+    $scope.checkDates = function(){
+      if (this.course.newStartDate && this.course.newEndDate) {
+        if (this.course.newStartDate > this.course.newEndDate) {
+          this.course.invalidDates = true;
+        } else {
+          this.course.invalidDates = false;
+        }
+      } else if (this.course.newStartDate && this.course.end_date) {
+        if (this.course.newStartDate > new Date(this.course.end_date)) {
+          this.course.invalidDates = true;
+        } else {
+          this.course.invalidDates = false;
+        }
+      } else if (this.course.newEndDate && this.course.start_date) {
+        if (new Date(this.course.start_date) > this.course.newEndDate) {
+          this.course.invalidDates = true;
+        } else {
+          this.course.invalidDates = false;
+        }
+      }
+    }
+
 
     $scope.toggleEditCourse = function(course){
       course.editingCourse = !course.editingCourse
