@@ -10,11 +10,16 @@ class LessonPlanContributorsController < ApplicationController
 
 
   def create
+    @past = LessonPlanContributor.where(teacher_id: params[:teacher_id], lesson_plan_id: params[:lesson_plan_id])
     @contribution = LessonPlanContributor.new(contribution_params)
     
     respond_to do |format|
-      if @contribution.save
-        format.json { render @contribution }
+      if @past.length == 0
+        if @contribution.save
+          format.json { render json: @contribution }
+        end
+      else
+        format.json { render json: @past }
       end
     end
   end
