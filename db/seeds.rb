@@ -57,9 +57,11 @@ t = Teacher.create(email: person,
                            possible_score: assignments[i][:score])
     end
     15.times do |i|
-      s = Student.create(first_name: Faker::Name.first_name,
-                         last_name: Faker::Name.last_name,
-                         email: Faker::Internet.safe_email)
+      first = Faker::Name.first_name
+      last = Faker::Name.last_name
+      s = Student.create(first_name: first,
+                         last_name: last,
+                         email: "#{first[0].downcase}#{last.downcase}@gmail.com")
       s.courses << c;
       c.assignments.each do |assignment| 
         mean = rand(50..100)
@@ -91,6 +93,41 @@ t = Teacher.create(email: person,
                           lesson_type: LESSON_TYPES.sample
                           )
     l.taggings(tag_id: Tag.all.sample.id )
+  end
+end
+
+1.times do
+  t = Teacher.find_by(email: "dylan@gmail.com")
+  c = t.courses.create(title: Faker::Educator.course)
+  c.identifier = SecureRandom.hex(4) + c.id.to_s
+  5.times do |i|
+    assignment = c.assignments.create(title: assignments[i][:title],
+                         assignment_type: assignments[i][:type],
+                         possible_score: assignments[i][:score])
+  end
+  10.times do |i|
+    first = Faker::Name.first_name
+    last = Faker::Name.last_name
+    s = Student.create(first_name: first,
+                       last_name: last,
+                       email: "#{first[0].downcase}#{last.downcase}@gmail.com")
+    s.courses << c;
+    c.assignments.each do |assignment| 
+      mean = rand(50..100)
+      deviation = 101 - mean
+      norm = Rubystats::NormalDistribution.new(mean, deviation)
+      raw_percent = norm.rng
+      raw_percent = 100 if raw_percent > 100
+      raw_percent = 0 if raw_percent < 0
+      raw_score = (raw_percent/100 * assignment.possible_score).floor
+      if assignment.title == "Pop Quiz" then
+        s.submissions.create(assignment_id: assignment.id,
+                          raw_score: (raw_score/2))
+      else
+        s.submissions.create(assignment_id: assignment.id,
+                          raw_score: raw_score)
+      end
+    end
   end
 end
 

@@ -10,7 +10,9 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click], th[ng-cli
   cursor: pointer;
 }
 
-
+.scrollArea {
+  height: auto !important;
+}
 
 .student-modal .editable-buttons button {
   float: left;
@@ -29,13 +31,16 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click], th[ng-cli
 }
 
 .styling-grades {
+  font-size: 13px;
   padding: 5px 12px !important;
   .editable-buttons button {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
+    padding: 2px 5px;
   }
   .editable-input {
-    width: 84px;
+    width: 68px;
+    margin: 0 !important;
   }
 }
 
@@ -138,4 +143,13 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click], th[ng-cli
   margin-bottom:20px;
   border-radius: 10px;
   margin: 0px 0px 2px 4px;
+}
+
+.tb-header {
+  font-size: 14px;
+  text-align: center;
+}
+
+.box {
+  padding: 0 5px !important;
 }
