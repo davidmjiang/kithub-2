@@ -71,7 +71,7 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
  width: auto;
 }
 .course-index-background {
-  background-color: #B3C100;
+ 
 }
 
 .course-box {
@@ -86,7 +86,6 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
   border-radius:20px;
   color: white;
   font-family: chalk;
-  font-size: 35px;
   line-height: 88px;
   margin-left:20px;
 }
@@ -97,14 +96,15 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
   background-repeat: no-repeat;
   background-size:cover;
   margin-top:15px;
-  padding-bottom:35px;
   border: 5px solid #966F33;
   border-radius:10px;
+  height:200px;
+  padding-bottom:100px
 }
 
 
 .course-index-teacher-name {
-  margin-top:5px;
+  line-height:200px;
   color:white;
   text-align: center; 
   font-family:chalk;
@@ -122,17 +122,23 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
 }
 
 .course-index-class-information {
-  margin-left:50px;
   font-size:20px;
-  margin-top:-40px;
-  margin-bottom:-20px;
 }
 
 .new-course {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
   background-color: #e6e6e6;
   width: 30%;
-  margin-bottom:20px;
   border-radius: 10px;
   margin: 0px 0px 2px 4px;
+  margin-top:-50px;
+}
+
+.course-index-class-title {
+  font-size:30px;
+  margin-bottom:-10px;
+}
+
+.class-index-class-information.students {
+  margin-left:20px;
 }
