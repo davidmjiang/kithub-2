@@ -32,7 +32,7 @@ a:hover {
   box-shadow: none;
 }
 
-a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
+a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click], th[ng-click] {
   cursor: pointer;
 }
 
@@ -46,10 +46,6 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
   margin-bottom: 5px;
 }
 
-.editable-buttons button {
-
-}
-
 .failing-students .notify-parents {
   float:left;
 }
@@ -60,6 +56,13 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
 
 .styling-grades {
   padding: 5px 12px !important;
+  .editable-buttons button {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  .editable-input {
+    width: 84px;
+  }
 }
 
 /* for line graphs */
