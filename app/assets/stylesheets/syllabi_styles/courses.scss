@@ -55,6 +55,19 @@
     text-align: center;
     margin-top: 10px;
   }
+  .listed-lesson-plan{
+    margin-left: 0px;
+  }
+  .no-lesson-div{
+    text-align: center;
+    h5 {
+      margin-top: 40px;
+    }
+  }
+  .under-drop{
+    border: 2px solid $primary-color;
+    background-color: rgba(183,184,182, 0.5);
+  }
   .lesson-filters{
     border-right: 1px solid gray;
     .toggle-filter-text {

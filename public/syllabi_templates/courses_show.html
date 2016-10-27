@@ -78,15 +78,18 @@
     <div ng-repeat="courseDay in course.course_days | orderBy: 'date'" courseDay="courseDay">
       <div class="clearfix" ng-if="$index % 2 == 0"></div>
       <div class="col-sm-6">
-        <div data-drop="true" jqyoui-droppable="{placeholder: true, onDrop: 'addLessonPlan(courseDay)'}" class="col-xs-11 course-day">
+        <div course-day-id="{{$index}}" data-drop="true" jqyoui-droppable="{placeholder: true, onDrop: 'addLessonPlan(courseDay)', onOver:'addUnderDrop($index)', onOut: 'removeUnderDrop($index)'}" class="col-xs-11 course-day">
           <h4>{{courseDay.date | date}}</h4>
           <div ng-repeat="lesson in courseDay.lesson_plans" class="card listed-lesson-plan">
             <div class="card-header " ng-class="{group: lesson.lesson_type === 'Group', individual: lesson.lesson_type === 'Individual', teacher: lesson.lesson_type === 'Teacher-led'}">
               <h5><a href="/#/lessons/{{lesson.id}}">
                 {{lesson.title}}
               </a></h5>
-              <span class="pull-right" ng-click="deleteLessonPlan(lesson, courseDay)">Delete</span>
+              <span class="pull-right" ng-click="deleteLessonPlan(lesson, courseDay)">Remove</span>
             </div>
+          </div>
+          <div class="no-lesson-div" ng-if="courseDay.lesson_plans.length < 1">
+            <h5 class="cabin-sketch-font">Drag a lesson plan from the left column to add it to this day</h5>
           </div>
         </div>
       </div>
