@@ -31,11 +31,13 @@ Uploading on the front end is done using the Angular Upload library. Once a file
 
 ### Uploading and downloading additional materials
 
-Kithub uses the ng-file-upload directive to upload photos, lesson plans and additional materials. Photos and additional materials are attached to Rails models using the paperclip gem and stored in AWS. Kithub uses the Pandoc-Ruby gem to convert word document into markdown when a user uploads a lesson and to convert markdown to word documents when a user downloads a lesson.
+Kithub uses the ng-file-upload directive to upload profile photos, lesson plans and additional materials. Photos and additional materials are attached to Rails models using the paperclip gem and stored in AWS. When a user downloads a lesson, the lesson plan markdown file is converted to word, saved as a tempfile and then sent from Rails to the browser for downloading.
 
 ### Contributions Calendar
 
 The contributions calendar uses three custom directives to form the grid. A contributions service populates an index table on the front-end and serves that data to each square in the calendar. For each user, the service calculates the maximum daily contribution value and uses that to construct a color scale that starts at dark green and gets lighter for each quartile, down to gray for 0 contributions.
+
+![Contributions Calendar](screenshots/contributions_screenshot.jpg "Contributions Calendar")
 
 ### Pull Requests
 
