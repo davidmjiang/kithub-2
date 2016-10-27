@@ -261,6 +261,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
   $scope.close = function(result) {
     close(result, 200)
     $scope.closed = true;
+    angular.element('body').removeClass('modal-open');
+    angular.element(".modal-backdrop").remove();
   }
 
   $scope.addCurve = function() {
