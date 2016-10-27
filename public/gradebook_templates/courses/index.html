@@ -1,20 +1,31 @@
-<div class='row'>
-  <h1>Your courses</h1>
-  
-  <div class="col-xs-4" ng-repeat="course in courses">
+<div class="course-index-background">
+  <div class='row'>
+    <div class="course-box-header">
+      <h1 class="course-index-teacher-name">Your courses</h1>
+      <div class="col-xs-12">
+        <div class="new-course" ng-click="showNewCourseModal()">
+          <span class="create-new-course">Create new course</span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <div class="col-xs-12" ng-repeat="course in courses track by $index">
     <a uib-popover-template="popoverTemplateUrl" 
             popover-trigger="'mouseenter'"
             popover-placement="auto bottom"
             popover-popup-delay="750"
             ui-sref="gradebook.courseShow({id: course.id})">
       <div class="course-box">
-        <p>{{course.title}}</p>
+        <p type-delay= "100" typewrite cursor= "." initial-delay="-1" blink-cursor= "false" text="course.title"></p>
+
+        <span type-delay= "100" typewrite cursor= "." initial-delay="-1" blink-cursor= "false" class="course-index-class-information" text="'-Assignments:'"></span>
+        <span class="course-index-class-informatio">{{course.assignments.length}}</span>
+        <span type-delay= "100" typewrite cursor= "." initial-delay="-1" blink-cursor= "false" class="course-index-class-information" text="'-students:'"></span>
+        <span class="course-index-class"
+        <span type-delay= "100" typewrite cursor= "." initial-delay="-1" blink-cursor= "false" class="course-index-class-information" text="'-Students:'"></span>
       </div>
     </a>
-  </div>
-  <div class="col-xs-4">
-    <div class="new-course" ng-click="showNewCourseModal()">
-    <p>Create new course..</p>
-    </div>
   </div>
 </div>

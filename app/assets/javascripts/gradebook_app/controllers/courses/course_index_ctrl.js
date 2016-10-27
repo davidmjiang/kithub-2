@@ -11,6 +11,17 @@ Gradebook.controller("CourseIndexCtrl", ["$scope", "$sce", "ModalService", "cour
     })
   }
 
+  var courseStudents = function() {
+    var students = [];
+    for(var i = 0; i < $scope.courses.length; i++) {
+      students.push($scope.courses[i])
+    }
+    $scope.students = students;
+  }
+
+  courseStudents();
+  console.log($scope.students);
+
   $scope.popoverTemplateUrl =  'gradebook_templates/courses/info_popover.html'
 
 }])
