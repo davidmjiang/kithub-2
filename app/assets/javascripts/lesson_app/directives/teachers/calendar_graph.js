@@ -24,8 +24,7 @@ angular.module("Lesson").directive('calendarGraph', ['ContributionsService', fun
 			scope.header += " this year";
 
 			scope.getWeeks = function(){
-				//first Monday of the year
-				var startingDate = new Date("January 4, 2016");
+				var startingDate = ContributionsService.getStartingDate();
 				var starting_days = [];
 				starting_days.push(startingDate);
 				var copy = new Date(startingDate.valueOf());
@@ -42,7 +41,7 @@ angular.module("Lesson").directive('calendarGraph', ['ContributionsService', fun
 			scope.weeks = scope.getWeeks();
 
 			//headers
-			scope.months = ["Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+			scope.months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 		}
 	};
 }]);
