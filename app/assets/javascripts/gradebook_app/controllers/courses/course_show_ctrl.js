@@ -246,7 +246,6 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     var student;
     var submission;
     $rootScope.$broadcast("submission.edit");
-    var assignmentId = $scope.assignments[index - 4].id
     var rowIndex = $scope.allRows.indexOf(row);
     if(index > 0 && index < 4) {
       student = $scope.students[rowIndex];
@@ -254,16 +253,18 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     }
     else if (index > 3 && index < row.length) {
       var student;
+      var assignmentId = $scope.assignments[index - 4].id
       for(var i = 0; i < $scope.students.length; i++) {
         if($scope.students[i].id === row[0]) {
           $scope.allRows[i][index] = parseInt(item);
           student = $scope.students[i];
         }
       }
-      submission = student.submissions[index - 4]
-      submission.raw_score = parseInt(item)
+      submission = student.submissions[index - 4];
+      submission.raw_score = parseInt(item);
+      SubmissionService.editSubmission(submission);
     }
-    SubmissionService.editSubmission(submission);
+    
     //}
     $scope.rawGPA = GPAService.rawGPA(course);
   }
