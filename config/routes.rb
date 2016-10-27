@@ -39,7 +39,8 @@ Rails.application.routes.draw do
 
       post "student_progress/fail/", to: "student_progress#fail"
       post "student_progress/exceptional/", to: "student_progress#exceptional"
-      post "student_progress/notification/", to: "student_progress#notification"
+      post "student_progress/fail_assignment/", to: "student_progress#fail_assignment"
+      post "student_progress/exceptional_assignment/", to: "student_progress#exceptional_assignment"
 
       get "/gpas", to: "gpas_controller#index"
     end
