@@ -29,10 +29,17 @@ Gradebook.controller("NotificationsShowCtrl", ["$scope", "exceptionalStudents", 
     for(key in $scope.students) {
       if ($scope.students[key].first_name + $scope.students[key].last_name  === 
         student.split(" ").slice(0)[0] + student.split(" ").slice(1)[0]) {
-        StudentService.sendMail($scope.students[key].id, $scope.course.teacher_id, score)
+        if(score > 60) {
+          StudentService.sendPass($scope.students[key].id, $scope.course.teacher_id, score)
+        }
+        else {
+          StudentService.sendFail($scope.students[key].id, $scope.course.teacher_id, score)
+        }
+        
       }
     }
   }
+
 
 
 	$scope.close = function() {

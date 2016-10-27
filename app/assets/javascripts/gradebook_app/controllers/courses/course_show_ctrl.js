@@ -56,13 +56,13 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
         return "No Score"
       }
       else if(assignment.flat_curve) {
-        return ((rawPercent + assignment.flat_curve.flat_rate).toFixed(2) + "%");
+        return ((rawPercent + assignment.flat_curve.flat_rate).toFixed(1) + "%");
       }
       else if(assignment.linear_curve) {
-        return ((CurveService.linearFormula(assignment.linear_curve, rawPercent)).toFixed(2) + "%");
+        return ((CurveService.linearFormula(assignment.linear_curve, rawPercent)).toFixed(1) + "%");
       }
       else {
-        return (rawPercent.toFixed(2) + "%");
+        return (rawPercent.toFixed(1) + "%");
       }
     }
   }
@@ -135,9 +135,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
 
   for (var i = 0; i < $scope.assignments.length; i++){
-      cols.push(($scope.assignments[i].title) + ": " +
-                        $scope.assignments[i].assignment_type
-                        + "(" + ($scope.assignments[i].possible_score) +")"  );
+      cols.push($scope.assignments[i].title);
   }
 
   var rowData = [];
@@ -208,7 +206,7 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
           possibleTotal += possibleScore;
         }
       } 
-      var score = (Number(rawTotal / possibleTotal * 100).toFixed(2))
+      var score = (Number(rawTotal / possibleTotal * 100).toFixed(1))
       //Get all of the failing students and put it in an object for display to the teacher
       if(score >= 0 && score < 60) {
         var failingStudent = $scope.students[j].first_name + " " + $scope.students[j].last_name;
