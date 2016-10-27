@@ -15,6 +15,7 @@
  *= require scrollable-table
  *= require fixedColumns.dataTables.min
  *= require datatables.min
+ *= require angular-typewrite.min
  */
 
 
@@ -134,6 +135,18 @@ footer {
  @import 'lesson_styles/search';
  @import 'bootstrap-select.min';
 
+
 .nav-link.active {
   background-color: $primary-color !important;
+}
+
+
+@font-face {
+  font-family: 'chalk';
+  font-weight: normal;
+  font-style: normal;
+  src: font-url('chalk.eot');
+  src: font-url('chalk.eot?#iefix') format('embedded-opentype'),
+       font-url('chalk.ttf') format('truetype'),
+       font-url('chalk.svg') format('svg');
 }

@@ -46,5 +46,8 @@
 //= require angular-dragdrop
 //= require datatables.min
 //= require dataTables.fixedColumns.min
+//= require angular-elastic-input.min
+//= require angular-typewrite.min
+//= require typer.min
 
 //= require_tree .

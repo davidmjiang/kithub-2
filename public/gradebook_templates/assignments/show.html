@@ -1,4 +1,4 @@
-<div class="modal fade">
+<div class="modal fade assignment-show">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -12,10 +12,8 @@
 
       </div>
       <div class="modal-body clearfix">
+        <div ng-submit="editAssignment(assignment)"><h2 editable-text="assignment.title">{{assignment.title}}</h2></div>
         <div class="row">
-          <div class="col-xs-7">
-            <h2 editable-text="assignment.title">{{assignment.title}}</h2>
-          </div>
           <div class="col-xs-5">
             <button style="float: right" class="btn btn-outline-danger btn-sm" ng-click="removeAssignment(assignment)" data-dismiss="modal">Remove Assignment</button>
           </div>
@@ -190,13 +188,13 @@
             <div class="row">
               <div class="col-sm-11 offset-sm-1">
                 <p style="margin-top: 10px">
-                  Assignment Type: <span editable-text="assignment.assignment_type">{{assignment.assignment_type | capitalize }}</span>
+                    Assignment Type: <div ng-submit="editAssignment(assignment)"><span editable-text="assignment.assignment_type">{{assignment.assignment_type | capitalize }}</span></div>
                 </p>
 
                 <p>Overall Average: {{gpa.real | number:2 }}%</p>
 
                 <p >
-                  Points possible: <span editable-text="assignment.possible_score">{{assignment.possible_score}}</span>
+                  Points possible:<div ng-submit="editAssignment(assignment)"> <span editable-text="assignment.possible_score">{{assignment.possible_score}}</span></div>
                 </p>
                 <p>
                   Last Updated: {{assignment.updated_at | date:'medium'}}
@@ -206,6 +204,7 @@
               </div>
             </div>
           </div>
+
         <div role="tabpanel" class="tab-pane fade" id="notification">
           <div class="row">
             <div class="col-sm-11 offset-sm-1">  
@@ -213,14 +212,14 @@
                 <p class="text-center">The following students failed (under 60%) the {{assignment.name}} assignment:</p>
                 <p ng-repeat="(failingStudent, score) in failingStudents" class="col-md-6">
                 {{failingStudent}} : {{score}}</br>
-                <button ng-click="notifyParent(failingStudent, score)" class="btn btn-primary notify-parents">Notify {{failingStudent}}</button>
+                <button ng-click="notifyParent(failingStudent, score)" class="btn btn-primary notify-parents">Notify {{failingStudent.split(" ")[0]}}</button>
                 </p>
               </div>
 
               <div ng-if="anyExceptionalStudents" class="exceptional-students row">
                 <p class="text-center">The following students did exceptionally well (over 90%) on the {{assignment.name}} assignment:</p>
                 <p ng-repeat="(exceptionalStudent, score) in exceptionalStudents" class="col-md-6">{{exceptionalStudent}} : {{score}}</br>
-                <button ng-click="notifyParent(exceptionalStudent, score)" class="btn btn-primary notify-parents">Notify {{exceptionalStudent}}</button>
+                <button ng-click="notifyParent(exceptionalStudent, score)" class="btn btn-primary notify-parents">Notify {{exceptionalStudent.split(" ")[0]}}</button>
                 </p>
               </div>
             </div>
