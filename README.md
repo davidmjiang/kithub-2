@@ -25,9 +25,17 @@ This page has a list of the courses added in the gradebook. The 'Edit Course Day
 
 ## Technical Highlights
 
-### Uploading
+### Converting A Word Document
 
 Uploading on the front end is done using the Angular Upload library. Once a file is verified as the correct MIME type, it is sent in a request to the Rails API, which uses the uploaded temporary file and Pandoc, a command line interface conversion library uploaded to Heroku as a buildpack, to produce a Markdown version of the file. This version is saved as the contents of the new lesson plan. Finally, a lesson plan JavaScript object is returned to the front end Angular app.
+
+### Uploading and downloading additional materials
+
+Kithub uses the ng-file-upload directive to upload photos, lesson plans and additional materials. Photos and additional materials are attached to Rails models using the paperclip gem and stored in AWS. Kithub uses the Pandoc-Ruby gem to convert word document into markdown when a user uploads a lesson and to convert markdown to word documents when a user downloads a lesson.
+
+### Contributions Calendar
+
+The contributions calendar uses three custom directives to form the grid. A contributions service populates an index table on the front-end and serves that data to each square in the calendar. For each user, the service calculates the maximum daily contribution value and uses that to construct a color scale that starts at dark green and gets lighter for each quartile, down to gray for 0 contributions.
 
 ### Pull Requests
 
@@ -45,3 +53,9 @@ With Kithub, teachers can collaborate with each other on their lesson plans by s
 * [Mike](https://github.com/asackofwheat)
 * [Phil](https://github.com/philipcolejohnson)
 
+<<<<<<< HEAD
+=======
+With Kithub, teachers can collaborate with each other on their lesson plans by submitting Github style "pull requests" to other teacher's lesson plans. By integrating the JS Diff library, we display deletions and additions to both the pull requestor and the pull requestee. The original lesson plan owner then has the option to accept or reject changes to their master copy of the lesson plan. The owner can accept or reject all changes or pick and chose specific portions to accept. Once a user has accepted a pull request to their copy of the lesson plan, those changes are immediatley be reflected in their lesson. Teachers can also comment on pull requests to resolve any issues or uncertainties. Collaborating on lesson plans has never been easier!
+
+
+>>>>>>> ecf3e1d0c64b038a00644e1234675c04055ba5d5

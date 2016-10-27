@@ -3,7 +3,7 @@
       <div class="card listed-lesson-plan">
 
           <a ui-sref="main.lessons.show({id: {{lesson.id}}})">
-            <h4 class="card-header"><span class="lesson-title">{{lesson.title}}</span></h4>
+            <h4 class="card-header" ng-class="{group: lesson.lesson_type === 'Group', individual: lesson.lesson_type === 'Individual', teacher: lesson.lesson_type === 'Teacher-led'}">{{lesson.title}}</h4>
           </a>
 
         <div class="card-block">
