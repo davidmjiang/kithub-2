@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>KitHub</title>
+    <%= favicon_link_tag 'apple-fav.png' %>
     <%= csrf_meta_tags %>
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 
@@ -19,9 +20,11 @@
   </head>
 
   <body <%= content_for :angular_app %> >
-    <nav class="navbar navbar-light bg-faded">
-      <a class="navbar-brand cabin-sketch-font" href="#" >KitHub</a>
-      <% if teacher_signed_in? %>
+    <% if teacher_signed_in? %>
+
+      <nav class="navbar navbar-light bg-faded">
+        <%= image_tag "apple-fav.png", class: "pull-md-left brand-img" %>
+        <a class="navbar-brand cabin-sketch-font" href="#" > KitHub</a>
         <ul class="nav navbar-nav">
           <li class="nav-item">
             <a class="nav-link" href="<%= root_path %>" >Overview</a>
@@ -29,43 +32,35 @@
           <li class="nav-item">
             <a class="nav-link" href="<%= gradebook_path %>" >Gradebook</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<%= syllabi_path %>" >Syllabi</a>
+          </li>
         </ul>
-      <% end %>
-      <% if controller_name == 'kithub' %>
-        <div class="form-inline center-form" ng-controller="NavCtrl">
-          <input class="form-control position-higher" type="text" ng-model="term" placeholder="Search">
-          <select id="search-type-select" ng-model="searchType" class="selectpicker position-higher">
-            <option value="title">Title</option>
-            <option value="content">Content</option>
-            <option value="name">User</option>
-          </select>
-          <button class="btn btn-outline-success" ng-click="search()">Search</button>
-        </div>
-      <% end %>
-      <ul class="nav navbar-nav pull-xs-right">
-      <% if teacher_signed_in? %>
-        <li class="nav-item">
-          <a class="nav-link" href="<%= root_path %>"><%= current_teacher.first_name %></a>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Logout",  destroy_teacher_session_path, method: :delete, class: "nav-link" %>
-        </li>
-      <% else %>
-        <li class="nav-item">
-          <a class="nav-link" href="<%= new_teacher_session_path %>" >Login</a>
-        </li>
-      <% end %>
-      </ul>
+        <% if controller_name == 'kithub' %>
+          <div class="form-inline center-form" ng-controller="NavCtrl">
+            <input class="form-control position-higher" type="text" ng-model="term" placeholder="Search">
+            <select id="search-type-select" ng-model="searchType" class="selectpicker position-higher" style="width: 50px;">
+              <option value="title">Title</option>
+              <option value="content">Content</option>
+              <option value="name">User</option>
+            </select>
+            <button class="btn btn-outline-success" ng-click="search()">Search</button>
+          </div>
+        <% end %>
+        <ul class="nav navbar-nav pull-xs-right">
+          <li class="nav-item">
+            <a class="nav-link" href="<%= root_path %>"><%= current_teacher.first_name %></a>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Logout",  destroy_teacher_session_path, method: :delete, class: "nav-link" %>
+          </li>
+        </ul>
 
-    </nav>
+      </nav>
+    <% end %>
     <div class="container-fluid">
       <%= yield %>
     </div>
 
-
   </body>
-<!--   <footer class="text-xs-center">
-  <hr>
-    Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by Team Kithub. © 2016.
-  </footer> -->
 </html>

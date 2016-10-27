@@ -27,7 +27,7 @@ assignments = [
   {title: 'Homework #2', type: 'Homework', score: 20},
   {title: 'Quiz #1', type: 'Quiz', score: 50},
   {title: 'Homework #3', type: 'Homework', score: 20},
-  {title: 'Class Essay', type: 'Essay', score: 100},
+  {title: 'Midterm Paper', type: 'Essay', score: 100},
   {title: 'Midterm Exam', type: 'Test', score: 100},
   {title: 'Homework #4', type: 'Homework', score: 20},
   {title: 'Quiz #2', type: 'Quiz', score: 50},
