@@ -25,9 +25,9 @@ This page has a list of the courses added in the gradebook. The 'Edit Course Day
 
 ## Technical Highlights
 
-### Merging
-
 ### Uploading
+
+Uploading on the front end is done using the Angular Upload library. Once a file is verified as the correct MIME type, it is sent in a request to the Rails API, which uses the uploaded temporary file and Pandoc, a command line interface conversion library uploaded to Heroku as a buildpack, to produce a Markdown version of the file. This version is saved as the contents of the new lesson plan. Finally, a lesson plan JavaScript object is returned to the front end Angular app.
 
 ### Pull Requests
 
