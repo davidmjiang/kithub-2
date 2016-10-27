@@ -80,8 +80,8 @@
       <div class="col-sm-6">
         <div course-day-id="{{$index}}" data-drop="true" jqyoui-droppable="{placeholder: true, onDrop: 'addLessonPlan(courseDay)', onOver:'addUnderDrop($index)', onOut: 'removeUnderDrop($index)'}" class="col-xs-11 course-day">
           <h4>{{courseDay.date | date}}</h4>
-          <div ng-repeat="lesson in courseDay.lesson_plans" class="card listed-lesson-plan">
-            <div class="card-header " ng-class="{group: lesson.lesson_type === 'Group', individual: lesson.lesson_type === 'Individual', teacher: lesson.lesson_type === 'Teacher-led'}">
+          <div ng-repeat="lesson in courseDay.lesson_plans" class=" listed-lesson-plan">
+            <div class="card-header" ng-class="{group: lesson.lesson_type === 'Group', individual: lesson.lesson_type === 'Individual', teacher: lesson.lesson_type === 'Teacher-led'}">
               <h5><a href="/#/lessons/{{lesson.id}}">
                 {{lesson.title}}
               </a></h5>
