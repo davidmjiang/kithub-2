@@ -37,7 +37,7 @@ Kithub uses the ng-file-upload directive to upload profile photos, lesson plans 
 
 The contributions calendar uses three custom directives to form the grid. A contributions service populates an index table on the front-end and serves that data to each square in the calendar. For each user, the service calculates the maximum daily contribution value and uses that to construct a color scale that starts at dark green and gets lighter for each quartile, down to gray for 0 contributions.
 
-![Contributions Calendar](screenshots/contributions_screenshot.tiff "Contributions Calendar")
+![Contributions Calendar](screenshots/contributions_screenshot.jpg "Contributions Calendar")
 
 ### Pull Requests
 
