@@ -1,7 +1,8 @@
 Lesson.factory("pullRequestService", ["Restangular",
                                   "$state",
                                   "Auth",
-                                  function(Restangular, $state, Auth) {
+                                  "LessonService",
+                                  function(Restangular, $state, Auth, LessonService) {
   // array of all pull requests with their
   var _pullRequests = [];
   var _pendingPRs = [];
@@ -96,7 +97,7 @@ Lesson.factory("pullRequestService", ["Restangular",
     // console.log(contributorData);
     Restangular.all("lesson_plan_contributors").post(contributorData);
     return Restangular.one("lesson_plans", lessonId).one("pull_requests", pullRequest.id).patch(pullRequest).then(function(response) {
-        // LessonService.setFlash('alert-success', 'Changes accepted!');
+        LessonService.setFlash('alert-success', 'Changes accepted!');
         removePR(response.id);
         return response;
     });
