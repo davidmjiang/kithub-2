@@ -41,7 +41,6 @@ This feature is useful incase a student has not yet handed in an assignment or i
           <th>Overall</th>
         </tr>
       </thead>
-
         <tbody>
           <tr title="{{row[1] + ' ' + row[2]}}" data-toggle="tooltip" data-placement="top" ng-repeat="row in allRows track by $index | limitTo: rowCount">
               <td  nowrap class="styling-grades" ng-submit="submitEdit(row, item, $index)" ng-repeat="item in row track by $index | limitTo: colCount ">
