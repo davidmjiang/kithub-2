@@ -44,7 +44,7 @@ With Kithub, teachers can collaborate with each other on their lesson plans by s
 ### Create Syllabi
 The syllabi feature allows users to add lesson plans to their courses. The feature allows users to set start dates, end dates, and meeting days for their courses, which then creates a list of days that the course meets. The feature then uses the angular drag-drop library to let the user move lesson plans to a day their course meets. Upon dropping a lesson plan on a scheduled day, the updates are saved on the front-end and an AJAX call is made through Restangular to save the addition on the server. 
 
-(https://giphy.com/gifs/rc6kqRuIUkWA)
+![alt text](http://i.giphy.com/rc6kqRuIUkWA.gif "Dragging and Dropping Lesson Plans")
 
 ## Authors
 
