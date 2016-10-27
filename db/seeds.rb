@@ -119,6 +119,22 @@ t = Teacher.create(email: person,
     l.taggings(tag_id: Tag.all.sample.id )
   end
 
+productive_teacher = Teacher.first
+#creating fake dates
+t.lesson_plans.each_with_index do |item, index|
+  if index < 4
+    item.created_at = rand(20..30).days.ago
+  elsif index < 7
+    item.created_at = rand(10..20).days.ago
+  elsif index < 9
+    item.created_at = rand(0..5).days.ago
+  else
+    item.created_at = rand(5..10).days.ago
+  end
+  item.save
+end
+end
+
 1.times do
   t = Teacher.find_by(email: "dylan@gmail.com")
   c = t.courses.create(title: Faker::Educator.course)
@@ -152,23 +168,6 @@ t = Teacher.create(email: person,
       end
     end
   end
-end
-
-productive_teacher = Teacher.first
-#creating fake dates
-t.lesson_plans.each_with_index do |item, index|
-  if index < 4
-    item.created_at = rand(20..30).days.ago
-  elsif index < 7
-    item.created_at = rand(10..20).days.ago
-  elsif index < 9
-    item.created_at = rand(0..5).days.ago
-  else
-    item.created_at = rand(5..10).days.ago
-  end
-  item.save
-end
-  
 end
 
 
