@@ -5,4 +5,6 @@ angular.module('Lesson').controller('PullRequestIndexCtrl', ['$scope', 'currentU
 
   $scope.pendingPRs = pullRequestService.getPendingPRs();
 
+
+
 }]);

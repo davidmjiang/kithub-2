@@ -165,3 +165,13 @@ footer {
        font-url('chalk.ttf') format('truetype'),
        font-url('chalk.svg') format('svg');
 }
+
+.nav-tabs .nav-link {
+
+  color: #666 !important;
+}
+
+.nav-tabs .active {
+
+  color: #FFF !important;
+}

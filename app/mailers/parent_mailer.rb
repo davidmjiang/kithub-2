@@ -9,9 +9,7 @@ class ParentMailer < ApplicationMailer
 		@student = student
 		@teacher = teacher
 		@score = score
-		mail = Mail.new(to: @student.email, subject: "Your current progress")
-		sg = SendGrid::API.new(api_key: ENV["SENDGRID_API_KEY"])
-		sg.client.mail._("send").post(request_body: mail.to_json)
+		mail(to: @student.email, subject: "Your current progress")
 	end
 
 	def exceptional(student, teacher, score)
@@ -19,5 +17,22 @@ class ParentMailer < ApplicationMailer
 		@teacher = teacher
 		@score = score
 		mail(to: @student.email, subject: "Your current progress")
+	end
+
+	def failing_assignment(student, teacher, score, assignment_name)
+		@student = student
+		@teacher = teacher
+		@score = score
+		@assignment_name = assignment_name
+		mail(to: @student.email, subject: "Your recent assignment")
+	end
+
+
+	def exceptional_assignment(student, teacher, score, assignment_name)
+		@student = student
+		@teacher = teacher
+		@score = score
+		@assignment_name = assignment_name
+		mail(to: @student.email, subject: "Your recent assignment")
 	end
 end

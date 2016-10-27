@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>KitHub</title>
+    <%= favicon_link_tag 'apple-fav.png' %>
     <%= csrf_meta_tags %>
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 
@@ -22,7 +23,8 @@
     <% if teacher_signed_in? %>
 
       <nav class="navbar navbar-light bg-faded">
-        <a class="navbar-brand cabin-sketch-font" href="#" >KitHub</a>
+        <%= image_tag "apple-fav.png", class: "pull-md-left brand-img" %>
+        <a class="navbar-brand cabin-sketch-font" href="#" > KitHub</a>
         <ul class="nav navbar-nav">
           <li class="nav-item">
             <a class="nav-link" href="<%= root_path %>" >Overview</a>

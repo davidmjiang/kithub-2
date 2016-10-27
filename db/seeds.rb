@@ -17,7 +17,7 @@ LessonPlanStar.destroy_all
 PullRequest.destroy_all
 LessonPlanStandard.destroy_all
 
-teachers = ['mike@gmail.com', 'matt@gmail.com', 'graham@gmail.com', 'david@gmail.com', 'hannah@gmail.com', 'alex@gmail.com', 'dylan@gmail.com', 'leo@gmail.com', 'phil@gmail.com']
+teachers = ['graham@gmail.com', 'mike@gmail.com', 'matt@gmail.com', 'david@gmail.com', 'hannah@gmail.com', 'alex@gmail.com', 'dylan@gmail.com', 'leo@gmail.com', 'phil@gmail.com']
 assignment_type = ['Test', 'Quiz', 'Homework', 'Project', 'Essay']
 subjects = ['Geometry', 'Home Economics', 'English', 'Spanish', 'Physics', 'Chemistry', 'Trigonometry', 'Art', 'Computer Science']
 
@@ -34,6 +34,30 @@ assignments = [
   {title: 'Homework #5', type: 'Homework', score: 20},
   {title: 'Class Project', type: 'Project', score: 100},
   {title: 'Final Exam', type: 'Test', score: 100}
+]
+
+lesson_plans = [
+  {title: "Addition and Subtraction of Decimals", subject: 'Math', grade: "6"},
+  {title: "Fractions", subject: 'Math', grade: "5"},
+  {title: "Multiplying and Dividing Decimals", subject: 'Math', grade: "6"},
+  {title: "Introduction to Decimals", subject: 'Math', grade: "7"},
+  {title: "Graphs of Linear Equations", subject: 'Math', grade: "7"},
+  {title: "Biology Quiz", subject: 'Science', grade: "8"},
+  {title: "Molecular Biology", subject: 'Science', grade: "11"},
+  {title: "Human Biology", subject: 'Science', grade: "11"},
+  {title: "Biology Crosswords", subject: 'Science', grade: "9"},
+  {title: "Present and Past Tense", subject: 'English', grade: "5"},
+  {title: "Introducing Shakespeare", subject: 'English', grade: "6"},
+  {title: "Shakespeare's World", subject: 'English', grade: "8"},
+  {title: "Shakespeare Quiz", subject: 'English', grade: "8"},
+  {title: "French", subject: 'Foreign Language', grade: "6"},
+  {title: "Beginning French", subject: 'Foreign Language', grade: "6"},
+  {title: "French Quiz", subject: 'Foreign Language', grade: "8"},
+  {title: "The French Revolution", subject: 'History', grade: "8"},
+  {title: "The Civil War", subject: 'History', grade: "8"},
+  {title: "Road to the Civil War", subject: 'History', grade: "8"},
+  {title: "Civil War Battles", subject: 'History', grade: "8"},
+  {title: "African Art", subject: 'Art', grade: "5"}
 ]
 
 puts 'creating tags'
@@ -57,9 +81,11 @@ t = Teacher.create(email: person,
                            possible_score: assignments[i][:score])
     end
     15.times do |i|
-      s = Student.create(first_name: Faker::Name.first_name,
-                         last_name: Faker::Name.last_name,
-                         email: Faker::Internet.safe_email)
+      first = Faker::Name.first_name
+      last = Faker::Name.last_name
+      s = Student.create(first_name: first,
+                         last_name: last,
+                         email: "#{first[0].downcase}#{last.downcase}@gmail.com")
       s.courses << c;
       c.assignments.each do |assignment| 
         mean = rand(50..100)
@@ -80,34 +106,71 @@ t = Teacher.create(email: person,
     end
   end
 
-  15.times do
-    l = t.lesson_plans.create(title: Faker::Space.nasa_space_craft,
+  lesson_plans.each do |lp|
+    l = t.lesson_plans.create!(title: lp[:title],
                           content: Faker::Lorem.sentence,
                           hours: rand(1..10),
                           version: 1,
-                          state: STATES.sample,
-                          grade: GRADES.sample,
-                          subject: SUBJECTS.sample,
+                          state: t.state,
+                          grade: lp[:grade],
+                          subject: lp[:subject],
                           lesson_type: LESSON_TYPES.sample
                           )
     l.taggings(tag_id: Tag.all.sample.id )
+  end
+
+1.times do
+  t = Teacher.find_by(email: "dylan@gmail.com")
+  c = t.courses.create(title: Faker::Educator.course)
+  c.identifier = SecureRandom.hex(4) + c.id.to_s
+  5.times do |i|
+    assignment = c.assignments.create(title: assignments[i][:title],
+                         assignment_type: assignments[i][:type],
+                         possible_score: assignments[i][:score])
+  end
+  10.times do |i|
+    first = Faker::Name.first_name
+    last = Faker::Name.last_name
+    s = Student.create(first_name: first,
+                       last_name: last,
+                       email: "#{first[0].downcase}#{last.downcase}@gmail.com")
+    s.courses << c;
+    c.assignments.each do |assignment| 
+      mean = rand(50..100)
+      deviation = 101 - mean
+      norm = Rubystats::NormalDistribution.new(mean, deviation)
+      raw_percent = norm.rng
+      raw_percent = 100 if raw_percent > 100
+      raw_percent = 0 if raw_percent < 0
+      raw_score = (raw_percent/100 * assignment.possible_score).floor
+      if assignment.title == "Pop Quiz" then
+        s.submissions.create(assignment_id: assignment.id,
+                          raw_score: (raw_score/2))
+      else
+        s.submissions.create(assignment_id: assignment.id,
+                          raw_score: raw_score)
+      end
+    end
   end
 end
 
 productive_teacher = Teacher.first
 #creating fake dates
-productive_teacher.lesson_plans.each_with_index do |item, index|
+t.lesson_plans.each_with_index do |item, index|
   if index < 4
-    item.created_at = 30.days.ago
+    item.created_at = rand(20..30).days.ago
   elsif index < 7
-    item.created_at = 2.days.ago
+    item.created_at = rand(10..20).days.ago
   elsif index < 9
-    item.created_at = 3.days.ago
+    item.created_at = rand(0..5).days.ago
   else
-    item.created_at = 5.days.ago
+    item.created_at = rand(5..10).days.ago
   end
   item.save
 end
+  
+end
+
 
 puts 'creating follows'
 15.times do
@@ -121,8 +184,9 @@ puts 'creating follows'
 end
 
 puts 'creating stars'
-10.times do
+15.times do
   l = LessonPlan.all.sample
+  puts l
   t = Teacher.all.sample
   while ( l.teachers_who_starred.include?(t) )
     t = Teacher.all.sample

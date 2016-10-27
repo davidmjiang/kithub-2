@@ -42,9 +42,9 @@
           </div>
         </form>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer new-lesson-buttons">
         <button class="btn pull-left btn-secondary" ng-hide="file" ngf-select ng-model="file" name="file" ngf-max-size="2MB" ngf-accept="'.doc, .docx'"><i class="fa fa-upload fa-fw"></i> Upload Word Document</button>
-        
+
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         <button type="button" class="btn" ng-class="{ 'btn-primary': newLesson.$valid, 'btn-secondary': newLesson.$invalid }" ng-click="createLesson(newLesson.$valid)"><i class="fa {{ saving ? 'fa-spinner fa-spin' : 'fa-graduation-cap' }} fa-fw"></i> Create</button>
       </div>

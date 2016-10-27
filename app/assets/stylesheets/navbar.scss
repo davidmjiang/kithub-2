@@ -1,7 +1,9 @@
 .navbar {
+  margin-bottom: 20px;
   .center-form {
     margin-left: 10%;
     display: inline-block;
+    margin-top: 5px;
   }
   .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
     width: 110px;
@@ -12,5 +14,12 @@
   }
   input.form-control{
     width: 300px;
+  }
+  .brand-img {
+    height: 50px;
+    margin-bottom: 10px;
+  }
+  .cabin-sketch-font {
+    padding-left: 0px;
   }
 }

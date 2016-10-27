@@ -25,13 +25,24 @@
         <h3 class="modal-title" id="myModalLabel">
           <i class="fa fa-arrow-right" aria-hidden="true"></i> Title: {{ pullRequest.title }}
         </h3>
-        <h4 class="modal-title" id="myModalLabel">
-
-        </h4>
       </div>
 
       <div class="modal-body">
+        <label><h6 class="card-text"><a ui-sref="main.teachers.overview({id: pullRequest.forked_plan.teacher_id})">
+          <div ng-if="pullRequest.forked_plan.teacher.avatar_file_name" id="profile-img" style="background-image: url({{ pullRequest.forked_plan.teacher.avatar_file_name }}); vertical-align: none;"></div>
+          <div ng-if="!pullRequest.forked_plan.teacher.avatar_file_name" id="profile-img" style="background-image: url('https://placehold.it/50x50'); vertical-align: none;"></div>
+
+          {{ pullRequest.forked_plan.teacher.first_name + ' ' + pullRequest.forked_plan.teacher.last_name}}
+          </a>
+
+
+       </h6></label><br><br>
+
+        <label><h6>Created On: {{ pullRequest.created_at | date }}</h6></label><br>
+
+
           <label ng-if="pullRequest.description"><h6>Description: {{ pullRequest.description }}</h6></label>
+          <br>
           <label><h6>Status: {{ pullRequest.status }}</h6></label>
 
           <diff pull-request="pullRequest" diffs="diffs"></diff>
