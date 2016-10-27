@@ -30,6 +30,9 @@
           <li class="nav-item">
             <a class="nav-link" href="<%= gradebook_path %>" >Gradebook</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<%= syllabi_path %>" >Syllabi</a>
+          </li>
         </ul>
         <% if controller_name == 'kithub' %>
           <div class="form-inline center-form" ng-controller="NavCtrl">
@@ -48,9 +51,6 @@
           </li>
           <li class="nav-item">
             <%= link_to "Logout",  destroy_teacher_session_path, method: :delete, class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="<%= syllabi_path %>" >Syllabi</a>
           </li>
         </ul>
 
