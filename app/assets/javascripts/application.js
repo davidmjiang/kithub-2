@@ -39,20 +39,15 @@
 //= require dirPagination
 //= require rzslider.min
 //= require angular-flash
-//= require jquery.min
 //= require highlight.pack
 //= require modernizr.custom.min
-//= require examples
-//= require TweenMax.min
-//= require ScrollMagic
-//= require animation.gsap
-//= require plane
-//= require paper
-//= require tracking
-//= require debug.addIndicators
 //= require ui-bootstrap-tpls-2.2.0.min
 //= require bootstrap-select.min
+//= require angular-dragdrop
 //= require datatables.min
 //= require dataTables.fixedColumns.min
+//= require angular-elastic-input.min
+//= require angular-typewrite.min
+//= require typer.min
 
 //= require_tree .

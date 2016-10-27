@@ -5,12 +5,6 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     this.closed = true;
   }
 
-   $scope.$on("submission.edit", function(event, data) {
-    console.log("WORK?")
-    $scope.percentScore();
-    $scope.anyFailingStudents = $scope.getLengthFailing();
-    $scope.anyExceptionalStudents = $scope.getLengthPassing();
-  })
 
   $scope.failingStudents = {};
   $scope.exceptionalStudents = {};
@@ -236,14 +230,16 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
         $scope.percentScore();
         $scope.anyFailingStudents = $scope.getLengthFailing();
         $scope.anyExceptionalStudents = $scope.getLengthPassing();
+        CourseService.populateCourses();
       })
     }
   }
 
   $scope.editAssignment = function(assignment) {
-    AssignmentService.editAssignment(assignment)
+    AssignmentService.editAssignment(assignment).then(function(response) {
+      CourseService.populateCourses();
+    })
     $rootScope.$broadcast('assignment.edit', assignment);
-    
   }
 
   $scope.editTitle = function() {
@@ -392,6 +388,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
         $scope.percentScore();
         $scope.anyFailingStudents = $scope.getLengthFailing();
         $scope.anyExceptionalStudents = $scope.getLengthPassing();
+        CourseService.populateCourses();
       })
     }
   }
@@ -415,6 +412,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     CurveService.applyFlatCurve($scope.curve.flatRate, assignment.id)
     .then(function(response) {
       _updateModal(response)
+      CourseService.populateCourses();
     })
   };
 
@@ -422,6 +420,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     CurveService.editFlatCurve(assignment, $scope.curve.flatRate)
     .then(function(response) {
       _updateModal(response)
+      CourseService.populateCourses();
     })
   };
 
@@ -437,6 +436,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
       assignment.linear_curve = response
       $scope.assignment.updated_at = response.assignment.updated_at
       assignment.updated_at = response.assignment.updated_at
+      CourseService.populateCourses();
     })
     $scope.percentScore();
     $scope.anyFailingStudents = $scope.getLengthFailing();
