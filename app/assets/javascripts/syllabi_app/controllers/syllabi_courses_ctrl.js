@@ -16,12 +16,15 @@ Syllabi.controller('SyllabiCoursesCtrl', ['$scope', '$state', 'currentUser', 'Sy
     $scope.updateCourse = function(course){
       var updateObj = {};
       if (course.newStartDate) {
+        console.log('start')
         updateObj.start_date = course.newStartDate.toString()
       }
       if (course.newEndDate) {
+        console.log('end')
         updateObj.end_date = course.newEndDate.toString()
       }
       if (course.selectedDays) {
+        console.log('days')
         updateObj.meeting_days = JSON.stringify(course.selectedDays)
       }
       course.patch(updateObj).then(function(response){
