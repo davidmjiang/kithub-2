@@ -38,6 +38,17 @@ angular.module('Lesson').factory('ContributionsService', ['$http', '$q', functio
 		}
 	};
 
+	obj.getStartingDate = function(){
+		var today = new Date();
+		var thisYear = today.getFullYear();
+		//January 1 of this year
+		var startDate = new Date(thisYear, 0, 1);
+		while(startDate.getDay() != 1){
+			startDate.setDate(startDate.getDate() + 1);
+		}
+		return startDate;
+	};
+
 	obj.getTotal = function(id){
 		var total = 0;
 		var teacher = _contributions[id];
