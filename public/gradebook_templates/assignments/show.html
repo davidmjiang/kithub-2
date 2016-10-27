@@ -215,14 +215,14 @@
                 <p class="text-center">The following students failed (under 60%) the {{assignment.name}} assignment:</p>
                 <p ng-repeat="(failingStudent, score) in failingStudents" class="col-md-6">
                 {{failingStudent}} : {{score}}</br>
-                <button ng-click="notifyParent(failingStudent, score)" class="btn btn-warning notify-parents btn-sm">Notify {{failingStudent.split(" ")[0]}}</button>
+                <button ng-click="notifyAssignment(failingStudent, score, assignment.title)" class="btn btn-primary notify-parents btn-sm">Notify {{failingStudent.split(" ")[0]}}</button>
                 </p>
               </div>
 
               <div ng-if="anyExceptionalStudents" class="exceptional-students row">
                 <p class="text-center">The following students did exceptionally well (over 90%) on the {{assignment.name}} assignment:</p>
                 <p ng-repeat="(exceptionalStudent, score) in exceptionalStudents" class="col-md-6">{{exceptionalStudent}} : {{score}}</br>
-                <button ng-click="notifyParent(exceptionalStudent, score)" class="btn btn-success notify-parents btn-sm">Notify {{exceptionalStudent.split(" ")[0]}}</button>
+                <button ng-click="notifyAssignment(exceptionalStudent, score, assignment.title)" class="btn btn-primary notify-parents btn-sm">Notify {{exceptionalStudent.split(" ")[0]}}</button>
                 </p>
               </div>
             </div>
