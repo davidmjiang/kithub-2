@@ -9,22 +9,24 @@ angular.module('Lesson').controller('PullRequestNewCtrl', ['$scope', '$statePara
 
   $scope.prSent = _.filter($scope.forkedLesson.pull_requests_sent, [ 'status', 'pending' ]);
 
-  LessonService.getLesson($stateParams.id).then(function(response){
-    if(response.parent_plan_id) {
-      $scope.newPR = pullRequestService.getNewPullRequest($stateParams.id, response.parent_plan_id);
+  // check for a parent plan
+  if(lesson.parent_plan_id) {
+    $scope.newPR = pullRequestService.getNewPullRequest($stateParams.id, lesson.parent_plan_id);
 
-      LessonService.getLesson($scope.newPR.parent_plan_id).then(function(parent) {
-        $scope.newPR.parent_plan = parent;
-        if ($scope.newPR.parent_plan.version > $scope.forkedLesson.parent_version) {
+    LessonService.getLesson($scope.newPR.parent_plan_id).then(function(parent) {
+      $scope.newPR.parent_plan = parent;
+      if ($scope.newPR.parent_plan.version > $scope.forkedLesson.parent_version) {
+        $scope.updateDiffs = DiffService.getDiffs($scope.forkedLesson.content, $scope.newPR.parent_plan.content);
+        if ($scope.updateDiffs.length > 1) {
           $scope.upToDate = false;
-          $scope.updateDiffs = DiffService.getDiffs($scope.forkedLesson.content, $scope.newPR.parent_plan.content);
         }
-      });
-    }
+      }
+    });
+  }
 
-    $scope.lessonBelongsToCurrentUser = (currentUser.id === response.teacher_id);
-      pullRequestService.pullRequestMade(response.id).then(function(response) {$scope.pullRequestMade = response;});
-  });
+  $scope.lessonBelongsToCurrentUser = (currentUser.id === lesson.teacher_id);
+  pullRequestService.pullRequestMade(lesson.id).then(function(response) {$scope.pullRequestMade = response;});
+
 
   if(!$scope.lessonBelongsToCurrentUser) {
     for(var i in teacher.lesson_plans) {

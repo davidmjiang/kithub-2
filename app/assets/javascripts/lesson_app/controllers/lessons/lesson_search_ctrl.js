@@ -52,4 +52,6 @@ Lesson.controller('SearchCtrl', ['$scope', '$state', 'currentUser', '$stateParam
       $scope.filters.state = "";
     };
 
+   
+
 }]);

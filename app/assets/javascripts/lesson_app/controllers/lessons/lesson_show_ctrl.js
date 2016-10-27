@@ -1,7 +1,7 @@
 "use strict";
 
-Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http', 'LessonStarService', 'currentTeacher', 'flash', '$timeout', "_", "$state",
-  function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http, LessonStarService, currentTeacher, flash, $timeout, _, $state) {
+Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', 'lesson', 'currentUser', 'owner', 'Upload', '$http', 'LessonStarService', 'currentTeacher', 'flash', '$timeout', "_", "$state", 'pullRequestService',
+  function($scope, LessonService, Restangular, lesson, currentUser, owner, Upload, $http, LessonStarService, currentTeacher, flash, $timeout, _, $state, pullRequestService) {
 
   $scope.changeToIndexState = function(){
     console.log("changing...")
@@ -10,10 +10,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
   $scope.owner = owner;
   $scope.currentUser = currentUser;
   $scope.draftTitle = $scope.lesson.title;
-
-  $scope.pendingPRs = _.remove($scope.lesson.pull_requests_received, function (pr) {
-    return pr.status === "pending";
-  }).length;
+  $scope.pendingPRs = pullRequestService.getPendingPRs();
 
   // Searches the starred lesson_plans array for lesson plans that have already been starred.
   var has_starred = function(current_user, lesson) {
