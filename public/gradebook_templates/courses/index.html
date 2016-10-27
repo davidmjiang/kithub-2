@@ -3,7 +3,7 @@
     <div class="course-box-header">
       <div class="col-xs-12">
         <h1 type-delay= "100" typewrite cursor= "." initial-delay="-1" blink-cursor= "false" class="course-index-teacher-name" text="'Your courses'"></h1>
-        <div class="new-course" ng-click="showNewCourseModal()">
+        <div class="hvr-bob new-course" ng-click="showNewCourseModal()">
           <p class="create-new-course">Create new course</p>
         </div>
 
@@ -12,19 +12,22 @@
     </div>
   </div>
   <div class="col-xs-12" ng-repeat="course in courses track by $index">
-    <a uib-popover-template="popoverTemplateUrl" 
-            popover-trigger="'mouseenter'"
-            popover-placement="auto bottom"
-            popover-popup-delay="750"
-            ui-sref="gradebook.courseShow({id: course.id})">
+    <a ui-sref="gradebook.courseShow({id: course.id})">
       <div class="course-box">
         <p class="course-index-class-title">{{course.title}}</p>
-
         <span class="course-index-class-information assignments">-Assignments: </span>
         <span class="course-index-class-information">{{course.assignments.length}}</span>
         <span class="course-index-class-information students">-Students: </span>
         <span class="course-index-class-information">{{course.students.length}}<span>
+          <span class="line-graph-icon">
+          <i  uib-popover-template="popoverTemplateUrl" 
+              popover-trigger="'mouseenter'"
+              popover-placement="auto bottom"
+              popover-popup-delay="550"
+              class="fa fa-lg fa-line-chart wiggle-me" aria-hidden="true"></i>
+          </span>
       </div>
     </a>
   </div>
 </div>
+
