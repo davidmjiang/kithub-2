@@ -30,6 +30,7 @@ Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser',
     };
 
     $scope.addLessonPlan =function(event, ui, courseDay){
+      $(event.target).removeClass('under-drop')
       courseDay.lesson_plans.push($scope.draggedLesson);
       $scope.lessonPlanIDs.push($scope.draggedLesson.id);
       SyllabiCourseService.addLessonPlanDay(courseDay.id, $scope.draggedLesson.id);
@@ -88,6 +89,15 @@ Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser',
 
     $scope.lessonTypes = ['Individual', 'Group', 'Teacher-led'];
 
+    $scope.addUnderDrop = function(element){
+      $(element.target).addClass('under-drop')
+      console.log(element.target);
+    };
+
+    $scope.removeUnderDrop = function(element){
+      console.log(element.target);
+      $(element.target).removeClass('under-drop')
+    };
 
 
 

@@ -1,29 +1,3 @@
-.course-box {
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
-  background-color: #005DB3;
-  text-align: center;
-  color: white;
-  font-size: 16px;
-  line-height: 88px;
-  width: 100%;
-  height: 90px;
-  border-radius: 4px;
-  margin: 5px;
-}
-
-.new-course {
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
-  margin: 5px;
-  background-color: #e6e6e6;
-  text-align: center;
-  line-height: 88px;
-  color: grey;
-  font-size: 16px;
-  width: 100%;
-  height: 90px;
-  border-radius: 4px;
-}
-
 a:hover {
   text-decoration: none !important;
 }
@@ -32,7 +6,7 @@ a:hover {
   box-shadow: none;
 }
 
-a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
+a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click], th[ng-click] {
   cursor: pointer;
 }
 
@@ -46,10 +20,6 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
   margin-bottom: 5px;
 }
 
-.editable-buttons button {
-
-}
-
 .failing-students .notify-parents {
   float:left;
 }
@@ -60,6 +30,13 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
 
 .styling-grades {
   padding: 5px 12px !important;
+  .editable-buttons button {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  .editable-input {
+    width: 84px;
+  }
 }
 
 /* for line graphs */
@@ -85,4 +62,80 @@ a[ng-click], span[ng-click], div[ng-click], h4[ng-click], p[ng-click] {
 
 .popover {
     max-width: 950px;
+}
+
+
+.editable-controls {
+  width:100px;
+}
+.styling-grades input {
+ display: block;
+ margin: 20px;
+ width: auto;
+}
+.course-index-background {
+  background-color: #B3C100;
+}
+
+.course-box {
+  text-align:center;
+  background: image-url("chalkboard-min.jpg");
+  background-repeat: no-repeat;
+  background-size:cover;
+  width:auto;
+  height:auto;
+  margin:10px 0 10px 20px;
+  border: 5px solid #966F33;
+  border-radius:20px;
+  color: white;
+  font-family: chalk;
+  font-size: 35px;
+  line-height: 88px;
+  margin-left:20px;
+}
+
+.course-box-header {
+  text-align:center;
+  background: image-url("chalkboard-min.jpg");
+  background-repeat: no-repeat;
+  background-size:cover;
+  margin-top:15px;
+  padding-bottom:35px;
+  border: 5px solid #966F33;
+  border-radius:10px;
+}
+
+
+.course-index-teacher-name {
+  margin-top:5px;
+  color:white;
+  text-align: center; 
+  font-family:chalk;
+}
+
+.create-new-course {
+  text-align: center;
+  color: black;
+  font-family:chalk;
+  font-size: 22px;
+}
+
+.gradebook-unordered-list {
+  font-family:chalk;
+}
+
+.course-index-class-information {
+  margin-left:50px;
+  font-size:20px;
+  margin-top:-40px;
+  margin-bottom:-20px;
+}
+
+.new-course {
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+  background-color: #e6e6e6;
+  width: 30%;
+  margin-bottom:20px;
+  border-radius: 10px;
+  margin: 0px 0px 2px 4px;
 }
