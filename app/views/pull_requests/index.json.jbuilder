@@ -23,6 +23,7 @@ json.array! @pull_requests do |pr|
       json.first_name pr.forked_plan.teacher.first_name
       json.last_name pr.forked_plan.teacher.last_name
       json.avatar_file_name pr.forked_plan.teacher.avatar_file_name
+      json.avatar pr.forked_plan.teacher.avatar.url(:profile)
     end
   end
 

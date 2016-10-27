@@ -12,7 +12,7 @@
       <h4 class="card-title">{{pr.title}}</h4>
 
      <label><h6 class="card-text"><a ui-sref="main.teachers.overview({id: pr.forked_plan.teacher_id})">
-        <div ng-if="pr.forked_plan.teacher.avatar_file_name" id="profile-img" style="background-image: url({{ pr.forked_plan.teacher.avatar_file_name }}); vertical-align: none;"></div>
+        <div ng-if="pr.forked_plan.teacher.avatar_file_name" id="profile-img" style="background-image: url({{ pr.forked_plan.teacher.avatar }}); vertical-align: none;"></div>
         <div ng-if="!pr.forked_plan.teacher.avatar_file_name" id="profile-img" style="background-image: url('https://placehold.it/50x50'); vertical-align: none;"></div>
 
         {{ pr.forked_plan.teacher.first_name + ' ' + pr.forked_plan.teacher.last_name}}
