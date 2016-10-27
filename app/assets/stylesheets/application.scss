@@ -111,6 +111,21 @@ footer {
 .white-text {
   color: white !important;
 }
+/* Footer */
+
+.footer p{
+  text-align: center;
+  line-height: 60px;
+  font-size: 12px;
+}
+
+.footer {
+  background-color: #eee;
+  height: 60px;
+  margin: 0px;
+  padding-bottom: -15px;
+  width: 100%;
+}
 
 /* fixes cursors broken by angular ui.bootstrap */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

@@ -1,9 +1,9 @@
 <div class="row">
-    <div class="col-md-11">
+    <div class="col-md-12">
       <div class="card listed-lesson-plan">
 
           <a ui-sref="main.lessons.show({id: {{lesson.id}}})">
-            <h4 class="card-header"><span class="lesson-title">{{lesson.title}}</span></h4>
+            <h4 class="card-header" ng-class="{group: lesson.lesson_type === 'Group', individual: lesson.lesson_type === 'Individual', teacher: lesson.lesson_type === 'Teacher-led'}">{{lesson.title}}</h4>
           </a>
 
         <div class="card-block">
@@ -12,7 +12,7 @@
           <div class="row">
             <div class="col-xs-5">
 
-              <p><i class="fa fa-book" aria-hidden="true"></i> <b>Subject:</b>{{lesson.subject}} </p><p><i class="fa fa-graduation-cap" aria-hidden="true"></i> Grade: {{lesson.grade}}</p> <p><i class="fa fa-hourglass-o" aria-hidden="true"></i> Hours: {{lesson.hours}}</p>
+              <p><i class="fa fa-book" aria-hidden="true"></i> {{lesson.subject}} </p><p><i class="fa fa-graduation-cap" aria-hidden="true"></i> Grade: {{lesson.grade}}</p> <p><i class="fa fa-hourglass-o" aria-hidden="true"></i> Hours: {{lesson.hours}}</p>
               <div ng-if="lesson.parent_plan_id">
                 <p><i class="fa fa-arrow-right" aria-hidden="true"></i> Forked from <a ui-sref="main.lessons.show({id: {{lesson.parent_plan_id }}})">{{lesson.parent_plan_title}}</a></p>
 

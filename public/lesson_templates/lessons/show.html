@@ -37,12 +37,12 @@
 
 
       <div class="col-md-4">
-        <div class="card card-block">
+        <div class="card card-block card-outline-success">
           <h4 class="card-title">Details</h4>
           <lesson-details-form lesson="lesson" editing="editing"></lesson-details-form>
         </div>
 
-        <div class="card card-block">
+        <div class="card card-block card-outline-success">
           <h4 class="card-title">Additional Materials</h4>
          <button ng-if="currentUserLesson === true && editing" class="btn btn-info" ng-disabled="saving"> <label for="file-upload" class="upload-btn"><i class="fa  {{ saving ? 'fa-spinner fa-spin' : 'fa-upload' }} fa-fw"></i>Upload</label></button>
           <input id="file-upload" type="file" ngf-select="upload($file)" ng-disabled="saving" ngf-accept="'.pdf,.doc,.xls,.csv,.docx,.xlsx,audio/*,video/*,image/*'" ng-model="file" multiple>

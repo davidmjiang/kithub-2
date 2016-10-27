@@ -10,8 +10,21 @@
   <div class="card">
     <div class="card-block">
       <h4 class="card-title">{{pr.title}}</h4>
-      <p class="card-text">Description: {{ pr.description }}</p>
-      <p class="card-text">Status: {{ pr.status }}</p>
+
+     <label><h6 class="card-text"><a ui-sref="main.teachers.overview({id: pr.forked_plan.teacher_id})">
+        <div ng-if="pr.forked_plan.teacher.avatar_file_name" id="profile-img" style="background-image: url({{ pr.forked_plan.teacher.avatar_file_name }}); vertical-align: none;"></div>
+        <div ng-if="!pr.forked_plan.teacher.avatar_file_name" id="profile-img" style="background-image: url('https://placehold.it/50x50'); vertical-align: none;"></div>
+
+        {{ pr.forked_plan.teacher.first_name + ' ' + pr.forked_plan.teacher.last_name}}
+        </a>
+
+
+     </h6></label><br>
+
+      <h6 class="card-text"><label>Created On: {{ pr.created_at | date }}</label></h6>
+
+     <h6 class="card-text" ng-if="pr.description"><label >Description: {{ pr.description }}</label></h6>
+      <h6 class="card-text"><label>Status: {{ pr.status }}</label></h6>
        <pull-request-show pull-request="pr" lesson="lesson"></pull-request-show>
     </div>
   </div>
