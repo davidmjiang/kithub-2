@@ -29,7 +29,7 @@
 
       <div class="modal-body">
         <label><h6 class="card-text"><a ui-sref="main.teachers.overview({id: pullRequest.forked_plan.teacher_id})">
-          <div ng-if="pullRequest.forked_plan.teacher.avatar_file_name" id="profile-img" style="background-image: url({{ pullRequest.forked_plan.teacher.avatar_file_name }}); vertical-align: none;"></div>
+          <div ng-if="pullRequest.forked_plan.teacher.avatar_file_name" id="profile-img" style="background-image: url({{ pullRequest.forked_plan.teacher.avatar }}); vertical-align: none;"></div>
           <div ng-if="!pullRequest.forked_plan.teacher.avatar_file_name" id="profile-img" style="background-image: url('https://placehold.it/50x50'); vertical-align: none;"></div>
 
           {{ pullRequest.forked_plan.teacher.first_name + ' ' + pullRequest.forked_plan.teacher.last_name}}
