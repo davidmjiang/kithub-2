@@ -59,6 +59,9 @@
         margin: 0px;
         margin-bottom: 10px;
         border-radius: .25rem;
+        a {
+          color: white;
+        }
       }
     }
     .no-lesson-div{
@@ -76,6 +79,9 @@
     }
   
   .lesson-filters{
+    a {
+      color: white;
+    }
     .listed-lesson-plan{
       margin-left: 0px;
     }
