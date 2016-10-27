@@ -35,4 +35,5 @@ class ParentMailer < ApplicationMailer
 		@assignment_name = assignment_name
 		mail(to: @student.email, subject: "Your recent assignment")
 	end
+
 end
