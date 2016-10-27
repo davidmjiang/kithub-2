@@ -87,7 +87,7 @@ t = Teacher.create(email: person,
                          last_name: last,
                          email: "#{first[0].downcase}#{last.downcase}@gmail.com")
       s.courses << c;
-      c.assignments.each do |assignment| 
+      c.assignments.each do |assignment|
         mean = rand(50..100)
         deviation = 101 - mean
         norm = Rubystats::NormalDistribution.new(mean, deviation)
@@ -119,6 +119,24 @@ t = Teacher.create(email: person,
     l.taggings(tag_id: Tag.all.sample.id )
   end
 
+
+productive_teacher = Teacher.first
+#creating fake dates
+t.lesson_plans.each_with_index do |item, index|
+  if index < 4
+    item.created_at = rand(20..30).days.ago
+  elsif index < 7
+    item.created_at = rand(10..20).days.ago
+  elsif index < 9
+    item.created_at = rand(0..5).days.ago
+  else
+    item.created_at = rand(5..10).days.ago
+  end
+  item.save
+end
+
+end
+
 1.times do
   t = Teacher.find_by(email: "dylan@gmail.com")
   c = t.courses.create(title: Faker::Educator.course)
@@ -135,7 +153,7 @@ t = Teacher.create(email: person,
                        last_name: last,
                        email: "#{first[0].downcase}#{last.downcase}@gmail.com")
     s.courses << c;
-    c.assignments.each do |assignment| 
+    c.assignments.each do |assignment|
       mean = rand(50..100)
       deviation = 101 - mean
       norm = Rubystats::NormalDistribution.new(mean, deviation)
@@ -154,22 +172,6 @@ t = Teacher.create(email: person,
   end
 end
 
-productive_teacher = Teacher.first
-#creating fake dates
-t.lesson_plans.each_with_index do |item, index|
-  if index < 4
-    item.created_at = rand(20..30).days.ago
-  elsif index < 7
-    item.created_at = rand(10..20).days.ago
-  elsif index < 9
-    item.created_at = rand(0..5).days.ago
-  else
-    item.created_at = rand(5..10).days.ago
-  end
-  item.save
-end
-  
-end
 
 
 puts 'creating follows'
@@ -237,14 +239,14 @@ end
 
 puts 'creating sample gradebook'
 
-class Gradebook 
+class Gradebook
 
   MAX_CLASS_SIZE = 28
   NUM_STUDENTS = 40
   @@assignment_type = ['test', 'quiz', 'homework', 'project']
 
 
-  def fake_gradebook_data 
+  def fake_gradebook_data
     create_teacher
     create_teacher_courses
     assign_students_to_courses
@@ -254,14 +256,14 @@ class Gradebook
   end
 
 
-  private 
+  private
 
   def create_teacher
     @teacher = Teacher.create(email: "matthew.hinea@gmail.com",
                           password: "password",
-                          first_name: "Matthew", 
-                          last_name: "Hinea", 
-                          state: "Washington", 
+                          first_name: "Matthew",
+                          last_name: "Hinea",
+                          state: "Washington",
                           )
   end
 
@@ -280,7 +282,7 @@ class Gradebook
       NUM_STUDENTS.times do |i|
         student = course.students.create(first_name: Faker::Name.first_name,
                        last_name: Faker::Name.last_name,
-                       email: Faker::Internet.safe_email)    
+                       email: Faker::Internet.safe_email)
         @students.push(student)
       end
     end
@@ -331,7 +333,3 @@ end
 
 
 Gradebook.new.fake_gradebook_data
-
-
-
-
