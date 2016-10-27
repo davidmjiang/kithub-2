@@ -15,6 +15,7 @@
  *= require scrollable-table
  *= require fixedColumns.dataTables.min
  *= require datatables.min
+ *= require angular-typewrite.min
  */
 
 
@@ -110,6 +111,21 @@ footer {
 .white-text {
   color: white !important;
 }
+/* Footer */
+
+.footer p{
+  text-align: center;
+  line-height: 60px;
+  font-size: 12px;
+}
+
+.footer {
+  background-color: #eee;
+  height: 60px;
+  margin: 0px;
+  padding-bottom: -15px;
+  width: 100%;
+}
 
 /* fixes cursors broken by angular ui.bootstrap */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
@@ -134,6 +150,18 @@ footer {
  @import 'lesson_styles/search';
  @import 'bootstrap-select.min';
 
+
 .nav-link.active {
   background-color: $primary-color !important;
+}
+
+
+@font-face {
+  font-family: 'chalk';
+  font-weight: normal;
+  font-style: normal;
+  src: font-url('chalk.eot');
+  src: font-url('chalk.eot?#iefix') format('embedded-opentype'),
+       font-url('chalk.ttf') format('truetype'),
+       font-url('chalk.svg') format('svg');
 }
