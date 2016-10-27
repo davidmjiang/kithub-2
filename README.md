@@ -31,18 +31,24 @@ Uploading on the front end is done using the Angular Upload library. Once a file
 
 ### Uploading and downloading additional materials
 
-Kithub uses the ng-file-upload directive to upload photos, lesson plans and additional materials. Photos and additional materials are attached to Rails models using the paperclip gem and stored in AWS. Kithub uses the Pandoc-Ruby gem to convert word document into markdown when a user uploads a lesson and to convert markdown to word documents when a user downloads a lesson.
+Kithub uses the ng-file-upload directive to upload profile photos, lesson plans and additional materials. Photos and additional materials are attached to Rails models using the paperclip gem and stored in AWS. When a user downloads a lesson, the lesson plan markdown file is converted to word, saved as a tempfile and then sent from Rails to the browser for downloading.
 
 ### Contributions Calendar
 
 The contributions calendar uses three custom directives to form the grid. A contributions service populates an index table on the front-end and serves that data to each square in the calendar. For each user, the service calculates the maximum daily contribution value and uses that to construct a color scale that starts at dark green and gets lighter for each quartile, down to gray for 0 contributions.
 
+![Contributions Calendar](screenshots/contributions_screenshot.jpg "Contributions Calendar")
+
 ### Pull Requests
 
 With Kithub, teachers can collaborate with each other on their lesson plans by submitting Github-style "pull requests" to other teacher's lesson plans. By integrating the JS Diff library, we display deletions and additions to both the pull requestor and the pull requestee. The original lesson plan owner then has the option to accept or reject changes to their master copy of the lesson plan. The owner can accept or reject all changes or pick and chose specific portions to accept. Once a user has accepted a pull request to their copy of the lesson plan, those changes are immediatley be reflected in their lesson. Collaborating on lesson plans has never been easier!
 
+![New Pull Request](screenshots/new_pr.png "New Pull Request")
+
+![View Pull Requests](screenshots/show_pr.png "View Pull Requests")
+
 ### Create Syllabi
-The syllabi feature allows users to add lesson plans to their courses. The feature allows users to set start dates, end dates, and meeting days for their courses, which then creates a list of days that the course meets. The feature then uses the angular drag-drop library to let the user move lesson plans to a day their course meets. Upon dropping a lesson plan on a scheduled day, the updates are saved on the front-end and an AJAX call is made through Restangular to save the addition on the server. 
+The syllabi feature allows users to add lesson plans to their courses. The feature allows users to set start dates, end dates, and meeting days for their courses, which then creates a list of days that the course meets. The feature then uses the angular drag-drop library to let the user move lesson plans to a day their course meets. Upon dropping a lesson plan on a scheduled day, the updates are saved on the front-end and an AJAX call is made through Restangular to save the addition on the server.
 
 ![alt text](http://i.giphy.com/rc6kqRuIUkWA.gif "Dragging and Dropping Lesson Plans")
 
