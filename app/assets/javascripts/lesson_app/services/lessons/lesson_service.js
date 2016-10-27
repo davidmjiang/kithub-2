@@ -1,6 +1,6 @@
 "use strict";
-Lesson.factory('LessonService', ['Restangular', "pullRequestService", 'TeacherService', '_', 'flash', '$timeout', 'Upload', '$http',
-  function(Restangular, pullRequestService, TeacherService, _, flash, $timeout, Upload, $http) {
+Lesson.factory('LessonService', ['Restangular', 'TeacherService', '_', 'flash', '$timeout', 'Upload', '$http',
+  function(Restangular, TeacherService, _, flash, $timeout, Upload, $http) {
 
   var lessonService = {};
 

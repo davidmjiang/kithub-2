@@ -1,4 +1,4 @@
-Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "close", "AssignmentService", "CurveService", "$rootScope", "students", "VisualService", "CourseService", "$timeout", function($scope, course, assignment, GPAService, close, AssignmentService, CurveService, $rootScope, students, VisualService, CourseService, $timeout) {
+Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "GPAService", "close", "AssignmentService", "CurveService", "$rootScope", "students", "VisualService", "CourseService", "$timeout", "StudentService", function($scope, course, assignment, GPAService, close, AssignmentService, CurveService, $rootScope, students, VisualService, CourseService, $timeout, StudentService) {
 
   this.closeModal = function () {
     close(null, 200);
@@ -84,15 +84,20 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     
   }
 
-  $scope.notifyParent = function(student, score) {
+  $scope.notifyAssignment = function(student, score, assignmentName) {
     for(key in $scope.students) {
       if ($scope.students[key].first_name + $scope.students[key].last_name  === 
         student.split(" ").slice(0)[0] + student.split(" ").slice(1)[0]) {
-        StudentService.sendMail($scope.students[key].id, $scope.course.teacher_id, score)
+        if(parseInt(score) > 60) {
+
+          StudentService.sendPassAssignment($scope.students[key].id, $scope.course.teacher_id, parseInt(score), assignmentName)
+        }
+        else {
+          StudentService.sendFailAssignment($scope.students[key].id, $scope.course.teacher_id, parseInt(score), assignmentName)
+        }
       }
     }
   }
-
   $scope.percentScore();
   $scope.anyFailingStudents = $scope.getLengthFailing();
   $scope.anyExceptionalStudents = $scope.getLengthPassing();
@@ -472,8 +477,8 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
 
   var _scores = VisualService.studentScores(students, assignment)
   var pieScores = _.map(_scores, function(score){return score.percent});
-  $scope.scoreLabels = _.map(_scores, 'name');
-  $scope.scoreData = [_.map(_scores, function(score){
+  $scope.barLabels = _.map(_scores, 'name');
+  $scope.barData = [_.map(_scores, function(score){
     return score.percent.toFixed(2);
   })];
 
@@ -495,7 +500,7 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     angular.copy([_.map(_scores, function(score){
       var updatedScore = score.percent + $scope.curve.flatRate;
       return updatedScore.toFixed(2);
-    })], $scope.scoreData)
+    })], $scope.barData)
     $scope.pieDist = VisualService.gradeDistribution(pieScores)
     $scope.assignData = _.map($scope.pieDist, function(amount, grade){return amount})
     var _simulatedAssignment = {}
@@ -505,20 +510,21 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     $scope.gpa.real = GPAService.realGPA(course, _simulatedAssignment)
   }
 
-  var _simulateLinearCurve = function() {
-    var pieScores = _.map(_scores, function(score){
-      var updatedScore = CurveService.linearFormula($scope.curve, score.percent);
-      return updatedScore
-    })
-    angular.copy([_.map(_scores, function(score){
+  var updateScores = function(scores) {
+    return _.map(scores, function(score){
       var updatedScore = CurveService.linearFormula($scope.curve, score.percent);
       return updatedScore.toFixed(2);
-    })], $scope.scoreData)
+    })
+  }
+
+  var _simulateLinearCurve = function() {
+    var newScores = updateScores(_scores)
+    angular.copy([newScores], $scope.barData)
+    $scope.pieDist = VisualService.gradeDistribution(newScores)
+    $scope.assignData = _.map($scope.pieDist, function(amount, grade){return amount})
     var _simulatedAssignment = {}
     angular.copy($scope.assignment, _simulatedAssignment)
     _simulatedAssignment.linear_curve = $scope.curve
-    $scope.pieDist = VisualService.gradeDistribution(pieScores)
-    $scope.assignData = _.map($scope.pieDist, function(amount, grade){return amount})
     return GPAService.realGPA(course, _simulatedAssignment)
   }
 
