@@ -1,6 +1,5 @@
 Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "AssignmentService", "GPAService", "ModalService", "$state", "CourseService", "SubmissionService", "CurveService", "$rootScope", function($scope, course, StudentService, AssignmentService, GPAService, ModalService, $state, CourseService, SubmissionService, CurveService, $rootScope){
-
-
+  
   var cols =[];
   var allRows= [];
   $scope.failingStudents = {};
@@ -53,7 +52,10 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
     if(index > 3 && index < $scope.colCount - 1 && $scope.assignments[index - 4]) {
       var assignment = $scope.assignments[index - 4];
       var rawPercent = (item / assignment.possible_score * 100);
-      if(assignment.flat_curve) {
+      if(rawPercent < 0) {
+        return "No Score"
+      }
+      else if(assignment.flat_curve) {
         return ((rawPercent + assignment.flat_curve.flat_rate).toFixed(2) + "%");
       }
       else if(assignment.linear_curve) {
@@ -183,52 +185,53 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
   $scope.showScore = function(j) {
     //Get the overall score of all the students
     $scope.students = StudentService.sortStudents($scope.course.students);
-    if (j > -1) {
+    if (j >= 0) {
       var rawTotal = 0;
       var possibleTotal = 0;
       for (var i = 0; i < $scope.assignments.length; i++) {
         var assignment = $scope.assignments[i];
         var rawPercent = $scope.students[j].submissions[i].raw_score / assignment.possible_score * 100
         var curvedPercent;
-        if(assignment.flat_curve) {
-           curvedPercent = rawPercent + assignment.flat_curve.flat_rate;
-        }
-        else if(assignment.linear_curve) {
-          curvedPercent = CurveService.linearFormula(assignment.linear_curve, rawPercent)
-        }
-        else {
-          curvedPercent = rawPercent
-        }
-        var possibleScore = assignment.possible_score;
-        var curvedPoints = curvedPercent / 100 * possibleScore;
-        //Put default value here;
-        if(curvedPoints === -1) {
-        }
-        else {
+        if(rawPercent >= 0) {
+          if(assignment.flat_curve) {
+             curvedPercent = rawPercent + assignment.flat_curve.flat_rate;
+          }
+          else if(assignment.linear_curve) {
+            curvedPercent = CurveService.linearFormula(assignment.linear_curve, rawPercent)
+          }
+          else {
+            curvedPercent = rawPercent
+          }
+          var possibleScore = assignment.possible_score;
+          var curvedPoints = curvedPercent / 100 * possibleScore;
           rawTotal += curvedPoints;
           possibleTotal += possibleScore;
         }
       } 
+      var score = (Number(rawTotal / possibleTotal * 100).toFixed(2))
       //Get all of the failing students and put it in an object for display to the teacher
-      if((Number(rawTotal / possibleTotal * 100).toFixed(2)) < 60) {
+      if(score >= 0 && score < 60) {
         var failingStudent = $scope.students[j].first_name + " " + $scope.students[j].last_name;
-        $scope.failingStudents[failingStudent] = Number(rawTotal / possibleTotal * 100).toFixed(2);
+        $scope.failingStudents[failingStudent] = score;
         $scope.removeExceptionalStudents(failingStudent);
       }
       //Remove students who were failing and are no longer failing
-      else if((Number(rawTotal / possibleTotal * 100) > 60) && (Number(rawTotal / possibleTotal * 100) < 90)) {
+      else if(score > 60 && score < 90) {
         var passingStudent = $scope.students[j].first_name + " " + $scope.students[j].last_name;
         $scope.removePassingStudents(passingStudent);
       }
       //Get all exceptional students and put them in an object to display to the teacher
-      else if((Number(rawTotal / possibleTotal * 100)) > 90) {
+      else if(score > 90) {
         var exceptionalStudent = $scope.students[j].first_name + " " + $scope.students[j].last_name;
-        $scope.exceptionalStudents[exceptionalStudent] = Number(rawTotal / possibleTotal * 100).toFixed(2);
+        $scope.exceptionalStudents[exceptionalStudent] = score;
         $scope.removePassingStudents(exceptionalStudent);
+      }
+      else {
+        score = 0;
       }
     $scope.anyFailingStudents = $scope.getLengthFailing();
     $scope.anyExceptionalStudents = $scope.getLengthPassing();
-    return Number(rawTotal / possibleTotal * 100).toFixed(2);
+    return score;
     }
   }
       
@@ -241,39 +244,63 @@ Gradebook.controller('CourseShowCtrl', ['$scope', 'course', "StudentService", "A
 
   $scope.submitEdit = function(row, item, index) {
     var student;
+    var submission;
     $rootScope.$broadcast("submission.edit");
-    var assignmentId = $scope.assignments[index - 4].id
     var rowIndex = $scope.allRows.indexOf(row);
     if(index > 0 && index < 4) {
       student = $scope.students[rowIndex];
       StudentService.editStudent(student, index, item);
     }
     else if (index > 3 && index < row.length) {
-      var submission;
-      for(var i = 0; i < $scope.students.length; i ++) {
-        if($scope.students[i].id == row[0]) {
-          for(var j = 0; j < $scope.students[i].submissions.length; j++) {
-            if($scope.students[i].submissions[j].assignment_id == assignmentId) {
-              submission = $scope.students[i].submissions[j]
-              submission.raw_score = parseInt(item);
-              $scope.students[i].submissions[j].raw_score = parseInt(item);
-              $scope.course.students[i].submissions[j].raw_score = parseInt(item);
-              for(var k = 0; k < $scope.assignments[index - 4].submissions.length; k++) {
-                if($scope.assignments[index - 4].submissions[k].student_id === $scope.students[i].id) {
-                  $scope.assignments[index - 4].submissions[k].raw_score = parseInt(item);
-                }
-              }
-              //$scope.assignments[index - 4].raw_score = parseInt(item);
-              $scope.allRows[i][j + 4] = parseInt(item);
-            }
-          }
+      var student;
+      var assignmentId = $scope.assignments[index - 4].id
+      for(var i = 0; i < $scope.students.length; i++) {
+        if($scope.students[i].id === row[0]) {
+          $scope.allRows[i][index] = parseInt(item);
+          student = $scope.students[i];
         }
       }
+      submission = student.submissions[index - 4];
+      submission.raw_score = parseInt(item);
       SubmissionService.editSubmission(submission);
-      CourseService.populateCourses()
     }
+    
+    //}
     $scope.rawGPA = GPAService.rawGPA(course);
   }
+
+
+
+    //   else if (index > 3 && index < row.length) {
+    //   var submission;
+    //   for(var i = 0; i < $scope.students.length; i ++) {
+    //     if($scope.students[i].id == row[0]) {
+    //       for(var j = 0; j < $scope.students[i].submissions.length; j++) {
+    //         if($scope.students[i].submissions[j].assignment_id == assignmentId) {
+    //           //console.log(submission)
+    //           submission = $scope.students[i].submissions[j]
+    //           console.log(submission)
+    //           submission.raw_score = parseInt(item);
+    //           $scope.students[i].submissions[j].raw_score = parseInt(item);
+    //           $scope.course.students[i].submissions[j].raw_score = parseInt(item);
+    //           for(var k = 0; k < $scope.assignments[index - 4].submissions.length; k++) {
+    //             if($scope.assignments[index - 4].submissions[k].student_id === $scope.students[i].id) {
+    //               console.log($scope.assignments[index - 4].submissions[k])
+    //               $scope.assignments[index - 4].submissions[k].raw_score = parseInt(item);
+    //             }
+    //           }
+    //           //$scope.assignments[index - 4].raw_score = parseInt(item);
+    //           // console.log(submission.assignment_id)
+    //           // console.log(assignmentId)
+    //           // console.log(j + 4)
+    //           // console.log($scope.allRows[i])
+    //           $scope.allRows[i][j + 4] = parseInt(item);
+    //         }
+    //       }
+    //     }
+    //   }
+    //   SubmissionService.editSubmission(submission);
+    // }
 
   $scope.checkItem = function(index, item) {
     if (index === 0) {
