@@ -4,6 +4,7 @@ json.array! @pull_requests do |pr|
   json.description pr.description
   json.status pr.status
   json.accept_reject_time pr.accept_reject_time
+  json.created_at pr.created_at
 
   json.parent_plan do
     json.id pr.parent_plan.id
@@ -18,6 +19,11 @@ json.array! @pull_requests do |pr|
     json.content pr.forked_plan.content
     json.version pr.forked_plan.version
     json.teacher_id pr.forked_plan.teacher_id
+    json.teacher do
+      json.first_name pr.forked_plan.teacher.first_name
+      json.last_name pr.forked_plan.teacher.last_name
+      json.avatar_file_name pr.forked_plan.teacher.avatar_file_name
+    end
   end
 
   json.comments pr.comments do |comment|
