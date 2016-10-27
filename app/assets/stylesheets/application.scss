@@ -107,6 +107,10 @@ footer {
    height:60px;   /* Height of the footer */
 }
 
+.white-text {
+  color: white !important;
+}
+
 /* fixes cursors broken by angular ui.bootstrap */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
