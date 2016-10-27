@@ -52,6 +52,11 @@ The syllabi feature allows users to add lesson plans to their courses. The featu
 
 ![alt text](http://i.giphy.com/rc6kqRuIUkWA.gif "Dragging and Dropping Lesson Plans")
 
+### Data Visualizations
+The grade book data visualizations are built with angular-chart and Chart.js. The graphs are populated by pulling data using multiple custom services, allowing teachers to visualize student progress and assess overall grades throughout the course. Teachers are then able to implement curves on data visualizations to determine best scores for the class.
+
+![alt text](http://i.giphy.com/OAispzqjGAE9i.gif “Implementing a Flat Curve“)
+
 ## Authors
 
 * [Alex](https://github.com/alexglach)
