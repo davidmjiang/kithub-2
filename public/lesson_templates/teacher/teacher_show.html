@@ -49,6 +49,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-11 tab-container">
+        <div class="row">
 				<ul class="nav nav-tabs">
 					<li class="nav-item"><a class="nav-link {{ activeTab=='overview' ? 'active' : ''}}" ui-sref="main.teachers.overview({id: {{teacher.id}}})" data-toggle="tab">Overview</a></li>
 					<li class="nav-item"><a class="nav-link {{ activeTab=='lessons' ? 'active' : ''}}" ui-sref="main.teachers.lessonPlans({id: {{teacher.id}}})" data-toggle="tab">Lesson Plans <span class="tag tag-pill tag-default">{{teacher.lesson_plans.length}}</span></a></li>
@@ -57,6 +58,7 @@
 					<li class="nav-item"><a class="nav-link {{ activeTab=='followers' ? 'active' : ''}}" ui-sref="main.teachers.followers({id: {{teacher.id}}})" data-toggle="tab">Followers <span class="tag tag-pill tag-default">{{followedByNum}}</a></span></li>
 					<li class="nav-item"><a class="nav-link {{ activeTab=='following' ? 'active' : ''}}" ui-sref="main.teachers.following({id: {{teacher.id}}})" data-toggle="tab">Following <span class="tag tag-pill tag-default">{{followingNum}}</a></span></li>
 				</ul>
+        </div>
 					<div ui-view>
 
 					</div>
