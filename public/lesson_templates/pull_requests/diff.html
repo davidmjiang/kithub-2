@@ -1,29 +1,13 @@
-<!-- <div>
-  <div class="card">
-    <div class="card-block">
-      <h4 class="card-title">Changes</h4>
-      <pre><span ng-repeat="diff in diffs"><span ng-mouseover="showPopover()" ng-mouseleave="hidePopover()" ng-class="{ added: diff.added, removed: diff.removed }">{{ diff.value }}</span></span></pre>
-
-            <div class="popover" ng-show="popoverIsVisible">
-
-                <label>Accept</label>
-                <input type="radio" name="accept-reject" value="accept">
-                <label>Reject</label>
-                <input type="radio" name="accept-reject" value="reject">
-          </div>
-    </div>
-  </div>
-</div>
- -->
-
  <div>
   <div class="card">
     <div class="card-block">
       <h4 class="card-title">Changes</h4>
-      <pre class="diffs"><span ng-repeat="diff in diffs" ng-class="{ added: diff.added, removed: diff.removed }"><button class="btn btn-sm" ng-class="{ 'btn-success': diff.accepted, 'btn-secondary': !diff.accepted }" ng-if="diff.added" href="#" ng-click="diff.accepted = !diff.accepted">{{ diff.accepted ? 'Adding' : 'Ignoring' }}</button><button class="btn btn-sm" ng-class="{ 'btn-danger': diff.accepted, 'btn-secondary': !diff.accepted }" ng-if="diff.removed" href="#" ng-click="diff.accepted = !diff.accepted">{{ diff.accepted ? 'Removing' : 'Keeping' }}</button>{{ diff.value }}</span></pre>
+      <pre class="diffs"><!--
+        --><span ng-repeat="diff in diffs" ng-class="{ added: diff.added, removed: diff.removed, strikethrough: ( (diff.added && !diff.accepted) || (diff.removed && diff.accepted) ) }" ng-click="toggle(diff)">{{ diff.value }}</span><!--
+      --></pre>
     </div>
   </div>
 
   <button class="btn btn-secondary btn-sm" ng-click="clearAllChanges()">Turn off all changes</button>
-  <button class="btn btn-primary btn-sm" ng-click="addAllChanges()">Turn on all changes</button>
+  <button class="btn btn-primary btn-sm" ng-click="addAllChanges()">Reset changes</button>
 </div>
