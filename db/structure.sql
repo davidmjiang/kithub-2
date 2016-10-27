@@ -262,14 +262,14 @@ ALTER SEQUENCE course_days_id_seq OWNED BY course_days.id;
 
 CREATE TABLE courses (
     id integer NOT NULL,
-    title character varying,
-    teacher_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
+    title character varying,
+    teacher_id integer,
+    identifier character varying,
     start_date timestamp without time zone,
     end_date timestamp without time zone,
-    meeting_days character varying,
-    identifier character varying
+    meeting_days character varying
 );
 
 
