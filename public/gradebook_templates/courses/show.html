@@ -3,7 +3,7 @@
 <!-- Course.first.students.first.assignments.first.assignment -->
 <!-- Bootstrap horizon for infinite scrolls-->
 
-<div class="row">
+<div style="margin-top: 10px" class="row course-show">
   <div class="col-xs-12">
     <h1>
       <div ng-submit="update(course.title)">
@@ -18,27 +18,26 @@
   </div>
 </div>
 
-<p>Average GPA by raw score: <span>{{rawGPA | number:2}}%</span></p>
-<p ng-show="{{curvedGPA}}">GPA with curve: <span>{{curvedGPA}}% </span></p>
-<p><strong>Note</strong>: Adding a '-1' to a score DOES NOT include the score in the student's overall GPA for the course.
-This feature is useful incase a student has not yet handed in an assignment or is excused from an assignment</p>
+<h5>Overall Class Average: <span>{{rawGPA | number:2}}%</span></h5>
+<hr>
 <div>
-  <button class="btn btn-success sh-btn" ng-click="addStudentModal(course)">Add Student</button>
-  <button class="btn btn-success sh-btn" ng-click="addAssignmentModal(course)">Add Assignment</button>
-  <button class="btn btn-danger sh-btn" ng-click="removeStudentModal(course)">Remove Student</button>
-  <button class="btn btn-outline-danger sh-btn" ng-click="deleteCourse()">Delete this course</button>
-  <button class="btn btn-primary" ng-click="showNotifications(failingStudents, exceptionalStudents)">Notifications</button>
+  <div>
+    <button class="btn btn-success sh-btn btn-sm" ng-click="addStudentModal(course)">Add Student</button>
+    <button class="btn btn-success sh-btn btn-sm" ng-click="addAssignmentModal(course)">Add Assignment</button>
+    <button class="btn btn-danger sh-btn btn-sm" ng-click="removeStudentModal(course)">Remove Student</button>
+    <button class="btn btn-primary sh-btn btn-sm" ng-click="showNotifications(failingStudents, exceptionalStudents)">Notifications</button>
+  </div>
   <div fixed-first-column>
   <scrollable-table>
     <table class="table table-striped table-bordered table-hover">
       <thead>
         <tr>
-          <th sortable-header col="Student ID">ID</th>
-          <th sortable-header col="First Name">First</th>
-          <th sortable-header col="Last Name">Last</th>
-          <th sortable-header col="Email">Email</th>
-          <th sortable-header col="{{col}}" title="{{col}}" ng-repeat="col in cols track by $index | limitTo: colCount - 4" ng-click="showAssignmentModal(assignments[$index])">{{col}}</th>
-          <th>Overall</th>
+          <th class="tb-header" sortable-header col="Student ID">ID</th>
+          <th class="tb-header" sortable-header col="First Name">First</th>
+          <th class="tb-header" sortable-header col="Last Name">Last</th>
+          <th class="tb-header" sortable-header col="Email">Email</th>
+          <th class="tb-header" sortable-header col="{{col}}" title="{{col}}" ng-repeat="col in cols track by $index | limitTo: colCount - 4" ng-click="showAssignmentModal(assignments[$index])">{{col}}</th>
+          <th class="tb-header">Overall</th>
         </tr>
       </thead>
         <tbody>
@@ -54,4 +53,6 @@ This feature is useful incase a student has not yet handed in an assignment or i
       </table>
   </scrollable-table>
   </div>
+  <hr>
+  <p style="color: #bdbdbd"><small><strong>Note</strong>: A score of '-1' is equivalent to NO SCORE for the assignment. This feature is useful in case a student has not yet handed in or is excused from an assignment</small></p>
 </div>

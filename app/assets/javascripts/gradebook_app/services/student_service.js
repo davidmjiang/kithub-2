@@ -20,8 +20,27 @@ Gradebook.factory("StudentService", ["Restangular", function(Restangular) {
     return students;
   }
 
-  StudentService.sendMail = function(student_id, teacher_id, score) {
+  StudentService.sendFail = function(student_id, teacher_id, score) {
     Restangular.one("student_progress/fail").customPOST({student_id: student_id, teacher_id: teacher_id, score: score}).then(function() {
+      console.log("Success")
+    })
+  }
+
+
+  StudentService.sendPass = function(student_id, teacher_id, score) {
+    Restangular.one("student_progress/exceptional").customPOST({student_id: student_id, teacher_id: teacher_id, score: score}).then(function() {
+      console.log("Success")
+    })
+  }
+
+  StudentService.sendPassAssignment = function(student_id, teacher_id, score, assignmentName) {
+    Restangular.one("student_progress/exceptional_assignment").customPOST({student_id: student_id, teacher_id: teacher_id, score: score, assignment_name: assignmentName}).then(function() {
+      console.log("Success")
+    })
+  }
+
+  StudentService.sendFailAssignment = function(student_id, teacher_id, score, assignmentName) {
+    Restangular.one("student_progress/fail_assignment").customPOST({student_id: student_id, teacher_id: teacher_id, score: score, assignment_name: assignmentName}).then(function() {
       console.log("Success")
     })
   }
