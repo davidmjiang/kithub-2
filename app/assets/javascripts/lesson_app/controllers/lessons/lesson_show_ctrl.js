@@ -194,7 +194,7 @@ Lesson.controller('LessonShowCtrl', ['$scope', 'LessonService', 'Restangular', '
     $scope.exporting = true;
     LessonService.export($scope.lesson).then(function(){
       var hiddenElement = document.createElement('a');
-      hiddenElement.href = "https://gentle-retreat-33093.herokuapp.com/api/v1/lesson_plans/"+$scope.lesson.id+"/export";
+      hiddenElement.href = "https://thekithub.herokuapp.com/api/v1/lesson_plans/"+$scope.lesson.id+"/export";
       hiddenElement.target = "_blank";
       hiddenElement.click();
       LessonService.setFlash('alert-success', 'Lesson downloaded!');

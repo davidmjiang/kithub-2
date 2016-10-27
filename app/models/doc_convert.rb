@@ -17,7 +17,7 @@ class DocConvert
 
   def self.add_headers_to_markdown(lesson)
     new_content = lesson.content
-    header_parts = ["# #{lesson.title}\n","Powered by [Kithub](https://gentle-retreat-33093.herokuapp.com)\n","* Author: #{lesson.teacher.first_name} #{lesson.teacher.last_name}","* Estimated Time (in hrs): #{lesson.hours}","* State: #{lesson.state}","* Grade: #{lesson.grade}","* Subject: #{lesson.subject}","* Lesson Type: #{lesson.lesson_type}"];
+    header_parts = ["# #{lesson.title}\n","Powered by [Kithub](https://thekithub.herokuapp.com)\n","* Author: #{lesson.teacher.first_name} #{lesson.teacher.last_name}","* Estimated Time (in hrs): #{lesson.hours}","* State: #{lesson.state}","* Grade: #{lesson.grade}","* Subject: #{lesson.subject}","* Lesson Type: #{lesson.lesson_type}"];
     header = header_parts.join("\n");
     header + "\n\n" + new_content
   end
