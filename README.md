@@ -14,11 +14,11 @@ Users may also find the lesson plans of others users and fork them. After making
 
 The gradebook displays a list of courses for the teacher. Hovering the mouse over a course displays a graph of the average grade for each assignment. A teacher can add new courses by clicking the "Create new course" button.
 
-![Courses Page](screenshots/course_index.png "Courses Page")
-
 Clicking a summary shows the course's page. A user can click the title of the course to see graphs for data about the course. A teacher may also add students and assignments to the course. Once an assignment is added, clicking its name at the top of the column will bring up data about that assignment and allow a curve to be applied.
 
 The 'Notifications' button allows the teacher to send out emails to students who have a particularly high or low average.
+
+![Courses Page](screenshots/course_index.png "Courses Page")
 
 ## Syllabi
 
