@@ -90,8 +90,8 @@ Syllabi.controller('SyllabiCoursesShowCtrl', ['$scope', '$state', 'currentUser',
     $scope.lessonTypes = ['Individual', 'Group', 'Teacher-led'];
 
     $scope.addUnderDrop = function(element){
-      console.log(element.target);
       $(element.target).addClass('under-drop')
+      console.log(element.target);
     };
 
     $scope.removeUnderDrop = function(element){
