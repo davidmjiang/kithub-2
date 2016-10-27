@@ -108,6 +108,10 @@ footer {
    height:60px;   /* Height of the footer */
 }
 
+.white-text {
+  color: white !important;
+}
+
 /* fixes cursors broken by angular ui.bootstrap */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
@@ -123,6 +127,7 @@ footer {
  @import "gradebook_styles/courses";
  @import "gradebook_styles/assignments";
  @import "lesson_styles/pull_request_show";
+ @import "syllabi_styles/courses";
  @import "lesson_styles/front_page";
  @import "examples";
  @import 'navbar';
