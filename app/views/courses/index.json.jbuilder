@@ -21,6 +21,11 @@ json.array! @courses do |course|
     end
   end
 
+  json.students course.students do |student|
+    json.first_name student.first_name
+    json.last_name student.last_name
+  end
+
   json.assignments course.assignments do |assignment|
     json.title assignment.title
     json.assignment_type assignment.assignment_type
