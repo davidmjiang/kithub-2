@@ -1,20 +1,4 @@
-.course-day{
-  min-height: 200px;
-  margin-bottom: 10px;
-  border: 2px solid $blue-sky-color;
-  border-radius: 2px;
-  h4{
-    text-align: center;
-    padding-top: 10px;
-  }
-  h5{
-    display: inline-block;
-    margin-bottom: 0px;
-  }
-  p {
-    vertical-align: middle;
-  }
-}
+
 
 .course-show-header {
   h2{
@@ -55,20 +39,47 @@
     text-align: center;
     margin-top: 10px;
   }
-  .listed-lesson-plan{
-    margin-left: 0px;
-  }
-  .no-lesson-div{
-    text-align: center;
-    h5 {
-      margin-top: 40px;
+  .course-day{
+    min-height: 200px;
+    margin-bottom: 10px;
+    border: 2px solid $blue-sky-color;
+    border-radius: 2px;
+    h4{
+      text-align: center;
+      padding-top: 10px;
+    }
+    h5{
+      display: inline-block;
+      margin-bottom: 0px;
+    }
+    p {
+      vertical-align: middle;
+    }
+    .listed-lesson-plan{
+      margin-left: 0px;
+      margin-top: 0px;
+      .card-header {
+        margin: 0px;
+        margin-bottom: 10px;
+        border-radius: .25rem;
+      }
+    }
+    .no-lesson-div{
+      text-align: center;
+      h5 {
+        margin-top: 40px;
+      }
+    }
+    .under-drop{
+      border: 2px solid $primary-color;
+      background-color: rgba(183,184,182, 0.5);
     }
   }
-  .under-drop{
-    border: 2px solid $primary-color;
-    background-color: rgba(183,184,182, 0.5);
-  }
+  
   .lesson-filters{
+    .listed-lesson-plan{
+      margin-left: 0px;
+    }
     border-right: 1px solid gray;
     .toggle-filter-text {
       margin-bottom: 10px;

@@ -28,6 +28,7 @@ angular.module('Syllabi').factory('SyllabiCourseService', ['Restangular',  '_', 
     params = {course_day_id: courseDayId, lesson_plan_id: lessonPlanId}
     return Restangular.all('lesson_plan_days').post(params)
       .then(function(response){
+        populateCourses();
         return response;
       })
   }
@@ -36,6 +37,7 @@ angular.module('Syllabi').factory('SyllabiCourseService', ['Restangular',  '_', 
     params = {course_day_id: courseDayId, lesson_plan_id: lessonPlanId}
     return Restangular.one('lesson_plan_days', 1).remove(params)
       .then(function(response){
+        populateCourses();
         return response;
       })
   }
@@ -43,10 +45,6 @@ angular.module('Syllabi').factory('SyllabiCourseService', ['Restangular',  '_', 
   courseService.updateCourses = function(){
     return populateCourses();
   }
-
-  courseService.updateLessonPlan = function(){
-    
-  }  
 
 
   var populateCourses = function() {
