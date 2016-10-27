@@ -18,7 +18,7 @@
         <input type="text" ng-model="teacher.last_name" ng-if="teacherEditing && isCurrentUser">
         <input type="submit" ng-click="updateTeacher()" value="Update" class="btn btn-primary" ng-if="teacherEditing">
         <input type="submit" ng-click="cancelUpdate()" value="Cancel" class="btn btn-danger" ng-if="teacherEditing">
-				<p class="card-text" ng-if="teacher.state" ng-mouseover="stateHover = true" ng-mouseleave="stateHover = false">State: {{teacher.state }} <span ng-if="stateHover" class="animate-show">
+				<p class="card-text" ng-if="teacher.state" ng-mouseover="stateHover = true" ng-mouseleave="stateHover = false">State: {{teacher.state }} <span ng-if="stateHover && isCurrentUser" class="animate-show">
                 <a ng-click="editState()">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </a>
@@ -29,7 +29,15 @@
 				<input type="submit" ng-if="!teacher.state && isCurrentUser" class="btn btn-primary" value="Choose State" ng-click="editState()">
 			</div>
 		</div>
-	</div>
+    <div class="card lesson-key-container">
+      <h5 class="card-header">Lesson Plan Key</h5>
+      <div class="card-body">
+        <h6><div class="lesson-key group"></div>Group</h6>
+        <h6><div class="lesson-key individual"></div>Individual</h6>
+        <h6><div class="lesson-key teacher"></div>Teacher-led</h6>
+      </div>
+    </div>
+  </div>
 	<div class="col-md-9">
 		<div class="row">
 			<div class="col-md-3 offset-md-9">
