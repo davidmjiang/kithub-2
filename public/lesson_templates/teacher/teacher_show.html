@@ -18,7 +18,7 @@
         <input type="text" ng-model="teacher.last_name" ng-if="teacherEditing && isCurrentUser">
         <input type="submit" ng-click="updateTeacher()" value="Update" class="btn btn-primary" ng-if="teacherEditing">
         <input type="submit" ng-click="cancelUpdate()" value="Cancel" class="btn btn-danger" ng-if="teacherEditing">
-				<p class="card-text" ng-if="teacher.state" ng-mouseover="stateHover = true" ng-mouseleave="stateHover = false">State: {{teacher.state }} <span ng-if="stateHover" class="animate-show">
+				<p class="card-text" ng-if="teacher.state" ng-mouseover="stateHover = true" ng-mouseleave="stateHover = false">State: {{teacher.state }} <span ng-if="stateHover && isCurrentUser" class="animate-show">
                 <a ng-click="editState()">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </a>
