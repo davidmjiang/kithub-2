@@ -1,0 +1,10 @@
+Dear <%=@student.first_name %>,
+I would like to inform of your your recent assignment, <%= @assignment_name %>. You receieved an overall score of <%= @score %>%.
+
+I am very concerned with how you did on this assignment. If you would like to talk further, you can reach me through my email at: <%= @teacher.email %>.
+
+Thank you for your time. 
+
+Best,
+
+<%= @teacher.first_name + " " + @teacher.last_name %>
