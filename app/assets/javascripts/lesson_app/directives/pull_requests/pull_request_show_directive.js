@@ -33,7 +33,10 @@ Lesson.directive("pullRequestShow",  [ "pullRequestService", "DiffService", 'Les
         });
         // $window.location.reload();
       };
+      scope.removeModalBg = function() {
+        angular.element(".modal-backdrop").remove();
 
+      }
       scope.rejectChanges = function() {
         angular.element(".modal-backdrop").remove();
         pullRequestService.rejectChanges(scope.pullRequest, $stateParams.id);
