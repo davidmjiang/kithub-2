@@ -2,7 +2,7 @@ class CoursesController < ApplicationController
 
   def index
     @courses = Course.includes(
-      {:assignments => [:submissions, :flat_curve, :linear_curve]}, 
+      {:assignments => [:submissions, :flat_curve, :linear_curve]},
       {course_days: [:lesson_plans]}
       ).where("teacher_id = ?", current_teacher.id)
   end
@@ -28,7 +28,7 @@ class CoursesController < ApplicationController
   def update
     @course = Course.includes(
       {students: [:submissions]}, {assignments: [:submissions]},
-      {course_days: [:lesson_plans]} 
+      {course_days: [:lesson_plans]}
       ).find(params[:id])
     respond_to do |format|
       if @course.update(course_params)
