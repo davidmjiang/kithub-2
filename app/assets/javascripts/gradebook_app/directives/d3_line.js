@@ -41,10 +41,20 @@ Gradebook.directive('d3Line', ['$window', 'VisualService', function($window, Vis
           }
           console.log(data)
 
-          svg.append("path")
+          var path = svg.append("path")
             .data([data])
             .attr("class", "line")
             .attr("d", valueline);
+
+          var totalLength = path.node().getTotalLength();
+          console.log(totalLength)
+
+          path
+            .attr("stroke-dasharray", totalLength + " " + totalLength)
+            .attr("stroke-dashoffset", totalLength)
+            .transition()
+              .duration(1000)
+              .attr("stroke-dashoffset", 0);
 
           svg.append("g")
             .attr("transform", "translate(0," + height + ")")

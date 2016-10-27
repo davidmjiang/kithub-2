@@ -30,6 +30,14 @@
     filter: grayscale(100%);
   }
 
+  .front-page-photo {
+    width: 1000px;
+  }
+  .subtext {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+
   h4 {
    font-size: 24px;
   }
@@ -41,7 +49,12 @@
   }
 
   #section1 {
-    background-color: #EEE;
+    background-color: $secondary-color;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  #section2 {
     padding-top: 40px;
     padding-bottom: 40px;
   }

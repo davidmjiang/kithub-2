@@ -2,12 +2,15 @@ class CoursesController < ApplicationController
 
   def index
     @courses = Course.includes(
-      {:assignments => [:submissions, :flat_curve, :linear_curve]}
+      {:assignments => [:submissions, :flat_curve, :linear_curve]},
+      {course_days: [:lesson_plans]}
       ).where("teacher_id = ?", current_teacher.id)
   end
 
   def show
-    @course = Course.includes( { :students => :submissions}, { :assignments => [:submissions, :flat_curve, :linear_curve] }).find(params[:id])
+    @course = Course.includes( { :students => :submissions}, { :assignments => [:submissions, :flat_curve, :linear_curve] },
+      {course_days: [:lesson_plans]}
+      ).find(params[:id])
   end
 
   def create
@@ -23,10 +26,16 @@ class CoursesController < ApplicationController
   end
 
   def update
-    @course = Course.find(params[:id])
+    @course = Course.includes(
+      {students: [:submissions]}, {assignments: [:submissions]},
+      {course_days: [:lesson_plans]}
+      ).find(params[:id])
     respond_to do |format|
       if @course.update(course_params)
-        format.json {render json: @course, include: [{students: {include: :submissions}}, {assignments: {include: :submissions}}]}
+        if @course.meeting_days && @course.start_date && @course.end_date
+          @course.update_course_days
+        end
+        format.json {render json: @course, include: []}
       else
         format.json { render json: {errors: @course.errors.full_messages },
                                     :status => 422}
@@ -47,7 +56,7 @@ class CoursesController < ApplicationController
   private
 
   def course_params
-    params.require(:course).permit(:title)
+    params.require(:course).permit(:title, :start_date, :end_date, :meeting_days)
   end
 
 end
