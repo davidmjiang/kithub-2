@@ -119,7 +119,6 @@ t = Teacher.create(email: person,
     l.taggings(tag_id: Tag.all.sample.id )
   end
 
-
 productive_teacher = Teacher.first
 #creating fake dates
 t.lesson_plans.each_with_index do |item, index|
@@ -171,8 +170,6 @@ end
     end
   end
 end
-
-
 
 puts 'creating follows'
 15.times do
