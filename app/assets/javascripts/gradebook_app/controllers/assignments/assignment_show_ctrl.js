@@ -84,15 +84,20 @@ Gradebook.controller("AssignmentShowCtrl", ["$scope", "course", "assignment", "G
     
   }
 
-  $scope.notifyParent = function(student, score) {
+  $scope.notifyAssignment = function(student, score, assignmentName) {
     for(key in $scope.students) {
       if ($scope.students[key].first_name + $scope.students[key].last_name  === 
         student.split(" ").slice(0)[0] + student.split(" ").slice(1)[0]) {
-        StudentService.sendMail($scope.students[key].id, $scope.course.teacher_id, score)
+        if(parseInt(score) > 60) {
+
+          StudentService.sendPassAssignment($scope.students[key].id, $scope.course.teacher_id, parseInt(score), assignmentName)
+        }
+        else {
+          StudentService.sendFailAssignment($scope.students[key].id, $scope.course.teacher_id, parseInt(score), assignmentName)
+        }
       }
     }
   }
-
   $scope.percentScore();
   $scope.anyFailingStudents = $scope.getLengthFailing();
   $scope.anyExceptionalStudents = $scope.getLengthPassing();
