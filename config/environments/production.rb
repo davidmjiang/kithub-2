@@ -113,7 +113,7 @@ Rails.application.configure do
     # Rails also needs to know where your app is
     #   located to properly configure sending of emails
     config.action_mailer.default_url_options = {
-      :host => 'localhost:3000',
+      :host => 'https://desolate-brushlands-12288.herokuapp.com/',
     }
 
 end
