@@ -55,9 +55,7 @@
 		margin-bottom: 5px;
 	}
 	.card-header {
-		a {
-			color: white;
-		}
+		color: white;
 		border-radius: 2px 2px 0 0;
 		margin-bottom: 0;
 	}
@@ -75,9 +73,30 @@
 	}
 }
 
-.lesson-title {
-	color: #444;
+.lesson-key-container{
+	.card-body {
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	.lesson-key {
+		height: 20px;
+		width: 20px;
+		border-radius: 50%;
+		display: inline-block;
+		vertical-align: middle;
+		margin-right: 5px;
+	}
+	.group{
+		background-color: $primary-color;
+	}
+	.teacher {
+		background-color: $secondary-color;
+	}
+	.individual {
+		background: $blue-sky-color;
+	}
 }
+
 
 .lesson-title:hover {
 	color: $secondary-color;
