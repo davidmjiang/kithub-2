@@ -1,6 +1,6 @@
 # Welcome to KitHub
 
-Graham, Phil, Alex, Matt, Leo, Hannah, Dylan, Mike, David
+Check out the live demo [here](http://thekithub.herokuapp.com/)
 
 Gradebook overview:
 
