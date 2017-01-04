@@ -1,10 +1,6 @@
 # Welcome to KitHub
 
-See the deployed version [here](https://thekithub.herokuapp.com/)
-
-Guest log-in  
-Email: david@gmail.com  
-Password: password123  
+Check out the live demo [here](http://thekithub.herokuapp.com/)
 
 KitHub is designed for teachers. It is a platform for sharing and colloborating on lesson plans, an online gradebook that includes tools not just for tracking student scores, but also visualizing class data and applying grading curves, and finally a scheduling tool for assigning lessons to different class periods. It consists of three separate AngularJS apps backed by a Ruby on Rails API.
 
